@@ -1,14 +1,15 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
+import { ClientLayout } from './layouts'
 
 function App() {
 
   return (
-    <div className="App">
+    <>
       <Routes>
-        <Route path="/" element={<h1>Home page</h1>} />
+        <Route path="/" element={<ClientLayout><h1>Home page</h1></ClientLayout>} />
       </Routes>
-    </div>
+    </>
   )
 }
 
