@@ -1,10 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import img from "../../assets/images/img2.png";
 type Props = {};
 
 const CartPage = (props: Props) => {
   return (
     <div>
+      <div>
+        <ul className="flex">
+          <li>
+            <Link to={"/"}>Trang chủ </Link>
+          </li>
+          / <li> Giỏ hàng</li>
+        </ul>
+      </div>
       <section className="flex gap-8 w-10/12 m-auto py-20">
         <section className="basis-4/6">
           <table className="table-auto w-full ">

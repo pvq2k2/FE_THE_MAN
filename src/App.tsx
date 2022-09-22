@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { ClientLayout } from "./layouts";
-import CartPage from "./Page/CartPage";
+import CartPage from "./pages/Cart";
 
 function App() {
   return (
