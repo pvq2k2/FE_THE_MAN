@@ -16,7 +16,7 @@ const ClientHeader = (props: Props) => {
   // }, [showNav]);
 
   return (
-    <header className="mx-auto px-5 lg:px-20 pt-5 flex justify-between border border-b-gray-300 fixed top-0 left-0 right-0 bg-white">
+    <header className="mx-auto px-5 lg:px-20 pt-5 flex justify-between border border-b-gray-300 fixed top-0 left-0 right-0 bg-white z-50">
         <div className="icon_bar text-2xl block lg:hidden" onClick={() => setShowNav(!showNav)}>
             <AiOutlineBars />
         </div>
