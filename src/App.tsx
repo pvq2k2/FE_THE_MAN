@@ -4,19 +4,13 @@ import { ClientLayout } from "./layouts";
 import CartPage from "./pages/Cart";
 import DetailProduct from "./pages/Detail";
 import ContactPage from "./pages/Contact";
+import HomePage from './pages/Home'
 
 function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ClientLayout>
-              <h1>Home page</h1>
-            </ClientLayout>
-          }
-        ></Route>
+      <Route path="/" element={<ClientLayout><HomePage /></ClientLayout>} />
         <Route
           path="/cart"
           element={
@@ -42,6 +36,7 @@ function App() {
             </ClientLayout>
           }
         ></Route>
+        
       </Routes>
     </>
   );
