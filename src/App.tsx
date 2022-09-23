@@ -10,14 +10,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ClientLayout>
-              <h1>Home page</h1>
-            </ClientLayout>
-          }
-        ></Route>
+      <Route path="/" element={<ClientLayout><HomePage /></ClientLayout>} />
         <Route
           path="/cart"
           element={
@@ -43,7 +36,7 @@ function App() {
             </ClientLayout>
           }
         ></Route>
-        <Route path="/" element={<ClientLayout><HomePage /></ClientLayout>} />
+        
       </Routes>
     </>
   );
