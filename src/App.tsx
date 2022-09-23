@@ -2,6 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { ClientLayout } from "./layouts";
 import CartPage from "./pages/Cart";
+import CheckoutPage from "./pages/Checkout";
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
           element={
             <ClientLayout>
               <CartPage />
+            </ClientLayout>
+          }
+        ></Route>
+        <Route
+          path="/Checkout"
+          element={
+            <ClientLayout>
+              <CheckoutPage />
             </ClientLayout>
           }
         ></Route>
