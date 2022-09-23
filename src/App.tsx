@@ -1,3 +1,4 @@
+
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { ClientLayout } from './layouts';
@@ -6,6 +7,8 @@ import Signup from './pages/Signup';
 import DetailProduct from "./pages/Detail";
 import ContactPage from "./pages/Contact";
 import HomePage from './pages/Home'
+import CheckoutPage from "./pages/Checkout";
+
 
 function App() {
   return (
@@ -50,6 +53,14 @@ function App() {
               }
           ></Route>
 
+        <Route
+          path="/checkout"
+          element={
+            <ClientLayout>
+              <CheckoutPage />
+            </ClientLayout>
+          }
+        ></Route>
       </Routes>
     </>
   );
