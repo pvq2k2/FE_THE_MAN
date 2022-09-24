@@ -23,7 +23,7 @@ function App() {
             </ClientLayout>
           }/>
           <Route
-          path="/login"
+          path="/signin"
           element={
             <ClientLayout>
               <Signin/>
