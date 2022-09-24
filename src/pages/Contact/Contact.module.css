@@ -1,0 +1,64 @@
+.content{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 50px;
+}
+.contact{
+  margin-top: 10%;
+  margin-left: 20%;
+}
+.contact h1{
+  font-weight: bold;
+  font-size: 30px;
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+input[type=submit] {
+  background-color: black; 
+  color: white;
+  padding: 12px 20px;
+  border-radius: 4px;
+  width: 50%;
+  margin-left:38%;
+  border: none;
+}
+textarea {
+  text-indent: 10px;
+}
+.col_25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+.col_75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.form{
+  margin-top: 10%;
+  margin-right: 20%;
+}
+.contact1 {
+  padding: 15px 0;
+}
+.contact1 p{
+color: rgb(112, 109, 109);
+}
+.contact1 h3{
+  font-weight: bold;
+}
