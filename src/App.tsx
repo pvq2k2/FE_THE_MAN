@@ -4,17 +4,18 @@ import { Routes, Route } from 'react-router-dom';
 import { ClientLayout } from './layouts';
 import CartPage from './pages/Cart';
 import Signup from './pages/Signup';
+import CheckoutPage from "./pages/Checkout";
 import DetailProduct from "./pages/Detail";
 import ContactPage from "./pages/Contact";
 import HomePage from './pages/Home'
 import CheckoutPage from "./pages/Checkout";
 
 
+
 function App() {
   return (
     <>
       <Routes>
-        {/* home */}
       <Route path="/" element={<ClientLayout><HomePage /></ClientLayout>} />
         <Route
           path="/cart"
@@ -24,7 +25,14 @@ function App() {
             </ClientLayout>
           }
         ></Route>
-        {/* cart */}
+        <Route
+          path="/Checkout"
+          element={
+            <ClientLayout>
+              <CheckoutPage />
+            </ClientLayout>
+          }
+        ></Route>
         <Route
           path="/detail/:id"
           element={
@@ -33,8 +41,6 @@ function App() {
             </ClientLayout>
           }
         ></Route>
-
-        {/* signup */}
         <Route
           path="/contact"
           element={
