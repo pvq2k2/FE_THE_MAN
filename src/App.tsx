@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import { ClientLayout } from "./layouts";
 import CartPage from "./pages/Cart";
 import CheckoutPage from "./pages/Checkout";
+import DetailProduct from "./pages/Detail";
+
 
 function App() {
   return (
@@ -16,7 +18,7 @@ function App() {
             </ClientLayout>
           }
         ></Route>
-        <Route
+       <Route
           path="/cart"
           element={
             <ClientLayout>
@@ -32,6 +34,16 @@ function App() {
             </ClientLayout>
           }
         ></Route>
+        <Route
+          path="/detail/:id"
+          element={
+            <ClientLayout>
+              <DetailProduct />
+            </ClientLayout>
+          }
+        ></Route>
+          
+
       </Routes>
     </>
   );
