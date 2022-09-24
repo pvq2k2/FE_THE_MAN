@@ -1,4 +1,3 @@
-
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { ClientLayout } from './layouts';
@@ -8,7 +7,7 @@ import CheckoutPage from "./pages/Checkout";
 import DetailProduct from "./pages/Detail";
 import ContactPage from "./pages/Contact";
 import HomePage from './pages/Home'
-
+import Signin from './pages/Signin'
 
 
 function App() {
@@ -22,16 +21,16 @@ function App() {
             <ClientLayout>
               <CartPage />
             </ClientLayout>
-          }
-        ></Route>
-        <Route
-          path="/Checkout"
+          }/>
+          <Route
+          path="/signin"
           element={
             <ClientLayout>
-              <CheckoutPage />
+              <Signin/>
             </ClientLayout>
           }
-        ></Route>
+        />
+
         <Route
           path="/detail/:id"
           element={
