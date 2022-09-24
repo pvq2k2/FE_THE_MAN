@@ -1,24 +1,20 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import { ClientLayout } from "./layouts";
-import CartPage from "./pages/Cart";
+import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { ClientLayout } from './layouts';
+import CartPage from './pages/Cart';
+import Signup from './pages/Signup';
 import CheckoutPage from "./pages/Checkout";
 import DetailProduct from "./pages/Detail";
+import ContactPage from "./pages/Contact";
+import HomePage from './pages/Home'
 
 
 function App() {
   return (
     <>
       <Routes>
+      <Route path="/" element={<ClientLayout><HomePage /></ClientLayout>} />
         <Route
-          path="/"
-          element={
-            <ClientLayout>
-              <h1>Home page</h1>
-            </ClientLayout>
-          }
-        ></Route>
-       <Route
           path="/cart"
           element={
             <ClientLayout>
@@ -42,7 +38,23 @@ function App() {
             </ClientLayout>
           }
         ></Route>
-          
+        <Route
+          path="/contact"
+          element={
+            <ClientLayout>
+              <ContactPage />
+            </ClientLayout>
+          }
+        ></Route>
+          {/* signup */}
+          <Route
+              path='/signup'
+              element={
+                  <ClientLayout>
+                      <Signup />
+                  </ClientLayout>
+              }
+          ></Route>
 
       </Routes>
     </>
