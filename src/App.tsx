@@ -8,7 +8,6 @@ import CheckoutPage from "./pages/Checkout";
 import DetailProduct from "./pages/Detail";
 import ContactPage from "./pages/Contact";
 import HomePage from './pages/Home'
-import CheckoutPage from "./pages/Checkout";
 
 
 
