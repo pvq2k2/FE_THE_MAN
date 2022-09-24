@@ -3,7 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { ClientLayout } from "./layouts";
 import CartPage from "./pages/Cart";
-import Login from './pages/Login'
+import Signin from './pages/Signin'
 
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
           path="/login"
           element={
             <ClientLayout>
-              <Login/>
+              <Signin/>
             </ClientLayout>
           }
         ></Route>
