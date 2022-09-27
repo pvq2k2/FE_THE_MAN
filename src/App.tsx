@@ -9,6 +9,7 @@ import ContactPage from "./pages/Contact";
 import HomePage from './pages/Home'
 import Signin from './pages/Signin'
 import ProductManager from './pages/Admin/Products/ProductManager';
+import ProductAdd from './pages/Admin/Products/ProductAdd';
 
 
 function App() {
@@ -29,8 +30,8 @@ function App() {
           <Route path="dashboard" element={<AdminLayout><h1>Dashboard</h1></AdminLayout>} /> */}
           <Route path='products'>
             <Route index element={<ProductManager />} />
-            {/* <Route path='add' element={<AdminLayout><ProductAdd onAdd={onHandleAdd} /></AdminLayout>} />
-            <Route path=':id' element={<AdminLayout><ProductEdit onUpdate={onHandleUpdate} /></AdminLayout>} /> */}
+            <Route path='add' element={<ProductAdd />} />
+            {/* <Route path=':id' element={<AdminLayout><ProductEdit onUpdate={onHandleUpdate} /></AdminLayout>} /> */}
           </Route>
         </Route>
         {/* <Route path='/admin/products' element={<AdminLayout><ProductManager /></AdminLayout>} /> */}
