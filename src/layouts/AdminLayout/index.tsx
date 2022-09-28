@@ -9,7 +9,6 @@ import { Link, Outlet } from 'react-router-dom';
 import { HiMenuAlt2 } from 'react-icons/hi';
 
 
-
 const AdminLayout = () => {
   const boxUser = useRef<HTMLDivElement>(null);
   const navigationElement = useRef<HTMLDivElement>(null);
@@ -17,19 +16,17 @@ const AdminLayout = () => {
   const [toggle, setToggle] = useState<boolean>(false);
   const [showModelUser, setShowModelUser] = useState<Boolean>(false);
 
-
   useEffect(() => {
     const navigationE = navigationElement.current!;
     const mainE = mainElement.current!;
     if (toggle) {
       navigationE.classList.toggle(styles.active);
       mainE.classList.toggle(styles.active);
-    }
-    else {
+    } else {
       navigationE.classList.remove(styles.active);
       mainE.classList.remove(styles.active);
     }
-  }, [toggle])
+  }, [toggle]);
 
   useEffect(() => {
     const boxUserElement = boxUser.current!;
@@ -83,7 +80,16 @@ const AdminLayout = () => {
                 </a>
               </Link>
             </li>
-
+            <li>
+              <Link to="/admin/post">
+                <a>
+                  <span className={styles.icon}>
+                    <TbSlideshow className={styles.io} />
+                  </span>
+                  <span className={styles.title}>Post</span>
+                </a>
+              </Link>
+            </li>
             <li>
               <Link to="/admin/slider">
                 <a>
@@ -114,7 +120,6 @@ const AdminLayout = () => {
                 </a>
               </Link>
             </li>
-
           </ul>
         </div>
         {/* ========================= Main ==================== */}
@@ -129,8 +134,14 @@ const AdminLayout = () => {
                 <IoSearchOutline className={styles.io} />
               </label>
             </div>
-            <div className={styles.user} onClick={() => setShowModelUser(!showModelUser)}>
-              <img src="https://res.cloudinary.com/assignmentjs/image/upload/v1664199286/nextjsuser/dw1r1yybpmahpl8qwmkb.png" alt="" />
+            <div
+              className={styles.user}
+              onClick={() => setShowModelUser(!showModelUser)}
+            >
+              <img
+                src="https://res.cloudinary.com/assignmentjs/image/upload/v1664199286/nextjsuser/dw1r1yybpmahpl8qwmkb.png"
+                alt=""
+              />
               {/* ---------------------- */}
               <div ref={boxUser} className={styles.box}>
                 <ul>
@@ -160,7 +171,7 @@ const AdminLayout = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AdminLayout
+export default AdminLayout;

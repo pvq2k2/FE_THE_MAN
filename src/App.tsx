@@ -10,6 +10,8 @@ import HomePage from "./pages/Home";
 import Signin from "./pages/Signin";
 import ProductManager from "./pages/Admin/Products/ProductManager";
 import ProductAdd from "./pages/Admin/Products/ProductAdd";
+import PostManager from "./pages/Admin/Posts/PostManager";
+import PostAdd from "./pages/Admin/Posts/PostAdd";
 import CategoryPostManager from "./pages/Admin/CategoryPost/CatePostManager";
 import CatePostAdd from "./pages/Admin/CategoryPost/CatePostAdd";
 import CatePostEdit from "./pages/Admin/CategoryPost/CatePostEdit";
@@ -84,6 +86,9 @@ function App() {
             <Route path="add" element={<ProductAdd />} />
             {/* <Route path=':id' element={<AdminLayout><ProductEdit onUpdate={onHandleUpdate} /></AdminLayout>} /> */}
           </Route>
+          <Route path="post">
+            <Route index element={<PostManager />} />
+            <Route path="add" element={<PostAdd />} />
           <Route path="category_post">
             <Route index element={<CategoryPostManager />} />
             <Route path="add" element={<CatePostAdd />} />
