@@ -3,6 +3,7 @@ export type Posts = {
   title: string;
   desc: string;
   descShort: string;
+  image: string;
   content: string;
   createdAt: Date;
   categoryId: any;
