@@ -1,16 +1,13 @@
-import styles from "./AdminLayout.module.css";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  IoHomeOutline,
-  IoLogoOctocat,
-  IoMenuOutline,
-  IoSearchOutline,
-} from "react-icons/io5";
-import { RiProductHuntLine } from "react-icons/ri";
-import { TbSlideshow } from "react-icons/tb";
-import { MdOutlineCategory } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
+import styles from './AdminLayout.module.css';
+import React, { useEffect, useRef, useState } from 'react'
+import { IoHomeOutline, IoLogoOctocat, IoMenuOutline, IoSearchOutline } from 'react-icons/io5'
+import { RiProductHuntLine } from 'react-icons/ri';
+import { TbSlideshow } from 'react-icons/tb';
+import { MdOutlineCategory } from 'react-icons/md';
+import { FaRegUser } from 'react-icons/fa';
+import { Link, Outlet } from 'react-router-dom';
+import { HiMenuAlt2 } from 'react-icons/hi';
+
 
 const AdminLayout = () => {
   const boxUser = useRef<HTMLDivElement>(null);
@@ -103,7 +100,16 @@ const AdminLayout = () => {
                 </a>
               </Link>
             </li>
-
+            <li>
+              <Link to="/admin/category_post">
+                <a>
+                  <span className={styles.icon}>
+                    <MdOutlineCategory className={styles.io} />
+                  </span>
+                  <span className={styles.title}>Category Post</span>
+                </a>
+              </Link>
+            </li>
             <li>
               <Link to="/admin/users">
                 <a>
