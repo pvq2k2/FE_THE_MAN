@@ -37,7 +37,7 @@ const CategoryPostManager = (props: Props) => {
 
             <td>Thời trang</td>
             <td className={styles.action}>
-              <Link to={`/admin/category_post/1`}>
+              <Link to={`/admin/category_post/:id/edit`}>
                 <AiOutlineEdit className={styles.edit} />
               </Link>
 
