@@ -6,6 +6,7 @@ import { TbSlideshow } from 'react-icons/tb';
 import { MdOutlineCategory } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
 import { Link, Outlet } from 'react-router-dom';
+import { HiMenuAlt2 } from 'react-icons/hi';
 
 
 
@@ -93,7 +94,16 @@ const AdminLayout = () => {
                 </a>
               </Link>
             </li>
-
+            <li>
+              <Link to="/admin/category_post">
+                <a>
+                  <span className={styles.icon}>
+                    <MdOutlineCategory className={styles.io} />
+                  </span>
+                  <span className={styles.title}>Category Post</span>
+                </a>
+              </Link>
+            </li>
             <li>
               <Link to="/admin/users">
                 <a>
