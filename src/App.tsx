@@ -16,9 +16,9 @@ import CategoryPostManager from "./pages/Admin/CategoryPost/CatePostManager";
 import CatePostAdd from "./pages/Admin/CategoryPost/CatePostAdd";
 import CatePostEdit from "./pages/Admin/CategoryPost/CatePostEdit";
 import "antd/dist/antd.css";
-
 import "react-toastify/dist/ReactToastify.css";
 import PostEdit from "./pages/Admin/Posts/PostEdit";
+import CategoryProductManager from "./pages/Admin/CategoryProduct/CateProductManager";
 
 function App() {
   return (
@@ -90,10 +90,16 @@ function App() {
             <Route path="add" element={<ProductAdd />} />
             {/* <Route path=':id' element={<AdminLayout><ProductEdit onUpdate={onHandleUpdate} /></AdminLayout>} /> */}
           </Route>
+
+          <Route path="category_product">
+            <Route index element={<CategoryProductManager />} />
+            {/* <Route path="add" element={<CatePostAdd />} />
+            <Route path=":id/edit" element={<CatePostEdit />} /> */}
+          </Route>
+
           <Route path="post">
             <Route index element={<PostManager />} />
             <Route path="add" element={<PostAdd />} />
-
             <Route path=":id/edit" element={<PostEdit />} />
           </Route>
 
@@ -102,11 +108,7 @@ function App() {
             <Route path="add" element={<CatePostAdd />} />
             <Route path=":id/edit" element={<CatePostEdit />} />
           </Route>
-          <Route path="category_post">
-            <Route index element={<CategoryPostManager />} />
-            <Route path="add" element={<CatePostAdd />} />
-            <Route path=":id/edit" element={<CatePostEdit />} />
-          </Route>
+
         </Route>
       </Routes>
     </>
