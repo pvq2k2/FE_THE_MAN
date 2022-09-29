@@ -29,12 +29,10 @@ const CateProductAdd = () => {
         progress: undefined,
       });
       navigate("/admin/category_product");
-    } catch (error) {
-      
-    }
+    } catch (error) {}
       
 
-  }
+  };
   return (
     <div>
       <div>

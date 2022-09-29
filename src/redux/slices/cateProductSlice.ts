@@ -48,7 +48,7 @@ const cateProSlice = createSlice({
         })
 
         build.addCase(readCatePro.fulfilled,(state,{payload})=>{
-            state.cateproduct = payload
+            state.cateproduct = payload as ICatePro;
         })
 
         build.addCase(addCatePro.fulfilled,(state,{payload})=>{
