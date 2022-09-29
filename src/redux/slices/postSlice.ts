@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { add, get, getAll, remove, update } from "../../api-cilent/Post";
 
 import { Posts } from "../../models/post";
+import { useAppDispatch } from "../store";
 
 type PostsState = {
   posts: {
@@ -9,6 +10,8 @@ type PostsState = {
     Post: Posts[];
   };
   post: Posts | {};
+  page: number;
+  limit: number;
 };
 
 const initialState: PostsState = {
@@ -16,6 +19,8 @@ const initialState: PostsState = {
     count: 0,
     Post: [],
   },
+  page: 1,
+  limit: 10,
   post: {},
 };
 
@@ -30,7 +35,8 @@ export const getPosts = createAsyncThunk(
 export const deletePosts = createAsyncThunk(
   "posts/deletePosts",
   async (_id: string) => {
-    await remove(_id);
+    const datas = await remove(_id);
+    console.log(datas);
     return _id;
   }
 );
@@ -59,14 +65,16 @@ export const updatePosts = createAsyncThunk(
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    setPage(state, action) {
+      state.page = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPosts.fulfilled, (state, { payload }) => {
       state.posts = payload as any;
     });
     builder.addCase(deletePosts.fulfilled, (state, { payload }) => {
-      console.log(state);
-
       state.posts.Post = state.posts.Post.filter(
         (item) => item._id !== payload
       );
@@ -85,3 +93,4 @@ const postsSlice = createSlice({
 });
 
 export default postsSlice.reducer;
+export const { setPage } = postsSlice.actions;

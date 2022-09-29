@@ -1,13 +1,17 @@
-import styles from './AdminLayout.module.css';
-import React, { useEffect, useRef, useState } from 'react'
-import { IoHomeOutline, IoLogoOctocat, IoMenuOutline, IoSearchOutline } from 'react-icons/io5'
-import { RiProductHuntLine } from 'react-icons/ri';
-import { TbSlideshow } from 'react-icons/tb';
-import { MdOutlineCategory } from 'react-icons/md';
-import { FaRegUser } from 'react-icons/fa';
-import { Link, Outlet } from 'react-router-dom';
-import { HiMenuAlt2 } from 'react-icons/hi';
-
+import styles from "./AdminLayout.module.css";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  IoHomeOutline,
+  IoLogoOctocat,
+  IoMenuOutline,
+  IoSearchOutline,
+} from "react-icons/io5";
+import { RiProductHuntLine } from "react-icons/ri";
+import { TbSlideshow } from "react-icons/tb";
+import { MdOutlineCategory } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa";
+import { Link, Outlet } from "react-router-dom";
+import { HiMenuAlt2 } from "react-icons/hi";
 
 const AdminLayout = () => {
   const boxUser = useRef<HTMLDivElement>(null);
@@ -86,7 +90,7 @@ const AdminLayout = () => {
                   <span className={styles.icon}>
                     <TbSlideshow className={styles.io} />
                   </span>
-                  <span className={styles.title}>Post</span>
+                  <span className={styles.title}>Bài viết</span>
                 </a>
               </Link>
             </li>
