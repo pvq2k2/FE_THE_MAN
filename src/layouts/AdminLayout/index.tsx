@@ -10,6 +10,7 @@ import { RiProductHuntLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { MdOutlineCategory } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
+import { BiCategoryAlt } from "react-icons/bi";
 import { Link, Outlet } from "react-router-dom";
 import { HiMenuAlt2 } from "react-icons/hi";
 
@@ -75,12 +76,16 @@ const AdminLayout = () => {
               </Link>
             </li>
             <li>
+<<<<<<< HEAD
             <Link to="/admin/category_product">
+=======
+              <Link to="/admin/category_product">
+>>>>>>> dev
                 <a>
                   <span className={styles.icon}>
-                    <MdOutlineCategory className={styles.io} />
+                    <BiCategoryAlt className={styles.io} />
                   </span>
-                  <span className={styles.title}>Category</span>
+                  <span className={styles.title}>Category Product</span>
                 </a>
               </Link>
             </li>
