@@ -3,7 +3,11 @@ import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { TiPlus } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deletePosts, getPosts } from "../../../../redux/slices/postSlice";
+import {
+  deletePosts,
+  getPosts,
+  setPage,
+} from "../../../../redux/slices/postSlice";
 import { useAppDispatch } from "../../../../redux/store";
 import { RootState } from "../../../../redux/store";
 import ReactPaginate from "react-paginate";
@@ -17,16 +21,17 @@ type Props = {};
 
 const PostManager = (props: Props) => {
   const post = useSelector((state: RootState) => state?.post);
+  const pages = useSelector((state: RootState) => state?.post.page);
+
   const dispatch = useAppDispatch();
-  const [page, setPage] = useState<any>(1);
   useEffect(() => {
     dispatch(
       getPosts({
-        page: page,
+        page: pages,
         limit: 10,
       })
     );
-  }, [dispatch, page]);
+  }, [dispatch, pages]);
 
   const handremove = (id: any) => {
     Swal.fire({
@@ -41,6 +46,12 @@ const PostManager = (props: Props) => {
       if (result.isConfirmed) {
         await dispatch(deletePosts(id));
         Swal.fire("Thành công!", "Xóa thành công.", "success");
+        dispatch(
+          getPosts({
+            page: pages,
+            limit: 10,
+          })
+        );
       }
     });
   };
@@ -77,7 +88,7 @@ const PostManager = (props: Props) => {
             {post?.posts.Post?.map((e: any, index: any) => {
               return (
                 <tr key="index">
-                  <td>{(page - 1) * 10 + ++index}</td>
+                  <td>{(pages - 1) * 10 + ++index}</td>
 
                   <td>{e.title}</td>
                   <td>
@@ -111,8 +122,8 @@ const PostManager = (props: Props) => {
           defaultCurrent={1}
           total={post?.posts.count}
           pageSize={10}
-          onChange={(page) => {
-            setPage(page);
+          onChange={(pages) => {
+            dispatch(setPage(pages));
           }}
         />
       </main>

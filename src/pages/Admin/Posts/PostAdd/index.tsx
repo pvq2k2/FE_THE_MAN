@@ -61,7 +61,7 @@ const PostAdd = () => {
       <div>
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between">
-            <h1 className="text-3xl font-bold text-gray-900">Product Add</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Post Add</h1>
             <Link to="/admin/products" className="sm:ml-3">
               <button
                 type="button"
@@ -83,13 +83,13 @@ const PostAdd = () => {
                       htmlFor="title"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Title
+                      Bài viết
                     </label>
                     <div className="mt-1">
                       <input
                         type="text"
                         {...register("title", {
-                          required: "Vui lòng nhập tên sản phẩm",
+                          required: "Vui lòng nhập tên bài viết",
                         })}
                         id="name-add-product"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
@@ -106,13 +106,13 @@ const PostAdd = () => {
                       htmlFor="desc"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Description
+                      Mô tả
                     </label>
                     <div className="mt-1">
                       <input
                         type="text"
                         {...register("desc", {
-                          required: "Vui lòng nhập desc",
+                          required: "Vui lòng nhập mô tả",
                         })}
                         id="size-add-product"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
@@ -129,13 +129,13 @@ const PostAdd = () => {
                       htmlFor="DescShort"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      DescShort
+                      Mô tả ngắn
                     </label>
                     <div className="mt-1">
                       <input
                         type="text"
                         {...register("descShort", {
-                          required: "Vui lòng nhập descShort",
+                          required: "Vui lòng nhập mô tả ngắn",
                         })}
                         id="DescShort"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
@@ -182,13 +182,13 @@ const PostAdd = () => {
                       htmlFor="content"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Content
+                      Nội dung
                     </label>
                     <div className="mt-1">
                       <input
                         type="text"
                         {...register("content", {
-                          required: "Vui lòng nhập chi tiết",
+                          required: "Vui lòng nhập nội dung bài viết",
                         })}
                         id="content-add-product"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
