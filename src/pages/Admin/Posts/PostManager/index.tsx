@@ -9,19 +9,16 @@ import { RootState } from "../../../../redux/store";
 import ReactPaginate from "react-paginate";
 import "../../../../styleAntd/panigation.css";
 import Swal from "sweetalert2";
-
 import styles from "../../Products/ProductManager/ProductManager.module.css";
 import { getAll } from "../../../../api-cilent/Post";
 import { Pagination } from "antd";
+
 type Props = {};
 
 const PostManager = (props: Props) => {
   const post = useSelector((state: RootState) => state?.post);
-  console.log(post);
-
   const dispatch = useAppDispatch();
   const [page, setPage] = useState<any>(1);
-
   useEffect(() => {
     dispatch(
       getPosts({
@@ -52,13 +49,13 @@ const PostManager = (props: Props) => {
     <div className={styles.content}>
       <header>
         <div className={styles.title}>Post Manager</div>
-        <Link to="products/add" className="sm:ml-3">
+        <Link to="/admin/post/add" className="sm:ml-3">
           <button
             type="button"
             className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <TiPlus className="text-[20px] mr-2" />
-            Add Product
+            Add Post
           </button>
         </Link>
       </header>
