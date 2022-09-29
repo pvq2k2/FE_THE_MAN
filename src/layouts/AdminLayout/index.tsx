@@ -76,11 +76,7 @@ const AdminLayout = () => {
               </Link>
             </li>
             <li>
-<<<<<<< HEAD
-            <Link to="/admin/category_product">
-=======
               <Link to="/admin/category_product">
->>>>>>> dev
                 <a>
                   <span className={styles.icon}>
                     <BiCategoryAlt className={styles.io} />
