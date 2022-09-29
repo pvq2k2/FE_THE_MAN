@@ -101,10 +101,11 @@ const PostManager = (props: Props) => {
                   </td>
                   <td>{e.descShort}</td>
                   <td>{e.desc}</td>
+                  <td>{e.desc}</td>
                   {/* <td>{e.categoryId.name}</td> */}
                   <td>{e.content}</td>
                   <td className={styles.action}>
-                    <Link to={`/admin/products/1`}>
+                    <Link to={`/admin/post/${e._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />
                     </Link>
 
