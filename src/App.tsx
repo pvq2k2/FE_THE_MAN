@@ -20,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PostEdit from "./pages/Admin/Posts/PostEdit";
 import CategoryProductManager from "./pages/Admin/CategoryProduct/CateProductManager";
 import CateProductAdd from "./pages/Admin/CategoryProduct/CateProductAdd";
+import CateProductEdit from "./pages/Admin/CategoryProduct/CateProductEdit";
 
 function App() {
   return (
@@ -95,7 +96,7 @@ function App() {
           <Route path="category_product">
             <Route index element={<CategoryProductManager />} />
             <Route path="add" element={<CateProductAdd />} />
-            {/* <Route path=":id/edit" element={<CatePostEdit />} /> */}
+            <Route path=":id/edit" element={<CateProductEdit />} />
           </Route>
 
           <Route path="post">
