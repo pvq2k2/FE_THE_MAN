@@ -75,7 +75,7 @@ const AdminLayout = () => {
               </Link>
             </li>
             <li>
-              <Link to="/admin/categories">
+            <Link to="/admin/category_product">
                 <a>
                   <span className={styles.icon}>
                     <MdOutlineCategory className={styles.io} />
