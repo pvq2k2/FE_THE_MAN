@@ -59,14 +59,14 @@ const PostManager = (props: Props) => {
   return (
     <div className={styles.content}>
       <header>
-        <div className={styles.title}>Post Manager</div>
+        <div className={styles.title}>Quản lí bài viết</div>
         <Link to="/admin/post/add" className="sm:ml-3">
           <button
             type="button"
             className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <TiPlus className="text-[20px] mr-2" />
-            Add Post
+            Thêm bài viết
           </button>
         </Link>
       </header>
@@ -75,12 +75,12 @@ const PostManager = (props: Props) => {
           <thead>
             <tr>
               <td>STT</td>
-              <td>Title</td>
-              <td>Image</td>
-              <td>DescShort</td>
-              <td>Description</td>
-              <td>Category</td>
-              <td>Content</td>
+              <td>Tiêu đề</td>
+              <td>Hình ảnh</td>
+              <td>Mô tả ngắn</td>
+              <td>Mô tả</td>
+              <td>Danh mục</td>
+              <td>Nội dung</td>
               <td>Action</td>
             </tr>
           </thead>

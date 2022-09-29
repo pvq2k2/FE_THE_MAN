@@ -2,10 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineX, HiOutlineCheck } from "react-icons/hi";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { RootState, useAppDispatch } from "../../../../redux/store";
-import { addPosts } from "../../../../redux/slices/postSlice";
+import {
+  addPosts,
+  getPost,
+  updatePosts,
+} from "../../../../redux/slices/postSlice";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +27,7 @@ const PostEdit = () => {
   const dispatch = useAppDispatch();
   // const categoryPost = useSelector((state:RootState) =>state.)
   const navigate = useNavigate();
-
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
@@ -43,8 +47,8 @@ const PostEdit = () => {
           "Content-type": "application/form-data",
         },
       });
-      await dispatch(addPosts({ ...values, image: data.url })).unwrap();
-      toast.success("Add post successfully !", {
+      await dispatch(updatePosts({ ...values, image: data.url })).unwrap();
+      toast.success("Cập nhật bài viết thành công !", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -56,19 +60,26 @@ const PostEdit = () => {
       navigate("/admin/post");
     } catch (error) {}
   };
+
+  useEffect(() => {
+    (async () => {
+      const posts = await dispatch(getPost(id));
+      reset(posts.payload);
+    })();
+  }, [id, dispatch, reset]);
   return (
     <div>
       <div>
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between">
-            <h1 className="text-3xl font-bold text-gray-900">Post Add</h1>
-            <Link to="/admin/products" className="sm:ml-3">
+            <h1 className="text-3xl font-bold text-gray-900">Sửa bài viết</h1>
+            <Link to="/admin/post" className="sm:ml-3">
               <button
                 type="button"
                 className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <HiOutlineX className="text-[20px] mr-2" />
-                Close
+                Thoát
               </button>
             </Link>
           </div>
@@ -219,7 +230,7 @@ const PostEdit = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Image
+                      Hình ảnh
                     </label>
                     <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                       <div className="space-y-1 text-center">
@@ -264,7 +275,7 @@ const PostEdit = () => {
                     className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     <HiOutlineCheck className="mr-2 text-[20px]" />
-                    Save
+                    Lưu
                   </button>
                 </div>
               </div>
