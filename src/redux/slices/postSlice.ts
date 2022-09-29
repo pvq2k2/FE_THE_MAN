@@ -51,7 +51,7 @@ export const addPosts = createAsyncThunk(
 
 export const getPost = createAsyncThunk("posts/getPost", async (id: any) => {
   const res = await get(id);
-  return res;
+  return res.data;
 });
 
 export const updatePosts = createAsyncThunk(
