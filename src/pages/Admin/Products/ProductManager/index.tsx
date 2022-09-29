@@ -28,7 +28,7 @@ const ProductManager = (props: Props) => {
     <div className={styles.content}>
       <header>
         <div className={styles.title}>Product Manager</div>
-        <Link to='products/add' className='sm:ml-3'>
+        <Link to='add' className='sm:ml-3'>
           <button
             type='button'
             className='inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'

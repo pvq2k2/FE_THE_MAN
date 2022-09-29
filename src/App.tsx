@@ -19,6 +19,7 @@ import "antd/dist/antd.css";
 import "react-toastify/dist/ReactToastify.css";
 import PostEdit from "./pages/Admin/Posts/PostEdit";
 import CategoryProductManager from "./pages/Admin/CategoryProduct/CateProductManager";
+import CateProductAdd from "./pages/Admin/CategoryProduct/CateProductAdd";
 
 function App() {
   return (
@@ -93,8 +94,8 @@ function App() {
 
           <Route path="category_product">
             <Route index element={<CategoryProductManager />} />
-            {/* <Route path="add" element={<CatePostAdd />} />
-            <Route path=":id/edit" element={<CatePostEdit />} /> */}
+            <Route path="add" element={<CateProductAdd />} />
+            {/* <Route path=":id/edit" element={<CatePostEdit />} /> */}
           </Route>
 
           <Route path="post">
