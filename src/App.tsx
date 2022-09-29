@@ -16,6 +16,7 @@ import CategoryPostManager from "./pages/Admin/CategoryPost/CatePostManager";
 import CatePostAdd from "./pages/Admin/CategoryPost/CatePostAdd";
 import CatePostEdit from "./pages/Admin/CategoryPost/CatePostEdit";
 import "antd/dist/antd.css";
+
 import "react-toastify/dist/ReactToastify.css";
 import PostEdit from "./pages/Admin/Posts/PostEdit";
 
@@ -92,12 +93,19 @@ function App() {
           <Route path="post">
             <Route index element={<PostManager />} />
             <Route path="add" element={<PostAdd />} />
+
             <Route path=":id/edit" element={<PostEdit />} />
-            <Route path="category_post">
-              <Route index element={<CategoryPostManager />} />
-              <Route path="add" element={<CatePostAdd />} />
-              <Route path=":id/edit" element={<CatePostEdit />} />
-            </Route>
+          </Route>
+
+          <Route path="category_post">
+            <Route index element={<CategoryPostManager />} />
+            <Route path="add" element={<CatePostAdd />} />
+            <Route path=":id/edit" element={<CatePostEdit />} />
+          </Route>
+          <Route path="category_post">
+            <Route index element={<CategoryPostManager />} />
+            <Route path="add" element={<CatePostAdd />} />
+            <Route path=":id/edit" element={<CatePostEdit />} />
           </Route>
         </Route>
       </Routes>
