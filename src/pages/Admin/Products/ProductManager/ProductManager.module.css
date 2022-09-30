@@ -67,14 +67,17 @@
   justify-content: center;
   gap: 20px;
   font-size: 20px;
+  transition: all 0.5s ease-in-out;
+}
+.content main table tr .action .info:hover {
+  color: #4907ff;
+  cursor: pointer;
 }
 .content main table tr .action .edit:hover {
-  transition: all 0.5s ease-in-out;
   color: #ffc107;
   cursor: pointer;
 }
 .content main table tr .action .delete:hover {
-  transition: all 0.5s ease-in-out;
   color: #dc3545;
   cursor: pointer;
 }

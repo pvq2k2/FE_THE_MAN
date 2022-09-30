@@ -1,29 +1,70 @@
-
 import React, { useEffect } from 'react';
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { AiOutlineDelete, AiOutlineEdit, AiOutlineInfoCircle } from 'react-icons/ai';
 import { TiPlus } from 'react-icons/ti';
 import { Link } from 'react-router-dom';
-// import Swal from 'sweetalert2';
 import styles from './ProductManager.module.css';
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteProduct,
+  getProducts,
+  getProduct,
+  setPage,
+} from "../../../../redux/slices/productSlice";
+import { useAppDispatch } from "../../../../redux/store";
+import { RootState } from "../../../../redux/store";
+import ReactPaginate from "react-paginate";
+import "../../../../styleAntd/panigation.css";
+import Swal from "sweetalert2";
+import { getAll } from "../../../../api-cilent/Product";
+import { Pagination } from "antd";
 type Props = {};
+
 
 const ProductManager = (props: Props) => {
 
-  // const handleRemove = (id: any) => {
-  //   Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: "You won't be able to revert this!",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, delete it!',
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       Swal.fire('Deleted!', 'Your product has been deleted.', 'success');
-  //     }
-  //   });
-  // };
+  const product = useSelector((state: RootState) => state?.product);
+  // console.log("product", product.products.products);
+  
+  const pages = useSelector((state: RootState) => state?.product.page);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(
+      getProducts({
+        page: pages,
+        limit: 10,
+      })
+    );
+  }, [dispatch, pages]);
+
+  // const showDetailProduct = async (id: any) => {
+  //   const detailProduct = await dispatch(getProduct(id));
+  //   return ( <div>
+  //     {detailProduct.payload}
+  //   </div>)
+  // }
+  const handleRemove = (id: any) => {
+    Swal.fire({
+      title: "Bạn có chắc chắn muốn xóa không?",
+      text: "Không thể hoàn tác sau khi xóa",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(deleteProduct(id));
+        Swal.fire("Thành công!", "Xóa thành công.", "success");
+        dispatch(
+          getProducts({
+            page: pages,
+            limit: 10,
+          })
+        );
+      }
+    });
+  };
+
   return (
     <div className={styles.content}>
       <header>
@@ -51,35 +92,46 @@ const ProductManager = (props: Props) => {
             </tr>
           </thead>
           <tbody>
-            <tr key="1">
-              <td>1</td>
+          {product?.products.products?.map((item: any, index: any) => {
+              return (
+                <tr key={item._id}>
+                  <td>{(pages - 1) * 10 + ++index}</td>
 
+                  <td>{item.name}</td>
+                  <td>
+                    <img
+                      className={styles.image}
+                      src={item.image}
+                      alt=""
+                      width="100px"
+                    />
+                  </td>
+                  <td>{item.price}</td>
+                  <td>{item.desc}</td>
+                  <td className={styles.action}>
+                    {/* <AiOutlineInfoCircle className={styles.info} onClick={() => showDetailProduct(item._id)}/> */}
+                    <Link to={`/admin/product/${item._id}/edit`}>
+                      <AiOutlineEdit className={styles.edit} />
+                    </Link>
 
-              <td>Producr A</td>
-              <td>
-                <img
-                  className={styles.image}
-                  src="https://res.cloudinary.com/assignmentjs/image/upload/v1659720669/nextjsproduct/pituhei9utpepxgvntfd.jpg"
-                  alt=''
-                  width='100px'
-                />
-              </td>
-              <td>100</td>
-              <td>
-                Desc Product
-              </td>
-              <td className={styles.action}>
-                <Link to={`/admin/products/1`}>
-                  <AiOutlineEdit className={styles.edit} />
-                </Link>
-
-                <AiOutlineDelete
-                  className={styles.delete}
-                />
-              </td>
-            </tr>
+                    <AiOutlineDelete
+                      onClick={() => handleRemove(item._id)}
+                      className={styles.delete}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+        <Pagination
+          defaultCurrent={1}
+          total={product?.products.count}
+          pageSize={10}
+          onChange={(pages) => {
+            dispatch(setPage(pages));
+          }}
+        />
       </main>
     </div>
   );

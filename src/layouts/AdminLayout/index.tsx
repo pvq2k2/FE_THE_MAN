@@ -13,6 +13,7 @@ import { FaRegUser } from "react-icons/fa";
 import { BiCategoryAlt } from "react-icons/bi";
 import { Link, Outlet } from "react-router-dom";
 import { HiMenuAlt2 } from "react-icons/hi";
+import { BsNewspaper } from "react-icons/bs";
 
 const AdminLayout = () => {
   const boxUser = useRef<HTMLDivElement>(null);
@@ -89,19 +90,9 @@ const AdminLayout = () => {
               <Link to="/admin/post">
                 <a>
                   <span className={styles.icon}>
-                    <TbSlideshow className={styles.io} />
+                    <BsNewspaper className={styles.io} />
                   </span>
                   <span className={styles.title}>Bài viết</span>
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin/slider">
-                <a>
-                  <span className={styles.icon}>
-                    <TbSlideshow className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Slide</span>
                 </a>
               </Link>
             </li>
@@ -112,6 +103,16 @@ const AdminLayout = () => {
                     <MdOutlineCategory className={styles.io} />
                   </span>
                   <span className={styles.title}>Danh mục bài viết</span>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/slider">
+                <a>
+                  <span className={styles.icon}>
+                    <TbSlideshow className={styles.io} />
+                  </span>
+                  <span className={styles.title}>Slide</span>
                 </a>
               </Link>
             </li>
