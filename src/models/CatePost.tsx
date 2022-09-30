@@ -1,4 +1,4 @@
-export type ICatePost={
-_id?:number,
+export interface ICatePost{
+_id?:number|string,
 name:string
 }

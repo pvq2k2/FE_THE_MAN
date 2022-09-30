@@ -19,16 +19,7 @@ const CatePostAdd = () => {
   const {register,handleSubmit,formState:{errors}}=useForm<Inputs>();
   const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{
     try {
-      // const apiUrl = "https://api.cloudinary.com/v1_1/dmlv9tzte/image/upload";
-      // const images = values.image[0];
-      // const formdata = new FormData();
-      // formdata.append("file", images);
-      // formdata.append("upload_preset", "duanTn");
-      // const { data } = await axios.post(apiUrl, formdata, {
-      //   headers: {
-      //     "Content-type": "application/form-data",
-      //   },
-      // });
+
       await dispatch(addCatePost({...values})).unwrap();
       toast.success("Thêm danh mục thành công !", {
         position: "top-right",
