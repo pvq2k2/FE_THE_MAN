@@ -1,53 +1,73 @@
-/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import { HiOutlineX, HiOutlineCheck } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { RootState, useAppDispatch } from "../../../../redux/store";
+import { addProduct } from "../../../../redux/slices/productSlice";
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { getCatePro } from './../../../../redux/slices/cateProductSlice';
 type Inputs = {
   name: string;
-  price: number;
-  size: string;
-  description: string;
-  category: string;
-  img: string;
+  image: string;
+  price: String;
+  desc: string;
+  type: [];
+  categoryId: any;
 };
 
 const ProductAdd = () => {
+  // const categories = useSelector((state: RootState) => state?.catepro);
   const [preview, setPreview] = useState<string>();
-  const CLOUDINARY_API = "https://api.cloudinary.com/v1_1/assignmentjs/image/upload";
-  const CLOUDINARY_PRESET = "nextjsproduct";
+  const dispatch = useAppDispatch();
+  const [types, setTypes] = useState([
+    { color: "Red", size: "M", quantity: 300 }
+  ]);
+  const [isShow, setIsShow] = useState(false);
+  const navigate = useNavigate();
 
+  // useEffect(() => dispatch(getCatePro()), [dispatch])
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset,
+    formState: { errors }
   } = useForm<Inputs>();
 
+  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+    try {
 
-  // const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
-  //   try {
-  //     const { data } = await uploadImage(values.img[0], CLOUDINARY_API, CLOUDINARY_PRESET);
-  //     values.img = data.url;
-  //     await dispatch(createP(values)).unwrap();
 
-  //     toast.success("Add product successfully !", {
-  //       position: "top-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
+      const apiUrl = "https://api.cloudinary.com/v1_1/dmlv9tzte/image/upload";
+      const images = values.image[0];
+      const formdata = new FormData();
+      formdata.append("file", images);
+      formdata.append("upload_preset", "duanTn");
+      const { data } = await axios.post(apiUrl, formdata, {
+        headers: {
+          "Content-type": "application/form-data",
+        },
+      });
+      const product = {
+        ...values,
+        image: data.url
+      }
+      console.log(product);
 
-  //     reset();
-  //     setPreview("");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+
+      await dispatch(addProduct(product)).unwrap();
+      toast.success("Thêm bài viết thành công !", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/admin/products");
+    } catch (error) { }
+  };
   return (
     <div>
       <div>
@@ -66,11 +86,13 @@ const ProductAdd = () => {
           </div>
         </header>
         <div className="m-auto max-w-7xl pb-36 mt-5">
+
           <div className="mt-5 md:mt-0 md:col-span-2">
             <form
-              action="#"
+              action=""
               id="form-add-product"
               method="POST"
+              onSubmit={handleSubmit(onSubmit)}
             >
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -81,6 +103,7 @@ const ProductAdd = () => {
                     >
                       Name
                     </label>
+
                     <div className="mt-1">
                       <input
                         type="text"
@@ -130,20 +153,17 @@ const ProductAdd = () => {
                     >
                       Size
                     </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        {...register("size", {
-                          required: "Vui lòng nhập size",
-                        })}
-                        id="size-add-product"
-                        className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
-                        placeholder="Size..."
-                      />
-                      <div className="text-sm mt-0.5 text-red-500">
-                        {errors.size?.message}
-                      </div>
-                    </div>
+
+                    {types.map((item: any, index: number) => {
+                      return <div key={index++}>Color: {item.color}  - Size: {item.size}  - Quantity: {item.quantity}</div>
+                    })}
+
+
+
+
+
+
+
                   </div>
 
 
@@ -155,7 +175,7 @@ const ProductAdd = () => {
                       Category
                     </label>
                     <select
-                      {...register("category", {
+                      {...register("categoryId", {
                         required: "Vui lòng nhập chi tiết",
                       })}
                       id="category"
@@ -163,18 +183,18 @@ const ProductAdd = () => {
                       autoComplete="category-name"
                       className="mt-1 block w-full py-2 px-3 appearance-none border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
-                      <option value="0">Select Category</option>
+
                       {/* {cateProducts &&
                         cateProducts.map((category: any) => (
                           <option key={category._id} value={category._id}>
                             {category.name}
                           </option>
                         ))} */}
-                      <option>Quần</option>
+                      <option value="632d81500fc237b1488dd84d">Quần</option>
                     </select>
-                    <div className="text-sm mt-0.5 text-red-500">
+                    {/* <div className="text-sm mt-0.5 text-red-500">
                       {errors.category?.message}
-                    </div>
+                    </div> */}
                   </div>
                   <div>
                     <label
@@ -186,7 +206,7 @@ const ProductAdd = () => {
                     <div className="mt-1">
                       <input
                         type="text"
-                        {...register("description", {
+                        {...register("desc", {
                           required: "Vui lòng nhập chi tiết",
                         })}
                         id="description-add-product"
@@ -194,7 +214,7 @@ const ProductAdd = () => {
                         placeholder="Description..."
                       />
                       <div className="text-sm mt-0.5 text-red-500">
-                        {errors.description?.message}
+                        {errors.desc?.message}
                       </div>
                     </div>
                   </div>
@@ -238,7 +258,7 @@ const ProductAdd = () => {
                         </svg>
                         <div className="flex text-sm text-gray-600">
                           <input
-                            {...register("img", {
+                            {...register("image", {
                               required: "Vui lòng chọn ảnh",
                             })}
                             onChange={(e: any) => {
@@ -250,7 +270,7 @@ const ProductAdd = () => {
                             type="file"
                           />
                           <div className="text-sm mt-0.5 text-red-500">
-                            {errors.img?.message}
+                            {errors.image?.message}
                           </div>
                         </div>
                       </div>
@@ -270,8 +290,8 @@ const ProductAdd = () => {
             </form>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 export default ProductAdd;
