@@ -4,6 +4,6 @@ export type Product = {
   image: string;
   price: String;
   desc: string;
-  type: any;
+  type: [];
   categoryId: any;
 };

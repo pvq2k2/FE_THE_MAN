@@ -54,7 +54,7 @@ const PostAdd = () => {
         progress: undefined,
       });
       navigate("/admin/post");
-    } catch (error) {}
+    } catch (error) { }
   };
   return (
     <div>
