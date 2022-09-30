@@ -3,7 +3,8 @@ import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { TiPlus } from 'react-icons/ti';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { getCatePro } from "../../../../redux/slices/cateProductSlice";
+import Swal from "sweetalert2";
+import { deleteCatePro, getCatePro } from "../../../../redux/slices/cateProductSlice";
 import { RootState, useAppDispatch } from '../../../../redux/store';
 import styles from './CateProductManager.module.css';
 
@@ -19,7 +20,26 @@ const CategoryProductManager = (props: Props) => {
       getCatePro()
     )
   }, [dispatch])
-  
+  const handremove = (id: any) => {
+    Swal.fire({
+      title: "Bạn có chắc chắn muốn xóa không?",
+      text: "Không thể hoàn tác sau khi xóa",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(deleteCatePro(id));
+        Swal.fire("Thành công!", "Xóa thành công.", "success");
+        dispatch(
+          getCatePro()
+        );
+      }
+    });
+    
+  };
   
   return (
     <div className={styles.content}>
@@ -50,10 +70,11 @@ const CategoryProductManager = (props: Props) => {
             <td>{index + 1}</td>
             <td>{item.name}</td>
             <td className={styles.action}>
-              <Link to={`/admin/category_post/${item._id}/edit`}>
+              <Link to={`/admin/category_product/${item._id}/edit`}>
                 <AiOutlineEdit className={styles.edit} />
               </Link>
               <AiOutlineDelete
+              onClick={() => handremove(item._id)}
                 className={styles.delete}
               />
             </td>
