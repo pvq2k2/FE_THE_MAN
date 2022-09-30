@@ -50,7 +50,7 @@ const CategoryProductManager = (props: Props) => {
             <td>{index + 1}</td>
             <td>{item.name}</td>
             <td className={styles.action}>
-              <Link to={`/admin/category_post/:id/edit`}>
+              <Link to={`/admin/category_post/${item._id}/edit`}>
                 <AiOutlineEdit className={styles.edit} />
               </Link>
               <AiOutlineDelete
