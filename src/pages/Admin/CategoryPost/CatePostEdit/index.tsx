@@ -1,10 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { HiOutlineCheck, HiOutlineX, HiRefresh } from 'react-icons/hi'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { getCatePost, updateCatePost } from '../../../../redux/slices/catePostSlice'
+import { useAppDispatch } from '../../../../redux/store'
 
-type Props = {}
+type Inputs = {
+  name:string,
+}
 
-const CatePostEdit = (props: Props) => {
+const CatePostEdit = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const {register,handleSubmit,formState:{errors}, reset}=useForm<Inputs>();
+  
+  const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{
+    try {
+      await dispatch(updateCatePost({...values})).unwrap();
+      toast.success("Cập nhật  danh mục thành công !", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate("/admin/category_post");
+    } catch (error) {}
+      
+
+  };
+  useEffect(() => {
+    (async () => {
+      const catepost = await dispatch(getCatePost(id));
+      reset(catepost.payload.Post);
+    })();
+  }, [id, dispatch, reset]);
   return (
     <div>
       <div>
@@ -24,7 +59,7 @@ const CatePostEdit = (props: Props) => {
         </header>
         <div className="m-auto max-w-7xl pb-36 mt-5">
           <div className="mt-5 md:mt-0 md:col-span-2">
-            <form action="#" id="form-add-product" method="POST">
+          <form action="#" id="form-add-product" method="POST" onSubmit={handleSubmit(onSubmit)}>
               <div className="shadow sm:rounded-md sm:overflow-hidden">
                 <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                   <div>
@@ -37,10 +72,16 @@ const CatePostEdit = (props: Props) => {
                     <div className="mt-1">
                       <input
                         type="text"
-                        id="name-add-product"
+                        {
+                      ...register("name",{required:"Vui lòng nhập tên danh mục"})
+                        }
+                        id="name-catepost"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
                         placeholder="Tên danh mục..."
                       />
+                      <div className="text-sm mt-0.5 text-red-500">
+                        {errors.name?.message}
+                      </div>
                     </div>
                   </div>
                 </div>

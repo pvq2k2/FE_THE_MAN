@@ -32,9 +32,9 @@ export const deleteCatePost = createAsyncThunk(
 );
 export const getCatePost =createAsyncThunk(
     "catepost/getCatePost",
-    async(_id:string)=>{
-        const res = await read(_id)
-        return res
+    async(id:any)=>{
+        const res = await read(id)
+        return res.data
     }
 )
 export const updateCatePost = createAsyncThunk(

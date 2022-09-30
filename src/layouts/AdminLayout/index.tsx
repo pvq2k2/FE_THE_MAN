@@ -111,7 +111,7 @@ const AdminLayout = () => {
                   <span className={styles.icon}>
                     <MdOutlineCategory className={styles.io} />
                   </span>
-                  <span className={styles.title}>Category Post</span>
+                  <span className={styles.title}>Danh mục bài viết</span>
                 </a>
               </Link>
             </li>
