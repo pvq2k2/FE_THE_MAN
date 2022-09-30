@@ -1,12 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { TiPlus } from 'react-icons/ti';
+import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import { getCatePro } from "../../../../redux/slices/cateProductSlice";
+import { RootState, useAppDispatch } from '../../../../redux/store';
 import styles from './CateProductManager.module.css';
 
 type Props = {}
 
 const CategoryProductManager = (props: Props) => {
+  const catePro = useSelector((state : RootState) => state.catePro)
+  console.log(catePro);
+  
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(
+      getCatePro()
+    )
+  }, [dispatch])
+  
+  
   return (
     <div className={styles.content}>
     <header>
@@ -31,21 +45,21 @@ const CategoryProductManager = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          <tr key="1">
-            <td>1</td>
-
-
-            <td>Áo Polo</td>
+          {catePro?.cateproducts.data?.map((item : any , index : number)=>{
+            return <tr key="1">
+            <td>{index + 1}</td>
+            <td>{item.name}</td>
             <td className={styles.action}>
               <Link to={`/admin/category_post/:id/edit`}>
                 <AiOutlineEdit className={styles.edit} />
               </Link>
-
               <AiOutlineDelete
                 className={styles.delete}
               />
             </td>
           </tr>
+          })}
+          
         </tbody>
       </table>
     </main>
