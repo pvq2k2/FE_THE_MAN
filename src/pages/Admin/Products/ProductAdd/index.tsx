@@ -18,21 +18,39 @@ type Inputs = {
 };
 
 const ProductAdd = () => {
-  // const categories = useSelector((state: RootState) => state?.catepro);
+  const categories = useSelector((state: RootState) => state.catePro.cateproducts);
+
+  console.log("lỗi cl", categories);
+
   const [preview, setPreview] = useState<string>();
   const dispatch = useAppDispatch();
-  const [types, setTypes] = useState([
-    { color: "Red", size: "M", quantity: 300 }
-  ]);
+  const [types, setTypes] = useState<any[]>([]);
+  const [data, setData] = useState({
+    color: "",
+    size: "",
+    quantity: 0,
+  })
   const [isShow, setIsShow] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => dispatch(getCatePro()), [dispatch])
+  useEffect(() => dispatch(getCatePro()), [dispatch])
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<Inputs>();
+
+  function handle(e: any) {
+
+    const newData = { ...data }
+    newData[e.target.id] = e.target.value
+    setData(newData)
+    console.log(data);
+  }
+  const onAddSize = () => {
+    setTypes([...types, data])
+    setIsShow(false)
+  }
 
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
@@ -52,6 +70,7 @@ const ProductAdd = () => {
         ...values,
         image: data.url
       }
+      product.type = types
       console.log(product);
 
 
@@ -147,18 +166,46 @@ const ProductAdd = () => {
 
 
                   <div>
-                    <label
-                      htmlFor="size"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Size
-                    </label>
-
-                    {types.map((item: any, index: number) => {
-                      return <div key={index++}>Color: {item.color}  - Size: {item.size}  - Quantity: {item.quantity}</div>
-                    })}
 
 
+                    <div>
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Size And Color
+                      </label>
+                      <input type="button" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={() => setIsShow(true)} value="Display Form" />
+
+
+                      {types && types.map((item: any) => {
+                        return <div>Color: {item.color} - Size: {item.size} - Quantity: {item.quantity}</div>
+                      })}
+
+                      {isShow && (
+                        <div>
+                          <input
+                            type="text"
+                            onChange={(e) => handle(e)} id="color" value={data.color}
+                            className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
+                            placeholder="Color..."
+                          />
+                          <input
+                            type="text"
+                            onChange={(e) => handle(e)} id="size" value={data.size}
+                            className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
+                            placeholder="Size..."
+                          />
+                          <input
+                            type="text"
+                            onChange={(e) => handle(e)} id="quantity" value={data.quantity}
+                            className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
+                            placeholder="Name..."
+                          />
+                          <input type="button" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={() => onAddSize()} value="Add" />
+                        </div>
+                      )}
+                    </div>
 
 
 
@@ -178,23 +225,22 @@ const ProductAdd = () => {
                       {...register("categoryId", {
                         required: "Vui lòng nhập chi tiết",
                       })}
-                      id="category"
-                      name="category"
+
                       autoComplete="category-name"
                       className="mt-1 block w-full py-2 px-3 appearance-none border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
 
-                      {/* {cateProducts &&
-                        cateProducts.map((category: any) => (
-                          <option key={category._id} value={category._id}>
+                      {categories &&
+                        categories.map((category: any, index: number) => (
+                          <option key={index++} value={category._id}>
                             {category.name}
                           </option>
-                        ))} */}
-                      <option value="632d81500fc237b1488dd84d">Quần</option>
+                        ))}
+
                     </select>
-                    {/* <div className="text-sm mt-0.5 text-red-500">
+                    <div className="text-sm mt-0.5 text-red-500">
                       {errors.category?.message}
-                    </div> */}
+                    </div>
                   </div>
                   <div>
                     <label

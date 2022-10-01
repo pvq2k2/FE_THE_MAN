@@ -16,7 +16,8 @@ const initialState:ICateProState={
 
 export const getCatePro = createAsyncThunk("catepro/getAll", async () => {
     const res = await getAllCateProduct()
-    return res;
+  
+    return res.data;
 })
 export const readCatePro = createAsyncThunk("catepro/read", async ( id : any) => {
     const res = await readCateProduct(id);
@@ -44,6 +45,8 @@ const cateProSlice = createSlice({
     reducers:{},
     extraReducers:(build) =>{
         build.addCase(getCatePro.fulfilled,(state,{payload})=>{
+        //  console.log("hải", payload);
+          
             state.cateproducts = payload as any;
         })
 
