@@ -9,13 +9,13 @@ type ProductsState = {
     count: number;
     Product: Product[];
   };
-  product: Product | {};
+  product: Product;
   page: number;
   limit: number;
 };
 
 const initialState: ProductsState = {
-    products: {
+  products: {
     count: 0,
     Product: [],
   },
@@ -50,11 +50,12 @@ export const addProduct = createAsyncThunk(
 );
 
 export const getProduct = createAsyncThunk(
-    "products/getProduct",
-    async (id: any) => {
+  "products/getProduct",
+  async (id: any) => {
     const res = await get(id);
     return res.data;
-});
+  }
+);
 
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
