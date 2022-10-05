@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { getProducts } from '../../redux/slices/productSlice';
 import { RootState, useAppDispatch } from '../../redux/store';
@@ -54,9 +55,14 @@ const NewProduct = (props: Props) => {
             return (
               <div className={styles.product__item}>
                 <div className={styles.item__box}>
-                  <img src={item.image} alt='000017' />
+                  <Link to={`/detail/${item._id}`}>
+                    <img src={item.image} alt='000017' />
+                  </Link>
                   <div className={styles.detail}>
-                    <h3>{item.name}</h3>
+                    <Link to={`/detail/${item._id}`}>
+                      <h3>{item.name}</h3>
+                    </Link>
+
                     <span>{item.price}</span>
                   </div>
                 </div>
