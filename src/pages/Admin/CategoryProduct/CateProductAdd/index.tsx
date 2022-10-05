@@ -8,17 +8,28 @@ import { addCatePro } from "../../../../redux/slices/cateProductSlice";
 import { useAppDispatch } from "../../../../redux/store";
 
 type Inputs = {
-  name:string
+  name:string;
+  image: string;
 };
 
 const CateProductAdd = () => {
-//   const [preview,setPreview]=useState<string>();
+  const [preview,setPreview]=useState<string>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {register,handleSubmit,formState:{errors}}=useForm<Inputs>();
   const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{
     try {
-      await dispatch(addCatePro({...values})).unwrap();
+      const apiUrl = "https://api.cloudinary.com/v1_1/dmlv9tzte/image/upload";
+      const images = values.image[0];
+      const formdata = new FormData();
+      formdata.append("file", images);
+      formdata.append("upload_preset", "duanTn");
+      const { data } = await axios.post(apiUrl, formdata, {
+        headers: {
+          "Content-type": "application/form-data",
+        },
+      });
+      await dispatch(addCatePro({...values, image: data.url})).unwrap();
       toast.success("Thêm danh mục thành công !", {
         position: "top-right",
         autoClose: 5000,
@@ -76,6 +87,46 @@ const CateProductAdd = () => {
                         {errors.name?.message}
                       </div>
                     </div>
+                    <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Hình ảnh
+                    </label>
+                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                      <div className="space-y-1 text-center">
+                        <svg
+                          className="mx-auto h-12 w-12 text-gray-400"
+                          stroke="currentColor"
+                          fill="none"
+                          viewBox="0 0 48 48"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <div className="flex text-sm text-gray-600">
+                          <input
+                            {...register("image", {
+                              required: "Vui lòng chọn ảnh",
+                            })}
+                            onChange={(e: any) => {
+                              setPreview(
+                                URL.createObjectURL(e.target.files[0])
+                              );
+                            }}
+                            id="file-upload"
+                            type="file"
+                          />
+                          <div className="text-sm mt-0.5 text-red-500">
+                            {errors.image?.message}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   </div>
                 </div>
                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
