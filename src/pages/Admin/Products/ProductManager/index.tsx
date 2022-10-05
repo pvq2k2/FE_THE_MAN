@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
-import { AiOutlineDelete, AiOutlineEdit, AiOutlineInfoCircle } from 'react-icons/ai';
-import { TiPlus } from 'react-icons/ti';
-import { Link } from 'react-router-dom';
-import styles from './ProductManager.module.css';
+import React, { useEffect } from "react";
+import {
+  AiOutlineDelete,
+  AiOutlineEdit,
+  AiOutlineInfoCircle,
+} from "react-icons/ai";
+import { TiPlus } from "react-icons/ti";
+import { Link } from "react-router-dom";
+import styles from "./ProductManager.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProduct,
@@ -19,12 +23,10 @@ import { getAll } from "../../../../api-cilent/Product";
 import { Pagination } from "antd";
 type Props = {};
 
-
 const ProductManager = (props: Props) => {
-
   const product = useSelector((state: RootState) => state?.product);
-  // console.log("product", product.products.products);
-  
+  console.log("product", product);
+
   const pages = useSelector((state: RootState) => state?.product.page);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -69,12 +71,12 @@ const ProductManager = (props: Props) => {
     <div className={styles.content}>
       <header>
         <div className={styles.title}>Product Manager</div>
-        <Link to='add' className='sm:ml-3'>
+        <Link to="add" className="sm:ml-3">
           <button
-            type='button'
-            className='inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+            type="button"
+            className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <TiPlus className='text-[20px] mr-2' />
+            <TiPlus className="text-[20px] mr-2" />
             Add Product
           </button>
         </Link>
@@ -92,7 +94,7 @@ const ProductManager = (props: Props) => {
             </tr>
           </thead>
           <tbody>
-          {product?.products.products?.map((item: any, index: any) => {
+            {product?.products.products?.map((item: any, index: any) => {
               return (
                 <tr key={item._id}>
                   <td>{(pages - 1) * 10 + ++index}</td>
@@ -137,6 +139,4 @@ const ProductManager = (props: Props) => {
   );
 };
 
-
 export default ProductManager;
-
