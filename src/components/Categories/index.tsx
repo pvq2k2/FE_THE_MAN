@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState }  from 'react'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
 import Slider from 'react-slick';
+import { getCatePro } from '../../redux/slices/cateProductSlice';
+import { RootState, useAppDispatch } from '../../redux/store';
 import styles from './Categories.module.css';
 type Props = {}
 function SampleNextArrow(props: { onClick: () => void; }) {
@@ -16,6 +19,14 @@ function SampleNextArrow(props: { onClick: () => void; }) {
     );
   }
 const Categories = (props: Props) => {
+  const catePro = useSelector((state : RootState) => state.catePro)
+  console.log(catePro);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(
+      getCatePro()
+    )
+  }, [dispatch])
     const settings = {
         arrows: true,
         infinite: true,
@@ -32,16 +43,18 @@ const Categories = (props: Props) => {
             <h2>Danh mục sản phẩm</h2>
         </div>
         <Slider className={styles.slider} {...settings}>
-        <div className={styles.categories__item}>
-          <div className={styles.item__box}>
-            <img src='https://img.cdn.vncdn.io/nvn/ncdn/store1/41786/ps/20220818/000016.jpg' alt='000017'/>
-            <div className={styles.overlay}>
-              <span>Quần Jean</span>
+        {catePro?.cateproducts?.map((item : any)=>{
+            return <div className={styles.categories__item}>
+            <div className={styles.item__box}>
+              <img src={item.image} alt='000017'/>
+              <div className={styles.overlay}>
+                <span>{item.name}</span>
+              </div>
             </div>
           </div>
-
-        </div>
-        <div className={styles.categories__item}>
+          })}
+        
+        {/* <div className={styles.categories__item}>
         <div className={styles.item__box}>
         <img src='https://img.cdn.vncdn.io/nvn/ncdn/store1/41786/ps/20220704/a__oa__o_copy_11.jpg' alt='Banner1-1'/>
         <div className={styles.overlay}>
@@ -64,7 +77,7 @@ const Categories = (props: Props) => {
               <span>Áo Polo</span>
           </div>
         </div>
-        </div>
+        </div> */}
         </Slider>
     </section>
   )

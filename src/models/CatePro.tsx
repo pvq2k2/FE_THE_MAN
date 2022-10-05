@@ -1,4 +1,5 @@
 export type ICatePro={
     _id?:number,
-    name:string
+    name:string,
+    image: string;
     }
