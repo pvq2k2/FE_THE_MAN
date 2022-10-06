@@ -2,6 +2,7 @@ import React from 'react'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 import Slider from 'react-slick';
 import styles from './NewProduct.module.css';
+
 type Props = {}
 function SampleNextArrow(props: { onClick: () => void; }) {
     const { onClick } = props;

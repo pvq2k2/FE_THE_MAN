@@ -1,4 +1,4 @@
-export type ICatePro={
-    _id?:number,
+export type ICatePro = {
+    _id?:string,
     name:string
     }

@@ -83,6 +83,8 @@ const productsSlice = createSlice({
     });
 
     builder.addCase(getProduct.fulfilled, (state, { payload }) => {
+      console.log("jh", payload);
+      
       state.product = payload as Product;
     });
 
