@@ -95,16 +95,15 @@ const DetailProduct = (props: Props) => {
                 <div className="select__size dp-flex">
                   {colors?.map((e: any, index: any) => {
                     return (
-                      <label
+                      <div
                         onClick={() => {
                           setSize(e.size);
                         }}
                         className="btn_size"
-                        htmlFor="38"
                       >
                         <input type="radio" name="size" id="size" />
                         {e.size}
-                      </label>
+                      </div>
                     );
                   })}
                 </div>

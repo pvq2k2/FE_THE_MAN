@@ -21,6 +21,7 @@ import PostEdit from "./pages/Admin/Posts/PostEdit";
 import CategoryProductManager from "./pages/Admin/CategoryProduct/CateProductManager";
 import CateProductAdd from "./pages/Admin/CategoryProduct/CateProductAdd";
 import CateProductEdit from "./pages/Admin/CategoryProduct/CateProductEdit";
+import SliderManager from "./pages/Admin/Slider/SliderManager";
 
 function App() {
   return (
@@ -111,6 +112,11 @@ function App() {
             <Route path=":id/edit" element={<CatePostEdit />} />
           </Route>
 
+          <Route path="slider">
+            <Route index element={<SliderManager />} />
+            {/* <Route path="add" element={<CatePostAdd />} />
+            <Route path=":id/edit" element={<CatePostEdit />} /> */}
+          </Route>
         </Route>
       </Routes>
     </>
