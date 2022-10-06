@@ -61,14 +61,23 @@ const CategoryProductManager = (props: Props) => {
           <tr>
             <td>STT</td>
             <td>Tên danh mục</td>
+            <td>Hình ảnh</td>
             <td>Hoạt động</td>
           </tr>
         </thead>
         <tbody>
-          {catePro?.cateproducts.data?.map((item : any , index : number)=>{
+          {catePro?.cateproducts?.map((item : any , index : number)=>{
             return <tr key="1">
             <td>{index + 1}</td>
             <td>{item.name}</td>
+            <td>
+                    <img
+                      className={styles.image}
+                      src={item.image}
+                      alt=""
+                      width="100px"
+                    />
+                  </td>
             <td className={styles.action}>
               <Link to={`/admin/category_product/${item._id}/edit`}>
                 <AiOutlineEdit className={styles.edit} />
