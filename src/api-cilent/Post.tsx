@@ -3,9 +3,6 @@ import instance from "./Config";
 export const getAll = (page: any, limit: any): Promise<Posts[]> => {
   return instance.post("/posts", { page, limit });
 };
-export const getAllPost =():Promise<Posts[]>=>{
-  return instance.get("/post");
-}
 export const remove = (id: string): Promise<Posts> => {
   return instance.delete(`/post/${id}`);
 };

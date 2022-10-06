@@ -1,31 +1,37 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getListPosts } from "../../redux/slices/postSlice";
+import { getListPosts, getPosts } from "../../redux/slices/postSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
 import styles from "./FeaturedNews.module.css";
 type Props = {};
 const FeaturedNews = () => {
-  const posts = useSelector((state: any) => state.post.posta);
+  const post = useSelector((state: RootState) => state?.post);
   
-  console.log(posts);
+  console.log(post);
   
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(getListPosts());
-   
-  }, [dispatch]);
+    dispatch(
+      getPosts({
+        page: 1,
+        limit: 3,
+      })
+    );
+  }, [dispatch, 1]);
   return (
     <section className={styles.news}>
       <div className={styles.news__title}>
         <h2>Tin tức nổi bật</h2>
       </div>
       <div className={styles.news__item}>
-        {posts.map((item:any, index:number) => {
-          return <div key={index++} className={styles.item__box}>
-          <img src={item.image} alt="000017" />
-          <div className={styles.detail}>
-            <h3>{item.title}</h3>
-          </div>
-        </div>
+        {post?.posts.Post?.map((item:any, index:number) => {
+          return (
+          <div key={index++} className={styles.item__box}>
+            <img src={item.image} alt="000017" />
+            <div className={styles.detail}>
+              <h3>{item.title}</h3>
+            </div>
+          </div>)
         })}
            
       </div>
