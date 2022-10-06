@@ -44,9 +44,7 @@ const ProductAdd = () => {
 
   function handle(e: any) {
     const newData = { ...data };
-    console.log(e);
-
-    newData[e.target.id] = e.target.value;
+    const a = (data.newData[e.target.id] = e.target.value);
     setData(newData);
     console.log(data);
   }
