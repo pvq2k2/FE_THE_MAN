@@ -33,13 +33,6 @@ export const getPosts = createAsyncThunk(
     return response.data;
   }
 );
-export const getListPosts = createAsyncThunk(
-  "posts/getListsPosts",
-  async () => {
-    const response = await getAllPost();
-    return response.data;
-  }
-);
 
 export const deletePosts = createAsyncThunk(
   "posts/deletePosts",
@@ -83,9 +76,7 @@ const postsSlice = createSlice({
     builder.addCase(getPosts.fulfilled, (state, { payload }) => {
       state.posts = payload as any;
     });
-    builder.addCase(getListPosts.fulfilled, (state, { payload }) => {
-      state.posta = payload || [];
-    });
+   
     builder.addCase(deletePosts.fulfilled, (state, { payload }) => {
       state.posts.Post = state.posts.Post.filter(
         (item) => item._id !== payload
