@@ -100,7 +100,7 @@ const SliderManager = (props: Props) => {
                   </td>
                   <td>{e.url}</td>
                   <td className={styles.action}>
-                    <Link to={`/admin/post/${e._id}/edit`}>
+                    <Link to={`/admin/slider/${e._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />
                     </Link>
 

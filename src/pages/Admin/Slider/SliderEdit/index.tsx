@@ -2,12 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineX, HiOutlineCheck } from "react-icons/hi";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { RootState, useAppDispatch } from "../../../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { addSlider } from "../../../../redux/slices/Slider";
+import {
+  addSlider,
+  getSlider,
+  updateSlider,
+} from "../../../../redux/slices/Slider";
+
 type Inputs = {
   title: string;
 
@@ -15,18 +20,25 @@ type Inputs = {
   image: string;
 };
 
-const SliderAdd = () => {
+const SliderEdit = () => {
   const [preview, setPreview] = useState<string>();
   const dispatch = useAppDispatch();
   // const categoryPost = useSelector((state:RootState) =>state.)
   const navigate = useNavigate();
-
+  const { id } = useParams();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    (async () => {
+      const posts = await dispatch(getSlider(id));
+      reset(posts.payload);
+    })();
+  }, [id, dispatch, reset]);
 
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
@@ -40,8 +52,8 @@ const SliderAdd = () => {
           "Content-type": "application/form-data",
         },
       });
-      await dispatch(addSlider({ ...values, image: data.url })).unwrap();
-      toast.success("Thêm banner thành công !", {
+      await dispatch(updateSlider({ ...values, image: data.url })).unwrap();
+      toast.success("Sửa banner thành công !", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -272,4 +284,4 @@ const SliderAdd = () => {
     </div>
   );
 };
-export default SliderAdd;
+export default SliderEdit;
