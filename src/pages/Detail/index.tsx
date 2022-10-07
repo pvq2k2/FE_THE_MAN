@@ -25,49 +25,14 @@ const DetailProduct = (props: Props) => {
   const product = useSelector((state: any) => state.product.product);
   const [colorSize, setColorSize] = useState<TypeColorSize>(new Map());
   // console.log("colorSize", colorSize);
-  const [rproducts,setRproducts] = useState(0);
+  const [rproducts, setRproducts] = useState(0);
   const [colorSelected, setColorSelected] = useState<string>();
   const [sizeSelected, setSizeSelected] = useState<string>();
   const [quantities, setQuantities] = useState(0);
 
-  
-
   const onAddOrder = async () => {
-
-      if(quantities < 1 ) {
-            return  toast.info("Số lượng phải lớn hơn 1", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-      }
-        
-      const {type, subimg,categoryId,createdAt,desc,updatedAt,__v , ...rest} = product
-      const products =  {
-        ...rest,
-        size: sizeSelected,
-        color: colorSelected,
-        quantity: quantities
-      }
-         
-     const r = dispatch(addCart(products))
-      console.log("r", r);
-       
-     
-        
-        
-        
-        
-        
-  }
-  const onSize = async (c: any) => {
-    setSizeSelected(c.title);
-   setRproducts(colorSize.get(colorSelected || "")?.size.filter(s => s.title === c.title)[0].quantity!) 
-      toast.info("Còn lại "+ colorSize.get(colorSelected || "")?.size.filter(s => s.title === c.title)[0].quantity + ' sản phẩm', {
+    if (quantities < 1) {
+      return toast.info("Số lượng phải lớn hơn 1", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -76,13 +41,60 @@ const DetailProduct = (props: Props) => {
         draggable: true,
         progress: undefined,
       });
+    }
+
+    const {
+      type,
+      subimg,
+      categoryId,
+      createdAt,
+      desc,
+      updatedAt,
+      __v,
+      ...rest
+    } = product;
+    const products = {
+      ...rest,
+      size: sizeSelected,
+      color: colorSelected,
+      quantity: quantities,
+      remainingproducts: rproducts
+    };
+    console.log("rproducts", products);
+    
+    const r = dispatch(addCart(products));
+    console.log("r", r);
+  };
+  const onSize = async (c: any) => {
+    setSizeSelected(c.title);
+    setRproducts(
+      colorSize
+        .get(colorSelected || "")
+        ?.size.filter((s) => s.title === c.title)[0].quantity!
+    );
+    toast.info(
+      "Còn lại " +
+        colorSize
+          .get(colorSelected || "")
+          ?.size.filter((s) => s.title === c.title)[0].quantity +
+        " sản phẩm",
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      }
+    );
     setQuantities(0);
   };
   const onColor = (c: any) => {
     setColorSelected(c);
     setSizeSelected(undefined);
     setQuantities(0);
- //   console.log("a", colorSize.get(colorSelected || "")?.size || 0);
+    //   console.log("a", colorSize.get(colorSelected || "")?.size || 0);
   };
   useEffect(() => {
     if (product.type) {
@@ -93,7 +105,7 @@ const DetailProduct = (props: Props) => {
             ...(colorSizeValue.get(p.color)?.size || []),
             {
               title: p.size,
-              quantity: p.quantity,
+              quantity: parseInt(p.quantity),
             },
           ],
         });
@@ -111,13 +123,12 @@ const DetailProduct = (props: Props) => {
   // console.log(size);
 
   useEffect(() => {
-    
     (async () => {
       await dispatch(getProduct(id)).unwrap();
       // setTypes(product.type || []);
       const script = document.createElement("script");
-     script.src =  "https://hait2810.github.io/assets_datn/main.js";
-     document.body.appendChild(script);
+      script.src = "https://hait2810.github.io/assets_datn/main.js";
+      document.body.appendChild(script);
     })();
   }, [id, dispatch]);
 
@@ -150,10 +161,14 @@ const DetailProduct = (props: Props) => {
               })}
             </div>
             <div className="avatar__wrapper">
-              <img src={product?.image} className="img_main max-w-[600px]" alt="" />
+              <img
+                src={product?.image}
+                className="img_main max-w-[600px]"
+                alt=""
+              />
             </div>
             <div className="info__product">
-              <h1 className="name__product"> {product?.name}</h1>
+              <h1 className="name__product !font-bold !text-[25px]"> {product?.name}</h1>
               <p className="price">
                 {" "}
                 <NumberFormat
@@ -169,7 +184,8 @@ const DetailProduct = (props: Props) => {
                 <div className="select__color dp-flex">
                   {Array.from(colorSize).map((c, index) => {
                     return (
-                      <label key={index++}
+                      <label
+                        key={index++}
                         onClick={() => onColor(c[0])}
                         className="btn_color"
                         htmlFor="black"
@@ -194,25 +210,28 @@ const DetailProduct = (props: Props) => {
               <div className="size__wrapper">
                 <h6 className="section-title">Kích cỡ:</h6>
                 <div className="select__size dp-flex">
-                  {(colorSize.get(colorSelected || "")?.size || []).map((c, index) => (
-                    <label key={index++}
-                      className={`btn_size ${
-                        sizeSelected === c.title
-                          ? "!border-4 !border-black"
-                          : ""
-                      }`}
-                      htmlFor="38"
-                      onClick={() => onSize(c)}
-                    >
-                      <input
-                        type="radio"
-                        name="size"
-                        id="size"
-                        defaultValue={38}
-                      />
-                      {c.title}
-                    </label>
-                  ))}
+                  {(colorSize.get(colorSelected || "")?.size || []).map(
+                    (c, index) => (
+                      <label
+                        key={index++}
+                        className={`btn_size ${
+                          sizeSelected === c.title
+                            ? "!border-4 !border-black"
+                            : ""
+                        }`}
+                        htmlFor="38"
+                        onClick={() => onSize(c)}
+                      >
+                        <input
+                          type="radio"
+                          name="size"
+                          id="size"
+                          defaultValue={38}
+                        />
+                        {c.title}
+                      </label>
+                    )
+                  )}
                 </div>
                 <h2 className="t_quantity text-[18px] font-bold my-[20px]">
                   Số lượng:
@@ -232,10 +251,7 @@ const DetailProduct = (props: Props) => {
                   <button
                     type="submit"
                     onClick={() => setQuantities((old) => old + 1)}
-                    disabled={
-                      quantities >=
-                      rproducts || sizeSelected == null
-                    }
+                    disabled={quantities >= rproducts || sizeSelected == null}
                     className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
                   >
                     +
@@ -254,15 +270,17 @@ const DetailProduct = (props: Props) => {
               </div>
 
               <div className="add_cart">
-                <button type="submit" onClick={() => onAddOrder()} className="btn_add">
+                <button
+                  type="submit"
+                  onClick={() => onAddOrder()}
+                  className="btn_add"
+                >
                   Thêm vào giỏ hàng
                 </button>
               </div>
               <div className="desc__wrapper">
                 <h6 className="section-title">Mô tả</h6>
-                <p className="desc min-w-[430px]">
-                    {product?.desc}
-                </p>
+                <p className="desc min-w-[430px]">{product?.desc}</p>
               </div>
             </div>
           </div>
