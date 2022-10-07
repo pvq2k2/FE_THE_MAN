@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { AddCartApi, UpdateQuantityCart } from "../../api-cilent/Carts";
+import { getAll } from "../../api-cilent/Product";
 
 interface Icart{
     cart: {},
@@ -46,6 +48,28 @@ export const addCart = createAsyncThunk("cart/addcart", async (product: any) => 
   
 })
 
+
+export const readCart = createAsyncThunk("cart/readcart" ,  async () => {
+      const res = initialState.carts;
+      return res 
+})
+export const addCarts = createAsyncThunk("cart/addcarts", async (data:any) => {
+             const res = await AddCartApi(data);
+
+              for (let index = 0; index < data.product?.length; index++) {
+                const element = data.product[index];
+               await UpdateQuantityCart(element)
+                
+              }
+              return res
+})
+export const Increment = createAsyncThunk("cart/increment", async (data: any) => {
+            return data
+})
+export const Decrement = createAsyncThunk("cart/decrement", async (data: any) => {
+  return data
+})
+
 const cartPostSlice = createSlice({
     name:"cart",
     initialState,
@@ -54,6 +78,45 @@ const cartPostSlice = createSlice({
         build.addCase(addCart.fulfilled, (state,{payload}) => {
             localStorage.setItem("cart", JSON.stringify(payload))
             toast.success("Thêm vào giỏ hàng thành công")
+        }),
+        build.addCase(addCarts.fulfilled, (state,{payload}) => {
+              localStorage.removeItem("cart")
+              toast.success("Đặt hàng thành công")
+      }),
+        build.addCase(readCart.fulfilled, (state, {payload}) => {
+              state.carts = payload as never
+        }),
+        build.addCase(Increment.fulfilled, (state, {payload}) => {
+          const cart = JSON.parse(localStorage.getItem("cart") as any)
+    const cartsa = cart.find((item: any) => item._id == payload._id && item.color == payload.color && item.size == payload.size)
+    cartsa.quantity++
+   // console.log("cartsa.quantity", cartsa.quantity + 'cart,' + cartsa.remainingproducts);
+    if(cartsa.quantity <= cartsa.remainingproducts) { 
+    localStorage.setItem("cart", JSON.stringify(cart))
+      state.carts = cart
+    }else {
+      toast.info("Sản phẩm này chỉ còn "+cartsa.remainingproducts)
+    }
+        }),
+        build.addCase(Decrement.fulfilled, (state, {payload} ) => {
+          const cart = JSON.parse(localStorage.getItem("cart") as any)
+          const cartsa = cart.find((item: any) => item._id == payload._id && item.color == payload.color && item.size == payload.size)
+          cartsa.quantity--
+          if(cartsa.quantity <= 0) {
+              const confirm = window.confirm("Bạn có chắc chắn muốn xoá không")
+              if(confirm) {
+              const cartsb = cart.filter((item:any) => item !== cartsa) 
+                          localStorage.setItem("cart", JSON.stringify(cartsb))
+                          toast.success("Xoá thành công")
+                          state.carts = cartsb
+                          return   
+              }
+              else {
+                  return
+              }
+          }
+          localStorage.setItem("cart", JSON.stringify(cart))
+          state.carts = cart
         })
     }
 })

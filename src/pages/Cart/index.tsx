@@ -1,9 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import img from "../../assets/images/img2.png";
+import React, { useEffect } from "react";
+import NumberFormat from "react-number-format";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { Decrement, Increment, readCart } from "../../redux/slices/cartSlice";
+
 type Props = {};
 
 const CartPage = (props: Props) => {
+  const dispatch = useDispatch<any>()
+  const carts = useSelector((state:any) => state.carts.carts)
+  console.log("carts", carts);
+  const navigate = useNavigate()
+  let sum = 0;
+  const IncrementC  = (data:any) => {
+        dispatch(Increment(data))
+  }
+  const DecrementC  = (data:any) => {
+        dispatch(Decrement(data))
+  }
+  useEffect(() => {
+        dispatch(readCart())
+  }, [])
   return (
     <div>
       <div>
@@ -20,80 +37,60 @@ const CartPage = (props: Props) => {
             <thead className="pb-10 ">
               <tr className="text-left ">
                 <th className=" font-semibold pb-10">Sản phẩm</th>
+                <th className=" font-semibold pb-10">Màu sắc / Kích cỡ </th>
                 <th className="font-semibold pb-10">Số lượng</th>
                 <th className="font-semibold pb-10">Tổng tiền</th>
               </tr>
             </thead>
             <tbody className="w-full ">
-              <tr className="border-t-2">
-                <td className="flex py-10  gap-8">
-                  <img src={img} className="w-20"></img>
-                  <div className="pt-7">
-                    <p>T-shirt Contrast Pocket</p>
-                    <p className="font-bold">620.000 VNĐ</p>
-                  </div>
-                </td>
-                <td className="w-40 ">
-                  <button>{`<`}</button>
-                  <span className="px-6">5</span>
-                  <button>{`>`}</button>
-                </td>
-                <td className="w-40"> 620.000 VNĐ </td>
-                <td>
-                  <button>
-                    <i className="fa-sharp fa-solid fa-circle-xmark text-slate-300 bg-black rounded-full shadow-md shadow-black text-3xl"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr className="border-t-2">
-                <td className="flex py-10  gap-8">
-                  <img src={img} className="w-20"></img>
-                  <div className="pt-7">
-                    <p>T-shirt Contrast Pocket</p>
-                    <p className="font-bold">620.000 VNĐ</p>
-                  </div>
-                </td>
-                <td className="w-40 ">
-                  <button>{`<`}</button>
-                  <span className="px-6">5</span>
-                  <button>{`>`}</button>
-                </td>
-                <td className=""> 620.000 VNĐ </td>
-                <td>
-                  <button>
-                    <i className="fa-sharp fa-solid fa-circle-xmark text-slate-300 bg-black rounded-full shadow-md shadow-black text-3xl"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr className="border-t-2">
-                <td className="flex py-10  gap-8">
-                  <img src={img} className="w-20"></img>
-                  <div className="pt-7">
-                    <p>T-shirt Contrast Pocket</p>
-                    <p className="font-bold">620.000 VNĐ</p>
-                  </div>
-                </td>
-                <td className="w-40 ">
-                  <button>{`<`}</button>
-                  <span className="px-6">5</span>
-                  <button>{`>`}</button>
-                </td>
-                <td className=""> 620.000 VNĐ </td>
-                <td>
-                  <button>
-                    <i className="fa-sharp fa-solid fa-circle-xmark text-slate-300 bg-black rounded-full shadow-md shadow-black text-3xl"></i>
-                  </button>
-                </td>
-              </tr>
+             {carts?.map((item:any) => {
+              
+              {sum += item.quantity * item.price}
+              
+              
+              return <tr className="border-t-2">
+              <td className="flex py-10  gap-8">
+                <img src={item.image} className="w-20"></img>
+                <div className="pt-7">
+                  <p>{item.name}</p>
+                  <p className="font-bold"> <NumberFormat
+                  value={item?.price}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={""}
+                />{" "} VNĐ</p>
+                </div>
+              </td>
+              <td className="w-40">
+              <div className="font-bold flex">  <div style={{ backgroundColor: `${item.color}` }} className="h-[20px] w-[20px] rounded-[50%]" ></div> / {item.size}</div>
+              </td>
+              <td className="w-40">
+                <button onClick={() => DecrementC(item)} className="bg-blue-300 rounded-[4px] w-[30px] text-white">{`-`}</button>
+                <span className="px-6">{item.quantity}</span>
+                <button onClick={() => IncrementC(item)} className="bg-blue-300 rounded-[4px] w-[30px] text-white">{`+`}</button>
+              </td>
+              <td className="font-bold"> <NumberFormat
+                  value={item?.price * item?.quantity}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={""}
+                /> VNĐ </td>
+              <td>
+                <button>
+                  <i className="fa-sharp fa-solid fa-circle-xmark text-slate-300 bg-black rounded-full shadow-md shadow-black text-3xl"></i>
+                </button>
+              </td>
+            </tr>
+              
+             })}
+            
             </tbody>
           </table>
           <div className="border-t-2 flex justify-between">
             <button className="border-2  font-semibold p-3 px-5 mt-10">
               Tiếp tục mua sắm
             </button>{" "}
-            <button className="bg-black text-white font-semibold p-3 px-7 mt-10 ">
-              Cập nhật giỏ hàng{" "}
-            </button>
+           
           </div>
         </section>
         <section className="basis-2/6 w-full">
@@ -111,18 +108,23 @@ const CartPage = (props: Props) => {
           <section className="bg-zinc-100 mt-12">
             <div className="p-10">
               {" "}
-              <p>Tổng giỏ hàng</p>
+              
               <div className=" pt-5 flex">
                 {" "}
                 <span className="grow">Tổng tiền</span>
-                <span className="text-right ">$ 169.50</span>
+                <span className="text-right font-bold"> <NumberFormat
+                  value={sum}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={""}
+                /> VNĐ</span>
               </div>
               {/* <div className="pt-5 flex ">
                 {" "}
                 <span className="grow">Subtotal</span>
                 <span className="text-center">$ 169.50</span>
               </div> */}
-              <button className="bg-black text-white font-semibold p-3 mt-10 w-full">
+              <button onClick={() => navigate('/checkout')} className="bg-black text-white font-semibold p-3 mt-10 w-full">
                 Thanh toán
               </button>
             </div>
