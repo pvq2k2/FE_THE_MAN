@@ -1,72 +1,173 @@
 import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { signin as signinAction } from "../../redux/slices/authSlice";
+import { signin } from "../../api-cilent/Auth";
 
 type Props = {};
+type Inputs = {
+  email: string;
+  password: string;
+};
+
 
 const Signin = (props: Props) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+
+  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+    try {
+      const user = await signin(values);
+      console.log(values);
+      
+      toast.success("Đăng nhập thành công !", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      dispatch(signinAction(user));
+      setTimeout(() => {
+        navigate("/");
+      }, 1000)
+    } catch (error: any) {
+      const message = error?.response.data.message;
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
   return (
-    <div>
-    <div className='py-4'>
-      <div className='w-10/12 m-auto shadow-lg  grid grid-cols-1   sm:grid-cols-2 lg:grid-cols-2 b'>
-        <div>
-          <img
-            className='w-9/10 min-h-full hidden sm:block lg:block rounded-l-[5px]'
-            src='https://preview.colorlib.com/theme/bootstrap/login-form-14/images/xbg-1.jpg.pagespeed.ic.3OAd9jZTMD.webp'
-            alt=''
+    <div className="pt-1">
+      <div className='xl:w-[1200px] xl:mx-auto mt-5 mb-10 shadow-inner rounded-lg mx-3'>
+        <div className='content grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 shadow-lg'>
+          <img className='hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg'
+              src='https://preview.colorlib.com/theme/bootstrap/login-form-14/images/xbg-1.jpg.pagespeed.ic.3OAd9jZTMD.webp'
           />
-        </div>
-        <div className='px-10 py-8 mt-auto mb-auto rounded-r-[5px]'>
-          <h3 className='text-center text-2xl font-bold text-slate-600 '>Đăng nhập</h3>
-          <form className='mt-4' action=''>
-            <div className='mt-4' >
-              <label className='block font-medium text-slate-500'>Email</label>
-              <input
-                className='mt-2 w-full h-10 p-1 border-solid border-2 border-neutral-300  focus:border-blue-400 lg:h-12 rounded-md indent-5 outline-none text-[15px] text-zinc-600'
-                type='email'
-                placeholder='Nhập email'
-                name=''
-                id=''
-              />
+          <section>
+            <div className='min-h-full flex items-center justify-center p-12 px-4 sm:px-6 lg:px-8'>
+              <div className='max-w-md w-full space-y-8'>
+                <div>
+                  <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900 uppercase'>
+                    Đăng nhập
+                  </h2>
+                </div>
+                <form
+                  className='mt-8 space-y-6'
+                  id='form-signin'
+                  onSubmit={handleSubmit(onSubmit)}
+                 
+                >
+                  <input type='hidden' name='remember' defaultValue='true' />
+                  <div className='rounded-md shadow-sm -space-y-px'>
+                    <div className='mb-4'>
+                      <label htmlFor='input-email' className='py-2'>
+                        Email
+                      </label>
+                      <input
+                        id='input-email'
+                        type='email'
+                        // required
+                        {...register("email", { 
+                          required: "Vui lòng nhập email",
+                          pattern: {
+                            value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: "Vui lòng nhập đúng định dạng email"
+                          } 
+                          })}
+                        className='appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm'
+                        placeholder='Email'
+                      />
+                      <p className="text-red-400 text-xs">{errors.email?.message}</p>
+                    </div>
+                    <div className='mb-4'>
+                      <label htmlFor='input-password' className='py-2'>
+                        Mật khẩu
+                      </label>
+                      <input
+                        id='input-password'
+                        type='password'
+                        {...register("password", { 
+                          required: "Vui lòng nhập mật khẩu",
+                          pattern: {
+                            value: /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{8,30}$/,
+                            message: "Vui lòng nhập nhập khẩu trên 8 ký tự bao gồm 'Chữ hoa, chữ thường, số và ký tự đặc biệt'"
+                          }
+                          })}
+                        className='appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm'
+                        placeholder='Mật khẩu'
+                        autoComplete="on"
+                      />
+                      <p className="text-red-400 text-xs">{errors.password?.message}</p>
+                    </div>
+                  </div>
+                  <div className='flex items-center justify-between'>
+                    <div className='flex items-center'>
+                      <input
+                        id='remember-me'
+                        name='remember-me'
+                        type='checkbox'
+                        className='h-4 w-4 text-blue-500 ease-in-out duration-300 focus:ring-blue-500 border-gray-300 rounded'
+                      />
+                      <label
+                        htmlFor='remember-me'
+                        className='ml-2 block text-sm text-gray-900'
+                      >
+                    
+                        Nhớ mật khẩu
+                      </label>
+                    </div>
+                    <div className='text-sm'>
+                      <a
+                        href='#'
+                        className='font-medium text-blue-500 ease-in-out duration-300 hover:text-blue-700'
+                      >
+                    
+                        Quên mật khẩu?
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      type='submit'
+                      className='group w-full relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 ease-in-out duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    >
+                      Đăng nhập
+                    </button>
+                  </div>
+                  <p className='mt-3 text-center text-sm text-gray-600 mr-2'>
+                    Bạn chưa có tài khoản?
+                    <Link to='signup'>
+                        <span className='ml-2 cursor-pointer font-medium ease-in-out duration-300 text-blue-500 hover:text-blue-700'>Đăng ký</span>
+                    </Link>
+                  </p>
+                </form>
+              </div>
             </div>
-
-            <div className='mt-4'>
-              <label className='block font-medium text-slate-500'>Mật khẩu</label>
-              <input
-                className='mt-2 w-full h-10 p-1 border-solid border-2 border-neutral-300  focus:border-blue-400 lg:h-12 rounded-md indent-5 outline-none text-[15px] text-zinc-600'
-                type='password'
-                placeholder='Nhập mật khẩu'
-                name=''
-                id=''
-              />
-            </div>
-            <div className='ml-auto mr-auto'>
-              <button className='mt-6 bg-blue-400  hover:bg-blue-700 hover:text-white ease-in-out  w-full font-semibold  h-10 text-slate-100 text-lg hover:cursor-pointer lg:h-12 rounded-md'>
-                Đăng nhập
-              </button>
-            </div>
-          </form>
-
-          <p className='mt-4 text-center hover:text-blue-800 col-end-10 cursor-pointer'>
-          Quên mật khẩu
-          </p>
-
-
-          <p className='mt-4 text-center'>
-          Bạn chưa có tài khoản?
-            <span>
-              <a
-                href=''
-                className='font-medium ml-[5px]  text-blue-500 hover:text-blue-800 col-end-10'
-              >
-                Đăng ký
-              </a>
-            </span>
-          </p>
-
-
+          </section>
         </div>
       </div>
+
+
     </div>
-  </div>
   );
 };
 
