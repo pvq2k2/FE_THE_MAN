@@ -1,39 +1,125 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getProduct, getProducts } from "../../redux/slices/productSlice";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { formatCurrency } from "../../ultis";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { getProduct } from "../../redux/slices/productSlice";
 import "./assets/css/detail.css";
+import NumberFormat from "react-number-format";
+import { json, useParams } from "react-router-dom";
+import { addCart } from "../../redux/slices/cartSlice";
 type Props = {};
 
+type TypeColorSize = Map<
+  string,
+  {
+    size: {
+      title: string;
+      quantity: number;
+    }[];
+  }
+>;
+
 const DetailProduct = (props: Props) => {
-  const { product } = useSelector((state: RootState) => state?.product);
-  console.log("product", product);
   const { id } = useParams();
-  const pages = useSelector((state: RootState) => state?.product.page);
-  const [size, setSize] = useState();
-  const [color, setColor] = useState();
-  const dispatch = useAppDispatch();
+  // const [types, setTypes] = useState<any[]>([]);
+  const dispatch = useDispatch<any>();
+  const product = useSelector((state: any) => state.product.product);
+  const [colorSize, setColorSize] = useState<TypeColorSize>(new Map());
+  // console.log("colorSize", colorSize);
+  const [rproducts,setRproducts] = useState(0);
+  const [colorSelected, setColorSelected] = useState<string>();
+  const [sizeSelected, setSizeSelected] = useState<string>();
+  const [quantities, setQuantities] = useState(0);
+
+  
+
+  const onAddOrder = async () => {
+
+      if(quantities < 1 ) {
+            return  toast.info("Số lượng phải lớn hơn 1", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+      }
+        
+      const {type, subimg,categoryId,createdAt,desc,updatedAt,__v , ...rest} = product
+      const products =  {
+        ...rest,
+        size: sizeSelected,
+        color: colorSelected,
+        quantity: quantities
+      }
+         
+     const r = dispatch(addCart(products))
+      console.log("r", r);
+       
+     
+        
+        
+        
+        
+        
+  }
+  const onSize = async (c: any) => {
+    setSizeSelected(c.title);
+   setRproducts(colorSize.get(colorSelected || "")?.size.filter(s => s.title === c.title)[0].quantity!) 
+      toast.info("Còn lại "+ colorSize.get(colorSelected || "")?.size.filter(s => s.title === c.title)[0].quantity + ' sản phẩm', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    setQuantities(0);
+  };
+  const onColor = (c: any) => {
+    setColorSelected(c);
+    setSizeSelected(undefined);
+    setQuantities(0);
+ //   console.log("a", colorSize.get(colorSelected || "")?.size || 0);
+  };
+  useEffect(() => {
+    if (product.type) {
+      let colorSizeValue: TypeColorSize = new Map();
+      product.type.forEach((p: any) => {
+        colorSizeValue.set(p.color, {
+          size: [
+            ...(colorSizeValue.get(p.color)?.size || []),
+            {
+              title: p.size,
+              quantity: p.quantity,
+            },
+          ],
+        });
+      });
+      setColorSize(colorSizeValue);
+      setColorSelected(Array.from(colorSizeValue.keys())[0]);
+    }
+  }, [product]);
+
+  // const size = types.map((item: any) => {
+  //   if (item.color === "blue") {
+  //     return item.size;
+  //   }
+  // });
+  // console.log(size);
 
   useEffect(() => {
-    dispatch(getProduct(id));
-  }, [dispatch, pages]);
-
-  const types: any = product?.type?.filter(
-    (type: any, index: any, self: any) => {
-      return index === self.findIndex((t: any) => t.color === type.color);
-    }
-  );
-  const colors: any = product?.type?.filter(
-    (type: any, index: any, self: any) => {
-      return index === self.findIndex((t: any) => t.size === type.size);
-    }
-  );
-  const quantity = product?.type?.find((type: any) => {
-    return type.size === size && type.color === color;
-  });
-  console.log(quantity, size, color);
+    
+    (async () => {
+      await dispatch(getProduct(id)).unwrap();
+      // setTypes(product.type || []);
+      const script = document.createElement("script");
+     script.src =  "https://hait2810.github.io/assets_datn/main.js";
+     document.body.appendChild(script);
+    })();
+  }, [id, dispatch]);
 
   return (
     <>
@@ -47,7 +133,7 @@ const DetailProduct = (props: Props) => {
             </span>
             <span className="breadcrumb_item_text">
               <a className="name_product" href="#">
-                {product.name}
+                {product?.name}
               </a>
             </span>
           </div>
@@ -55,77 +141,128 @@ const DetailProduct = (props: Props) => {
         <div className="containerx">
           <div className="detail_product dp-flex">
             <div className="product-gallary__thumbs">
-              <div className="product-gallery__thumb">
-                <img src={product.image} alt="" />
-              </div>
-              <div className="product-gallery__thumb">
-                <img src={product.image} alt="" />
-              </div>
+              {product?.subimg?.map((item: any, index: number) => {
+                return (
+                  <div key={index++} className="product-gallery__thumb">
+                    <img src={item} alt="" className="imglist " />
+                  </div>
+                );
+              })}
             </div>
             <div className="avatar__wrapper">
-              <img src={product.image} alt="" />
+              <img src={product?.image} className="img_main max-w-[600px]" alt="" />
             </div>
             <div className="info__product">
-              <h1 className="name__product">{product.name}</h1>
-              <p className="price">{formatCurrency(+product?.price)}</p>
+              <h1 className="name__product"> {product?.name}</h1>
+              <p className="price">
+                {" "}
+                <NumberFormat
+                  value={product?.price}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={""}
+                />{" "}
+                ₫
+              </p>
               <div className="color__wrapper">
                 <h6 className="section-title">Màu sắc:</h6>
                 <div className="select__color dp-flex">
-                  {types?.map((e: any, index: any) => {
+                  {Array.from(colorSize).map((c, index) => {
                     return (
-                      <label
+                      <label key={index++}
+                        onClick={() => onColor(c[0])}
                         className="btn_color"
                         htmlFor="black"
-                        onClick={() => {
-                          setColor(e.color);
-                        }}
                       >
-                        <input type="radio" name="color" id="color" />
                         <div
-                          className="code_color"
-                          style={{ backgroundColor: `${e.color}` }}
+                          className={`code_color ${
+                            colorSelected === c[0]
+                              ? "!border-4 !border-blue-300"
+                              : ""
+                          } `}
+                          style={{ backgroundColor: `${c[0]}` }}
                         ></div>
                       </label>
                     );
                   })}
+                  {/* <label className="btn_color" htmlFor="white">
+                    <input type="radio" name="color" id="color" />
+                    <div className="code_color"></div>
+                  </label> */}
                 </div>
               </div>
               <div className="size__wrapper">
                 <h6 className="section-title">Kích cỡ:</h6>
                 <div className="select__size dp-flex">
-                  {colors?.map((e: any, index: any) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setSize(e.size);
-                        }}
-                        className="btn_size"
-                      >
-                        <input type="radio" name="size" id="size" />
-                        {e.size}
-                      </div>
-                    );
-                  })}
+                  {(colorSize.get(colorSelected || "")?.size || []).map((c, index) => (
+                    <label key={index++}
+                      className={`btn_size ${
+                        sizeSelected === c.title
+                          ? "!border-4 !border-black"
+                          : ""
+                      }`}
+                      htmlFor="38"
+                      onClick={() => onSize(c)}
+                    >
+                      <input
+                        type="radio"
+                        name="size"
+                        id="size"
+                        defaultValue={38}
+                      />
+                      {c.title}
+                    </label>
+                  ))}
                 </div>
-                <div className="size__guide dp-flex">
+                <h2 className="t_quantity text-[18px] font-bold my-[20px]">
+                  Số lượng:
+                </h2>
+                <div className="quantity flex items-center mb-[30px]">
+                  <button
+                    type="submit"
+                    onClick={() => setQuantities((old) => old - 1)}
+                    disabled={quantities <= 0}
+                    className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
+                  >
+                    -
+                  </button>
+                  <span className="w-[30px] text-center font-bold">
+                    {quantities}
+                  </span>
+                  <button
+                    type="submit"
+                    onClick={() => setQuantities((old) => old + 1)}
+                    disabled={
+                      quantities >=
+                      rproducts || sizeSelected == null
+                    }
+                    className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
+                  >
+                    +
+                  </button>
+                </div>
+                <div className="size__guide dp-flex items-center">
                   <img
-                    src="./asset/img/Programming Line Craft.png"
+                    src="https://cdn-icons-png.flaticon.com/512/93/93640.png"
                     alt=""
-                    className="logo"
+                    className="logo w-[20px] h-[20px] "
                   />
                   <a href="#" className="section-title">
                     Hướng dẫn chọn size
                   </a>
                 </div>
               </div>
+
               <div className="add_cart">
-                <button type="submit" className="btn_add">
+                <button type="submit" onClick={() => onAddOrder()} className="btn_add">
                   Thêm vào giỏ hàng
                 </button>
               </div>
               <div className="desc__wrapper">
                 <h6 className="section-title">Mô tả</h6>
-                <p className="desc">{product.desc}</p>
+                <p className="desc min-w-[430px]">
+                    {product?.desc}
+                </p>
               </div>
             </div>
           </div>
