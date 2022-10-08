@@ -1,13 +1,15 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../../ultis'
 import {useForm, SubmitHandler} from 'react-hook-form'
 import { addCarts } from '../../redux/slices/cartSlice'
+
 type Props = {}
 
 const CheckoutPage = (props: Props) => {
   const dispatch = useDispatch<any>() 
+  const navigate = useNavigate()
   const carts = useSelector((state: any) => state.carts.carts)
   let sum = 0;
   const {register, handleSubmit, formState: {errors}} = useForm()
@@ -19,6 +21,7 @@ const CheckoutPage = (props: Props) => {
         totalprice: sum
       }
       dispatch(addCarts(products))
+      navigate('/')
       
       
       
