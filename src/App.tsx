@@ -24,9 +24,9 @@ import CateProductEdit from "./pages/Admin/CategoryProduct/CateProductEdit";
 import SliderManager from "./pages/Admin/Slider/SliderManager";
 import SliderAdd from "./pages/Admin/Slider/SliderAdd";
 import SliderEdit from "./pages/Admin/Slider/SliderEdit";
+import ProductEdit from "./pages/Admin/Products/ProductEdit";
 import CartPostManager from "./pages/Admin/Carts/CartManager";
 import CartUpdate from "./pages/Admin/Carts/CartUpdate";
-
 function App() {
   return (
     <>
@@ -95,6 +95,7 @@ function App() {
           <Route path="products">
             <Route index element={<ProductManager />} />
             <Route path="add" element={<ProductAdd />} />
+            <Route path=":id/edit" element={<ProductEdit/>}/>
             {/* <Route path=':id' element={<AdminLayout><ProductEdit onUpdate={onHandleUpdate} /></AdminLayout>} /> */}
           </Route>
           <Route path="carts">

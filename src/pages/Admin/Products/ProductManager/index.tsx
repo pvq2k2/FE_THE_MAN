@@ -25,7 +25,6 @@ type Props = {};
 
 const ProductManager = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
-  console.log("product", product.products.products);
 
   const pages = useSelector((state: RootState) => state?.product.page);
   const dispatch = useAppDispatch();
@@ -112,7 +111,7 @@ const ProductManager = (props: Props) => {
                   <td>{item.desc}</td>
                   <td className={styles.action}>
                     {/* <AiOutlineInfoCircle className={styles.info} onClick={() => showDetailProduct(item._id)}/> */}
-                    <Link to={`/admin/product/${item._id}/edit`}>
+                    <Link to={`/admin/products/${item._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />
                     </Link>
 
