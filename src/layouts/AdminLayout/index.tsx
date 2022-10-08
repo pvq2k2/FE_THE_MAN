@@ -77,6 +77,16 @@ const AdminLayout = () => {
               </Link>
             </li>
             <li>
+              <Link to="/admin/carts">
+                <a>
+                  <span className={styles.icon}>
+                    <RiProductHuntLine className={styles.io} />
+                  </span>
+                  <span className={styles.title}>Carts</span>
+                </a>
+              </Link>
+            </li>
+            <li>
               <Link to="/admin/category_product">
                 <a>
                   <span className={styles.icon}>

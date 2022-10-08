@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Decrement, Increment, readCart } from "../../redux/slices/cartSlice";
+import { Decrement, Increment, readCarts } from "../../redux/slices/cartSlice";
 
 type Props = {};
 
@@ -19,7 +19,7 @@ const CartPage = (props: Props) => {
         dispatch(Decrement(data))
   }
   useEffect(() => {
-        dispatch(readCart())
+        dispatch(readCarts())
   }, [])
   return (
     <div>
