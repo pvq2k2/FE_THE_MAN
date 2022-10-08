@@ -31,8 +31,6 @@ const CatePostEdit = () => {
       });
       navigate("/admin/category_post");
     } catch (error) {}
-      
-
   };
   useEffect(() => {
     (async () => {

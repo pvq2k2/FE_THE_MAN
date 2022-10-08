@@ -25,7 +25,6 @@ type Props = {};
 
 const ProductManager = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
-  console.log("product", product.products.products);
 
   const pages = useSelector((state: RootState) => state?.product.page);
   const dispatch = useAppDispatch();

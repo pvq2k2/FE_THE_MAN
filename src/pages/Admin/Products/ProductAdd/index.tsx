@@ -146,9 +146,7 @@ const ProductAdd = () => {
                     <div className="mt-1">
                       <input
                         type="number"
-                        {...register("price", {
-                          required: "Vui lòng nhập giá",
-                        })}
+                        {...register("price", { required: "Vui lòng nhập giá",})}
                         id="price-add-product"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
                         placeholder="Price..."
