@@ -24,12 +24,12 @@ const CartPage = (props: Props) => {
   return (
     <div>
       <div>
-        <ul className="flex">
+        {/* <ul className="flex">
           <li>
             <Link to={"/"}>Trang chủ </Link>
           </li>
           / <li> Giỏ hàng</li>
-        </ul>
+        </ul> */}
       </div>
       <section className="flex gap-8 w-10/12 m-auto py-20">
         <section className="basis-4/6">

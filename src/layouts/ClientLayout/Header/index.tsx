@@ -4,10 +4,14 @@ import { AiOutlineBars } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { User } from '../../../models/User'
 import { signout } from '../../../redux/slices/authSlice'
+import { readCarts } from '../../../redux/slices/cartSlice'
 type Props = {}
 
 const ClientHeader = (props: Props) => {
   const navBar = useRef<HTMLDivElement>(null);
+  
+  const carts = useSelector((state:any) => state.carts.carts)
+  
   const [showNav, setShowNav] = useState<Boolean>(false);
   // useEffect(() => {
   //   const navBarElement = navBar.current!;
@@ -27,6 +31,11 @@ const ClientHeader = (props: Props) => {
   const handleSignout = () => {
     dispatch(signout());
   };
+  useEffect(() => {
+    dispatch(readCarts())
+}, [])
+
+
   return (
     <header className="mx-auto px-5 lg:px-20 pt-5 flex justify-between border border-b-gray-300 fixed top-0 left-0 right-0 bg-white z-50">
         <div className="icon_bar text-2xl block lg:hidden" onClick={() => setShowNav(!showNav)}>
@@ -134,7 +143,7 @@ const ClientHeader = (props: Props) => {
           </svg>
           </div>
           </Link>
-          <div className="count-cart inline-block absolute top-[10px] right-0 bg-white text-[12px] font-semibold">0</div>
+          <div className="count-cart inline-block absolute top-[10px] right-0 bg-white text-[12px] font-semibold">{carts?.length}</div>
         </div>
 
 

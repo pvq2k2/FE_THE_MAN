@@ -58,7 +58,7 @@ export const addCart = createAsyncThunk(
 );
 
 export const readCarts = createAsyncThunk("cart/readcarts", async () => {
-  const res = initialState.carts;
+  const res = JSON.parse(localStorage.getItem("cart") as any)
   return res;
 });
 export const readCart = createAsyncThunk("cart/readcart", async (id:any) => {
@@ -109,6 +109,7 @@ const cartPostSlice = createSlice({
   extraReducers: (build) => {
     build.addCase(addCart.fulfilled, (state, { payload }) => {
       localStorage.setItem("cart", JSON.stringify(payload));
+      state.carts = payload
       toast.success("Thêm vào giỏ hàng thành công");
     }),
       build.addCase(addCarts.fulfilled, (state, { payload }) => {
