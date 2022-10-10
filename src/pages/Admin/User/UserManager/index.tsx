@@ -12,13 +12,16 @@ import Swal from "sweetalert2";
 import styles from "../../Products/ProductManager/ProductManager.module.css";
 import { getAll } from "../../../../api-cilent/Post";
 import { Pagination } from "antd";
-import { getUser, getUsers } from "../../../../redux/slices/userSlice";
+import { getUser, getUsers, setPage } from "../../../../redux/slices/userSlice";
 
 type Props = {};
 
 const UserManager = (props: Props) => {
   const user = useSelector((state: RootState) => state?.user);
-  console.log(user);
+  const statusObj = {
+    active: "text-green-500",
+    block: "text-rose-500",
+  };
 
   const pages = useSelector((state: RootState) => state?.user.page);
 
@@ -36,7 +39,7 @@ const UserManager = (props: Props) => {
     <div className={styles.content}>
       <header>
         <div className={styles.title}>Quản lí bài viết</div>
-        <Link to="/admin/slider/add" className="sm:ml-3">
+        <Link to="/admin/users/add" className="sm:ml-3">
           <button
             type="button"
             className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -54,7 +57,7 @@ const UserManager = (props: Props) => {
               <td>Họ Tên</td>
               <td>Hình ảnh</td>
               <td>Email</td>
-              <td>Trạng Thái</td>
+              <td className="text-center">Trạng Thái</td>
               <td>Sửa</td>
             </tr>
           </thead>
@@ -68,13 +71,15 @@ const UserManager = (props: Props) => {
                   <td>
                     <img
                       className={styles.image}
-                      src={e.image}
+                      src={e.img}
                       alt=""
                       width="100px"
                     />
                   </td>
-                  <td>{e.email}</td>
-                  <td>{e.status}</td>
+                  <td className="w-16">{e.email}</td>
+                  <td className={`${statusObj[e.status]} text-center`}>
+                    {e.status}
+                  </td>
                   <td className={styles.action}>
                     <Link to={`/admin/slider/${e._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />
@@ -85,14 +90,14 @@ const UserManager = (props: Props) => {
             })}
           </tbody>
         </table>
-        {/* <Pagination
+        <Pagination
           defaultCurrent={1}
-          total={post?.Sliders.count}
+          total={user?.Users.count}
           pageSize={10}
           onChange={(pages) => {
             dispatch(setPage(pages));
           }}
-        /> */}
+        />
       </main>
     </div>
   );

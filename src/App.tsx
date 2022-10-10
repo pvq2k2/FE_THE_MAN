@@ -28,6 +28,7 @@ import ProductEdit from "./pages/Admin/Products/ProductEdit";
 import CartPostManager from "./pages/Admin/Carts/CartManager";
 import CartUpdate from "./pages/Admin/Carts/CartUpdate";
 import UserManager from "./pages/Admin/User/UserManager";
+import UserAdd from "./pages/Admin/User/UserAdd";
 function App() {
   return (
     <>
@@ -131,8 +132,8 @@ function App() {
 
           <Route path="users">
             <Route index element={<UserManager />} />
-            {/* <Route path="add" element={<SliderAdd />} />
-            <Route path=":id/edit" element={<SliderEdit />} /> */}
+            <Route path="add" element={<UserAdd />} />
+            {/* <Route path=":id/edit" element={<SliderEdit />} /> */}
           </Route>
         </Route>
       </Routes>
