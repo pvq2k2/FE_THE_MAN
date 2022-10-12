@@ -9,7 +9,7 @@ import { RootState } from "../../../../redux/store";
 import ReactPaginate from "react-paginate";
 import "../../../../styleAntd/panigation.css";
 import Swal from "sweetalert2";
-import styles from "../../Products/ProductManager/ProductManager.module.css";
+import styles from "./ProductManager.module.css";
 import { getAll } from "../../../../api-cilent/Post";
 import { Pagination } from "antd";
 import { getUser, getUsers, setPage } from "../../../../redux/slices/userSlice";
@@ -19,8 +19,10 @@ type Props = {};
 const UserManager = (props: Props) => {
   const user = useSelector((state: RootState) => state?.user);
   const statusObj = {
-    active: "text-green-500",
-    block: "text-rose-500",
+    active:
+      "text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded-full",
+    block:
+      "text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full",
   };
 
   const pages = useSelector((state: RootState) => state?.user.page);
@@ -55,7 +57,7 @@ const UserManager = (props: Props) => {
             <tr>
               <td>STT</td>
               <td>Họ Tên</td>
-              <td>Hình ảnh</td>
+              {/* <td>Hình ảnh</td> */}
               <td>Email</td>
               <td className="text-center">Trạng Thái</td>
               <td>Sửa</td>
@@ -68,20 +70,25 @@ const UserManager = (props: Props) => {
                   <td>{(pages - 1) * 10 + ++index}</td>
 
                   <td>{e.fullname}</td>
-                  <td>
+                  {/* <td>
                     <img
                       className={styles.image}
                       src={e.img}
                       alt=""
                       width="100px"
                     />
-                  </td>
-                  <td className="w-16">{e.email}</td>
-                  <td className={`${statusObj[e.status]} text-center`}>
-                    {e.status}
+                  </td> */}
+                  <td className="w-16 ">{e.email}</td>
+                  <td className="flex justify-center">
+                    <div className={`${statusObj[e.status]} text-center`}>
+                      {e.status}
+                    </div>
                   </td>
                   <td className={styles.action}>
-                    <Link to={`/admin/slider/${e._id}/edit`}>
+                    <Link
+                      className="flex justify-center"
+                      to={`/admin/users/${e._id}/edit`}
+                    >
                       <AiOutlineEdit className={styles.edit} />
                     </Link>
                   </td>

@@ -9,5 +9,7 @@ export const get = (id: string): Promise<User> => {
 };
 
 export const update = (User: User): Promise<User> => {
+  console.log(User);
+
   return instance.put(`/user/${User._id}`, User);
 };
