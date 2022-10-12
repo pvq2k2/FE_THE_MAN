@@ -30,6 +30,7 @@ import CartUpdate from "./pages/Admin/Carts/CartUpdate";
 import UserManager from "./pages/Admin/User/UserManager";
 import UserAdd from "./pages/Admin/User/UserAdd";
 import UserEdit from "./pages/Admin/User/UserEdit";
+import DetailPost from "./pages/DetailPost";
 function App() {
   return (
     <>
@@ -71,6 +72,14 @@ function App() {
           element={
             <ClientLayout>
               <DetailProduct />
+            </ClientLayout>
+          }
+        />
+        <Route
+          path="/detail/:id/post"
+          element={
+            <ClientLayout>
+              <DetailPost/>
             </ClientLayout>
           }
         />

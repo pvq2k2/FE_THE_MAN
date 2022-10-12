@@ -32,7 +32,6 @@ const ProductEdit = () => {
   // const [types, setTypes] = useState<any[]>([]);
 
   const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{
-    try {
       await dispatch(updateProduct({...values})).unwrap();
       toast.success("Cập nhật sản thành công !", {
         position: "top-right",
@@ -44,15 +43,12 @@ const ProductEdit = () => {
         progress: undefined,
       });
       navigate("/admin/products");
-    } catch (error) {}
   };
 
   useEffect(() => {
     (async () => {
       const cateproduct = await dispatch(getProduct(id));
       reset(cateproduct.payload);
-      console.log("cate pro",cateproduct);
-      
     })();
   }, []);
 

@@ -88,7 +88,7 @@ const productsSlice = createSlice({
     });
 
     builder.addCase(updateProduct.fulfilled, (state, { payload }) => {
-      state.products.Product = state.products.Product.map((item) =>
+      state.products.Product = state.products?.Product?.map((item) =>
         item._id === payload?._id ? payload : item
       ) as Product[];
     });
