@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { getListPosts, getPosts } from "../../redux/slices/postSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import styles from "./FeaturedNews.module.css";
@@ -27,10 +28,12 @@ const FeaturedNews = () => {
         {post?.posts.Post?.map((item:any, index:number) => {
           return (
           <div key={index++} className={styles.item__box}>
+            <Link to={`/detail/:id/post`}>
             <img src={item.image} alt="000017" />
             <div className={styles.detail}>
               <h3>{item.title}</h3>
             </div>
+            </Link>
           </div>)
         })}
            

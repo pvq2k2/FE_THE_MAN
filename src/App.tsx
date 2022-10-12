@@ -27,6 +27,7 @@ import SliderEdit from "./pages/Admin/Slider/SliderEdit";
 import ProductEdit from "./pages/Admin/Products/ProductEdit";
 import CartPostManager from "./pages/Admin/Carts/CartManager";
 import CartUpdate from "./pages/Admin/Carts/CartUpdate";
+import DetailPost from "./pages/DetailPost";
 function App() {
   return (
     <>
@@ -68,6 +69,14 @@ function App() {
           element={
             <ClientLayout>
               <DetailProduct />
+            </ClientLayout>
+          }
+        />
+        <Route
+          path="/detail/:id/post"
+          element={
+            <ClientLayout>
+              <DetailPost/>
             </ClientLayout>
           }
         />
