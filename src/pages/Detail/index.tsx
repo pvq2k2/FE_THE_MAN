@@ -58,10 +58,10 @@ const DetailProduct = (props: Props) => {
       size: sizeSelected,
       color: colorSelected,
       quantity: quantities,
-      remainingproducts: rproducts
+      remainingproducts: rproducts,
     };
     console.log("rproducts", products);
-    
+
     const r = dispatch(addCart(products));
     console.log("r", r);
   };
@@ -90,6 +90,7 @@ const DetailProduct = (props: Props) => {
     );
     setQuantities(0);
   };
+
   const onColor = (c: any) => {
     setColorSelected(c);
     setSizeSelected(undefined);
@@ -168,7 +169,10 @@ const DetailProduct = (props: Props) => {
               />
             </div>
             <div className="info__product">
-              <h1 className="name__product !font-bold !text-[25px]"> {product?.name}</h1>
+              <h1 className="name__product !font-bold !text-[25px]">
+                {" "}
+                {product?.name}
+              </h1>
               <p className="price">
                 {" "}
                 <NumberFormat
@@ -236,27 +240,34 @@ const DetailProduct = (props: Props) => {
                 <h2 className="t_quantity text-[18px] font-bold my-[20px]">
                   Số lượng:
                 </h2>
-                <div className="quantity flex items-center mb-[30px]">
-                  <button
-                    type="submit"
-                    onClick={() => setQuantities((old) => old - 1)}
-                    disabled={quantities <= 0}
-                    className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
-                  >
-                    -
-                  </button>
-                  <span className="w-[30px] text-center font-bold">
-                    {quantities}
-                  </span>
-                  <button
-                    type="submit"
-                    onClick={() => setQuantities((old) => old + 1)}
-                    disabled={quantities >= rproducts || sizeSelected == null}
-                    className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
-                  >
-                    +
-                  </button>
-                </div>
+                {rproducts == 0 ? (
+                  <div className="text-rose-600 text-sm font-semibold">
+                    Hết hàng
+                  </div>
+                ) : (
+                  <div className="quantity flex items-center mb-[30px]">
+                    <button
+                      type="submit"
+                      onClick={() => setQuantities((old) => old - 1)}
+                      disabled={quantities <= 0}
+                      className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
+                    >
+                      -
+                    </button>
+                    <span className="w-[30px] text-center font-bold">
+                      {quantities}
+                    </span>
+                    <button
+                      type="submit"
+                      onClick={() => setQuantities((old) => old + 1)}
+                      disabled={quantities >= rproducts || sizeSelected == null}
+                      className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
+                    >
+                      +
+                    </button>
+                  </div>
+                )}
+
                 <div className="size__guide dp-flex items-center">
                   <img
                     src="https://cdn-icons-png.flaticon.com/512/93/93640.png"
