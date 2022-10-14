@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import { add, get, getAll, getAllPost, remove, update } from "../../api-cilent/Post";
 
 import { Posts } from "../../models/post";
@@ -63,7 +64,6 @@ export const updatePosts = createAsyncThunk(
     return res;
   }
 );
-
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -82,6 +82,7 @@ const postsSlice = createSlice({
         (item) => item._id !== payload
       );
     });
+   
 
     builder.addCase(getPost.fulfilled, (state, { payload }) => {
       state.post = payload as Posts;
