@@ -31,6 +31,7 @@ import UserManager from "./pages/Admin/User/UserManager";
 import UserAdd from "./pages/Admin/User/UserAdd";
 import UserEdit from "./pages/Admin/User/UserEdit";
 import DetailPost from "./pages/DetailPost";
+import PostPage from "./pages/Post";
 function App() {
   return (
     <>
@@ -72,6 +73,14 @@ function App() {
           element={
             <ClientLayout>
               <DetailProduct />
+            </ClientLayout>
+          }
+        />
+         <Route
+          path="/post"
+          element={
+            <ClientLayout>
+              <PostPage />
             </ClientLayout>
           }
         />
