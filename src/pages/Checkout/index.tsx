@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../../ultis'
 import {useForm, SubmitHandler} from 'react-hook-form'
 import { addCarts } from '../../redux/slices/cartSlice'
+import axios from 'axios'
+import { getDistrict, getProvince } from '../../redux/slices/provinceSlice'
+
+
 
 type Props = {}
 
@@ -11,20 +15,28 @@ const CheckoutPage = (props: Props) => {
   const dispatch = useDispatch<any>() 
   const navigate = useNavigate()
   const carts = useSelector((state: any) => state.carts.carts)
+  const province = useSelector((state: any) => state.province)
+  console.log("province", province);
+  useEffect(() => {
+   dispatch(getProvince())
+   
+  },[dispatch])
+  
   let sum = 0;
   const {register, handleSubmit, formState: {errors}} = useForm()
   const onAdd:SubmitHandler<any> = (data: any) => {
-      
       const products = {
         product: carts,
         infomation: data,
         totalprice: sum
       }
       dispatch(addCarts(products))
-      navigate('/')
-      
-      
-      
+      navigate('/') 
+  }
+  const onProvince = async (e:any) => {
+          await dispatch(getDistrict(e.target.value))
+          console.log(e.target.value);
+          
   }
   return (
     <div>
@@ -52,6 +64,24 @@ const CheckoutPage = (props: Props) => {
             />
               {errors?.address && <span>Không được để trống </span>}
           </table>
+          <table className="table-auto w-full flex">
+              <select onChange={(e) => onProvince(e)} className='py-[10px]' name="" id="">
+                <option value="0">Tỉnh</option>
+                {province.province?.map((item: any, index: number) => {
+                  return <option key={index ++} value={item.ProvinceID}>{item.ProvinceName}</option>
+                })}
+              </select>
+              <select className='py-[10px]' name="" id="">
+              <option value="0">Huyện </option>
+                {province?.district?.map((item:any, index:number) => {
+                  return <option key={index ++} value={item.DistrictID}>{item.DistrictName} </option>
+                })}
+              </select>
+              <select className='py-[10px]' name="" id="">
+                <option value="">Xã</option>
+              </select>
+          </table>
+          
           <table className="table-auto w-full ">
             <label htmlFor="" className="font-semibold">Số Điện Thoại <span className='text-red-700'>*</span></label><br />
           <input
