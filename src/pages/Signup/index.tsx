@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { AiOutlineClose, AiOutlineMail } from 'react-icons/ai';
 import { Link, useNavigate, useRoutes } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { signup } from '../../api-cilent/Auth';
@@ -11,7 +12,7 @@ type Inputs = {
 };
 
 const SignUp = (props: Props) => {
-  const navigate = useNavigate();
+	const [modal, setModal] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,7 +23,7 @@ const SignUp = (props: Props) => {
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
       await signup(values);
-      console.log(values);
+
       
       toast.success("Đăng ký thành công !", {
         position: "top-right",
@@ -33,9 +34,7 @@ const SignUp = (props: Props) => {
         draggable: true,
         progress: undefined,
       });
-      setTimeout(() => {
-        navigate("/signin");
-      }, 1000)
+      setModal(true);
     } catch (error: any) {
       const message = error?.response.data.message;
       toast.error(message, {
@@ -123,10 +122,14 @@ const SignUp = (props: Props) => {
                         id='input-password'
                         {...register("password", { 
                         required: "Vui lòng nhập mật khẩu",
-                        pattern: {
-                          value: /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{8,30}$/,
-                          message: "Vui lòng nhập nhập khẩu trên 8 ký tự bao gồm 'Chữ hoa, chữ thường, số và ký tự đặc biệt'"
+                        minLength: { 
+                          value: 8,
+                          message: "Vui lòng nhập nhập khẩu trên 8 ký tự"
                         }
+                        // pattern: {
+                        //   value: /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{8,30}$/,
+                        //   message: "Vui lòng nhập nhập khẩu trên 8 ký tự bao gồm 'Chữ hoa, chữ thường, số và ký tự đặc biệt'"
+                        // }
                         })}
                         type='password'
                         className='appearance-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm'
@@ -156,9 +159,32 @@ const SignUp = (props: Props) => {
           </section>
         </div>
       </div>
-
-
-    </div>
+      {modal ? (
+      <div className="modal fixed z-[999] inset-0 overflow-y-auto" role="dialog" aria-modal="true">
+        <div className="flex min-h-screen text-center  md:block md:px-2 lg:px-4" style={{fontSize: 0}}>
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity md:block" aria-hidden="true" onClick={() => setModal(false)}/>
+          <div className="text-base flex justify-center items-center absolute top-1/4 right-[30%] text-left transform transition md:inline-block md:max-w-2xl md:px-4 md:my-8 md:align-middle lg:max-w-4xl">
+            <div className="rounded relative bg-white px-4 pt-14 pb-8 overflow-hidden shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+              <div className="modal-close absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8" onClick={() => setModal(false)}>
+              <AiOutlineClose/>
+              </div>
+              <div className="modal-container items-start" onClick={(e) => e.stopPropagation()}>
+                
+              <div className="mt-3 text-center sm:mt-0 sm:ml-4">
+                    <div className="mail flex justify-center pt-5"><AiOutlineMail className="text-8xl text-white bg-blue-500 p-5 rounded-full"/></div>
+                    <h3 className="text-lg font-medium leading-6 text-gray-900 pt-5" id="modal-title">Đăng ký thành công !</h3>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">Cảm ơn bạn đã đăng ký vui lòng kiểm tra email để xác thực tài khoản !</p>
+                    </div>
+                    <Link to="/signin"><button className="mt-8 rounded-3xl bg-blue-500 py-3 px-8 text-white font-semibold hover:bg-blue-400 ease-in-out transition-all ">Trở về đăng nhập</button></Link>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      ) : (null)}
+  </div>
   );
 };
 
