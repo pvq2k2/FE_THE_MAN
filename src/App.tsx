@@ -31,6 +31,8 @@ import UserManager from "./pages/Admin/User/UserManager";
 import UserAdd from "./pages/Admin/User/UserAdd";
 import UserEdit from "./pages/Admin/User/UserEdit";
 import DetailPost from "./pages/DetailPost";
+import EmailVerify from "./components/EmailVerify";
+import NotFound from "./components/NotFound";
 function App() {
   return (
     <>
@@ -67,6 +69,7 @@ function App() {
             </ClientLayout>
           }
         />
+        <Route path="/users/verify/:id" element={<EmailVerify />} />
         <Route
           path="/detail/:id"
           element={
@@ -99,6 +102,7 @@ function App() {
             </ClientLayout>
           }
         />
+        <Route path="/*" element={<NotFound />} />
         {/* Admin */}
 
         <Route path="/admin" element={<AdminLayout />}>
