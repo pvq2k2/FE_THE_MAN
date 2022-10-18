@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { signin as signinAction } from "../../redux/slices/authSlice";
 import { signin } from "../../api-cilent/Auth";
+import Swal from "sweetalert2";
 
 type Props = {};
 type Inputs = {
@@ -15,7 +16,7 @@ type Inputs = {
 
 const Signin = (props: Props) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const {
     register,
     handleSubmit,
@@ -26,7 +27,7 @@ const Signin = (props: Props) => {
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
       const user = await signin(values);
-      console.log(values);
+      // console.log(values);
       
       toast.success("Đăng nhập thành công !", {
         position: "top-right",
@@ -42,6 +43,14 @@ const Signin = (props: Props) => {
         navigate("/");
       }, 1000)
     } catch (error: any) {
+      const isVerify = error?.response.data.verified;
+      if ((isVerify === false) && (isVerify !== undefined)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi...',
+          text: 'Vui lòng kiểm tra email để xác thực tài khoản!',
+        })
+      }
       const message = error?.response.data.message;
       toast.error(message, {
         position: "top-right",
@@ -119,8 +128,22 @@ const Signin = (props: Props) => {
                       <p className="text-red-400 text-xs">{errors.password?.message}</p>
                     </div>
                   </div>
-                  <div className='flex items-center justify-between'>
-                    <div className='flex items-center'>
+                  <div>
+                    <button
+                      type='submit'
+                      className='group w-full relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 ease-in-out duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                    >
+                      Đăng nhập
+                    </button>
+                  </div>
+                  <p className='mt-3 text-center text-sm text-gray-600 mr-2'>
+                    Bạn chưa có tài khoản?
+                    <Link to='/signup'>
+                        <span className='ml-2 cursor-pointer font-medium ease-in-out duration-300 text-blue-500 hover:text-blue-700'>Đăng ký</span>
+                    </Link>
+                  </p>
+                  <div className='flex items-center justify-center'>
+                    {/* <div className='flex items-center'>
                       <input
                         id='remember-me'
                         name='remember-me'
@@ -134,7 +157,7 @@ const Signin = (props: Props) => {
                     
                         Nhớ mật khẩu
                       </label>
-                    </div>
+                    </div> */}
                     <div className='text-sm'>
                       <a
                         href='#'
@@ -145,20 +168,6 @@ const Signin = (props: Props) => {
                       </a>
                     </div>
                   </div>
-                  <div>
-                    <button
-                      type='submit'
-                      className='group w-full relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 ease-in-out duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                    >
-                      Đăng nhập
-                    </button>
-                  </div>
-                  <p className='mt-3 text-center text-sm text-gray-600 mr-2'>
-                    Bạn chưa có tài khoản?
-                    <Link to='signup'>
-                        <span className='ml-2 cursor-pointer font-medium ease-in-out duration-300 text-blue-500 hover:text-blue-700'>Đăng ký</span>
-                    </Link>
-                  </p>
                 </form>
               </div>
             </div>
@@ -166,8 +175,7 @@ const Signin = (props: Props) => {
         </div>
       </div>
 
-
-    </div>
+      </div>
   );
 };
 
