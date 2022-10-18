@@ -4,7 +4,7 @@ import { TiPlus } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { listCarts, removeCart } from "../../../../redux/slices/cartSlice";
+import { listCarts, removeCart } from "../../../../redux/slices/orderSlice";
 import { deleteCatePost, getAllCatePosts } from "../../../../redux/slices/catePostSlice";
 import { formatCurrency } from "../../../../ultis";
 import styles from "./Cart.module.css";

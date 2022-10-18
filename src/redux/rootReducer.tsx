@@ -6,8 +6,9 @@ import cateproReducer from "./slices/cateProductSlice";
 import productReducer from "./slices/productSlice";
 import authReducer from "./slices/authSlice";
 import sliderReducer from "./slices/Slider";
-import cartReducer from "./slices/cartSlice";
+import orderReducer from "./slices/orderSlice";
 import userReducer from "./slices/userSlice";
+import cartReducer from "./slices/cartSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   catepost: cateReducer,
   product: productReducer,
   slider: sliderReducer,
-  carts: cartReducer,
+  orders: orderReducer,
+  carts: cartReducer
 });
 
 export default rootReducer;

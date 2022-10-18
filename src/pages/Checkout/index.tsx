@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../../ultis'
 import {useForm, SubmitHandler} from 'react-hook-form'
-import { addCarts } from '../../redux/slices/cartSlice'
+import { addCarts } from '../../redux/slices/orderSlice'
 
 type Props = {}
 

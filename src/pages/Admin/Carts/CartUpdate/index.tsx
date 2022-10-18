@@ -5,7 +5,7 @@ import NumberFormat from 'react-number-format'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { readCart, updateStatusCart } from '../../../../redux/slices/cartSlice'
+import { readCart, updateStatusCart } from '../../../../redux/slices/orderSlice'
 import { getCatePost, updateCatePost } from '../../../../redux/slices/catePostSlice'
 import { useAppDispatch } from '../../../../redux/store'
 
