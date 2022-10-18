@@ -8,7 +8,7 @@ import authReducer from "./slices/authSlice";
 import sliderReducer from "./slices/Slider";
 import orderReducer from "./slices/orderSlice";
 import userReducer from "./slices/userSlice";
-import cartReducer from "./slices/cartSlice";
+import provinceReducer from "./slices/provinceSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
   product: productReducer,
   slider: sliderReducer,
   orders: orderReducer,
-  carts: cartReducer
+  carts: cartReducer,
+  province: provinceReducer
 });
 
 export default rootReducer;
