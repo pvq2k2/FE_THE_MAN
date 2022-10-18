@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { AdminLayout, ClientLayout } from "./layouts";
-import CartPage from "./pages/Cart";
+import CartPage from "./pages/Orders";
 import Signup from "./pages/Signup";
 import CheckoutPage from "./pages/Checkout";
 import DetailProduct from "./pages/Detail";

@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { AiOutlineBars } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { User } from "../../../models/User";
-import { signout } from "../../../redux/slices/authSlice";
-import { readCarts } from "../../../redux/slices/cartSlice";
-import styles from "./Header.module.css";
-type Props = {};
+
+import React, { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { AiOutlineBars } from 'react-icons/ai'
+import { useDispatch, useSelector } from 'react-redux'
+import { User } from '../../../models/User'
+import { signout } from '../../../redux/slices/authSlice'
+import { readCarts } from '../../../redux/slices/orderSlice'
+type Props = {}
 
 const ClientHeader = (props: Props) => {
   const navBar = useRef<HTMLDivElement>(null);
-
-  const carts = useSelector((state: any) => state.carts.carts);
-
+  
+  const carts = useSelector((state:any) => state.orders.carts)
+ 
+ 
   const [showNav, setShowNav] = useState<Boolean>(false);
   useEffect(() => {
     const navBarElement = navBar.current!;

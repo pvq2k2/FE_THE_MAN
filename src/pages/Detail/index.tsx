@@ -5,7 +5,7 @@ import { getProduct } from "../../redux/slices/productSlice";
 import "./assets/css/detail.css";
 import NumberFormat from "react-number-format";
 import { json, useParams } from "react-router-dom";
-import { addCart } from "../../redux/slices/cartSlice";
+import { addCart } from "../../redux/slices/orderSlice";
 type Props = {};
 
 type TypeColorSize = Map<
@@ -29,8 +29,22 @@ const DetailProduct = (props: Props) => {
   const [colorSelected, setColorSelected] = useState<string>();
   const [sizeSelected, setSizeSelected] = useState<string>();
   const [quantities, setQuantities] = useState(0);
-
+  const [User,setUser] = useState()
+  useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem("user") as any))  
+  },[])
   const onAddOrder = async () => {
+    if(!User) {
+      return toast.info("Bạn cần phải đăng nhập mới có thể mua hàng", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     if (quantities < 1) {
       return toast.info("Số lượng phải lớn hơn 1", {
         position: "top-right",
@@ -42,7 +56,6 @@ const DetailProduct = (props: Props) => {
         progress: undefined,
       });
     }
-
     const {
       type,
       subimg,
@@ -61,7 +74,7 @@ const DetailProduct = (props: Props) => {
       remainingproducts: rproducts,
     };
     console.log("rproducts", products);
-
+    
     const r = dispatch(addCart(products));
     console.log("r", r);
   };
@@ -71,22 +84,6 @@ const DetailProduct = (props: Props) => {
       colorSize
         .get(colorSelected || "")
         ?.size.filter((s) => s.title === c.title)[0].quantity!
-    );
-    toast.info(
-      "Còn lại " +
-        colorSize
-          .get(colorSelected || "")
-          ?.size.filter((s) => s.title === c.title)[0].quantity +
-        " sản phẩm",
-      {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      }
     );
     setQuantities(0);
   };
@@ -245,7 +242,12 @@ const DetailProduct = (props: Props) => {
                     Hết hàng
                   </div>
                 ) : (
+                 <>
+                  <div className="text-rose-600 text-sm font-semibold my-[10px]">
+                  Còn lại : {rproducts}
+                </div>
                   <div className="quantity flex items-center mb-[30px]">
+                   
                     <button
                       type="submit"
                       onClick={() => setQuantities((old) => old - 1)}
@@ -266,6 +268,7 @@ const DetailProduct = (props: Props) => {
                       +
                     </button>
                   </div>
+                 </>
                 )}
 
                 <div className="size__guide dp-flex items-center">
