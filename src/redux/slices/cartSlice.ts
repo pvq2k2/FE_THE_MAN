@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addcart, readcart } from "../../api-cilent/Cart";
+import { toast } from "react-toastify";
+import { addcart, readcart, updateCart } from "../../api-cilent/Cart";
+import { get } from "../../api-cilent/Product";
 
 
 
@@ -12,11 +14,81 @@ const initialState : Icart={
     carts: []
 }
 
+export const readCart = createAsyncThunk("carts/readcart", async (iduser: string) => {
+                const res = await readcart(iduser)
+                return res
+})
+export const Increment = createAsyncThunk("carts/increment", async (product: any) => {    
+                const {data} = await readcart(product.userID)         
+                const {data : producta} = await get(product._id)
 
-export const addToCart = createAsyncThunk("carts/addtocart", async (product: any, iduser: any) => {
-                const cart = await readcart(iduser)
-                console.log(cart);
-                
+                    const quantityold = producta.type.find((item: any) => item.color == product.color && item.size == product.size)
+                    const cartnew = data.products.find((item: any) => item._id == product._id && item.color == product.color  && item.size == product.size)                 
+                    
+                    if(cartnew.quantity < quantityold.quantity) {
+                                   cartnew.quantity ++
+                                    updateCart(data)
+                                               
+                    }else{
+                        toast.info("Sản phẩm này chỉ còn " + quantityold.quantity);
+                    }
+                    return data.products                          
+})
+export const Decrement = createAsyncThunk("carts/decrement", async (product: any) => {
+    const {data} = await readcart(product.userID) 
+    const cartnew = data.products.find((item: any) => item._id == product._id && item.color == product.color  && item.size == product.size)  
+    if(cartnew.quantity <= 1 ) {
+        const confirm = window.confirm("Bạn có muốn xoá không?")
+        if(confirm) { 
+            const cartnewa = data.products.filter((item) => item !== cartnew)
+            data.products = cartnewa
+            toast.info("Xoá thành công?");
+        }
+    }else {
+        cartnew.quantity--
+    }
+    console.log("data",data);
+    
+    updateCart(data)
+    return data.products
+
+})
+
+export const addToCart = createAsyncThunk("carts/addtocart", async (carts: any) => {
+               const {data} = await readcart(carts.userID)
+               let cart = {
+                    products: [],
+                    userID: {}
+               }
+               if(data) {
+                    cart = data               
+               }else { 
+                cart = {
+                    products: [],
+                    userID: {}
+                }
+               }         
+               if(cart.products.length > 0) {
+                 const exitsID = cart.products.find((item:any) => item._id === carts.products._id) as any
+                 const exitsColor = cart.products.find((item:any) => item.color === carts.products.color)
+                 const exitsSize = cart.products.find((item:any) => item.size === carts.products.size)
+                 if(!exitsID) {
+                    cart.products.push(carts.products as never)
+                 }else {
+                    if(!exitsColor || !exitsSize) {
+                        cart?.products.push(carts.products as never)
+                    }else{
+                            exitsID.quantity +=  carts.products.quantity
+                    }
+                 }
+                 
+               }else {
+                cart = carts
+                await addcart(cart)
+                return cart
+               }  
+            await updateCart(cart)   
+            return cart               
 })
 
 const cartSlice = createSlice({
@@ -25,8 +97,18 @@ const cartSlice = createSlice({
     reducers: {},
     extraReducers: (build) => {
         build.addCase(addToCart.fulfilled, (state, {payload}) => {
-         state.cart = payload 
+         state.carts = payload.products as [] 
+        }),
+        build.addCase(readCart.fulfilled, (state, {payload}) => {
+            state.carts = payload?.data?.products
+        }),
+        build.addCase(Increment.fulfilled, (state, {payload}) => {
+                 state.carts = payload as []
+        }),
+        build.addCase(Decrement.fulfilled, (state, {payload}) => {
+                state.carts = payload as []
         })
     },
+
   });
   export default cartSlice.reducer;

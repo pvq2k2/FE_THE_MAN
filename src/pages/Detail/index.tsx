@@ -5,7 +5,8 @@ import { getProduct } from "../../redux/slices/productSlice";
 import "./assets/css/detail.css";
 import NumberFormat from "react-number-format";
 import { json, useParams } from "react-router-dom";
-import { addCart } from "../../redux/slices/orderSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
+
 type Props = {};
 
 type TypeColorSize = Map<
@@ -14,7 +15,7 @@ type TypeColorSize = Map<
     size: {
       title: string;
       quantity: number;
-    }[];
+    }[];  
   }
 >;
 
@@ -29,7 +30,7 @@ const DetailProduct = (props: Props) => {
   const [colorSelected, setColorSelected] = useState<string>();
   const [sizeSelected, setSizeSelected] = useState<string>();
   const [quantities, setQuantities] = useState(0);
-  const [User,setUser] = useState()
+  const [User,setUser] = useState<any>()
   useEffect(() => {
         setUser(JSON.parse(localStorage.getItem("user") as any))  
   },[])
@@ -66,17 +67,23 @@ const DetailProduct = (props: Props) => {
       __v,
       ...rest
     } = product;
-    const products = {
-      ...rest,
+    const iduser = User.users.id
+    const carts = {
+      products: 
+        {
+          ...rest,
       size: sizeSelected,
       color: colorSelected,
       quantity: quantities,
-      remainingproducts: rproducts,
+        },
+      userID: iduser
     };
-    console.log("rproducts", products);
+   
     
-    const r = dispatch(addCart(products));
-    console.log("r", r);
+    const cart = dispatch(addToCart(carts))
+
+    //const r = dispatch(addCart(products));
+    
   };
   const onSize = async (c: any) => {
     setSizeSelected(c.title);

@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../../ultis'
 import {useForm, SubmitHandler} from 'react-hook-form'
 import { addCarts } from '../../redux/slices/orderSlice'
-import axios from 'axios'
 import { getDistrict, getProvince } from '../../redux/slices/provinceSlice'
 type Props = {}
 

@@ -8,4 +8,7 @@ export const readcart = (id: string) => {
     const url = `/carts/${id}`
     return instance.get(url)
 }
-
+export const updateCart = (cart:any) => { 
+    const url = `/carts/${cart._id}`
+    return instance.put(url, cart)
+}
