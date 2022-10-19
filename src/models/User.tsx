@@ -1,4 +1,5 @@
 export type User = {
+  [x: string]: any;
   data?: any;
   Inputs?: any;
   _id?: number | string;

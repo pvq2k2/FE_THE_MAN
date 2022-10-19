@@ -1,26 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Decrement, Increment, readCarts } from "../../redux/slices/orderSlice";
+import { Decrement, Increment, readCart } from "../../redux/slices/cartSlice";
+
+import { readUserLocal } from "../../redux/slices/userSlice";
 
 type Props = {};
 
 const CartPage = (props: Props) => {
   const dispatch = useDispatch<any>();
-  const carts = useSelector((state: any) => state.carts.carts);
-  console.log("carts", carts);
+  const carts = useSelector((state: any) => state.carts);
   const navigate = useNavigate();
   let sum = 0;
+  const [Id, setId] = useState<any>()
   const IncrementC = (data: any) => {
-    dispatch(Increment(data));
+    const product = {
+      ...data,
+      userID: Id
+    }  
+    dispatch(Increment(product));
   };
   const DecrementC = (data: any) => {
-    dispatch(Decrement(data));
+    const product = {
+      ...data,
+      userID: Id
+    }  
+    dispatch(Decrement(product));
   };
-  useEffect(() => {
-    dispatch(readCarts());
-  }, []);
+
+  useEffect(() => {       
+    (async () => {
+      const user = await dispatch(readUserLocal())
+      setId(user.payload?.users.id)
+      await dispatch(readCart(user.payload?.users.id)).unwrap()
+  }) ()
+  }, [])
   return (
     <div>
       <div>
@@ -43,13 +58,12 @@ const CartPage = (props: Props) => {
               </tr>
             </thead>
             <tbody className="w-full ">
-              {carts?.map((item: any) => {
+              {carts.carts?.map((item: any, index: number) => {
                 {
                   sum += item.quantity * item.price;
                 }
-
                 return (
-                  <tr className="border-t-2">
+                  <tr key={index++} className="border-t-2">
                     <td className="flex py-10  gap-8">
                       <img src={item.image} className="w-20"></img>
                       <div className="pt-7">

@@ -9,7 +9,7 @@ import sliderReducer from "./slices/Slider";
 import orderReducer from "./slices/orderSlice";
 import userReducer from "./slices/userSlice";
 import provinceReducer from "./slices/provinceSlice";
-
+import cartReducer from "./slices/cartSlice";
 const rootReducer = combineReducers({
   auth: authReducer,
   post: postReducer,
