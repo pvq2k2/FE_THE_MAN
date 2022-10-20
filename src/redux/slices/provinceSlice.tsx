@@ -25,12 +25,10 @@ export const getProvince  = createAsyncThunk("provinces/getprovinces", async () 
     return res.data.data
             
 })
-export const getDistrict  = createAsyncThunk("provinces/getdistrict", async (id: number) => {
-   
+export const getDistrict  = createAsyncThunk("provinces/getdistrict", async (id: number) => { 
     const province = {
-        'province_id': parseInt(id)
-    }  
-   
+        'province_id': id
+    }   
    const res = await fetch('https://online-gateway.ghn.vn/shiip/public-api/master-data/district', {
       method: 'POST', 
       headers: {
@@ -43,9 +41,22 @@ export const getDistrict  = createAsyncThunk("provinces/getdistrict", async (id:
         return data
     }
     );
-    return res.data
-    
-            
+    return res.data        
+})
+export const getWards = createAsyncThunk("province/getwards", async (id: number) => {
+        const district = {
+          'district_id': id
+        }
+        console.log(district);
+        
+        const res = await axios.post('https://online-gateway.ghn.vn/shiip/public-api/master-data/ward', JSON.stringify(district), {
+          headers: {
+            'Content-Type': 'application/json',
+            'token': '422b151b-4b63-11ed-8008-c673db1cbf27'
+          },
+        })
+        return res.data.data
+        
 })
 
 
@@ -60,6 +71,9 @@ const provinceSlice = createSlice({
     });
     builder.addCase(getDistrict.fulfilled, (state, { payload }) => {
         state.district = payload as any;
+      });
+      builder.addCase(getWards.fulfilled, (state, { payload }) => {
+        state.ward = payload as any;
         console.log("load", payload);
         
       });

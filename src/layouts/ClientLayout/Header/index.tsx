@@ -5,16 +5,17 @@ import { AiOutlineBars } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { User } from '../../../models/User'
 import { signout } from '../../../redux/slices/authSlice'
-import { readCarts } from '../../../redux/slices/orderSlice'
 import styles from './Header.module.css'
+import { readCart } from '../../../redux/slices/cartSlice'
 type Props = {}
 
 const ClientHeader = (props: Props) => {
   const navBar = useRef<HTMLDivElement>(null);
   
-  const carts = useSelector((state:any) => state.orders.carts)
- 
- 
+  //const orders = useSelector((state:any) => state.orders.carts)
+  const cart = useSelector((state: any) => state.carts)
+  console.log("carrt",cart);
+  
   const [showNav, setShowNav] = useState<Boolean>(false);
   useEffect(() => {
     const navBarElement = navBar.current!;
@@ -26,11 +27,15 @@ const ClientHeader = (props: Props) => {
   }, [showNav]);
   let isLogged = useSelector((state: any) => state.auth.isLogged);
   let currentUser = useSelector((state: any) => state.auth.currentUser) as User;
+
+  
+  
   if (localStorage.getItem("user")) {
     (isLogged = true),
       (currentUser = JSON.parse(localStorage.getItem("user") || "{}"));
   }
 
+  
   // console.group("isLocal");
   // console.log("isLogged", isLogged);
   // console.log("currenUser", currentUser);
@@ -41,7 +46,10 @@ const ClientHeader = (props: Props) => {
     await dispatch(signout());
   };
   useEffect(() => {
-    dispatch(readCarts());
+    ( async () => {
+      const res = await dispatch(readCart(currentUser?.users?.id));
+    }) ()
+    
   }, []);
 
   return (
@@ -183,7 +191,7 @@ const ClientHeader = (props: Props) => {
            </div>
          </Link>
          <div className={styles.count_cart}>
-           {carts?.length}
+          {cart.carts?.length}
          </div>
        </div>
        ): ""}

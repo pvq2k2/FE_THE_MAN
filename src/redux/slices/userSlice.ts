@@ -31,8 +31,6 @@ export const getUsers = createAsyncThunk(
   "Users/getUsers",
   async (data: any) => {
     const response = await getAll(data.page, data.limit);
-    console.log(response);
-
     return response.data;
   }
 );
@@ -42,10 +40,8 @@ export const addUser = createAsyncThunk("Users/addUser", async (User: any) => {
   return res;
 });
 
-export const readUserLocal = createAsyncThunk("Users/readuserlocal", async () => {
-          const res = await JSON.parse(localStorage.getItem("user") as any)
-          console.log("res", res);
-          
+export const readUserLocal = createAsyncThunk("Users/readuserlocal",  () => {
+          const res =  JSON.parse(localStorage.getItem("user") as any)
           return res
 })
 
@@ -72,8 +68,6 @@ const UsersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getUsers.fulfilled, (state, { payload }) => {
-      console.log(payload);
-
       state.Users = payload as any;
     });
 

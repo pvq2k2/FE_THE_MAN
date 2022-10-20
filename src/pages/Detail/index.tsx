@@ -78,11 +78,13 @@ const DetailProduct = (props: Props) => {
         },
       userID: iduser
     };
+    console.log("carts", carts);
+    
    
     
     const cart = dispatch(addToCart(carts))
 
-    //const r = dispatch(addCart(products));
+    toast.info("Thêm vào giỏ hàng thành công")
     
   };
   const onSize = async (c: any) => {
@@ -102,7 +104,7 @@ const DetailProduct = (props: Props) => {
     //   console.log("a", colorSize.get(colorSelected || "")?.size || 0);
   };
   useEffect(() => {
-    if (product.type) {
+    if (product?.type) {
       let colorSizeValue: TypeColorSize = new Map();
       product.type.forEach((p: any) => {
         colorSizeValue.set(p.color, {
