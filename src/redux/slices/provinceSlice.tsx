@@ -59,7 +59,35 @@ export const getWards = createAsyncThunk("province/getwards", async (id: number)
         
 })
 
+export const getSevicePackage = createAsyncThunk("province/getsevicepackage", async (data: number) => {
+      const param = {
+        'shop_id': 3348656,
+        'from_district': 3440,
+        'to_district': data
+      }
+      console.log("ppa", param);
+      
+      const res = await axios.post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services", param ,
+      {
+        headers: {
+          'token': '422b151b-4b63-11ed-8008-c673db1cbf27'
+      }
+      });
+      return res.data.data
+      
+})
 
+
+export const getFee = createAsyncThunk("province, getfee", async (data: any) => { 
+        const res = await axios.post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", data , {
+          headers: {
+            'token': '422b151b-4b63-11ed-8008-c673db1cbf27',
+            'shop_id': 3348656
+        }
+        })
+        return res.data.data
+        
+})
 
 const provinceSlice = createSlice({
   name: "provinces",
@@ -74,7 +102,11 @@ const provinceSlice = createSlice({
       });
       builder.addCase(getWards.fulfilled, (state, { payload }) => {
         state.ward = payload as any;
-        console.log("load", payload);
+      });
+      builder.addCase(getSevicePackage.fulfilled, (state, { payload }) => {
+        
+      });
+      builder.addCase(getFee.fulfilled, (state, { payload }) => {
         
       });
   },

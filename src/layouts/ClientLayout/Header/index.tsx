@@ -14,7 +14,7 @@ const ClientHeader = (props: Props) => {
   
   //const orders = useSelector((state:any) => state.orders.carts)
   const cart = useSelector((state: any) => state.carts)
-  console.log("carrt",cart);
+  console.log("hihihihhihii",cart);
   
   const [showNav, setShowNav] = useState<Boolean>(false);
   useEffect(() => {
@@ -47,7 +47,10 @@ const ClientHeader = (props: Props) => {
   };
   useEffect(() => {
     ( async () => {
-      const res = await dispatch(readCart(currentUser?.users?.id));
+      if(currentUser.users.id) { 
+        await dispatch(readCart(currentUser?.users?.id));
+      }
+      
     }) ()
     
   }, []);
@@ -191,7 +194,9 @@ const ClientHeader = (props: Props) => {
            </div>
          </Link>
          <div className={styles.count_cart}>
-          {cart.carts?.length}
+          {cart?.carts?.length ? (
+            cart?.carts?.length
+          ): 0}
          </div>
        </div>
        ): ""}

@@ -7,15 +7,18 @@ import { get } from "../../api-cilent/Product";
 
 interface Icart{
    cart: {},
-   carts: []
+   carts: [],
+   rcart: []
 }
 const initialState : Icart={
     cart: {},
-    carts: []
+    carts: [],
+    rcart: []
 }
 
 export const readCart = createAsyncThunk("carts/readcart", async (iduser: string) => {
                 const res = await readcart(iduser)
+                
                 return res
 })
 export const Increment = createAsyncThunk("carts/increment", async (product: any) => {    
@@ -81,8 +84,11 @@ export const addToCart = createAsyncThunk("carts/addtocart", async (carts: any) 
                  }
                  
                }else {
-                cart = carts
+                cart.products.push(...cart.products, carts.products as never)
+                cart.userID = carts.userID
                 await addcart(cart)
+                console.log("addcart",cart);
+                
                 return cart
                }  
             await updateCart(cart)   
@@ -98,6 +104,8 @@ const cartSlice = createSlice({
          state.carts = payload.products as [] 
         }),
         build.addCase(readCart.fulfilled, (state, {payload}) => {
+            console.log("alalaal", payload);
+            
             state.carts = payload?.data?.products
         }),
         build.addCase(Increment.fulfilled, (state, {payload}) => {
