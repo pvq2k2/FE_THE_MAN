@@ -40,15 +40,13 @@ export const Decrement = createAsyncThunk("carts/decrement", async (product: any
     if(cartnew.quantity <= 1 ) {
         const confirm = window.confirm("Bạn có muốn xoá không?")
         if(confirm) { 
-            const cartnewa = data.products.filter((item) => item !== cartnew)
+            const cartnewa = data.products.filter((item: any) => item !== cartnew)
             data.products = cartnewa
             toast.info("Xoá thành công?");
         }
     }else {
         cartnew.quantity--
     }
-    console.log("data",data);
-    
     updateCart(data)
     return data.products
 
@@ -68,7 +66,7 @@ export const addToCart = createAsyncThunk("carts/addtocart", async (carts: any) 
                     userID: {}
                 }
                }         
-               if(cart.products.length > 0) {
+               if(cart?.products?.length > 0) {
                  const exitsID = cart.products.find((item:any) => item._id === carts.products._id) as any
                  const exitsColor = cart.products.find((item:any) => item.color === carts.products.color)
                  const exitsSize = cart.products.find((item:any) => item.size === carts.products.size)

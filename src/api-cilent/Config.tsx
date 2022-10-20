@@ -6,7 +6,7 @@ const instance = axios.create({
     "Content-Type": "application/json",
   },
 });
-const { token } = JSON.parse(localStorage.getItem("user") as string);
+const { token } = JSON.parse(localStorage.getItem("user") as any);
 
 instance.interceptors.response.use(
   function (response) {
