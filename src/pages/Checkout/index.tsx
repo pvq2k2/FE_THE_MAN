@@ -13,6 +13,7 @@ const CheckoutPage = (props: Props) => {
   const navigate = useNavigate()
   const carts = useSelector((state: any) => state.carts)
   const province = useSelector((state: any) => state.province)
+  const [fee,setFee] = useState<number>(0)
   const [provicei,setProvicei] = useState({
     to_district_id: 0,
     to_ward_code: 0,
@@ -42,8 +43,7 @@ const CheckoutPage = (props: Props) => {
         "width":sumwidth
       }
       const res = await dispatch(getFee(data))
-      console.log("ressss",res);
-      
+      setFee(res?.payload?.total)
     }) ()
   }, [provicei])
   
@@ -59,7 +59,7 @@ const CheckoutPage = (props: Props) => {
         infomation: data,
         totalprice: sum
       }
-      dispatch(addCarts(products))
+   //   dispatch(addCarts(products))
       navigate('/') 
   }
   const onProvince = async (e:any) => {
@@ -67,10 +67,8 @@ const CheckoutPage = (props: Props) => {
   }
   const onDistrict = async (e: any) => {
           await dispatch(getWards(parseInt(e.target.value)))
-          // const res = await dispatch(getSevicePackage(parseInt(e.target.value)))
-          // console.log("log", res);
           setProvicei((old => ({...old, to_district_id: parseInt(e.target.value)})))     
-          console.log("aaaa",provicei);
+          
              
   }
   const onWard = async (e:any) => {
@@ -182,11 +180,11 @@ const CheckoutPage = (props: Props) => {
               </div>
               <div className=" pt-5 flex">
                 <span className="grow font-semibold">Chi phí vận chuyển</span>
-                <span className="text-right ">{formatCurrency(30000)}</span>
+                <span className="text-right ">{fee ? formatCurrency(fee) : 0}</span>
               </div>
               <div className=" pt-5 flex">
                 <span className="grow font-semibold">Tổng tiền</span>
-                <span className="text-right ">{formatCurrency(sum + 30000)}</span>
+                <span className="text-right ">{fee ? formatCurrency(sum+fee) : formatCurrency(sum)}</span>
               </div>
 
 
