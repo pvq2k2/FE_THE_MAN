@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../../ultis'
 import {useForm, SubmitHandler} from 'react-hook-form'
-import { addCarts } from '../../redux/slices/orderSlice'
-import { getDistrict, getProvince, getWards } from '../../redux/slices/provinceSlice'
+import { getDistrict, getFee, getProvince, getWards } from '../../redux/slices/provinceSlice'
 import { readUserLocal } from '../../redux/slices/userSlice'
 import { readCart } from '../../redux/slices/cartSlice'
 type Props = {}
@@ -14,7 +13,10 @@ const CheckoutPage = (props: Props) => {
   const navigate = useNavigate()
   const carts = useSelector((state: any) => state.carts)
   const province = useSelector((state: any) => state.province)
-  const [users, setUsers] = useState<any>()
+  const [provicei,setProvicei] = useState({
+    to_district_id: 0,
+    to_ward_code: 0,
+  })
   useEffect(() => {
    dispatch(getProvince())
   },[dispatch])
@@ -25,8 +27,31 @@ const CheckoutPage = (props: Props) => {
     }) ()
     
   }, [])
+
+  useEffect(() => {
+    (async () => { 
+      const data = {
+        ...provicei,
+        "service_id":53321,
+        "insurance_value": sum,
+        "coupon": null,
+        "from_district_id": 3440,
+        "height": sumheight,
+        "length":sumlength,
+        "weight":sumweight,
+        "width":sumwidth
+      }
+      const res = await dispatch(getFee(data))
+      console.log("ressss",res);
+      
+    }) ()
+  }, [provicei])
   
   let sum = 0;
+  let sumwidth = 0;
+  let sumheight = 0;
+  let sumweight = 0;
+  let sumlength = 0;
   const {register, handleSubmit, formState: {errors}} = useForm()
   const onAdd:SubmitHandler<any> = (data: any) => {
       const products = {
@@ -42,6 +67,14 @@ const CheckoutPage = (props: Props) => {
   }
   const onDistrict = async (e: any) => {
           await dispatch(getWards(parseInt(e.target.value)))
+          // const res = await dispatch(getSevicePackage(parseInt(e.target.value)))
+          // console.log("log", res);
+          setProvicei((old => ({...old, to_district_id: parseInt(e.target.value)})))     
+          console.log("aaaa",provicei);
+             
+  }
+  const onWard = async (e:any) => {
+    setProvicei((old => ({...old, to_ward_code: parseInt(e.target.value)})))
   }
   return (
     <div>
@@ -71,19 +104,19 @@ const CheckoutPage = (props: Props) => {
           </table>
           <table className="table-auto w-full flex">
               <select onChange={(e) => onProvince(e)} className='py-[10px]' name="" id="">
-                <option value="0">Tỉnh</option>
+                <option value="">Tỉnh</option>
                 {province.province?.map((item: any, index: number) => {
                   return <option key={index ++} value={item.ProvinceID}>{item.ProvinceName}</option>
                 })}
               </select>
               <select onChange={(e) => onDistrict(e)} className='py-[10px]' name="" id="">
-              <option value="0">Huyện </option>
+              <option value="">Huyện </option>
                 {province?.district?.map((item:any, index:number) => {
                   return <option key={index ++} value={item.DistrictID}>{item.DistrictName} </option>
                 })}
               </select>
-              <select className='py-[10px]' name="" id="">
-                <option value="0">Xã</option>
+              <select onChange={(e) => onWard(e)} className='py-[10px]' name="" id="">
+                <option value="">Xã</option>
                 {province?.ward?.map((item:any, index:number) => {
                   return <option key={index ++} value={item.WardCode}>{item.WardName} </option>
                 })}
@@ -133,6 +166,10 @@ const CheckoutPage = (props: Props) => {
               </div>
               {carts?.carts?.map((item:any, index: number) => {
                 sum += item.quantity * item.price
+                sumlength += item.length
+                sumheight += item.height
+                sumweight += item.weight 
+                sumwidth += item.width
                 return <div key={index++} className=" pt-5 flex">
                 <span className="grow flex">{index = index + 1 }. <span className='font-bold'>{item.name}</span> - <div style={{ backgroundColor: `${item.color}` }} className='w-[20px] h-[20px] rounded-[50%]'></div> / {item.size}</span>
                 <span className="text-right ">{formatCurrency(item.price * item.quantity)}</span>

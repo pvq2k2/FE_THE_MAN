@@ -95,7 +95,7 @@ const CartPage = (props: Props) => {
                         onClick={() => DecrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"
                       >{`-`}</button>
-                      <span className="px-6">{item.quantity}</span>
+                      <span className="px-6 w-[15px]">{item.quantity}</span>
                       <button
                         onClick={() => IncrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"

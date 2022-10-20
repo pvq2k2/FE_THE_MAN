@@ -5,7 +5,6 @@ import NumberFormat from 'react-number-format'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { readCart, updateStatusCart } from '../../../../redux/slices/orderSlice'
 import { getCatePost, updateCatePost } from '../../../../redux/slices/catePostSlice'
 import { useAppDispatch } from '../../../../redux/store'
 
@@ -117,7 +116,7 @@ const CartUpdate = () => {
                 <th className="font-semibold pb-10">Hành động</th>
               </tr>
             </thead>
-            <tbody className="w-full">
+            {/* <tbody className="w-full">
             
               
               
@@ -155,7 +154,7 @@ const CartUpdate = () => {
               
             
             
-            </tbody>
+            </tbody> */}
            
           </table>
          
