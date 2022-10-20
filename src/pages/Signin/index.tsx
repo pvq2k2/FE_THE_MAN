@@ -13,7 +13,6 @@ type Inputs = {
   password: string;
 };
 
-
 const Signin = (props: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<any>();
@@ -23,12 +22,11 @@ const Signin = (props: Props) => {
     formState: { errors },
   } = useForm<Inputs>();
 
-
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
       const user = await signin(values);
       // console.log(values);
-      
+
       toast.success("Đăng nhập thành công !", {
         position: "top-right",
         autoClose: 5000,
@@ -41,15 +39,17 @@ const Signin = (props: Props) => {
       dispatch(signinAction(user));
       setTimeout(() => {
         navigate("/");
-      }, 1000)
+      }, 1000);
     } catch (error: any) {
+      console.log(error);
+
       const isVerify = error?.response.data.verified;
-      if ((isVerify === false) && (isVerify !== undefined)) {
+      if (isVerify === false && isVerify !== undefined) {
         Swal.fire({
-          icon: 'error',
-          title: 'Lỗi...',
-          text: 'Vui lòng kiểm tra email để xác thực tài khoản!',
-        })
+          icon: "error",
+          title: "Lỗi...",
+          text: "Vui lòng kiểm tra email để xác thực tài khoản!",
+        });
       }
       const message = error?.response.data.message;
       toast.error(message, {
@@ -66,83 +66,92 @@ const Signin = (props: Props) => {
 
   return (
     <div className="pt-1">
-      <div className='xl:w-[1200px] xl:mx-auto mt-5 mb-10 shadow-inner rounded-lg mx-3'>
-        <div className='content grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 shadow-lg'>
-          <img className='hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg'
-              src='https://preview.colorlib.com/theme/bootstrap/login-form-14/images/xbg-1.jpg.pagespeed.ic.3OAd9jZTMD.webp'
+      <div className="xl:w-[1200px] xl:mx-auto mt-5 mb-10 shadow-inner rounded-lg mx-3">
+        <div className="content grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 shadow-lg">
+          <img
+            className="hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg"
+            src="https://preview.colorlib.com/theme/bootstrap/login-form-14/images/xbg-1.jpg.pagespeed.ic.3OAd9jZTMD.webp"
           />
           <section>
-            <div className='min-h-full flex items-center justify-center p-12 px-4 sm:px-6 lg:px-8'>
-              <div className='max-w-md w-full space-y-8'>
+            <div className="min-h-full flex items-center justify-center p-12 px-4 sm:px-6 lg:px-8">
+              <div className="max-w-md w-full space-y-8">
                 <div>
-                  <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900 uppercase'>
+                  <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 uppercase">
                     Đăng nhập
                   </h2>
                 </div>
                 <form
-                  className='mt-8 space-y-6'
-                  id='form-signin'
+                  className="mt-8 space-y-6"
+                  id="form-signin"
                   onSubmit={handleSubmit(onSubmit)}
-                 
                 >
-                  <input type='hidden' name='remember' defaultValue='true' />
-                  <div className='rounded-md shadow-sm -space-y-px'>
-                    <div className='mb-4'>
-                      <label htmlFor='input-email' className='py-2'>
+                  <input type="hidden" name="remember" defaultValue="true" />
+                  <div className="rounded-md shadow-sm -space-y-px">
+                    <div className="mb-4">
+                      <label htmlFor="input-email" className="py-2">
                         Email
                       </label>
                       <input
-                        id='input-email'
-                        type='email'
+                        id="input-email"
+                        type="email"
                         // required
-                        {...register("email", { 
+                        {...register("email", {
                           required: "Vui lòng nhập email",
                           pattern: {
-                            value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                            message: "Vui lòng nhập đúng định dạng email"
-                          } 
-                          })}
-                        className='appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm'
-                        placeholder='Email'
+                            value:
+                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: "Vui lòng nhập đúng định dạng email",
+                          },
+                        })}
+                        className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md ease-in-out duration-300 hover:border-blue-500 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                        placeholder="Email"
                       />
-                      <p className="text-red-400 text-xs">{errors.email?.message}</p>
+                      <p className="text-red-400 text-xs">
+                        {errors.email?.message}
+                      </p>
                     </div>
-                    <div className='mb-4'>
-                      <label htmlFor='input-password' className='py-2'>
+                    <div className="mb-4">
+                      <label htmlFor="input-password" className="py-2">
                         Mật khẩu
                       </label>
                       <input
-                        id='input-password'
-                        type='password'
-                        {...register("password", { 
+                        id="input-password"
+                        type="password"
+                        {...register("password", {
                           required: "Vui lòng nhập mật khẩu",
                           pattern: {
-                            value: /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{8,30}$/,
-                            message: "Vui lòng nhập nhập khẩu trên 8 ký tự bao gồm 'Chữ hoa, chữ thường, số và ký tự đặc biệt'"
-                          }
-                          })}
-                        className='appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm'
-                        placeholder='Mật khẩu'
+                            value:
+                              /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{8,30}$/,
+                            message:
+                              "Vui lòng nhập nhập khẩu trên 8 ký tự bao gồm 'Chữ hoa, chữ thường, số và ký tự đặc biệt'",
+                          },
+                        })}
+                        className="appearance-none rounded-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                        placeholder="Mật khẩu"
                         autoComplete="on"
                       />
-                      <p className="text-red-400 text-xs">{errors.password?.message}</p>
+                      <p className="text-red-400 text-xs">
+                        {errors.password?.message}
+                      </p>
                     </div>
                   </div>
                   <div>
                     <button
-                      type='submit'
-                      className='group w-full relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 ease-in-out duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                      type="submit"
+                      className="group w-full relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 ease-in-out duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       Đăng nhập
                     </button>
                   </div>
-                  <p className='mt-3 text-center text-sm text-gray-600 mr-2'>
+                  <p className="mt-3 text-center text-sm text-gray-600 mr-2">
                     Bạn chưa có tài khoản?
-                    <Link to='/signup'>
-                        <span className='ml-2 cursor-pointer font-medium ease-in-out duration-300 text-blue-500 hover:text-blue-700'>Đăng ký</span>
+                    <Link to="/signup">
+                      <span className="ml-2 cursor-pointer font-medium ease-in-out duration-300 text-blue-500 hover:text-blue-700">
+                        Đăng ký
+                      </span>
                     </Link>
                   </p>
-                  <div className='flex items-center justify-center'>
+                  <div className="flex items-center justify-center">
                     {/* <div className='flex items-center'>
                       <input
                         id='remember-me'
@@ -158,12 +167,11 @@ const Signin = (props: Props) => {
                         Nhớ mật khẩu
                       </label>
                     </div> */}
-                    <div className='text-sm'>
+                    <div className="text-sm">
                       <a
-                        href='#'
-                        className='font-medium text-blue-500 ease-in-out duration-300 hover:text-blue-700'
+                        href="#"
+                        className="font-medium text-blue-500 ease-in-out duration-300 hover:text-blue-700"
                       >
-                    
                         Quên mật khẩu?
                       </a>
                     </div>
@@ -174,8 +182,7 @@ const Signin = (props: Props) => {
           </section>
         </div>
       </div>
-
-      </div>
+    </div>
   );
 };
 
