@@ -15,7 +15,7 @@ type TypeColorSize = Map<
     size: {
       title: string;
       quantity: number;
-    }[];  
+    }[];
   }
 >;
 
@@ -30,12 +30,12 @@ const DetailProduct = (props: Props) => {
   const [colorSelected, setColorSelected] = useState<string>();
   const [sizeSelected, setSizeSelected] = useState<string>();
   const [quantities, setQuantities] = useState(0);
-  const [User,setUser] = useState<any>()
+  const [User, setUser] = useState<any>();
   useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem("user") as any))  
-  },[])
+    setUser(JSON.parse(localStorage.getItem("user") as any));
+  }, []);
   const onAddOrder = async () => {
-    if(!User) {
+    if (!User) {
       return toast.info("Bạn cần phải đăng nhập mới có thể mua hàng", {
         position: "top-right",
         autoClose: 5000,
@@ -67,23 +67,17 @@ const DetailProduct = (props: Props) => {
       __v,
       ...rest
     } = product;
-    const iduser = User.users.id
+    const iduser = User.users.id;
     const carts = {
-      products: 
-        {
-          ...rest,
-      size: sizeSelected,
-      color: colorSelected,
-      quantity: quantities,
-        },
-      userID: iduser
+      products: {
+        ...rest,
+        size: sizeSelected,
+        color: colorSelected,
+        quantity: quantities,
+      },
+      userID: iduser,
     };
-   
-    
-    await dispatch(addToCart(carts))
-    
-    //const r = dispatch(addCart(products));
-    
+    await dispatch(addToCart(carts));
   };
   const onSize = async (c: any) => {
     setSizeSelected(c.title);
@@ -249,33 +243,34 @@ const DetailProduct = (props: Props) => {
                     Hết hàng
                   </div>
                 ) : (
-                 <>
-                  <div className="text-rose-600 text-sm font-semibold my-[10px]">
-                  Còn lại : {rproducts}
-                </div>
-                  <div className="quantity flex items-center mb-[30px]">
-                   
-                    <button
-                      type="submit"
-                      onClick={() => setQuantities((old) => old - 1)}
-                      disabled={quantities <= 0}
-                      className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
-                    >
-                      -
-                    </button>
-                    <span className="w-[30px] text-center font-bold">
-                      {quantities}
-                    </span>
-                    <button
-                      type="submit"
-                      onClick={() => setQuantities((old) => old + 1)}
-                      disabled={quantities >= rproducts || sizeSelected == null}
-                      className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-                 </>
+                  <>
+                    <div className="text-rose-600 text-sm font-semibold my-[10px]">
+                      Còn lại : {rproducts}
+                    </div>
+                    <div className="quantity flex items-center mb-[30px]">
+                      <button
+                        type="submit"
+                        onClick={() => setQuantities((old) => old - 1)}
+                        disabled={quantities <= 0}
+                        className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
+                      >
+                        -
+                      </button>
+                      <span className="w-[30px] text-center font-bold">
+                        {quantities}
+                      </span>
+                      <button
+                        type="submit"
+                        onClick={() => setQuantities((old) => old + 1)}
+                        disabled={
+                          quantities >= rproducts || sizeSelected == null
+                        }
+                        className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </>
                 )}
 
                 <div className="size__guide dp-flex items-center">
