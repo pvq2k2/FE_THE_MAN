@@ -12,3 +12,7 @@ export const updateCart = (cart:any) => {
     const url = `/carts/${cart._id}`
     return instance.put(url, cart)
 }
+export const removeCart = (id:string) => {
+    const url = `/carts/${id}`
+    return instance.delete(url)
+}

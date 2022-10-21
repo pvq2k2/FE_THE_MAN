@@ -15,7 +15,7 @@ const ClientHeader = (props: Props) => {
   //const orders = useSelector((state:any) => state.orders.carts)
   const cart = useSelector((state: any) => state.carts)
   console.log("hihihihhihii",cart);
-  
+
   const [showNav, setShowNav] = useState<Boolean>(false);
   useEffect(() => {
     const navBarElement = navBar.current!;
@@ -53,7 +53,7 @@ const ClientHeader = (props: Props) => {
       
     }) ()
     
-  }, []);
+  }, [dispatch]);
 
   return (
     <header className={styles.header}>

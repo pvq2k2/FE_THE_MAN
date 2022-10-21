@@ -80,7 +80,7 @@ const DetailProduct = (props: Props) => {
     };
    
     
-    const cart = dispatch(addToCart(carts))
+    await dispatch(addToCart(carts))
     
     //const r = dispatch(addCart(products));
     

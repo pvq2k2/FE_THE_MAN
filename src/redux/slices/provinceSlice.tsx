@@ -85,6 +85,8 @@ export const getFee = createAsyncThunk("province, getfee", async (data: any) => 
             'shop_id': 3348656
         }
         })
+        console.log("fee", res.data.data);
+        
         return res.data.data
         
 })

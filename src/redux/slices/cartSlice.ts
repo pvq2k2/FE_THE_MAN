@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { addcart, readcart, updateCart } from "../../api-cilent/Cart";
+import { addcart, readcart, removeCart, updateCart } from "../../api-cilent/Cart";
 import { get } from "../../api-cilent/Product";
 
 
@@ -8,17 +8,14 @@ import { get } from "../../api-cilent/Product";
 interface Icart{
    cart: {},
    carts: [],
-   rcart: []
 }
 const initialState : Icart={
     cart: {},
     carts: [],
-    rcart: []
 }
 
 export const readCart = createAsyncThunk("carts/readcart", async (iduser: string) => {
                 const res = await readcart(iduser)
-                
                 return res
 })
 export const Increment = createAsyncThunk("carts/increment", async (product: any) => {    
@@ -51,6 +48,9 @@ export const Decrement = createAsyncThunk("carts/decrement", async (product: any
         cartnew.quantity--
     }
     updateCart(data)
+    if(data.products.length <= 0) {
+         await removeCart(data._id)
+    } 
     return data.products
 
 })
@@ -82,16 +82,13 @@ export const addToCart = createAsyncThunk("carts/addtocart", async (carts: any) 
                             exitsID.quantity +=  carts.products.quantity
                     }
                  }
-                 
+                 await updateCart(cart)  
                }else {
                 cart.products.push(...cart.products, carts.products as never)
                 cart.userID = carts.userID
                 await addcart(cart)
-                console.log("addcart",cart);
-                
-                return cart
                }  
-            await updateCart(cart)   
+             
             return cart               
 })
 

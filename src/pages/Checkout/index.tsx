@@ -67,9 +67,7 @@ const CheckoutPage = (props: Props) => {
   }
   const onDistrict = async (e: any) => {
           await dispatch(getWards(parseInt(e.target.value)))
-          setProvicei((old => ({...old, to_district_id: parseInt(e.target.value)})))     
-          
-             
+          setProvicei((old => ({...old, to_district_id: parseInt(e.target.value)})))          
   }
   const onWard = async (e:any) => {
     setProvicei((old => ({...old, to_ward_code: parseInt(e.target.value)})))
