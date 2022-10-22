@@ -11,6 +11,7 @@ import {
 } from "../../redux/slices/provinceSlice";
 import { readUserLocal } from "../../redux/slices/userSlice";
 import { readCart } from "../../redux/slices/cartSlice";
+import { addOrder } from "../../redux/slices/orderSlice";
 type Props = {};
 
 const CheckoutPage = (props: Props) => {
@@ -19,6 +20,7 @@ const CheckoutPage = (props: Props) => {
   const carts = useSelector((state: any) => state.carts);
   const province = useSelector((state: any) => state.province);
   const [fee, setFee] = useState<number>(0);
+  const [User,setUser] = useState<any>();
   const [provicei, setProvicei] = useState({
     to_district_id: 0,
     to_ward_code: 0,
@@ -30,6 +32,7 @@ const CheckoutPage = (props: Props) => {
     (async () => {
       const res = await dispatch(readUserLocal());
       const res2 = await dispatch(readCart(res?.payload?.users?.id));
+      setUser(res);
     })();
   }, []);
 
@@ -46,7 +49,10 @@ const CheckoutPage = (props: Props) => {
         weight: sumweight,
         width: sumwidth,
       };
+      
       const res = await dispatch(getFee(data));
+      console.log("data",data);
+      
       setFee(res?.payload?.total);
     })();
   }, [provicei]);
@@ -62,13 +68,25 @@ const CheckoutPage = (props: Props) => {
     formState: { errors },
   } = useForm();
   const onAdd: SubmitHandler<any> = (data: any) => {
+    
+    let product = []
+    product = carts.carts.products
+    let _id = ""
+    _id = carts.carts._id
     const products = {
-      product: carts,
+      _id,
+      product,
       infomation: data,
-      totalprice: sum,
+      fee: fee,
+      productmonney: sum,
+      userID:User?.payload?.users?.id,
+      totalprice: sum+fee,
     };
-    //   dispatch(addCarts(products))
-    navigate("/");
+    console.log("products", products);
+    
+    
+      dispatch(addOrder(products))
+   // navigate("/");
   };
   const onProvince = async (e: any) => {
     await dispatch(getDistrict(parseInt(e.target.value)));
@@ -133,7 +151,7 @@ const CheckoutPage = (props: Props) => {
               </select>
               <select
                 onChange={(e) => onDistrict(e)}
-                className="py-[10px]"
+                className="py-[10px] mx-[10px]"
                 name=""
                 id=""
               >
@@ -213,12 +231,16 @@ const CheckoutPage = (props: Props) => {
                   <span className="grow font-semibold">Sản Phẩm</span>
                   <span className="text-right font-semibold">Giá</span>
                 </div>
-                {carts?.carts?.map((item: any, index: number) => {
+                {carts?.carts?.products?.map((item: any, index: number) => {
                   sum += item.quantity * item.price;
-                  sumlength += item.length;
+                  if(item.length > sumlength) {
+                      sumlength = item.length
+                  }
                   sumheight += item.height;
                   sumweight += item.weight;
-                  sumwidth += item.width;
+                  if(item.width > sumwidth) {
+                        sumwidth = item.width
+                  }
                   return (
                     <div key={index++} className=" pt-5 flex">
                       <span className="grow flex">

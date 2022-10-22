@@ -1,20 +1,20 @@
 import instance from "./Config";
 
-export const AddCartApi = (data: any) => {
+export const AddOrderApi = (data: any) => {
    return instance.post(`/orders`, data);
 }
-export const GetCartsApi = () => {
+export const GetOrdersApi = () => {
     return instance.get(`/orders`);
 }
 
-export const removeCartApi = (id: any) => {
+export const removeOrderApi = (id: any) => {
     return instance.delete(`/orders/${id}`);
 }
-export const readCartApi = (id: any) => {
+export const readOrderCartApi = (id: any) => {
     return instance.get(`orders/${id}`)
 }
 
-export const updateStatusCartApi = (data:any) => {
+export const updateStatusOrderApi = (data:any) => {
     return instance.put(`/orders/${data._id}`,data);
 }
 

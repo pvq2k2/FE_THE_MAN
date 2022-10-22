@@ -11,6 +11,7 @@ type Props = {};
 const ClientHeader = (props: Props) => {
   const navBar = useRef<HTMLDivElement>(null);
   const cart = useSelector((state: any) => state.carts);
+
   const [showNav, setShowNav] = useState<Boolean>(false);
   useEffect(() => {
     const navBarElement = navBar.current!;
@@ -37,7 +38,7 @@ const ClientHeader = (props: Props) => {
         await dispatch(readCart(currentUser?.users?.id));
       }
     })();
-  }, [dispatch]);
+  }, [cart]);
 
   return (
     <header className={styles.header}>
@@ -234,7 +235,7 @@ const ClientHeader = (props: Props) => {
               </div>
             </Link>
             <div className={styles.count_cart}>
-              {cart?.carts?.length ? cart?.carts?.length : 0}
+              {cart?.carts?.products ? cart.carts.products.length : 0}
             </div>
           </div>
         ) : (

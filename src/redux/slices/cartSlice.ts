@@ -21,7 +21,7 @@ export const readCart = createAsyncThunk(
   "carts/readcart",
   async (iduser: string) => {
     const res = await readcart(iduser);
-    return res;
+    return res.data;
   }
 );
 export const Increment = createAsyncThunk(
@@ -45,8 +45,8 @@ export const Increment = createAsyncThunk(
       updateCart(data);
     } else {
       toast.info("Sản phẩm này chỉ còn " + quantityold.quantity);
-    }
-    return data.products;
+    } 
+    return data;
   }
 );
 export const Decrement = createAsyncThunk(
@@ -73,7 +73,7 @@ export const Decrement = createAsyncThunk(
     if (data.products.length <= 0) {
       await removeCart(data._id);
     }
-    return data.products;
+    return data;
   }
 );
 
@@ -133,13 +133,13 @@ const cartSlice = createSlice({
       toast.success("Thêm đơn hàng thành công!");
     }),
       build.addCase(readCart.fulfilled, (state, { payload }) => {
-        state.carts = payload?.data?.products;
+        state.carts = payload;
       }),
       build.addCase(Increment.fulfilled, (state, { payload }) => {
-        state.carts = payload as [];
+        state.carts = payload;
       }),
       build.addCase(Decrement.fulfilled, (state, { payload }) => {
-        state.carts = payload as [];
+        state.carts = payload;
       });
   },
 });

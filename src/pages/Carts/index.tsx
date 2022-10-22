@@ -58,7 +58,7 @@ const CartPage = (props: Props) => {
               </tr>
             </thead>
             <tbody className="w-full ">
-              {carts.carts?.map((item: any, index: number) => {
+              {carts?.carts?.products?.map((item: any, index: number) => {
                 {
                   sum += item.quantity * item.price;
                 }
