@@ -1,6 +1,7 @@
 import React, { useEffect, useState }  from 'react'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { getCatePro } from '../../redux/slices/cateProductSlice';
 import { RootState, useAppDispatch } from '../../redux/store';
@@ -46,10 +47,12 @@ const Categories = (props: Props) => {
         {catePro?.cateproducts?.map((item : any)=>{
             return <div className={styles.categories__item}>
             <div className={styles.item__box}>
+              <Link to={`/detail/cate/:id/product`}>
               <img src={item.image} alt='000017'/>
               <div className={styles.overlay}>
                 <span>{item.name}</span>
               </div>
+              </Link>
             </div>
           </div>
           })}

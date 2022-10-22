@@ -35,6 +35,7 @@ import EmailVerify from "./components/EmailVerify";
 import NotFound from "./components/NotFound";
 import PostPage from "./pages/Post";
 import PrivateRouter from "./components/PrivatrRouter";
+import DetailCateProduct from "./pages/DetailCateProduct";
 function App() {
   return (
     <>
@@ -95,6 +96,14 @@ function App() {
               <DetailPost />
             </ClientLayout>
           }
+        />
+        <Route
+        path="/detail/cate/:id/product"
+        element={
+          <ClientLayout>
+            <DetailCateProduct/>
+          </ClientLayout>
+        }
         />
         <Route
           path="/contact"
