@@ -22,9 +22,6 @@ function SamplePrevArrow(props: { onClick: () => void; }) {
 }
 const NewProduct = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
-  // console.log("product", product.products.products);
-
-
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(

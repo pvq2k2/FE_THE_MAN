@@ -13,10 +13,8 @@ const EmailVerify = () => {
       try {
         const url = `http://localhost:8000/verify/${param.id}`;
         const { data } = await axios.get(url);
-        console.log(data);
         setValidUrl(true);
       } catch (error) {
-        console.log(error);
         setValidUrl(false);
       }
     };
