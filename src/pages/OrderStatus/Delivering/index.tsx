@@ -3,7 +3,7 @@ import React from 'react'
 const Deliver = () => {
   return (
     <div>
-      <b>Dang thuc hien giao hang</b>
+      Đang thực hiện giao hàng
     </div>
   )
 }

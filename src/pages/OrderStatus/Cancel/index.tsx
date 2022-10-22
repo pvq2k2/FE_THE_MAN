@@ -3,7 +3,7 @@ import React from 'react'
 const Cancel = () => {
   return (
     <div>
-      <b>Da huy don hang</b>
+      Đã hủy đơn hàng
     </div>
   )
 }
