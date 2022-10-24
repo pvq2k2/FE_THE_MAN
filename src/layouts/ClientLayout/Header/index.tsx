@@ -38,7 +38,7 @@ const ClientHeader = (props: Props) => {
         await dispatch(readCart(currentUser?.users?.id));
       }
     })();
-  }, [cart]);
+  }, [dispatch]);
 
   return (
     <header className={styles.header}>
