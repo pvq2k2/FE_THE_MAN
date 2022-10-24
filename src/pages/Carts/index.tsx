@@ -32,8 +32,8 @@ const CartPage = (props: Props) => {
   useEffect(() => {       
     (async () => {
       const user = await dispatch(readUserLocal())
-      setId(user.payload?.users.id)
-      await dispatch(readCart(user.payload?.users.id)).unwrap()
+      setId(user?.payload?.users?.id)
+      await dispatch(readCart(user?.payload?.users?.id)).unwrap()
   }) ()
   }, [])
   return (

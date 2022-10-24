@@ -10,11 +10,11 @@ import { get } from "../../api-cilent/Product";
 
 interface Icart {
   cart: {};
-  carts: [];
+  carts: {};
 }
 const initialState: Icart = {
   cart: {},
-  carts: [],
+  carts: {},
 };
 
 export const readCart = createAsyncThunk(
@@ -42,7 +42,6 @@ export const Increment = createAsyncThunk(
 
     if (cartnew.quantity < quantityold.quantity) {
       cartnew.quantity++;
-      updateCart(data);
     } else {
       toast.info("Sản phẩm này chỉ còn " + quantityold.quantity);
     } 
@@ -68,10 +67,6 @@ export const Decrement = createAsyncThunk(
       }
     } else {
       cartnew.quantity--;
-    }
-    updateCart(data);
-    if (data.products.length <= 0) {
-      await removeCart(data._id);
     }
     return data;
   }
@@ -129,17 +124,25 @@ const cartSlice = createSlice({
   reducers: {},
   extraReducers: (build) => {
     build.addCase(addToCart.fulfilled, (state, { payload }) => {
-      state.carts = payload.products as [];
+      state.carts = payload;
       toast.success("Thêm đơn hàng thành công!");
     }),
       build.addCase(readCart.fulfilled, (state, { payload }) => {
         state.carts = payload;
+        
       }),
       build.addCase(Increment.fulfilled, (state, { payload }) => {
+        console.log("payload,", payload);
+        
         state.carts = payload;
+        updateCart(payload);
       }),
       build.addCase(Decrement.fulfilled, (state, { payload }) => {
         state.carts = payload;
+        updateCart(payload);
+        if (payload.products.length <= 0) {
+           removeCart(payload._id);
+        }
       });
   },
 });
