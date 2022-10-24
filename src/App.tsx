@@ -36,7 +36,7 @@ import NotFound from "./components/NotFound";
 import PostPage from "./pages/Post";
 import PrivateRouter from "./components/PrivatrRouter";
 import DetailCateProduct from "./pages/DetailCateProduct";
-import OrderStatus from "./pages/OrderStatus"
+import OrderStatus from "./pages/OrderStatus";
 function App() {
   return (
     <>

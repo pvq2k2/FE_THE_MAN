@@ -63,7 +63,7 @@ const ProductEdit = () => {
           <Link to='/admin/products' className='sm:ml-3'>
             <button
               type='button'
-              className='inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+              className='inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]'
             >
               <HiOutlineX className='text-[20px] mr-2' />
               Thoát
@@ -83,7 +83,7 @@ const ProductEdit = () => {
                     Name
                   </label>
                   <div className='mt-1'>
-                    <input type='text' {...register("name")} id='name-add-product'className='shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2' placeholder='Name...'/>
+                    <input type='text' {...register("name")} id='name-add-product'className='shadow-sm focus:outline-none focus:ring-[#4D535E] focus:border-[#4D535E] mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2' placeholder='Name...'/>
                   </div>
                 </div>
                 {/* End name */}
@@ -94,7 +94,7 @@ const ProductEdit = () => {
                     Price
                   </label>
                   <div className='mt-1'>
-                    <input type='number' {...register("price")} id='price-add-product' className='shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2'  placeholder='Price...' />
+                    <input type='number' {...register("price")} id='price-add-product' className='shadow-sm focus:outline-none focus:ring-[#4D535E] focus:border-[#4D535E] mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2'  placeholder='Price...' />
                   </div>
                 </div>
                 {/* End price */}
@@ -124,7 +124,7 @@ const ProductEdit = () => {
                     Description
                   </label>
                   <div className='mt-1'>
-                    <input type='text' {...register("desc")} id='description-add-product' className='shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2' placeholder='Description...' />
+                    <input type='text' {...register("desc")} id='description-add-product' className='shadow-sm focus:outline-none focus:ring-[#4D535E] focus:border-[#4D535E] mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2' placeholder='Description...' />
                   </div>
                 </div>
                 {/* End description */}
@@ -163,7 +163,7 @@ const ProductEdit = () => {
                 {/* Button */}
               <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
                 <button type='submit'
-                  className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+                  className='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]'>
                   <HiOutlineCheck className='mr-2 text-[20px]' />
                   Save
                 </button>

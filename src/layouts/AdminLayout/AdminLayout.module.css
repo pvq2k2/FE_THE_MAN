@@ -6,8 +6,8 @@
   position: fixed;
   width: 300px;
   height: 100%;
-  background: #9090f1;
-  border-left: 10px solid #9090f1;
+  background: #2A303B;
+  border-left: 10px solid #2A303B;
   transition: 0.5s;
   overflow: hidden;
 }
@@ -37,7 +37,7 @@
 }
 .navigation ul li:hover a,
 .navigation ul li.active a {
-  color: blue;
+  color: #5B6372;
 }
 .navigation ul li:hover a::before,
 .navigation ul li.active a::before {
@@ -85,6 +85,7 @@
 }
 .navigation ul li a .icon .io {
   font-size: 1.75rem;
+  cursor: pointer;
 }
 .navigation ul li a .title {
   position: relative;
