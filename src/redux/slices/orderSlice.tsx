@@ -22,10 +22,6 @@ export const addOrder = createAsyncThunk(
   "Users/addorder",
   async (data: any) => {
     const response = await AddOrderApi(data);  
-    console.log("responsev", response);
-    console.log("data", data);
-    
-    
     const remove = await removeCart(data?._id)
     return response?.data;
   }
