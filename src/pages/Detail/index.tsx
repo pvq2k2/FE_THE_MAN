@@ -6,7 +6,7 @@ import "./assets/css/detail.css";
 import NumberFormat from "react-number-format";
 import { json, useParams } from "react-router-dom";
 import { addToCart } from "../../redux/slices/cartSlice";
-
+import {useForm, SubmitHandler} from 'react-hook-form'
 type Props = {};
 
 type TypeColorSize = Map<
@@ -21,12 +21,11 @@ type TypeColorSize = Map<
 
 const DetailProduct = (props: Props) => {
   const { id } = useParams();
-  // const [types, setTypes] = useState<any[]>([]);
   const dispatch = useDispatch<any>();
   const product = useSelector((state: any) => state.product.product);
   const [colorSize, setColorSize] = useState<TypeColorSize>(new Map());
-  // console.log("colorSize", colorSize);
-  const [rproducts, setRproducts] = useState(0);
+  const {register, handleSubmit} = useForm()
+  const [rproducts, setRproducts] = useState<Number>();
   const [colorSelected, setColorSelected] = useState<string>();
   const [sizeSelected, setSizeSelected] = useState<string>();
   const [quantities, setQuantities] = useState(0);
@@ -34,7 +33,7 @@ const DetailProduct = (props: Props) => {
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user") as any));
   }, []);
-  const onAddOrder = async () => {
+  const onAddOrder:SubmitHandler<any> = async (data: any) => {
     if (!User) {
       return toast.info("Bạn cần phải đăng nhập mới có thể mua hàng", {
         position: "top-right",
@@ -46,7 +45,11 @@ const DetailProduct = (props: Props) => {
         progress: undefined,
       });
     }
-    if (quantities < 1) {
+    if(data.quantity > rproducts!) {
+      return  toast.info("Số lượng còn lại không đủ");
+        
+    } 
+    if (data.quantity < 1) {
       return toast.info("Số lượng phải lớn hơn 1", {
         position: "top-right",
         autoClose: 5000,
@@ -73,11 +76,13 @@ const DetailProduct = (props: Props) => {
         ...rest,
         size: sizeSelected,
         color: colorSelected,
-        quantity: quantities,
+        quantity: parseInt(data?.quantity),
       },
       userID: iduser,
     };
-    await dispatch(addToCart(carts));
+   
+    
+   await dispatch(addToCart(carts));
   };
   const onSize = async (c: any) => {
     setSizeSelected(c.title);
@@ -90,6 +95,7 @@ const DetailProduct = (props: Props) => {
   };
 
   const onColor = (c: any) => {
+    setRproducts(undefined)
     setColorSelected(c);
     setSizeSelected(undefined);
     setQuantities(0);
@@ -133,6 +139,7 @@ const DetailProduct = (props: Props) => {
 
   return (
     <>
+    
       <div className="detail_page">
         <div className="containerx">
           <div className="breadcrumb_list">
@@ -195,7 +202,7 @@ const DetailProduct = (props: Props) => {
                         <div
                           className={`code_color ${
                             colorSelected === c[0]
-                              ? "!border-4 !border-blue-300"
+                              ? "!border-[2px] !border-[#000]"
                               : ""
                           } `}
                           style={{ backgroundColor: `${c[0]}` }}
@@ -209,6 +216,7 @@ const DetailProduct = (props: Props) => {
                   </label> */}
                 </div>
               </div>
+              <form onSubmit={handleSubmit(onAddOrder)}>  
               <div className="size__wrapper">
                 <h6 className="section-title">Kích cỡ:</h6>
                 <div className="select__size dp-flex">
@@ -245,30 +253,14 @@ const DetailProduct = (props: Props) => {
                 ) : (
                   <>
                     <div className="text-rose-600 text-sm font-semibold my-[10px]">
-                      Còn lại : {rproducts}
+                     {rproducts ?  `Còn lại: ${rproducts}`   : ""}
                     </div>
                     <div className="quantity flex items-center mb-[30px]">
-                      <button
-                        type="submit"
-                        onClick={() => setQuantities((old) => old - 1)}
-                        disabled={quantities <= 0}
-                        className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
-                      >
-                        -
-                      </button>
-                      <span className="w-[30px] text-center font-bold">
-                        {quantities}
-                      </span>
-                      <button
-                        type="submit"
-                        onClick={() => setQuantities((old) => old + 1)}
-                        disabled={
-                          quantities >= rproducts || sizeSelected == null
-                        }
-                        className="bg-blue-300 w-[35px] h-[28px] rounded-sm"
-                      >
-                        +
-                      </button>
+                     
+                  
+                   <input  className="appearance-none block !w-[50%] bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" {...register("quantity")} placeholder="Nhập số lượng cần mua"  />
+                  
+                     
                     </div>
                   </>
                 )}
@@ -284,16 +276,17 @@ const DetailProduct = (props: Props) => {
                   </a>
                 </div>
               </div>
-
+                 
               <div className="add_cart">
                 <button
                   type="submit"
-                  onClick={() => onAddOrder()}
+                  
                   className="btn_add"
                 >
                   Thêm vào giỏ hàng
                 </button>
               </div>
+              </form>
               <div className="desc__wrapper">
                 <h6 className="section-title">Mô tả</h6>
                 <p className="desc min-w-[430px]">{product?.desc}</p>
@@ -360,7 +353,7 @@ const DetailProduct = (props: Props) => {
               Bình luận về Áo sơ mi - AR220134DT
             </h2>
             <div className="form_comment">
-              <form action="">
+             
                 <textarea
                   name=""
                   id=""
@@ -370,8 +363,9 @@ const DetailProduct = (props: Props) => {
                   defaultValue={""}
                 />
                 <button type="submit">GỬI</button>
-              </form>
+             
             </div>
+            
             <div className="list-comments_wrapper">
               <div className="item">
                 <div className="user dp-flex">
@@ -400,11 +394,16 @@ const DetailProduct = (props: Props) => {
                   </div>
                 </div>
                 <p className="content">Áo này đẹp quá !</p>
+                
               </div>
+              
             </div>
+            
           </div>
+          
         </div>
       </div>
+      
     </>
   );
 };

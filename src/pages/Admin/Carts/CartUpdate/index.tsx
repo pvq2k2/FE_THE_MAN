@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { getCatePost, updateCatePost } from '../../../../redux/slices/catePostSlice'
+import { readOrder } from '../../../../redux/slices/orderSlice'
 import { useAppDispatch } from '../../../../redux/store'
 
 
@@ -15,18 +16,18 @@ const CartUpdate = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const {register,handleSubmit,formState:{errors}, reset}=useForm();
-  const carts = useSelector((state:any) => state.carts.cart)
-  console.log(carts);
+  const order = useSelector((state:any) => state.orders)
+ 
+  
   let sum = 0
-  const onEditCart = (data: any) => {
-            dispatch(updateStatusCart(data))
-            navigate(`/admin/carts`)
+  const onUpdate = (data: any) => {
+            console.log("dat",data);
+          //  navigate(`/admin/carts`)
+          console.log(order, " console.log(order);");
   }
   useEffect(() => {
     (async () => {
-      const carts = await dispatch(readCart(id));
-      console.log("ca", carts);
-      
+      const carts = await dispatch(readOrder(id!));
       reset(carts?.payload);
     })();
   }, [id, dispatch, reset]);
@@ -35,7 +36,7 @@ const CartUpdate = () => {
       <div>
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between">
-            <h1 className="text-3xl font-bold text-gray-900">Cập nhật trạng thái đơn hàng</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Chi tiết đơn hàng</h1>
             <Link to="/admin/carts" className="sm:ml-3">
               <button
                 type="button"
@@ -52,6 +53,50 @@ const CartUpdate = () => {
           <table className="table-auto w-full ">
             <thead className="pb-10 ">
               <tr className="text-left ">
+                <th className=" font-semibold pb-10">Thông tin người nhận</th>
+                <th className=" font-semibold pb-10">Thông tin vận chuyển</th>
+                <th className="font-semibold pb-10">Thời gian đặt hàng</th>
+                <th className="font-semibold pb-10">Tổng tiền</th>
+                <th className="font-semibold pb-10">Hành động</th>
+              </tr>
+            </thead>
+            <tbody className="w-full">
+            <tr className="border-t-2">
+              <td className=" py-10  gap-8"> 
+                  <div>Họ tên: {order?.order?.infomation?.fullname}</div>
+                  <div>Email: {order?.order?.infomation?.email}</div>
+                  <div>Địa chỉ: {order?.order?.infomation?.address}</div>
+                  <div>Số điện thoại: {order?.order?.infomation?.phonenumber}</div>
+               </td>  
+              <td className=" py-10  gap-8"> </td>  
+              <td className=" py-10  gap-8">{order?.order?.createdAt} </td>             
+              <td className=" py-10  gap-8"> { <NumberFormat
+                            value={order?.order?.totalprice}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={""}
+                          />
+                          }VNĐ</td>  
+              <td className="py-10  gap-8">
+                <h2 className='my-[10px]'>Xác nhận đơn hàng: </h2>
+                <form onSubmit={handleSubmit(onUpdate)} className='flex flex-col'>
+                  <select {...register("status")} className='max-w-[150px] my-[5px] py-[10px]'>
+                    <option value={0}>Đang xử lý</option>
+                    <option value={1}>Xác nhận</option>
+                  </select>
+                  <button className='max-w-[150px] bg-blue-300 py-[5px]' type='submit'>Gửi</button>
+                </form>
+                
+                </td>  
+            </tr>
+            
+            </tbody>
+           
+          </table>
+          <table className="table-auto w-full ">
+            <thead className="pb-10 ">
+              <tr className="text-left ">
+              <th className=" font-semibold pb-10">STT</th>
                 <th className=" font-semibold pb-10">Sản phẩm</th>
                 <th className=" font-semibold pb-10">Màu sắc / Kích cỡ </th>
                 <th className="font-semibold pb-10">Số lượng</th>
@@ -59,12 +104,17 @@ const CartUpdate = () => {
               </tr>
             </thead>
             <tbody className="w-full">
-             {carts?.product?.map((item:any) => {
+             {order?.order?.product?.map((item:any, index:number) => {
               
               {sum += item.quantity * item.price}
               
               
-              return <tr className="border-t-2">
+              return <tr key={index++} className="border-t-2">
+                   <td className="w-40">
+               
+               <span className="px-6">{index ++}</span>
+               
+             </td>
               <td className="flex py-10  gap-8">
                 <img src={item.image} className="w-20"></img>
                 <div className="pt-7">
@@ -105,58 +155,7 @@ const CartUpdate = () => {
             </tbody>
            
           </table>
-          <h2 className='font-bold text-[20px] my-[20px]'>Thông tin người nhận:</h2>
-          <table className="table-auto w-full ">
-            <thead className="pb-10 ">
-              <tr className="text-left ">
-                <th className=" font-semibold pb-10">Họ tên</th>
-                <th className=" font-semibold pb-10">Địa chỉ </th>
-                <th className="font-semibold pb-10">Số điện thoại</th>
-                <th className="font-semibold pb-10">Tổng tiền</th>
-                <th className="font-semibold pb-10">Hành động</th>
-              </tr>
-            </thead>
-            {/* <tbody className="w-full">
-            
-              
-              
-               <tr className="border-t-2">
-               <td className="font-bold"> 
-               {carts?.infomation?.fullname}
-                 </td>
-                 <td className="font-bold"> 
-               {carts?.infomation?.address}
-                 </td>
-                 <td className="font-bold"> 
-               {carts?.infomation?.phonenumber}
-                 </td>
-                 <td className="font-bold"> <NumberFormat
-                  value={sum}
-                  displayType={"text"}
-                  thousandSeparator={true}
-                  prefix={""}
-                /> VNĐ
-                 </td>
-                 <td className="font-bold"> 
-                        <form onSubmit={handleSubmit(onEditCart)}>
-                            <select {...register('status')} className="p-[5px] my-[5px]">
-                                <option value="">Bấm vào để chọn</option>
-                                <option value="0">Đang xử lý</option>
-                                <option value="1">Đã gửi</option>
-                            </select>
-                            <button type='submit' className='bg-blue-300 p-[10px] rounded-[5px]'>Xác nhận</button>
-                        </form>
-                 </td>
-             
-            </tr>
-
-           
-              
-            
-            
-            </tbody> */}
-           
-          </table>
+        
          
           </div>
         </div>

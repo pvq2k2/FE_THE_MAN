@@ -11,6 +11,7 @@ import {
 } from "../../redux/slices/provinceSlice";
 import { readUserLocal } from "../../redux/slices/userSlice";
 import { readCart } from "../../redux/slices/cartSlice";
+import { toast } from "react-toastify";
 import { addOrder } from "../../redux/slices/orderSlice";
 type Props = {};
 
@@ -40,7 +41,7 @@ const CheckoutPage = (props: Props) => {
     (async () => {
       const data = {
         ...provicei,
-        service_id: 53321,
+        service_type_id: 2,
         insurance_value: sum,
         coupon: null,
         from_district_id: 3440,
@@ -50,9 +51,7 @@ const CheckoutPage = (props: Props) => {
         width: sumwidth,
       };
       
-      const res = await dispatch(getFee(data));
-      console.log("data",data);
-      
+      const res = await dispatch(getFee(data));  
       setFee(res?.payload?.total);
     })();
   }, [provicei]);
@@ -68,7 +67,9 @@ const CheckoutPage = (props: Props) => {
     formState: { errors },
   } = useForm();
   const onAdd: SubmitHandler<any> = (data: any) => {
-    
+    if(provicei.to_district_id  == 0) {
+        return toast.info("Vui lòng chọn địa chỉ giao hàng")
+    }
     let product = []
     product = carts.carts.products
     let _id = ""
@@ -81,12 +82,13 @@ const CheckoutPage = (props: Props) => {
       productmonney: sum,
       userID:User?.payload?.users?.id,
       totalprice: sum+fee,
-    };
-    console.log("products", products);
-    
-    
+      width: sumwidth,
+      length: sumlength,
+      height: sumheight,
+      weight: sumweight
+    };  
       dispatch(addOrder(products))
-   // navigate("/");
+       //navigate("/");
   };
   const onProvince = async (e: any) => {
     await dispatch(getDistrict(parseInt(e.target.value)));

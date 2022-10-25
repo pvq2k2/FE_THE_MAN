@@ -7,10 +7,10 @@ export const GetOrdersApi = () => {
     return instance.get(`/orders`);
 }
 
-export const removeOrderApi = (id: any) => {
+export const removeOrderApi = (id: string) => {
     return instance.delete(`/orders/${id}`);
 }
-export const readOrderCartApi = (id: any) => {
+export const readOrdertApi = (id: any) => {
     return instance.get(`orders/${id}`)
 }
 
