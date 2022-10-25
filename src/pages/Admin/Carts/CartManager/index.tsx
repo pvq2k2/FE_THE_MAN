@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { TiPlus } from "react-icons/ti";
+import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { deleteCatePost, getAllCatePosts } from "../../../../redux/slices/catePostSlice";
+import { getOrders, removeOrder } from "../../../../redux/slices/orderSlice";
 import { formatCurrency } from "../../../../ultis";
 import styles from "./Cart.module.css";
 
@@ -12,15 +15,16 @@ type Props = {};
 
 const CartPostManager = () => {
   const dispatch = useDispatch<any>()
-  const carts = useSelector((state: any) => state.carts.orderdetail)
-  const onDelete = (id:any) => {
+  const order = useSelector((state: any) => state.orders)
+  const onDelete = async (id:any) => {
     const confirm = window.confirm("Bạn có chắc chắc muốn xoá đơn hàng này không?")
       if(confirm) { 
-        dispatch(removeCart(id))
+           await dispatch(removeOrder(id))
+           toast.success("Xoá đơn hàng thành công")
       }
   }
   useEffect(() => {
-        dispatch(listCarts())
+        dispatch(getOrders())
   }, [dispatch])
   return (
     <div className={styles.content}>
@@ -32,16 +36,29 @@ const CartPostManager = () => {
           <thead>
             <tr>
               <td>STT</td>
+              <td>Thông tin người nhận</td>
               <td>Tổng tiền</td>
               <td>Trạng thái</td>
               <td>Hành động</td>
             </tr>
           </thead>
-          {/* <tbody>
-         {carts?.map((item: any, index: number) => {
+          <tbody>
+         {order.orders?.map((item: any, index: number) => {
           return  <tr key={index + 1}>
           <td>{index + 1}</td>
-          <td>{formatCurrency(item.totalprice)}</td>
+          <td>
+          <div>{item.infomation.fullname}</div>
+          <div>{item.infomation.address}</div>
+          <div>{item.infomation.email}</div>
+          <div>{item.infomation.phonenumber}</div>
+          </td>
+          <td>{ <NumberFormat
+                            value={item?.totalprice}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={""}
+                          />
+                          } VNĐ </td> 
           <td>{item.status == 0 ? "Đang xử lý" : "Đơn hàng đã được gửi"}</td>
           <td className={styles.action}>
             <Link to={`/admin/carts/update/${item._id}`}>
@@ -52,7 +69,7 @@ const CartPostManager = () => {
           </td>
         </tr>
          })}
-          </tbody> */}
+          </tbody>
         </table>
       </main>
     </div>

@@ -46,9 +46,7 @@ export const getDistrict  = createAsyncThunk("provinces/getdistrict", async (id:
 export const getWards = createAsyncThunk("province/getwards", async (id: number) => {
         const district = {
           'district_id': id
-        }
-        console.log(district);
-        
+        }       
         const res = await axios.post('https://online-gateway.ghn.vn/shiip/public-api/master-data/ward', JSON.stringify(district), {
           headers: {
             'Content-Type': 'application/json',
@@ -65,8 +63,6 @@ export const getSevicePackage = createAsyncThunk("province/getsevicepackage", as
         'from_district': 3440,
         'to_district': data
       }
-      console.log("ppa", param);
-      
       const res = await axios.post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services", param ,
       {
         headers: {
@@ -84,9 +80,7 @@ export const getFee = createAsyncThunk("province, getfee", async (data: any) => 
             'token': '422b151b-4b63-11ed-8008-c673db1cbf27',
             'shop_id': 3348656
         }
-        })
-        console.log("fee", res.data.data);
-        
+        })      
         return res.data.data
         
 })

@@ -1,17 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { removeCart } from "../../api-cilent/Cart";
-import { AddOrderApi } from "../../api-cilent/Orders";
-
+import { AddOrderApi, GetOrdersApi, readOrdertApi, removeOrderApi } from "../../api-cilent/Orders";
 type orderState = {
         order: {},
-        orders: []
+        orders: [],
 };
 
 const initialState: orderState = {
     order: {},
-    orders: []
+    orders: [],
 };
 
+export const getOrders = createAsyncThunk(
+  "orders/getorders",
+  async () => {
+    const res = await GetOrdersApi()
+    return res.data
+  }
+);
 export const addOrder = createAsyncThunk(
   "Users/addorder",
   async (data: any) => {
@@ -20,16 +26,33 @@ export const addOrder = createAsyncThunk(
     return response?.data;
   }
 );
+export const removeOrder = createAsyncThunk("orders/removeorders", async (id: string) => {
+   const res = await removeOrderApi(id);
+   return res.data
+})
 
+export const readOrder = createAsyncThunk("orders/readorder", async (id: string) => {
+  const res = await readOrdertApi(id)
+  return res.data
+})
 
-const UsersSlice = createSlice({
-  name: "Users",
+const orderSlice = createSlice({
+  name: "orders",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getOrders.fulfilled, (state, { payload }) => {
+      state.orders = payload
+    }),
+    builder.addCase(removeOrder.fulfilled, (state, { payload }) => {
+      state.orders = state.orders.filter((item: any) => item._id !== payload._id)
+    }),
+    builder.addCase(readOrder.fulfilled, (state, { payload }) => {
+      state.order = payload
+    }),
     builder.addCase(addOrder.fulfilled, (state, { payload }) => {
     })
   },
 });
 
-export default UsersSlice.reducer;
+export default orderSlice.reducer;
