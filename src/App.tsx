@@ -36,6 +36,7 @@ import NotFound from "./components/NotFound";
 import PostPage from "./pages/Post";
 import PrivateRouter from "./components/PrivatrRouter";
 import DetailCateProduct from "./pages/DetailCateProduct";
+import OrderStatus from "./pages/OrderStatus";
 function App() {
   return (
     <>
@@ -53,6 +54,14 @@ function App() {
           element={
             <ClientLayout>
               <CartPage />
+            </ClientLayout>
+          }
+        />
+                <Route
+          path="/order"
+          element={
+            <ClientLayout>
+              <OrderStatus/>
             </ClientLayout>
           }
         />

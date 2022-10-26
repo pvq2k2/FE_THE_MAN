@@ -1,0 +1,17 @@
+.container{
+   background-color: whitesmoke;
+   width: 1200px;
+   height: 300px;
+}
+.first-box{
+   display: flex;
+   justify-content: space-between;
+}
+.btn-order{
+   display:flex ;
+   justify-content: space-between;
+}
+.btn-buy{
+   display: flex;
+   justify-content: space-between;
+}

@@ -14,6 +14,8 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { Link, Outlet } from "react-router-dom";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { BsNewspaper } from "react-icons/bs";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import Dashboard from "../../pages/Admin/Dashboard";
 
 const AdminLayout = () => {
   const boxUser = useRef<HTMLDivElement>(null);
@@ -49,12 +51,15 @@ const AdminLayout = () => {
         <div ref={navigationElement} className={styles.navigation}>
           <ul>
             <li>
-              <a href="#">
+              <Link to="/">
+              <a href="#" >
                 <span className={styles.icon}>
                   <IoLogoOctocat className={styles.io} />
+                  {/* <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" /> */}
                 </span>
-                <span className={styles.title}>Brand Name</span>
+                <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">The Man</span>
               </a>
+              </Link>
             </li>
             <li>
               <Link to="/admin">
@@ -80,7 +85,7 @@ const AdminLayout = () => {
               <Link to="/admin/carts">
                 <a>
                   <span className={styles.icon}>
-                    <RiProductHuntLine className={styles.io} />
+                    <AiOutlineShoppingCart className={styles.io} />
                   </span>
                   <span className={styles.title}>Carts</span>
                 </a>
@@ -183,6 +188,7 @@ const AdminLayout = () => {
 
           <div className={styles.content}>
             <Outlet />
+            <Dashboard/>
           </div>
         </div>
       </div>
