@@ -99,6 +99,14 @@ function App() {
           }
         />
         <Route
+          path="/post/:id"
+          element={
+            <ClientLayout>
+              <PostPage />
+            </ClientLayout>
+          }
+        />
+        <Route
           path="/detail/:id/post"
           element={
             <ClientLayout>
