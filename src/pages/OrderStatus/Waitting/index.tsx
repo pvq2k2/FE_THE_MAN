@@ -1,71 +1,66 @@
+import { HiRefresh } from "react-icons/hi";
+import { Link } from "react-router-dom";
+import "./waiting.css"
+
 type Props = {};
 
 const Waitting = (props: Props) => {
-
   return (
-    <main>
-      <section className="container max-w-6xl mx-auto px-3 mt-10 grid grid-cols-12 mb-9">
-          <>
-            <form action="" method="POST" id="cart__detail-form" className="col-span-12 lg:col-span-8 lg:pr-6">
-              <table className="table-auto w-full text-left border-collapse" id="cart__detail">
-                <thead>
-                  <tr className="uppercase border-b-2">
-                    <th className="pb-1 uppercase text-sm text-gray-500" colSpan={3}>
-                      Sản phẩm
-                    </th>
-                    <th className="pb-1 uppercase text-sm text-gray-500">Giá</th>
-                    <th className="pb-1 uppercase text-sm text-gray-500">Số lượng</th>
-                    <th className="pb-1 uppercase text-sm text-gray-500 text-right">Tạm tính</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr className="border-b" >
-                      <td>
-                        <button
-                          type="button"
-                          className="p-2 text-gray-400 text-xl transition ease-linear duration-200 hover:text-black"
-                        >
-                        </button>
-                      </td>
-                      <td className="p-2">
-                          <div className="w-16 h-16 relative">
-                            <img className="block w-16 object-cover absolute" src="https://res.cloudinary.com/assignment22/image/upload/v1666345878/Ass-reactjs/test_ey6hrr.webp" alt="" />
-                          </div>
-                      </td>
-                      <td className="p-2">
-                        <a className="font-semibold" href="">
-                          linh
-                        </a>
-                      </td>
-                      <td className="font-bold">100</td>
-                      <td>1</td>
-                      <td className="font-bold text-right">100</td>
-                    </tr>
-                </tbody>
-              </table>
-              <ul className="flex mt-6 items-center">
-                <li>
-                    <button
-                      type="button"
-                      className="select-none uppercase h-8 text-primary font-semibold text-sm border-[#4d8a54] border-2 px-3 transition ease-linear duration-300 hover:bg-[#4d8a54] hover:text-white"
-                    >
-                      <span> Tiếp tục xem sản phẩm</span>
-                    </button>
-                </li>
-              </ul>
-            </form>
-          </>
-          <section className="text-center col-span-12 py-12">
-            <p>Chưa có sản phẩm nào</p>
-              <div className="block mt-4">
-                <button className="uppercase h-8 text-[#4d8a54] font-semibold text-sm border-[#4d8a54] border-2 px-3 transition ease-linear duration-300 hover:bg-[#4d8a54] hover:text-white">
-                  <span> Tiếp tục mua hàng</span>
-                </button>
-              </div>
-          </section>
-     
-      </section>
-    </main>
+
+    <div>
+
+      <div className="m-auto max-w-full pb-36 mt-5">
+        <div className="mt-5 md:mt-0 md:col-span-2">
+        <table className="table-auto w-full ">
+          <thead className="pb-10 ">
+            <tr className="text-left ">
+              <th className=" font-semibold pb-5">STT</th>
+              <th className=" font-semibold pb-5 text-center">Sản phẩm</th>
+              <th className="font-semibold pb-5">Tổng tiền</th>
+              <th className="font-semibold pb-5">Trạng thái đơn hàng</th>
+              <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
+              <th className="font-semibold pb-5">Hành động</th>
+            </tr>
+          </thead>
+          <tbody className="w-full">
+          <tr className="border-t-2">
+            <td className=" py-10  gap-8">1</td>  
+            <td className="prod py-10 gap-8 inline-flex ml-[40px]">
+             <div className="img-item w-[190px] h-[190px] overflow-hidden pt-4">
+                <img src="https://res.cloudinary.com/assignment22/image/upload/v1666929320/Ass-reactjs/%C3%A1o_hqugdy.jpg" alt="Áo thun" />
+             </div>
+             <div className="pt-3">
+                <div className="w-[330px] break-words">
+                    <span className="text-[17px] ">Áo thun nam Teelab sieu chat luong thoang mat cho mua he nang dong</span>
+                </div>
+                <div className="text-[15px] text-gray-500 pt-[10px]">Phân loại hàng : <b> M</b></div> 
+                <div className="text-[15px] text-gray-500 pt-[7px] flex">Màu săc : <p className="w-[20px] h-[20px] bg-red-600 ml-2"></p></div>  
+                <div className="text-[15px] text-gray-500 pt-[7px]">Số lượng : 2</div>  
+                <div className="sales  w-[110px] pt-[8px]"> <p className="text-[#ee4d2d] text-[11px]">7 ngày đổi trả hàng</p> </div>            
+              </div> 
+            </td>  
+            <td className=" py-10  gap-8"> 200.000 VND</td>  
+            <td className="py-10  gap-8 text-red-600 ">Đang chờ xác nhận</td>  
+            <td className=" py-10  gap-8 "> <button className="btn">Chi tiết sản phẩm</button></td>  
+            <td className="py-10  gap-8">
+              <form  className='flex flex-col pt-7'>
+                <select className='max-w-[190px] my-[6px] py-[5px] outline-none'>
+                  <option >Tiến hành giao hàng</option>
+                  <option >Chưa xác nhận</option>
+                </select>
+                <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit'>Gửi</button>
+              </form>
+              
+              </td>
+          </tr>
+          
+          </tbody>
+         
+        </table>
+        </div>
+      </div>
+    </div>
+
   );
 };
 
