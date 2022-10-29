@@ -33,9 +33,9 @@ const CartUpdate = () => {
   }, [id, dispatch, reset]);
   return (
     <div>
-      <div>
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between">
+      <div className='ml-[40px] mx-8'>
+        <header className="bg-white ">
+          <div className="max-w-7xl mx-auto py-6   flex justify-between">
             <h1 className="text-3xl font-bold text-gray-900">Chi tiết đơn hàng</h1>
             <Link to="/admin/carts" className="sm:ml-3">
               <button
@@ -62,11 +62,11 @@ const CartUpdate = () => {
             </thead>
             <tbody className="w-full">
             <tr className="border-t-2">
-              <td className=" py-10  gap-8"> 
-                  <div>Họ tên: {order?.order?.infomation?.fullname}</div>
-                  <div>Email: {order?.order?.infomation?.email}</div>
-                  <div>Địa chỉ: {order?.order?.infomation?.address}</div>
-                  <div>Số điện thoại: {order?.order?.infomation?.phonenumber}</div>
+              <td className=" py-10  gap-8 text-[15px]"> 
+                  <div><b>Họ tên: </b> {order?.order?.infomation?.fullname}</div>
+                  <div><b>Email:</b> {order?.order?.infomation?.email}</div>
+                  <div><b>Địa chỉ: </b> {order?.order?.infomation?.address}</div>
+                  <div><b>Số điện thoại: </b> {order?.order?.infomation?.phonenumber}</div>
                </td>  
               <td className=" py-10  gap-8"> </td>  
               <td className=" py-10  gap-8">{order?.order?.createdAt} </td>             
@@ -77,7 +77,7 @@ const CartUpdate = () => {
                             prefix={""}
                           />
                           }VNĐ</td>  
-              <td className="py-10  gap-8">
+              <td className="py-10  gap-8 outline-none">
                 <h2 className='my-[10px]'>Xác nhận đơn hàng: </h2>
                 <form onSubmit={handleSubmit(onUpdate)} className='flex flex-col'>
                   <select {...register("status")} className='max-w-[150px] my-[5px] py-[10px]'>
@@ -98,7 +98,7 @@ const CartUpdate = () => {
               <tr className="text-left ">
               <th className=" font-semibold pb-10">STT</th>
                 <th className=" font-semibold pb-10">Sản phẩm</th>
-                <th className=" font-semibold pb-10">Màu sắc / Kích cỡ </th>
+                <th className=" font-semibold pb-10">Màu sắc  </th>
                 <th className="font-semibold pb-10">Số lượng</th>
                 <th className="font-semibold pb-10">Tổng tiền</th>
               </tr>
@@ -117,18 +117,19 @@ const CartUpdate = () => {
              </td>
               <td className="flex py-10  gap-8">
                 <img src={item.image} className="w-20"></img>
-                <div className="pt-7">
-                  <p>{item.name}</p>
-                  <p className="font-bold"> <NumberFormat
+                <div className="pt-4">
+                  <p className='text-[16px]'>{item.name}</p>
+                  <p className=' text-gray-500'>Giá: <NumberFormat className="font-bold"
                   value={item?.price}
                   displayType={"text"}
                   thousandSeparator={true}
                   prefix={""}
-                />{" "} VNĐ</p>
+                />{" "} <span className="font-bold">VNĐ</span>  </p>
+                <p className=' text-gray-500'>Kích cỡ: <b>{item.size}</b></p>
                 </div>
               </td>
               <td className="w-40">
-              <div className="font-bold flex">  <div style={{ backgroundColor: `${item.color}` }} className="h-[20px] w-[20px] rounded-[50%]" ></div> / {item.size}</div>
+              <div className="font-bold flex">  <div style={{ backgroundColor: `${item.color}` }} className="h-[35px] w-[50px] rounded" ></div></div>
               </td>
               <td className="w-40">
                

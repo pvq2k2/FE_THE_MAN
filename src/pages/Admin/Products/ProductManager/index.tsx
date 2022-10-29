@@ -21,6 +21,7 @@ import "../../../../styleAntd/panigation.css";
 import Swal from "sweetalert2";
 import { getAll } from "../../../../api-cilent/Product";
 import { Pagination } from "antd";
+import "../../Dashboard/dashboard.css"
 type Props = {};
 
 const ProductManager = (props: Props) => {
