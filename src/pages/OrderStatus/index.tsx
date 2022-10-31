@@ -53,7 +53,7 @@ export default function OrderStatus() {
   };
 
   return (
-    <div className='pt-[20px] w-[100%] h-[500px] m-0'>
+    <div className='pt-[20px] max-w-[1342px] m-[auto] h-[500px] '>
           <Box sx={{ width: '100%',}}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

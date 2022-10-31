@@ -22,6 +22,11 @@ const CheckoutPage = (props: Props) => {
   const province = useSelector((state: any) => state.province);
   const [fee, setFee] = useState<number>(0);
   const [User,setUser] = useState<any>();
+  const [Receiver, setReceiver] = useState({
+    to_ward_name: "",
+    to_district_name: "",
+    to_province_name: ""
+  })
   const [provicei, setProvicei] = useState({
     to_district_id: 0,
     to_ward_code: 0,
@@ -70,6 +75,10 @@ const CheckoutPage = (props: Props) => {
     if(provicei.to_district_id  == 0) {
         return toast.info("Vui lòng chọn địa chỉ giao hàng")
     }
+      const info = {
+        ...Receiver,
+        ...data
+      }
     let product = []
     product = carts.carts.products
     let _id = ""
@@ -77,7 +86,7 @@ const CheckoutPage = (props: Props) => {
     const products = {
       _id,
       product,
-      infomation: data,
+      infomation: info,
       fee: fee,
       productmonney: sum,
       userID:User?.payload?.users?.id,
@@ -88,10 +97,11 @@ const CheckoutPage = (props: Props) => {
       weight: sumweight
     };  
       dispatch(addOrder(products))
-       //navigate("/");
+       navigate("/");
   };
   const onProvince = async (e: any) => {
     await dispatch(getDistrict(parseInt(e.target.value)));
+    setReceiver(old => ({...old, to_province_name: e.target.options[e.target.selectedIndex].text}))
   };
   const onDistrict = async (e: any) => {
     await dispatch(getWards(parseInt(e.target.value)));
@@ -99,9 +109,11 @@ const CheckoutPage = (props: Props) => {
       ...old,
       to_district_id: parseInt(e.target.value),
     }));
+    setReceiver(old => ({...old, to_district_name: e.target.options[e.target.selectedIndex].text}))
   };
   const onWard = async (e: any) => {
     setProvicei((old) => ({ ...old, to_ward_code: parseInt(e.target.value) }));
+    setReceiver(old => ({...old, to_ward_name: e.target.options[e.target.selectedIndex].text}))
   };
   return (
     <div>
