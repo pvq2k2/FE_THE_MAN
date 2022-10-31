@@ -37,6 +37,8 @@ const CartPostManager = () => {
             <tr>
               <td>STT</td>
               <td>Thông tin người nhận</td>
+              <td>Phí giao hàng</td>
+              <td>Tiền hàng</td>
               <td>Tổng tiền</td>
               <td>Trạng thái</td>
               <td>Hành động</td>
@@ -44,7 +46,15 @@ const CartPostManager = () => {
           </thead>
           <tbody>
          {order.orders?.map((item: any, index: number) => {
-          return  <tr key={index + 1}>
+          let status = ""
+          if(item.status == 0) {
+              status = "Đang đợi xác nhận"
+          }else if(item.status == 1 ) {
+              status = "Đơn hàng đã được xác nhận."
+          }else if(item.status == 2) {
+              status = "Đã huỷ"
+          }
+          return <tr key={index + 1}>
           <td>{index + 1}</td>
           <td>
           <div>{item.infomation.fullname}</div>
@@ -53,13 +63,27 @@ const CartPostManager = () => {
           <div>{item.infomation.phonenumber}</div>
           </td>
           <td>{ <NumberFormat
+                            value={item?.fee}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={""}
+                          />
+                          } VNĐ </td> 
+          <td>{ <NumberFormat
+                            value={item?.productmonney}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={""}
+                          />
+                          } VNĐ </td> 
+          <td>{ <NumberFormat
                             value={item?.totalprice}
                             displayType={"text"}
                             thousandSeparator={true}
                             prefix={""}
                           />
                           } VNĐ </td> 
-          <td>{item.status == 0 ? "Đang xử lý" : "Đơn hàng đã được gửi"}</td>
+          <td>{status}</td>
           <td className={styles.action}>
             <Link to={`/admin/carts/update/${item._id}`}>
               <AiOutlineEdit className={styles.edit} />
