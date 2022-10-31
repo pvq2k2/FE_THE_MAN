@@ -47,7 +47,7 @@ const Categories = (props: Props) => {
         {catePro?.cateproducts?.map((item : any)=>{
             return <div className={styles.categories__item}>
             <div className={styles.item__box}>
-              <Link to={`/detail/cate/:id/product`}>
+              <Link to={`/detail/cate/${item._id}/product`}>
               <img src={item.image} alt='000017'/>
               <div className={styles.overlay}>
                 <span>{item.name}</span>

@@ -37,6 +37,7 @@ import PostPage from "./pages/Post";
 import PrivateRouter from "./components/PrivatrRouter";
 import DetailCateProduct from "./pages/DetailCateProduct";
 import OrderStatus from "./pages/OrderStatus";
+import Dashboard from "./pages/Admin/Dashboard";
 function App() {
   return (
     <>
@@ -99,6 +100,14 @@ function App() {
           }
         />
         <Route
+          path="/post/:id"
+          element={
+            <ClientLayout>
+              <PostPage />
+            </ClientLayout>
+          }
+        />
+        <Route
           path="/detail/:id/post"
           element={
             <ClientLayout>
@@ -141,8 +150,8 @@ function App() {
             </PrivateRouter>
           }
         >
-          {/* <Route index element={<AdminLayout><h1>Dashboard</h1></AdminLayout>} />
-          <Route path="dashboard" element={<AdminLayout><h1>Dashboard</h1></AdminLayout>} /> */}
+          {/* <Route index element={<AdminLayout><h1>Dashboard</h1></AdminLayout>} />*/}
+          <Route path="dashboard" element={<Dashboard/>} /> 
           <Route path="products">
             <Route index element={<ProductManager />} />
             <Route path="add" element={<ProductAdd />} />
