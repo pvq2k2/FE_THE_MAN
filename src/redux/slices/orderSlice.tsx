@@ -36,9 +36,9 @@ export const removeOrder = createAsyncThunk("orders/removeorders", async (id: st
 
 export const infoOrder = createAsyncThunk("orders/infoorder", async (id: string) => {
   try {
-    const res = await axios.post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail", id, {
+    const res = await axios.post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail", id, {
       headers: {
-        'Token': '422b151b-4b63-11ed-8008-c673db1cbf27'
+        'Token': '755b4fbb-5918-11ed-bd1f-1a28f04fff2f'
       }
     })
     return res.data
@@ -50,12 +50,12 @@ export const infoOrder = createAsyncThunk("orders/infoorder", async (id: string)
   
 })
 export const cancleOrder = createAsyncThunk("orders/cancleorders", async (data:any) => {
-        const res = await axios.post('https://online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel', data , 
+        const res = await axios.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel', data , 
             {
               headers: {
                 'Content-Type': 'application/json',
-                'ShopId': 3348656,
-                'Token': '422b151b-4b63-11ed-8008-c673db1cbf27',
+                'ShopId': 120366,
+                'Token': '755b4fbb-5918-11ed-bd1f-1a28f04fff2f',
               },
             }    
         )
@@ -71,11 +71,11 @@ export const updateOrder = createAsyncThunk("orders/updateorder", async (data: a
 })
 
 export const orderConfirm = createAsyncThunk("orders/orderconfirm", async (data:any) => {
-  const res = await axios.post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create", data, {
+  const res = await axios.post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create", data, {
     headers: {
       'Content-Type': 'application/json',
-      'ShopId': 3348656,
-      'Token': '422b151b-4b63-11ed-8008-c673db1cbf27',
+      'ShopId': 120366,
+      'Token': '755b4fbb-5918-11ed-bd1f-1a28f04fff2f',
     },
   })
   return res.data

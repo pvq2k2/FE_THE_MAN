@@ -81,14 +81,13 @@ const CartUpdate = () => {
                
             }
             if(data.order_code) {
-              console.log("a", data.order_code);
-              
               return toast.info("Đơn hàng này đã được xác nhận. Đang đợi shipper tới lấy hàng");
             }
             if(data.status === 1) {  
                   const res = await dispatch(orderConfirm(infocart))
                   data.order_code = res?.payload?.data?.order_code
-                    const update = await  dispatch(updateOrder(data))                
+                    const update = await  dispatch(updateOrder(data))   
+                    toast.info("Thành công");             
             }
             
           
@@ -104,6 +103,52 @@ const CartUpdate = () => {
       dispatch(infoOrder(orderId || ''))
     })();
   }, [id]);
+  let currentstatus = ""
+                    if(order?.orderinfo?.data?.status == "ready_to_pick") {
+                      currentstatus = "Mới tạo đơn hàng"
+                    }else if(order?.orderinfo?.data?.status == "picking") {
+                      currentstatus = "Nhân viên đang lấy hàng"
+                    }else if(order?.orderinfo?.data?.status == "cancel") {
+                      currentstatus = "Hủy đơn hàng"
+                    }else if(order?.orderinfo?.data?.status == "money_collect_picking") {
+                      currentstatus = "Đang thu tiền người gửi"
+                    }else if(order?.orderinfo?.data?.status == "picked") {
+                      currentstatus = "Nhân viên đã lấy hàng"
+                    }else if(order?.orderinfo?.data?.status == "storing") {
+                      currentstatus = "Hàng đang nằm ở kho"
+                    }else if(order?.orderinfo?.data?.status == "transporting") {
+                      currentstatus = "Đang luân chuyển hàng"
+                    }else if(order?.orderinfo?.data?.status == "delivering") {
+                      currentstatus = "Nhân viên đang giao cho người nhận"
+                    }else if(order?.orderinfo?.data?.status == "money_collect_delivering") {
+                      currentstatus = "Nhân viên đang thu tiền người nhận"
+                    }else if(order?.orderinfo?.data?.status == "delivered") {
+                      currentstatus = "Nhân viên đã giao hàng thành công"
+                    }else if(order?.orderinfo?.data?.status == "delivery_fail") {
+                      currentstatus = "Nhân viên giao hàng thất bại"
+                    }else if(order?.orderinfo?.data?.status == "waiting_to_return") {
+                      currentstatus = "Đang đợi trả hàng về cho người gửi"
+                    }else if(order?.orderinfo?.data?.status == "return") {
+                      currentstatus = "Trả hàng"
+                    }else if(order?.orderinfo?.data?.status == "return_transporting") {
+                      currentstatus = "Đang luân chuyển hàng trả"
+                    }else if(order?.orderinfo?.data?.status == "return_sorting") {
+                      currentstatus = "Đang phân loại hàng trả"
+                    }else if(order?.orderinfo?.data?.status == "returning") {
+                      currentstatus = "Nhân viên đang đi trả hàng"
+                    }else if(order?.orderinfo?.data?.status == "return_fail") {
+                      currentstatus = "Nhân viên trả hàng thất bại"
+                    }else if(order?.orderinfo?.data?.status == "returned") {
+                      currentstatus = "Nhân viên trả hàng thành công"
+                    }else if(order?.orderinfo?.data?.status == "exception") {
+                      currentstatus = "Đơn hàng ngoại lệ không nằm trong quy trình"
+                    }else if(order?.orderinfo?.data?.status == "damage") {
+                      currentstatus = "Hàng bị hư hỏng"
+                    }else if(order?.orderinfo?.data?.status == "lost") {
+                      currentstatus = "Hàng bị mất"
+                    }else {
+                      currentstatus = order?.orderinfo?.data?.status
+                    }
   // console.log("order before", order);
 
   // useEffect(() => {
@@ -156,7 +201,7 @@ const CartUpdate = () => {
                   <div>Số điện thoại: {order?.order?.infomation?.phonenumber}</div>
                </td>  
               <td className=" py-10  gap-8"> 
-                  {order?.orderinfo?.data?.log?.map((item: any, index: number) => {
+                  {order?.orderinfo?.data?.log ? order?.orderinfo?.data?.log?.map((item: any, index: number) => {
                     let status = ""
                     if(item.status == "ready_to_pick") {
                       status = "Mới tạo đơn hàng"
@@ -204,7 +249,7 @@ const CartUpdate = () => {
                       status = item.status
                     }
                     return <div key={index++}>{status}</div>
-                  })}
+                  }) : currentstatus}
               </td>  
               <td className=" py-10  gap-8">{order?.order?.createdAt} </td>
               <td className=" py-10  gap-8"> { <NumberFormat
