@@ -10,6 +10,7 @@ import { updateStatusOrderApi } from '../../../../api-cilent/Orders'
 import { getCatePost, updateCatePost } from '../../../../redux/slices/catePostSlice'
 import { cancleOrder, infoOrder, orderConfirm, readOrder, updateOrder } from '../../../../redux/slices/orderSlice'
 import { useAppDispatch } from '../../../../redux/store'
+import { formatDateGHN } from '../../../../ultis'
 
 
 
@@ -26,8 +27,11 @@ const CartUpdate = () => {
             data.status = parseInt(data.status)
             let product = []
            
-            if(order.order.status == 1  && data.status == 1) {
+            if(order.order.status == 1  && data.status == 1 ) {
               return toast.info("Đơn hàng đã được xác nhận");
+            }
+            if(order.order.status == 1 && data.status == 2) {
+              return toast.info("Đơn hàng này đã xác nhận không thể huỷ");
             }
             product = data.product 
             const infocart = {
@@ -68,6 +72,7 @@ const CartUpdate = () => {
               "pickup_time": null,
               "items": product
             }
+
             if(data.status === 2 && data.order_code) {
                await  dispatch(updateOrder(data))   
                   let raw = {
@@ -248,10 +253,10 @@ const CartUpdate = () => {
                     }else {
                       status = item.status
                     }
-                    return <div key={index++}>{status}</div>
+                    return <div key={index++}><p  className='text-[#d53b3bcc]'>{formatDateGHN(item?.updated_date).dateg + "-" + formatDateGHN(item?.updated_date).hours}</p><p className='text-[#26aa99] border-solid'>{status}</p></div>
                   }) : currentstatus}
               </td>  
-              <td className=" py-10  gap-8">{order?.order?.createdAt} </td>
+              <td className="py-10  gap-8"> <p>{formatDateGHN(order?.order?.createdAt).dateg}</p> <p>{formatDateGHN(order?.order?.createdAt).hours}</p></td>
               <td className=" py-10  gap-8"> { <NumberFormat
                             value={order?.order?.fee}
                             displayType={"text"}
