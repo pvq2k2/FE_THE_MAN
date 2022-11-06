@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.11",
     "@reduxjs/toolkit": "^1.8.5",
+    "@types/react-chartjs-2": "^2.5.7",
     "antd": "^4.23.3",
     "axios": "^0.27.2",
     "react": "^18.2.0",
