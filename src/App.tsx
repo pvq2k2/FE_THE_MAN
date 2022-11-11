@@ -8,6 +8,7 @@ import DetailProduct from "./pages/Detail";
 import ContactPage from "./pages/Contact";
 import HomePage from "./pages/Home";
 import Signin from "./pages/Signin";
+import ForgetPassword from "./pages/ForgetPassword";
 import ProductManager from "./pages/Admin/Products/ProductManager";
 import ProductAdd from "./pages/Admin/Products/ProductAdd";
 import PostManager from "./pages/Admin/Posts/PostManager";
@@ -38,6 +39,7 @@ import PrivateRouter from "./components/PrivatrRouter";
 import DetailCateProduct from "./pages/DetailCateProduct";
 import OrderStatus from "./pages/OrderStatus";
 import Dashboard from "./pages/Admin/Dashboard";
+import ConfirmPassword from "./pages/ConfirmPassword";
 function App() {
   return (
     <>
@@ -58,11 +60,11 @@ function App() {
             </ClientLayout>
           }
         />
-                <Route
+        <Route
           path="/order"
           element={
             <ClientLayout>
-              <OrderStatus/>
+              <OrderStatus />
             </ClientLayout>
           }
         />
@@ -83,6 +85,22 @@ function App() {
           }
         />
         <Route path="/users/verify/:id" element={<EmailVerify />} />
+        <Route
+          path="/users/forget-password"
+          element={
+            <ClientLayout>
+              <ForgetPassword />
+            </ClientLayout>
+          }
+        />
+        <Route
+          path="/user/reset-password"
+          element={
+            <ClientLayout>
+              <ConfirmPassword />
+            </ClientLayout>
+          }
+        />
         <Route
           path="/detail/:id"
           element={
@@ -116,12 +134,12 @@ function App() {
           }
         />
         <Route
-        path="/detail/cate/:id/product"
-        element={
-          <ClientLayout>
-            <DetailCateProduct/>
-          </ClientLayout>
-        }
+          path="/detail/cate/:id/product"
+          element={
+            <ClientLayout>
+              <DetailCateProduct />
+            </ClientLayout>
+          }
         />
         <Route
           path="/contact"
@@ -151,7 +169,7 @@ function App() {
           }
         >
           {/* <Route index element={<AdminLayout><h1>Dashboard</h1></AdminLayout>} />*/}
-          <Route path="dashboard" element={<Dashboard/>} /> 
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="products">
             <Route index element={<ProductManager />} />
             <Route path="add" element={<ProductAdd />} />
