@@ -15,10 +15,20 @@ export const forgetPassword = (email: string): Promise<User> => {
   const url = `/forget-password`;
   return instance.post(url, { email });
 };
-export const verifyPasswordResetToken = (token: string, userId: string) => {
-  const url = `/verify-pass-reset-token`;
-  return instance.post(url, {
-    token,
-    userId,
-  });
+export const verifyPasswordResetToken = async (
+  token: string | null,
+  userId: string | null
+) => {
+  try {
+    const { data } = await instance.post("/verify-pass-reset-token", {
+      token,
+      userId,
+    });
+    return data;
+  } catch (error: any) {
+    const { response } = error;
+    if (response?.data) return response.data;
+
+    return { error: error.message || error };
+  }
 };

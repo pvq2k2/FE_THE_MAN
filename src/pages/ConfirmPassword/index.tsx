@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 // import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 // import { forgetPassword } from "../../api-cilent/Auth";
 import Swal from "sweetalert2";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { ImSpinner3 } from "react-icons/im";
+import { verifyPasswordResetToken } from "../../api-cilent/Auth";
 // import { AiOutlineClose, AiOutlineMail } from "react-icons/ai";
 
 type Props = {};
@@ -16,7 +18,34 @@ const ConfirmPassword = (props: Props) => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const id = searchParams.get("id");
-  console.log(token, id);
+  const [isVerifying, setIsVerifying] = useState(true);
+  const [isValid, setIsValid] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    isValidToken();
+  }, []);
+  const isValidToken = async () => {
+    const { error, valid } = await verifyPasswordResetToken(token, id);
+    setIsVerifying(false);
+    if (error)
+      return toast.error(error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    if (!valid) {
+      setIsValid(false);
+      navigate("/user/reset-password", { replace: true });
+    }
+    setIsValid(true);
+  };
+
   const {
     register,
     handleSubmit,
@@ -44,15 +73,6 @@ const ConfirmPassword = (props: Props) => {
       //   }, 1000);
     } catch (error: any) {
       console.log(error);
-
-      //   const isVerify = error?.response.data.verified;
-      //   if (isVerify === false && isVerify !== undefined) {
-      //     Swal.fire({
-      //       icon: "error",
-      //       title: "Lỗi...",
-      //       text: "Vui lòng kiểm tra email để xác thực tài khoản!",
-      //     });
-      //   }
       const message = error?.response.data.message;
       toast.error(message, {
         position: "top-right",
@@ -66,6 +86,30 @@ const ConfirmPassword = (props: Props) => {
     }
   };
 
+  if (isVerifying)
+    return (
+      <div className="-z-10 bg-white flex justify-center items-center my-40">
+        <div className={"max-w-screen-xl mx-auto"}>
+          <div className="flex space-x-2 items-center">
+            <h1 className="text-4xl font-semibold text-black">
+              Vui lòng đợi, chúng tôi đang xác minh mã thông báo của bạn!
+            </h1>
+            <ImSpinner3 className="animate-spin text-4xl text-black" />
+          </div>
+        </div>
+      </div>
+    );
+
+  if (!isValid)
+    return (
+      <div className="-z-10 bg-white flex justify-center items-center my-40">
+        <div className={"max-w-screen-xl mx-auto"}>
+          <h1 className="text-4xl font-semibold text-black">
+            Xin lỗi, mã thông báo không hợp lệ!
+          </h1>
+        </div>
+      </div>
+    );
   return (
     <div className="pt-1">
       <div className="xl:w-[1200px] xl:mx-auto mt-5 mb-10 shadow-inner rounded-lg mx-3">
