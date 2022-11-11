@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { signin as signinAction } from "../../redux/slices/authSlice";
-import { signin } from "../../api-cilent/Auth";
+import { forgetPassword } from "../../api-cilent/Auth";
 import Swal from "sweetalert2";
 import { AiOutlineClose, AiOutlineMail } from "react-icons/ai";
 
@@ -15,8 +13,6 @@ type Inputs = {
 
 const ForgetPassword = (props: Props) => {
   const [modal, setModal] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch<any>();
   const {
     register,
     handleSubmit,
@@ -25,7 +21,7 @@ const ForgetPassword = (props: Props) => {
 
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
-      //   const user = await signin(values);
+      await forgetPassword(values.email);
       // console.log(values);
 
       toast.success("Thành công !", {
