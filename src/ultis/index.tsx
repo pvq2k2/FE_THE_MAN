@@ -21,3 +21,20 @@ export const formatDate = (dateString: any) => {
 
   return `${formatDate}/${month}/${date.getFullYear()} ${hours}:${minutes}:${seconds}`;
 };
+
+export const formatDateGHN = (stringg: any) =>  {
+  const ti = stringg;
+  
+  const year = ti?.slice(0,4)
+  const month = ti?.slice(5,7)
+  const day = ti?.slice(8,10)
+  const hour = ti?.slice(11,13)
+  const min = ti?.slice(14,16)
+  const dateg = day + " Tháng " + month + "," + year
+  const hours = hour + " Giờ " + min + " Phút "
+  var bo = {
+      dateg,
+      hours
+  }
+  return bo
+}
