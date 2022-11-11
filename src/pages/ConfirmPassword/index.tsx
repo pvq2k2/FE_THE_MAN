@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-// import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { forgetPassword } from "../../api-cilent/Auth";
-import Swal from "sweetalert2";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ImSpinner3 } from "react-icons/im";
-import { verifyPasswordResetToken } from "../../api-cilent/Auth";
-// import { AiOutlineClose, AiOutlineMail } from "react-icons/ai";
+import { resetPassword, verifyPasswordResetToken } from "../../api-cilent/Auth";
 
 type Props = {};
 type Inputs = {
   password: string;
+  confirm_password: string;
 };
 
 const ConfirmPassword = (props: Props) => {
@@ -29,8 +26,9 @@ const ConfirmPassword = (props: Props) => {
   const isValidToken = async () => {
     const { error, valid } = await verifyPasswordResetToken(token, id);
     setIsVerifying(false);
-    if (error)
-      return toast.error(error, {
+    if (error) {
+      navigate("/user/reset-password", { replace: true });
+      toast.error(error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -39,6 +37,7 @@ const ConfirmPassword = (props: Props) => {
         draggable: true,
         progress: undefined,
       });
+    }
     if (!valid) {
       setIsValid(false);
       navigate("/user/reset-password", { replace: true });
@@ -50,14 +49,13 @@ const ConfirmPassword = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<Inputs>();
-
+  const password = watch("password");
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
-      //   await forgetPassword(values.email);
-      // console.log(values);
-
-      toast.success("Thành công !", {
+      await resetPassword({ newPassword: values.password, userId: id, token });
+      toast.success("Đổi mật khẩu thành công !", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -66,11 +64,9 @@ const ConfirmPassword = (props: Props) => {
         draggable: true,
         progress: undefined,
       });
-      //   setModal(true);
-      //   dispatch(signinAction(user));
-      //   setTimeout(() => {
-      //     navigate("/");
-      //   }, 1000);
+      setTimeout(() => {
+        navigate("/signin", { replace: true });
+      }, 1000);
     } catch (error: any) {
       console.log(error);
       const message = error?.response.data.message;
@@ -151,7 +147,13 @@ const ConfirmPassword = (props: Props) => {
                           // }
                         })}
                         type="password"
-                        className="appearance-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
+                        className={`appearance-none relative block w-full px-3 py-2 mt-1 border 
+                        border-gray-300 placeholder-gray-500 text-gray-900 rounded-md ease-in-out duration-300 
+                        hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm 
+                        ${
+                          errors.password &&
+                          "focus:ring-red-700 focus:border-red-700 hover:border-red-700 border-red-300 placeholder-red-500 text-red-900"
+                        }`}
                         placeholder="Mật khẩu*"
                       />
                       <p className="text-red-400 text-xs mt-1">
@@ -165,23 +167,31 @@ const ConfirmPassword = (props: Props) => {
                       </label>
                       <input
                         id="input-password"
-                        {...register("password", {
-                          required: "Vui lòng nhập mật khẩu",
-                          minLength: {
-                            value: 8,
-                            message: "Vui lòng nhập nhập khẩu trên 8 ký tự",
-                          },
+                        {...register("confirm_password", {
+                          required: "Vui lòng nhập mật khẩu !",
+                          // minLength: {
+                          //   value: 8,
+                          //   message: "Vui lòng nhập nhập khẩu trên 8 ký tự",
+                          // },
+                          validate: (value) =>
+                            value === password || "Mật khẩu không trùng khớp !",
                           // pattern: {
                           //   value: /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{8,30}$/,
                           //   message: "Vui lòng nhập nhập khẩu trên 8 ký tự bao gồm 'Chữ hoa, chữ thường, số và ký tự đặc biệt'"
                           // }
                         })}
                         type="password"
-                        className="appearance-none relative block w-full px-3 py-2 mt-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md ease-in-out duration-300 hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm"
-                        placeholder="Mật khẩu*"
+                        className={`appearance-none relative block w-full px-3 py-2 mt-1 border 
+                        border-gray-300 placeholder-gray-500 text-gray-900 rounded-md ease-in-out duration-300 
+                        hover:border-blue-700 focus:outline-none focus:ring-blue-700 focus:border-blue-700 focus:z-10 sm:text-sm 
+                        ${
+                          errors.confirm_password &&
+                          "focus:ring-red-700 focus:border-red-700 hover:border-red-700 border-red-300 placeholder-red-500 text-red-900"
+                        }`}
+                        placeholder="Nhập lại mật khẩu*"
                       />
                       <p className="text-red-400 text-xs mt-1">
-                        {errors.password?.message}
+                        {errors.confirm_password?.message}
                       </p>
                     </div>
                   </div>

@@ -15,6 +15,10 @@ export const forgetPassword = (email: string): Promise<User> => {
   const url = `/forget-password`;
   return instance.post(url, { email });
 };
+export const resetPassword = (passwordInfo: Object) => {
+  const url = `/reset-password`;
+  return instance.post(url, passwordInfo);
+};
 export const verifyPasswordResetToken = async (
   token: string | null,
   userId: string | null
