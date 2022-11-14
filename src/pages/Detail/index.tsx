@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { getProduct } from "../../redux/slices/productSlice";
 import "./assets/css/detail.css";
 import NumberFormat from "react-number-format";
-import { json, useParams } from "react-router-dom";
+import { json, useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../../redux/slices/cartSlice";
 import {useForm, SubmitHandler} from 'react-hook-form'
 type Props = {};
@@ -21,6 +21,7 @@ type TypeColorSize = Map<
 
 const DetailProduct = (props: Props) => {
   const { id } = useParams();
+  const navigate = useNavigate()
   const dispatch = useDispatch<any>();
   const product = useSelector((state: any) => state.product.product);
   const [colorSize, setColorSize] = useState<TypeColorSize>(new Map());
@@ -35,6 +36,9 @@ const DetailProduct = (props: Props) => {
   }, []);
   const onAddOrder:SubmitHandler<any> = async (data: any) => {
     if (!User) {
+      setTimeout(() => {
+          navigate('/signin')
+      }, 2000);
       return toast.info("Bạn cần phải đăng nhập mới có thể mua hàng", {
         position: "top-right",
         autoClose: 5000,
