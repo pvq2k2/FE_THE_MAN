@@ -20,7 +20,6 @@ const CartUpdate = () => {
   const { id } = useParams();
   const {register,handleSubmit,formState:{errors}, reset}=useForm();
   const order = useSelector((state:any) => state.orders)
-  console.log("order", order);
   let sum = 0
 
   const onUpdate = async (data: any) => {
@@ -30,7 +29,7 @@ const CartUpdate = () => {
             if(order.order.status == 1  && data.status == 1 ) {
               return toast.info("Đơn hàng đã được xác nhận");
             }
-            if(order.order.status == 1 && data.status == 2) {
+            if(data.status == 2 && order?.orderinfo?.data?.status != "ready_to_pick") {
               return toast.info("Đơn hàng này đã xác nhận không thể huỷ");
             }
             product = data.product 
