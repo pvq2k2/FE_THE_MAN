@@ -40,6 +40,7 @@ import DetailCateProduct from "./pages/DetailCateProduct";
 import OrderStatus from "./pages/OrderStatus";
 import Dashboard from "./pages/Admin/Dashboard";
 import ConfirmPassword from "./pages/ConfirmPassword";
+import AccountPage from "./pages/AccountPage";
 function App() {
   return (
     <>
@@ -154,6 +155,14 @@ function App() {
           element={
             <ClientLayout>
               <CheckoutPage />
+            </ClientLayout>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <ClientLayout>
+              <AccountPage />
             </ClientLayout>
           }
         />
