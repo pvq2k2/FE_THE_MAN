@@ -286,11 +286,7 @@ const DetailProduct = (props: Props) => {
               </div>
                  
               <div className="add_cart">
-                <button
-                  type="submit"
-                  
-                  className="btn_add"
-                >
+                <button type="submit"  className="btn_add">
                   Thêm vào giỏ hàng
                 </button>
               </div>

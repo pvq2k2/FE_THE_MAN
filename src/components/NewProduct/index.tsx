@@ -34,7 +34,7 @@ const NewProduct = (props: Props) => {
   const settings = {
     arrows: true,
     infinite: true,
-    speed: 500,
+    speed: 600,
     slidesToShow: 4,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow onClick={() => { }} />,
@@ -52,15 +52,18 @@ const NewProduct = (props: Props) => {
             return (
               <div className={styles.product__item}>
                 <div className={styles.item__box}>
+                  {/* <div className={styles.img_product}> */}
                   <Link to={`/detail/${item._id}`}>
                     <img src={item.image} alt='000017' />
                   </Link>
+                  {/* </div> */}
+          
                   <div className={styles.detail}>
                     <Link to={`/detail/${item._id}`}>
                       <h3>{item.name}</h3>
                     </Link>
 
-                    <span>{item.price}</span>
+                    <span>{item.price} VNĐ</span>
                   </div>
                 </div>
 
