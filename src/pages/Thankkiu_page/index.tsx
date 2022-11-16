@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const ThankkiuPage = () => {
   return (
     <div>
-      <div>
+      <div className='container-thank'>
         <header className='site-header' id='header'>
           <h1 className='site-header__title' data-lead-id='site-header-title'>
             THANK YOU!
