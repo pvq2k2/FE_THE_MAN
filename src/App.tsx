@@ -42,6 +42,7 @@ import Dashboard from "./pages/Admin/Dashboard";
 import ConfirmPassword from "./pages/ConfirmPassword";
 import AccountPage from "./pages/AccountPage";
 import Editaccount from "./pages/AccountPage/Editaccount";
+import ThankkiuPage from "./pages/Thankkiu_page"
 function App() {
   return (
     <>
@@ -67,6 +68,14 @@ function App() {
           element={
             <ClientLayout>
               <OrderStatus />
+            </ClientLayout>
+          }
+        />
+                <Route
+          path="/thankkiu"
+          element={
+            <ClientLayout>
+              <ThankkiuPage />
             </ClientLayout>
           }
         />

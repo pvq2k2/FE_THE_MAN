@@ -52,7 +52,7 @@ const ClientHeader = (props: Props) => {
         ></div>
         <div className={styles.menu}>
           <li className={styles.item}>
-            <Link to={"/"}>Áo</Link>
+            <Link to={"/"}> Áo</Link>
             <div className={styles.line}></div>
           </li>
           <li className={styles.item}>

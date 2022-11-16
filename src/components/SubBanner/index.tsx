@@ -17,9 +17,8 @@ const SubBanner = (props: Props) => {
   return (
     <section className={styles.subBanner}>
         <Slider {...settings}>
-            <img src='https://sss-dashboard.leanservices.work/upload/6-2022/1654695472615.jpeg' alt='1659522075021'/>
-            <img src='https://sss-dashboard.leanservices.work/upload/7-2022/1658974488678.jpeg' alt='1659522075021'/>
-            <img src='https://sss-dashboard.leanservices.work/upload/8-2022/1659693131631.jpeg' alt='1659522075021'/>
+            <img src='https://res.cloudinary.com/assignment22/image/upload/v1668572147/Ass-reactjs/20221114_yGz6gyqFNNd0ZCn6LjXpvX7C_z5fo1r.jpg'/>
+            <img src='https://res.cloudinary.com/assignment22/image/upload/v1668572148/Ass-reactjs/20221114_QKQX0rIzMB4Jm2Ojb4VaETYv_qofcye.png' alt='1659522075021'/>
         </Slider>
     </section>
   )
