@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { User } from '../../models/User';
 
 type Props = {}
@@ -21,7 +22,9 @@ const AccountPage = (props: Props) => {
             <img src={`${currentUser?.users?.fullname}`} className="bg-left-top bg-no-repeat h-40 w-40" alt="" />
             <div>
                 <h4 className="font-bold text-lg">{currentUser?.users?.email}</h4>
+                <Link to={`/editaccount/${currentUser?.users?.id}`} className="sm:ml-3">
                 <button>Sửa Thông Tin Tài Khoản</button>
+        </Link>
             </div>
             
           </div>
