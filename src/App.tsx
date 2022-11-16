@@ -42,7 +42,8 @@ import Dashboard from "./pages/Admin/Dashboard";
 import ConfirmPassword from "./pages/ConfirmPassword";
 import AccountPage from "./pages/AccountPage";
 import Editaccount from "./pages/AccountPage/Editaccount";
-import ThankkiuPage from "./pages/Thankkiu_page"
+import ThankkiuPage from "./pages/Thankkiu_page";
+import Scoll from "./components/ScrollButton"
 function App() {
   return (
     <>
@@ -240,6 +241,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <Scoll/>
     </>
   );
 }
