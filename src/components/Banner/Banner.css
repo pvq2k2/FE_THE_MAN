@@ -20,13 +20,13 @@
     z-index: 10;
 }
 .slick-arrow.next {
-    right: 5%;
+    right: 6%;
 }
 .slick-arrow.prev {
-    left: 5%;
+    left: 6%;
 }
 .slick-arrow:hover {
-    background-color: blue;
+    background-color: rgb(43, 43, 71);
     color: white;
 }
 

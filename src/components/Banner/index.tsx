@@ -3,6 +3,8 @@ import Slider from "react-slick";
 import './Banner.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 type Props = {}
 
 function SampleNextArrow(props: { onClick: () => void; }) {
@@ -11,6 +13,7 @@ function SampleNextArrow(props: { onClick: () => void; }) {
     <div className='next slick-arrow' onClick={onClick}><HiOutlineChevronRight /></div>
   );
 }
+
 function SamplePrevArrow(props: { onClick: () => void; }) {
   const { onClick } = props;
   return (
@@ -18,6 +21,7 @@ function SamplePrevArrow(props: { onClick: () => void; }) {
   );
 }
 const Banner = (props: Props) => {
+  const slider = useSelector((state : RootState) => state.slider)
     const settings = {
           dots: true,
           arrows: true,

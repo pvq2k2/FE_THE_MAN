@@ -97,7 +97,7 @@ const CheckoutPage = (props: Props) => {
       weight: sumweight
     };  
       dispatch(addOrder(products))
-       navigate("/");
+       navigate("/thankkiu");
   };
   const onProvince = async (e: any) => {
     await dispatch(getDistrict(parseInt(e.target.value)));

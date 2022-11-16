@@ -40,6 +40,14 @@ const ContactPage = (props: Props) => {
             </div>
             <div className={styles.row}>
               <div className={styles.col_25}>
+                <label htmlFor={styles.lname} />
+              </div>
+              <div className={styles.col_75}>
+                <input type="text" id="fname" placeholder="Email" />
+              </div>
+            </div>
+            <div className={styles.row}>
+              <div className={styles.col_25}>
                 <label htmlFor="lname" />
               </div>
               <div className={styles.col_75}>
