@@ -1,8 +1,54 @@
 import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { addContact } from "../../redux/slices/contactSlice";
 import styles from "./Contact.module.css";
 type Props = {};
-
+type Inputs = {
+  fullName: string;
+  phoneNumber: string;
+  address: string;
+  email: string;
+  content: string;
+};
 const ContactPage = (props: Props) => {
+  const dispatch = useDispatch<any>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+    try {
+      console.log(values);
+      await dispatch(addContact(values));
+      reset();
+      toast.success("Gửi phản hồi thành công !", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } catch (error: any) {
+      const message = error?.response.data.message;
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -30,20 +76,89 @@ const ContactPage = (props: Props) => {
         </div>
         <div className={styles.form_container}>
           <h2 className={styles.title}>Gửi thắc mắc cho chúng tôi</h2>
-          <form className={styles.form_contact}>
+          <form
+            className={styles.form_contact}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div className={styles.form_row}>
-              <input type="text" placeholder="Tên của bạn" />
-              <input type="text" placeholder="Địa chỉ của bạn" />
+              <div className={styles.form_group}>
+                <input
+                  className={`${errors.fullName && styles.input_error}`}
+                  {...register("fullName", {
+                    required: "Vui lòng nhập họ và tên",
+                    minLength: {
+                      value: 10,
+                      message: "Vui lòng nhập đầy đủ họ tên",
+                    },
+                  })}
+                  type="text"
+                  placeholder="Tên của bạn"
+                />
+                <p className={styles.error}>{errors.fullName?.message}</p>
+              </div>
+              <div className={styles.form_group}>
+                <input
+                  className={`${errors.address && styles.input_error}`}
+                  {...register("address", {
+                    required: "Vui lòng nhập địa chỉ",
+                    minLength: {
+                      value: 15,
+                      message: "Vui lòng nhập địa chỉ cụ thể",
+                    },
+                  })}
+                  type="text"
+                  placeholder="Địa chỉ của bạn"
+                />
+                <p className={styles.error}>{errors.address?.message}</p>
+              </div>
             </div>
             <div className={styles.form_row}>
-              <input type="text" placeholder="Email của bạn" />
-              <input type="text" placeholder="Số điện thoại của bạn" />
+              <div className={styles.form_group}>
+                <input
+                  className={`${errors.email && styles.input_error}`}
+                  {...register("email", {
+                    required: "Vui lòng nhập email",
+                    pattern: {
+                      value:
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      message: "Vui lòng nhập đúng định dạng email",
+                    },
+                  })}
+                  type="text"
+                  placeholder="Email của bạn"
+                />
+                <p className={styles.error}>{errors.email?.message}</p>
+              </div>
+              <div className={styles.form_group}>
+                <input
+                  className={`${errors.phoneNumber && styles.input_error}`}
+                  {...register("phoneNumber", {
+                    required: "Vui lòng nhập số điện thoại",
+                    pattern: {
+                      value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
+                      message: "Vui lòng nhập đúng định dạng số điện thoại",
+                    },
+                  })}
+                  type="text"
+                  placeholder="Số điện thoại của bạn"
+                />
+                <p className={styles.error}>{errors.phoneNumber?.message}</p>
+              </div>
             </div>
-            <textarea
-              className={styles.area}
-              defaultValue={""}
-              placeholder="Nội dung"
-            />
+            <div className={styles.form_group}>
+              <textarea
+                className={`${styles.area} ${
+                  errors.content && styles.input_error
+                }`}
+                defaultValue={""}
+                placeholder="Nội dung"
+                {...register("content", {
+                  required: "Vui lòng nhập nội dung",
+                })}
+              />
+              <p className={styles.error}>{errors.content?.message}</p>
+            </div>
+
             <button className={styles.btn}>Gửi cho chúng tôi</button>
           </form>
         </div>
