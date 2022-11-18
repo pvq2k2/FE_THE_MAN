@@ -45,6 +45,7 @@ import Editaccount from "./pages/AccountPage/Editaccount";
 import ThankkiuPage from "./pages/Thankkiu_page";
 import Scoll from "./components/ScrollButton";
 import ContactManager from "./pages/Admin/Contact/ContactManager";
+import Products from "./pages/Products";
 function App() {
   return (
     <>
@@ -119,6 +120,14 @@ function App() {
           element={
             <ClientLayout>
               <DetailProduct />
+            </ClientLayout>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ClientLayout>
+              <Products />
             </ClientLayout>
           }
         />

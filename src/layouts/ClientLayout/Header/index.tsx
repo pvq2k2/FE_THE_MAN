@@ -83,8 +83,8 @@ const ClientHeader = (props: Props) => {
             <div className={styles.line}></div>
           </li>
           <li className={`${styles.item} ${styles.itemSubNav}`}>
-            <Link to={""} className={styles.itemLink}>
-              Sản phẩm
+            <Link to={"/products"} className={styles.itemLink}>
+              Áo
             </Link>
             <div className={styles.line}></div>
             <SubNav />
