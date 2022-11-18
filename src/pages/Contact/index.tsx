@@ -24,7 +24,6 @@ const ContactPage = (props: Props) => {
 
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
-      console.log(values);
       await dispatch(addContact(values));
       reset();
       toast.success("Gửi phản hồi thành công !", {

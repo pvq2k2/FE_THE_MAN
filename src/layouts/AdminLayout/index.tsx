@@ -6,7 +6,7 @@ import {
   IoMenuOutline,
   IoSearchOutline,
 } from "react-icons/io5";
-import { RiProductHuntLine } from "react-icons/ri";
+import { RiContactsLine, RiProductHuntLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { MdOutlineCategory } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
@@ -52,13 +52,15 @@ const AdminLayout = () => {
           <ul>
             <li>
               <Link to="/">
-              <a href="#" >
-                <span className={styles.icon}>
-                  <IoLogoOctocat className={styles.io} />
-                  {/* <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" /> */}
-                </span>
-                <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">The Man</span>
-              </a>
+                <a href="#">
+                  <span className={styles.icon}>
+                    <IoLogoOctocat className={styles.io} />
+                    {/* <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" /> */}
+                  </span>
+                  <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">
+                    The Man
+                  </span>
+                </a>
               </Link>
             </li>
             <li>
@@ -138,6 +140,16 @@ const AdminLayout = () => {
                     <FaRegUser className={styles.io} />
                   </span>
                   <span className={styles.title}>User</span>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/contact">
+                <a>
+                  <span className={styles.icon}>
+                    <RiContactsLine className={styles.io} />
+                  </span>
+                  <span className={styles.title}>Contact</span>
                 </a>
               </Link>
             </li>

@@ -14,10 +14,9 @@ const initialState: ContactType = {
 
 export const deleteContact = createAsyncThunk(
   "contact/deleteContact",
-  async (_id: string) => {
-    const data = await remove(_id);
-    console.log(data);
-    return data;
+  async (id: string) => {
+    const res = await remove(id);
+    return res;
   }
 );
 
@@ -25,7 +24,6 @@ export const readContact = createAsyncThunk(
   "contact/readContact",
   async (_id: string) => {
     const data = await read(_id);
-    console.log(data);
     return data;
   }
 );
@@ -64,15 +62,15 @@ const contactSlice = createSlice({
       state.contacts.push(payload as Contact);
     });
     builder.addCase(getAllContact.fulfilled, (state, { payload }) => {
-      state.contacts = payload || [];
+      state.contacts = payload.data || [];
     });
     builder.addCase(deleteContact.fulfilled, (state, { payload }) => {
       state.contacts = state.contacts.filter(
-        (item) => item._id !== payload._id
+        (item) => item._id !== payload?.data?._id
       );
     });
     builder.addCase(readContact.fulfilled, (state, { payload }) => {
-      state.contact = payload as Contact;
+      state.contact = payload.data as Contact;
     });
     builder.addCase(updateContact.fulfilled, (state, { payload }) => {
       state.contacts = state.contacts.map((item) =>
