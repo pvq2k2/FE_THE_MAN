@@ -3,8 +3,11 @@ import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Decrement, Increment, readCart } from "../../redux/slices/cartSlice";
-
+import NumericInput from "react-numeric-input";
 import { readUserLocal } from "../../redux/slices/userSlice";
+import "../Carts/cart.css";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {};
 
@@ -13,29 +16,29 @@ const CartPage = (props: Props) => {
   const carts = useSelector((state: any) => state.carts);
   const navigate = useNavigate();
   let sum = 0;
-  const [Id, setId] = useState<any>()
+  const [Id, setId] = useState<any>();
   const IncrementC = (data: any) => {
     const product = {
       ...data,
-      userID: Id
-    }  
+      userID: Id,
+    };
     dispatch(Increment(product));
   };
   const DecrementC = (data: any) => {
     const product = {
       ...data,
-      userID: Id
-    }  
+      userID: Id,
+    };
     dispatch(Decrement(product));
   };
 
-  useEffect(() => {       
+  useEffect(() => {
     (async () => {
-      const user = await dispatch(readUserLocal())
-      setId(user?.payload?.users?.id)
-      await dispatch(readCart(user?.payload?.users?.id)).unwrap()
-  }) ()
-  }, [])
+      const user = await dispatch(readUserLocal());
+      setId(user?.payload?.users?.id);
+      await dispatch(readCart(user?.payload?.users?.id)).unwrap();
+    })();
+  }, []);
   return (
     <div>
       <div>
@@ -91,7 +94,14 @@ const CartPage = (props: Props) => {
                       </div>
                     </td>
                     <td className="w-40">
-                      <button
+                      <NumericInput
+                        className="h-6 mr-2 outline-none rounded-md"
+                        type="number"
+                        min={0}
+                        // max={100}
+                        value={item.quantity}
+                      />
+                      {/* <button
                         onClick={() => DecrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"
                       >{`-`}</button>
@@ -99,7 +109,7 @@ const CartPage = (props: Props) => {
                       <button
                         onClick={() => IncrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"
-                      >{`+`}</button>
+                      >{`+`}</button> */}
                     </td>
                     <td className="font-bold">
                       {" "}
@@ -109,12 +119,15 @@ const CartPage = (props: Props) => {
                         thousandSeparator={true}
                         prefix={""}
                       />{" "}
-                      VNĐ{" "}
+                      VNĐ
                     </td>
                     <td>
                       <button>
                         <i className="fa-sharp fa-solid fa-circle-xmark text-slate-300 bg-black rounded-full shadow-md shadow-black text-3xl"></i>
                       </button>
+                    </td>
+                    <td className="text-slate-400 text-base">
+                      <FontAwesomeIcon icon={faTrash} />
                     </td>
                   </tr>
                 );
@@ -135,7 +148,7 @@ const CartPage = (props: Props) => {
               type="text"
               placeholder="Mã giảm giá"
             />
-            <button className="border w-3/12 py-3 px-2 mt-10 bg-black text-white">
+            <button className="border w-3/12 py-3 px-2 mt-10 bg-black text-white rounded-md">
               Áp dụng
             </button>
           </div>
@@ -163,7 +176,7 @@ const CartPage = (props: Props) => {
               </div> */}
               <button
                 onClick={() => navigate("/checkout")}
-                className="bg-black text-white font-semibold p-3 mt-10 w-full"
+                className="bg-black text-white font-semibold p-3 mt-10 w-full rounded-md"
               >
                 Thanh toán
               </button>
