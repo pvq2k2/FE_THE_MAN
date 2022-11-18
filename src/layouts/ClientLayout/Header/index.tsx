@@ -77,23 +77,35 @@ const ClientHeader = (props: Props) => {
       <div className={styles.nav_bar_desktop}>
         <ul className={styles.menu}>
           <li className={styles.item}>
-            <Link to={"/"}>Trang chủ</Link>
+            <Link to={"/"} className={styles.itemLink}>
+              Trang chủ
+            </Link>
+            <div className={styles.line}></div>
+          </li>
+          <li className={`${styles.item} ${styles.itemSubNav}`}>
+            <Link to={""} className={styles.itemLink}>
+              Sản phẩm
+            </Link>
+            <div className={styles.line}></div>
+            <SubNav />
+          </li>
+          <li className={`${styles.item} ${styles.itemSubNav}`}>
+            <Link to={""} className={styles.itemLink}>
+              Phụ Kiện
+            </Link>
+            <div className={styles.line}></div>
+            <SubNav />
+          </li>
+          <li className={styles.item}>
+            <Link to={""} className={styles.itemLink}>
+              Giới Thiệu
+            </Link>
             <div className={styles.line}></div>
           </li>
           <li className={styles.item}>
-            <Link to={""}>Quần</Link>
-            <div className={styles.line}></div>
-          </li>
-          <li className={styles.item}>
-            <Link to={""}>Phụ Kiện</Link>
-            <div className={styles.line}></div>
-          </li>
-          <li className={styles.item}>
-            <Link to={""}>Giới Thiệu</Link>
-            <div className={styles.line}></div>
-          </li>
-          <li className={styles.item}>
-            <Link to={"/contact"}>Liên Hệ</Link>
+            <Link to={"/contact"} className={styles.itemLink}>
+              Liên Hệ
+            </Link>
             <div className={styles.line}></div>
           </li>
         </ul>
@@ -181,8 +193,8 @@ const ClientHeader = (props: Props) => {
                   </Link>
                 ) : null}
                 <Link to={"/order"}>
-                    <div className={styles.item_user}>Đơn hàng</div>
-                  </Link>
+                  <div className={styles.item_user}>Đơn hàng</div>
+                </Link>
                 <div
                   className={styles.item_user}
                   onClick={() => handleSignout()}
@@ -246,6 +258,95 @@ const ClientHeader = (props: Props) => {
         )}
       </div>
     </header>
+  );
+};
+
+const SubNav = () => {
+  return (
+    <div className={styles.subNav}>
+      <div className={styles.rowSubNav}>
+        <div className={styles.colSubNav}>
+          <h3>Áo</h3>
+          <ul>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Sơ Mi Trắng</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Sơ Mi</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Jacket</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Blazer</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Len</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Veston</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Polo</Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className={styles.colSubNav}>
+          <h3>Áo</h3>
+          <ul>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Sơ Mi Trắng</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Sơ Mi</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Jacket</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Blazer</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Len</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Veston</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Polo</Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className={styles.colSubNav}>
+          <h3>Áo</h3>
+          <ul>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Sơ Mi Trắng</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Sơ Mi</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Jacket</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Blazer</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Len</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Veston</Link>
+            </li>
+            <li className={styles.liSub}>
+              <Link to="#">Áo Polo</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 
