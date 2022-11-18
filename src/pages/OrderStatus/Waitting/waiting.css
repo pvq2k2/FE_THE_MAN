@@ -4,3 +4,4 @@
 .btn{background-color:  #ee4d2d; border: 1px solid #ffff; padding: 4px 9px;color: aliceblue; border-radius: 6px;transition-duration: 2s;}
 .btn:hover{background-color: #db4122;transform: scale(1.2); }
 .prod{margin: auto;}
+.scoll::-webkit-scrollbar{ display: none;}

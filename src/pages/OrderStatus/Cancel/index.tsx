@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { getOrders } from '../../../redux/slices/orderSlice'
 import { readUserLocal } from '../../../redux/slices/userSlice'
+import "./index.css"
 
 const Cancel = () => {
   const [Orders,setOrders] = useState([])
@@ -15,7 +16,7 @@ const Cancel = () => {
     }) ()
 }, [])
   return (
-    <div>
+    <div className="scoll h-[350px] w-[1280px] overflow-auto">
 
     <div className="m-auto max-w-full pb-36 mt-5">
       <div className="mt-5 md:mt-0 md:col-span-2">
