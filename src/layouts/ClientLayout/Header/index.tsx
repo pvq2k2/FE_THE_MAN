@@ -34,7 +34,7 @@ const ClientHeader = (props: Props) => {
   };
   useEffect(() => {
     (async () => {
-      if (currentUser.users.id) {
+      if (currentUser?.users?.id) {
         await dispatch(readCart(currentUser?.users?.id));
       }
     })();

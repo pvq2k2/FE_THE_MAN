@@ -15,7 +15,7 @@ import { Link, Outlet } from "react-router-dom";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { BsNewspaper } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import Dashboard from "../../pages/Admin/Dashboard";
+// import Dashboard from "../../pages/Admin/Dashboard";
 
 const AdminLayout = () => {
   const boxUser = useRef<HTMLDivElement>(null);
@@ -62,7 +62,7 @@ const AdminLayout = () => {
               </Link>
             </li>
             <li>
-              <Link to="/admin">
+              <Link to="/admin/dashboard">
                 <a href="#">
                   <span className={styles.icon}>
                     <IoHomeOutline className={styles.io} />
@@ -188,7 +188,7 @@ const AdminLayout = () => {
 
           <div className={styles.content}>
             <Outlet />
-            <Dashboard/>
+            {/* <Dashboard/> */}
           </div>
         </div>
       </div>
