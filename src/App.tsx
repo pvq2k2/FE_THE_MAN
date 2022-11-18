@@ -43,7 +43,8 @@ import ConfirmPassword from "./pages/ConfirmPassword";
 import AccountPage from "./pages/AccountPage";
 import Editaccount from "./pages/AccountPage/Editaccount";
 import ThankkiuPage from "./pages/Thankkiu_page";
-import Scoll from "./components/ScrollButton"
+import Scoll from "./components/ScrollButton";
+import ContactManager from "./pages/Admin/Contact/ContactManager";
 function App() {
   return (
     <>
@@ -72,7 +73,7 @@ function App() {
             </ClientLayout>
           }
         />
-                <Route
+        <Route
           path="/thankkiu"
           element={
             <ClientLayout>
@@ -239,9 +240,15 @@ function App() {
             <Route path="add" element={<UserAdd />} />
             <Route path=":id/edit" element={<UserEdit />} />
           </Route>
+
+          <Route path="contact">
+            <Route index element={<ContactManager />} />
+            {/* <Route path="add" element={<UserAdd />} />
+            <Route path=":id/edit" element={<UserEdit />} /> */}
+          </Route>
         </Route>
       </Routes>
-      <Scoll/>
+      <Scoll />
     </>
   );
 }
