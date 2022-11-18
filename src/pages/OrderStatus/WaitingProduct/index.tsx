@@ -2,11 +2,63 @@ import { useEffect, useState } from "react";
 import { HiRefresh } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { cancelOrder, getOrders, infoOrder, updateOrder } from "../../../redux/slices/orderSlice";
+import { readUserLocal } from "../../../redux/slices/userSlice";
 import "./waitingProduct.css"
 
 type Props = {};
 
 const WaittingProduct = (props: Props) => {
+  const dispatch = useDispatch<any>()
+  const [Orders,setOrders] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const user = await dispatch(readUserLocal())
+      const or = await dispatch(getOrders())     
+      let ord = []
+      const orafter = or?.payload?.filter((item:any) => item.userID  == user?.payload?.users?.id && item.order_code != null)
+      for (let i = 0; i < orafter.length; i++) {  
+       
+          let orderId:any = {
+            order_code: orafter[i].order_code
+          }
+         // console.log(orderId);
+          
+          const order =  await dispatch(infoOrder(orderId || '')) 
+          if(order?.payload?.data?.status == "ready_to_pick") {
+                
+                ord.push(...Orders, orafter[i])
+                
+                
+                  
+          }
+      }
+      setOrders(ord as [])
+     
+      
+
+     // setOrders(orafter)  
+    }) ()
+  }, [])
+  const onCancelOrder = async (data: any) => {
+    const dataa = {
+      ...data,
+      status: 2
+    }
+   
+     //toast.info("Huỷ đơn hàng thành công !");
+    let raw = {
+      order_codes: []
+    } 
+    raw.order_codes.push(data.order_code as never)
+
+ const res = await dispatch(cancelOrder(raw))
+ if(res?.payload?.code == 200) {
+     await dispatch(updateOrder(dataa))
+      toast.info("Huỷ đơn hàng thành công !");
+ } 
+  }
   return (
 
     <div>
@@ -25,12 +77,13 @@ const WaittingProduct = (props: Props) => {
             </tr>
           </thead>
           <tbody className="w-full">
-             <tr className="border-t-2">
-               <td className=" py-10  gap-8">1</td>  
+          {Orders?.map((item: any, index : number) => {
+               return  <tr key={index ++} className="border-t-2">
+               <td className=" py-10  gap-8">{index++}</td>  
                <td className="prod py-10 gap-8 inline-flex ml-[40px]">
                
                 <div className="pt-3">
-                   <div className="text-[15px] text-gray-500 pt-[7px]">Số lượng : 2</div>  
+                   <div className="text-[15px] text-gray-500 pt-[7px]">Số lượng : {item.product?.length}</div>  
                    <div className="sales  w-[110px] pt-[8px]"> <p className="text-[#ee4d2d] text-[11px]">7 ngày đổi trả hàng</p> </div>            
                  </div> 
                </td>  
@@ -39,11 +92,12 @@ const WaittingProduct = (props: Props) => {
                <td className=" py-10  gap-8 "> <button className="btn">Chi tiết sản phẩm</button></td>  
                <td className="py-10  gap-8">
                 
-                   <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit'>Huỷ đơn hàng</button>
+                   <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' onClick={() => onCancelOrder(item)}>Huỷ đơn hàng</button>
           
                  
                  </td>
              </tr>
+            })}
           </tbody>
          
         </table>

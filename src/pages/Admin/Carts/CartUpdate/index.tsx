@@ -8,7 +8,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { updateStatusOrderApi } from '../../../../api-cilent/Orders'
 import { getCatePost, updateCatePost } from '../../../../redux/slices/catePostSlice'
-import { cancleOrder, infoOrder, orderConfirm, readOrder, updateOrder } from '../../../../redux/slices/orderSlice'
+import { cancelOrder, infoOrder, orderConfirm, readOrder, updateOrder } from '../../../../redux/slices/orderSlice'
 import { useAppDispatch } from '../../../../redux/store'
 import { formatDateGHN } from '../../../../ultis'
 
@@ -78,7 +78,7 @@ const CartUpdate = () => {
                     order_codes: []
                   } 
                   raw.order_codes.push(data.order_code as never)
-               const res =  await dispatch(cancleOrder(raw))
+               const res =  await dispatch(cancelOrder(raw))
                if(res.payload.code == 200) {
                    return toast.info("Huỷ đơn hàng thành công !");
                } 
@@ -90,8 +90,12 @@ const CartUpdate = () => {
             if(data.status === 1) {  
                   const res = await dispatch(orderConfirm(infocart))
                   data.order_code = res?.payload?.data?.order_code
+                  console.log(data);
+                  
+                  if(data.order_code) {
                     const update = await  dispatch(updateOrder(data))   
                     toast.info("Thành công");             
+                  }
             }
             
           
