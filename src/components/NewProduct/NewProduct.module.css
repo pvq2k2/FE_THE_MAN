@@ -18,12 +18,12 @@
 
 .slickArrow {
     position: absolute;
-    top: 40%;
+    top: 33%;
     transform: translateY(50%);
     border: none;
     border-radius: 100%;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -34,13 +34,13 @@
     z-index: 10;
 }
 .slickArrow.next {
-    right: -2%;
+    right: 1%;
 }
 .slickArrow.prev {
-    left: 1%;
+    left: 3%;
 }
 .slickArrow:hover {
-    background-color: blue;
+    background-color: rgb(50, 50, 64);
     color: white;
 }
 
@@ -53,8 +53,9 @@
     position: relative;
 }
 .item__box img {
-    border-radius: 20px;
+    border-radius: 10px;
     width: 100%;
+    height: 50%;
 }
 .item__box .detail {
     width: 100%;
@@ -63,14 +64,19 @@
     text-align: center;
 }
 .detail h3 {
-    padding: 5px 25px;
+    padding: 4px 20px;
     padding: 10px;
-    font-weight: bold;
-    font-size: 17px;
+    font-weight: 500;
+    font-size: 18px;
     transition: all 0.3s linear
 }
 
 .detail span {
-    font-weight: 600;
+    font-weight: 200;
     color: #B70000;
+    font-size: 14px;
+}
+.img_product{
+    width: 200px;
+    height: 30px;
 }

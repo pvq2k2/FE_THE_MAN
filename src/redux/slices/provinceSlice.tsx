@@ -75,10 +75,10 @@ export const getSevicePackage = createAsyncThunk("province/getsevicepackage", as
 
 
 export const getFee = createAsyncThunk("province, getfee", async (data: any) => { 
-        const res = await axios.post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", data , {
+        const res = await axios.post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", data , {
           headers: {
-            'token': '422b151b-4b63-11ed-8008-c673db1cbf27',
-            'shop_id': 3348656
+            'token': '755b4fbb-5918-11ed-bd1f-1a28f04fff2f',
+            'shop_id': 120366
         }
         })      
         return res.data.data

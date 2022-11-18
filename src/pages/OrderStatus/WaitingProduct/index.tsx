@@ -2,31 +2,11 @@ import { useEffect, useState } from "react";
 import { HiRefresh } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getOrders, updateOrder } from "../../../redux/slices/orderSlice";
-import { readUserLocal } from "../../../redux/slices/userSlice";
-import "./waiting.css"
+import "./waitingProduct.css"
 
 type Props = {};
 
-const Waitting = (props: Props) => {
-  const dispatch = useDispatch<any>()
-  const order = useSelector((state: any) => state.orders)
-  const [Orders,setOrders] = useState([])
-  const cancleOrder = (data: any) => {
-    const dataa = {
-      ...data,
-      status: 2
-    }
-    dispatch(updateOrder(dataa))
-  }
-  useEffect(()  => {
-        (async () => {
-          const user = await dispatch(readUserLocal())
-          const or = await dispatch(getOrders())   
-          const orafter = or?.payload?.filter((item:any) => item.userID  == user?.payload?.users?.id && item.status == 0)
-          setOrders(orafter)  
-        }) ()
-  }, [])
+const WaittingProduct = (props: Props) => {
   return (
 
     <div>
@@ -45,13 +25,12 @@ const Waitting = (props: Props) => {
             </tr>
           </thead>
           <tbody className="w-full">
-            {Orders?.map((item: any, index : number) => {
-               return  <tr key={index ++} className="border-t-2">
-               <td className=" py-10  gap-8">{index++}</td>  
+             <tr className="border-t-2">
+               <td className=" py-10  gap-8">1</td>  
                <td className="prod py-10 gap-8 inline-flex ml-[40px]">
                
                 <div className="pt-3">
-                   <div className="text-[15px] text-gray-500 pt-[7px]">Số lượng : {item.product?.length}</div>  
+                   <div className="text-[15px] text-gray-500 pt-[7px]">Số lượng : 2</div>  
                    <div className="sales  w-[110px] pt-[8px]"> <p className="text-[#ee4d2d] text-[11px]">7 ngày đổi trả hàng</p> </div>            
                  </div> 
                </td>  
@@ -60,13 +39,11 @@ const Waitting = (props: Props) => {
                <td className=" py-10  gap-8 "> <button className="btn">Chi tiết sản phẩm</button></td>  
                <td className="py-10  gap-8">
                 
-                   <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' onClick={() => cancleOrder(item)}>Huỷ đơn hàng</button>
+                   <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit'>Huỷ đơn hàng</button>
           
                  
                  </td>
              </tr>
-            })}
-          
           </tbody>
          
         </table>
@@ -77,4 +54,4 @@ const Waitting = (props: Props) => {
   );
 };
 
-export default Waitting;
+export default WaittingProduct;

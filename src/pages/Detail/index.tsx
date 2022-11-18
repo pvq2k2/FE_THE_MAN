@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { getProduct } from "../../redux/slices/productSlice";
 import "./assets/css/detail.css";
 import NumberFormat from "react-number-format";
-import { json, useParams } from "react-router-dom";
+import { json, useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../../redux/slices/cartSlice";
 import {useForm, SubmitHandler} from 'react-hook-form'
 type Props = {};
@@ -21,6 +21,7 @@ type TypeColorSize = Map<
 
 const DetailProduct = (props: Props) => {
   const { id } = useParams();
+  const navigate = useNavigate()
   const dispatch = useDispatch<any>();
   const product = useSelector((state: any) => state.product.product);
   const [colorSize, setColorSize] = useState<TypeColorSize>(new Map());
@@ -35,6 +36,9 @@ const DetailProduct = (props: Props) => {
   }, []);
   const onAddOrder:SubmitHandler<any> = async (data: any) => {
     if (!User) {
+      setTimeout(() => {
+          navigate('/signin')
+      }, 2000);
       return toast.info("Bạn cần phải đăng nhập mới có thể mua hàng", {
         position: "top-right",
         autoClose: 5000,
@@ -141,6 +145,8 @@ const DetailProduct = (props: Props) => {
     <>
     
       <div className="detail_page">
+
+        {/* pagination */}
         <div className="containerx">
           <div className="breadcrumb_list">
             <span className="breadcrumb_item_text">
@@ -155,6 +161,8 @@ const DetailProduct = (props: Props) => {
             </span>
           </div>
         </div>
+
+        {/* Product */}
         <div className="containerx">
           <div className="detail_product dp-flex">
             <div className="product-gallary__thumbs">
@@ -278,11 +286,7 @@ const DetailProduct = (props: Props) => {
               </div>
                  
               <div className="add_cart">
-                <button
-                  type="submit"
-                  
-                  className="btn_add"
-                >
+                <button type="submit"  className="btn_add">
                   Thêm vào giỏ hàng
                 </button>
               </div>
@@ -294,6 +298,62 @@ const DetailProduct = (props: Props) => {
             </div>
           </div>
         </div>
+
+        {/* comment */}
+        <div className="comments_wrapper">
+          <div className="containerx">
+            <h2 className="heading-title">
+              Bình luận về Áo sơ mi - AR220134DT
+            </h2>
+            <div className="form_comment">
+             
+                <textarea
+                  name=""
+                  id=""
+                  cols={30}
+                  placeholder="Mời bạn để lại bình luận..."
+                  rows={6}
+                  defaultValue={""}
+                />
+                <button type="submit">GỬI</button>
+             
+            </div>
+            
+            <div className="list-comments_wrapper">
+              <div className="item">
+                <div className="user dp-flex">
+                  <img
+                    src="https://i.ibb.co/4jB5j40/Avatar.png"
+                    alt=""
+                    className="logo"
+                  />
+                  <div className="info">
+                    <h3 className="name">Quyết</h3>
+                    <span className="time-comment">1 giờ trước</span>
+                  </div>
+                </div>
+                <p className="content">Áo này đẹp quá !</p>
+              </div>
+              <div className="item">
+                <div className="user dp-flex">
+                  <img
+                    src="https://i.ibb.co/4jB5j40/Avatar.png"
+                    alt=""
+                    className="logo"
+                  />
+                  <div className="info">
+                    <h3 className="name">Quyết</h3>
+                    <span className="time-comment">1 giờ trước</span>
+                  </div>
+                </div>
+                <p className="content">Áo này đẹp quá !</p>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Product like */}
         <div className="product-related_wrapper">
           <div className="containerx">
             <div className="heading-title">
@@ -347,61 +407,7 @@ const DetailProduct = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="comments_wrapper">
-          <div className="containerx">
-            <h2 className="heading-title">
-              Bình luận về Áo sơ mi - AR220134DT
-            </h2>
-            <div className="form_comment">
-             
-                <textarea
-                  name=""
-                  id=""
-                  cols={30}
-                  placeholder="Mời bạn để lại bình luận..."
-                  rows={6}
-                  defaultValue={""}
-                />
-                <button type="submit">GỬI</button>
-             
-            </div>
-            
-            <div className="list-comments_wrapper">
-              <div className="item">
-                <div className="user dp-flex">
-                  <img
-                    src="https://i.ibb.co/4jB5j40/Avatar.png"
-                    alt=""
-                    className="logo"
-                  />
-                  <div className="info">
-                    <h3 className="name">Quyết</h3>
-                    <span className="time-comment">1 giờ trước</span>
-                  </div>
-                </div>
-                <p className="content">Áo này đẹp quá !</p>
-              </div>
-              <div className="item">
-                <div className="user dp-flex">
-                  <img
-                    src="https://i.ibb.co/4jB5j40/Avatar.png"
-                    alt=""
-                    className="logo"
-                  />
-                  <div className="info">
-                    <h3 className="name">Quyết</h3>
-                    <span className="time-comment">1 giờ trước</span>
-                  </div>
-                </div>
-                <p className="content">Áo này đẹp quá !</p>
-                
-              </div>
-              
-            </div>
-            
-          </div>
-          
-        </div>
+
       </div>
       
     </>

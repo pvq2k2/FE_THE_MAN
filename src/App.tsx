@@ -40,6 +40,10 @@ import DetailCateProduct from "./pages/DetailCateProduct";
 import OrderStatus from "./pages/OrderStatus";
 import Dashboard from "./pages/Admin/Dashboard";
 import ConfirmPassword from "./pages/ConfirmPassword";
+import AccountPage from "./pages/AccountPage";
+import Editaccount from "./pages/AccountPage/Editaccount";
+import ThankkiuPage from "./pages/Thankkiu_page";
+import Scoll from "./components/ScrollButton"
 function App() {
   return (
     <>
@@ -65,6 +69,14 @@ function App() {
           element={
             <ClientLayout>
               <OrderStatus />
+            </ClientLayout>
+          }
+        />
+                <Route
+          path="/thankkiu"
+          element={
+            <ClientLayout>
+              <ThankkiuPage />
             </ClientLayout>
           }
         />
@@ -157,6 +169,22 @@ function App() {
             </ClientLayout>
           }
         />
+        <Route
+          path="/account"
+          element={
+            <ClientLayout>
+              <AccountPage />
+            </ClientLayout>
+          }
+        />
+        <Route
+          path="/editaccount/:id"
+          element={
+            <ClientLayout>
+              <Editaccount />
+            </ClientLayout>
+          }
+        />
         <Route path="/*" element={<NotFound />} />
         {/* Admin */}
 
@@ -213,6 +241,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <Scoll/>
     </>
   );
 }

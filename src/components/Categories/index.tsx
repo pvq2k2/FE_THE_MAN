@@ -56,31 +56,6 @@ const Categories = (props: Props) => {
             </div>
           </div>
           })}
-        
-        {/* <div className={styles.categories__item}>
-        <div className={styles.item__box}>
-        <img src='https://img.cdn.vncdn.io/nvn/ncdn/store1/41786/ps/20220704/a__oa__o_copy_11.jpg' alt='Banner1-1'/>
-        <div className={styles.overlay}>
-              <span>Áo Thun</span>
-          </div>
-        </div>
-        </div>
-        <div className={styles.categories__item}>
-        <div className={styles.item__box}>
-        <img src='https://img.cdn.vncdn.io/nvn/ncdn/store1/41786/ps/20220704/qua____nqua____n_copy_4.jpg' alt='Banner1-1'/>
-        <div className={styles.overlay}>
-              <span>Quần Âu</span>
-          </div>
-        </div>
-        </div>
-        <div className={styles.categories__item}>
-        <div className={styles.item__box}>
-        <img src='https://img.cdn.vncdn.io/nvn/ncdn/store1/41786/ps/20220708/aoao_copy_9.jpg' alt='Banner1-1'/>
-        <div className={styles.overlay}>
-              <span>Áo Polo</span>
-          </div>
-        </div>
-        </div> */}
         </Slider>
     </section>
   )

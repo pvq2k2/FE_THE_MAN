@@ -7,6 +7,9 @@ import Waitting from './Waitting';
 import Done from './Done';
 import Delivering from './Delivering';
 import Cannel from './Cancel';
+import WaittingProduct from './WaitingProduct';
+import ReturnProduct from './Return'
+
 
 
 interface TabPanelProps {
@@ -29,7 +32,7 @@ function TabPanel(props: TabPanelProps) {
       {/* box nhận  */}
       {value === index && (
         <div className=''>
-              <Box sx={{ p: 4 }}>
+              <Box sx={{ p: 6 }}>
           <Typography>{children}</Typography>
         </Box>
         </div>
@@ -58,9 +61,11 @@ export default function OrderStatus() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Chờ xác nhận" {...a11yProps(0)} />
-          <Tab label="Đang giao hàng" {...a11yProps(1)} />
-          <Tab label="Đã giao hàng" {...a11yProps(2)} />
-          <Tab label="Đã hủy" {...a11yProps(3)} />
+          <Tab label="Chờ lấy hàng" {...a11yProps(1)} />
+          <Tab label="Đang giao hàng" {...a11yProps(2)} />
+          <Tab label="Đã giao hàng" {...a11yProps(3)} />
+          <Tab label="Đã hủy" {...a11yProps(4)} />
+          <Tab label="Trả hàng" {...a11yProps(5)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -68,15 +73,23 @@ export default function OrderStatus() {
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-        <Delivering/>
+      <WaittingProduct/>
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-        <Done/>
+        <Delivering/>
       </TabPanel>
 
       <TabPanel value={value} index={3}>
+        <Done/>
+      </TabPanel>
+
+      <TabPanel value={value} index={4}>
        <Cannel/>
+      </TabPanel>
+
+      <TabPanel value={value} index={5}>
+       <ReturnProduct/>
       </TabPanel>
     </Box>
     </div>

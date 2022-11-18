@@ -52,7 +52,7 @@ const ClientHeader = (props: Props) => {
         ></div>
         <div className={styles.menu}>
           <li className={styles.item}>
-            <Link to={"/"}>Áo</Link>
+            <Link to={"/"}>Trang chủ</Link>
             <div className={styles.line}></div>
           </li>
           <li className={styles.item}>
@@ -68,7 +68,7 @@ const ClientHeader = (props: Props) => {
             <div className={styles.line}></div>
           </li>
           <li className={styles.item}>
-            <Link to={""}>Liên Hệ</Link>
+            <Link to={"/contact"}>Liên Hệ</Link>
             <div className={styles.line}></div>
           </li>
         </div>
@@ -77,7 +77,7 @@ const ClientHeader = (props: Props) => {
       <div className={styles.nav_bar_desktop}>
         <ul className={styles.menu}>
           <li className={styles.item}>
-            <Link to={"/"}>Áo</Link>
+            <Link to={"/"}>Trang chủ</Link>
             <div className={styles.line}></div>
           </li>
           <li className={styles.item}>
@@ -93,7 +93,7 @@ const ClientHeader = (props: Props) => {
             <div className={styles.line}></div>
           </li>
           <li className={styles.item}>
-            <Link to={""}>Liên Hệ</Link>
+            <Link to={"/contact"}>Liên Hệ</Link>
             <div className={styles.line}></div>
           </li>
         </ul>
@@ -180,6 +180,9 @@ const ClientHeader = (props: Props) => {
                     <div className={styles.item_user}>Trang quản trị</div>
                   </Link>
                 ) : null}
+                <Link to={"/order"}>
+                    <div className={styles.item_user}>Đơn hàng</div>
+                  </Link>
                 <div
                   className={styles.item_user}
                   onClick={() => handleSignout()}
