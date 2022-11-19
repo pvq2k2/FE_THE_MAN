@@ -167,6 +167,9 @@ const ClientHeader = (props: Props) => {
                   <span>Xin chào!</span>
                   <h3>{currentUser?.users?.fullname}</h3>
                 </div>
+                <Link to={"/account"}>
+                  <div className={styles.item_user}>Thông tin tài khoản</div>
+                </Link>
 
                 {currentUser?.users?.role == 1 ? (
                   <Link to={"/admin/dashboard"}>
@@ -181,7 +184,6 @@ const ClientHeader = (props: Props) => {
                 <Link to={"/order"}>
                   <div className={styles.item_user}>Đơn hàng</div>
                 </Link>
-
                 <div
                   className={styles.item_user}
                   onClick={() => handleSignout()}
