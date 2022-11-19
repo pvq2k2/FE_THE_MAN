@@ -180,6 +180,9 @@ const ClientHeader = (props: Props) => {
                     <div className={styles.item_user}>Trang quản trị</div>
                   </Link>
                 ) : null}
+                <Link to={"/account"}>
+                    <div className={styles.item_user}>Trang cá nhân</div>
+                  </Link>
                 <Link to={"/order"}>
                     <div className={styles.item_user}>Đơn hàng</div>
                   </Link>
