@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getOrders, infoOrder } from '../../../redux/slices/orderSlice'
 import { readUserLocal } from '../../../redux/slices/userSlice'
+import "./index.css"
 
 const Done = () => {
   const dispatch = useDispatch<any>()
@@ -31,7 +32,7 @@ const Done = () => {
     }) ()
   }, [])
   return (
-    <div>
+    <div className="scoll h-[350px] w-[1280px] overflow-auto">
 
     <div className="m-auto max-w-full pb-36 mt-5">
       <div className="mt-5 md:mt-0 md:col-span-2">

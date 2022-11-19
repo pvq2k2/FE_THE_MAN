@@ -70,7 +70,7 @@ const Signin = (props: Props) => {
         <div className="content grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 shadow-lg">
           <img
             className="hidden xl:block lg:block bg-[#e7f6fb] rounded-l-lg"
-            src="https://preview.colorlib.com/theme/bootstrap/login-form-14/images/xbg-1.jpg.pagespeed.ic.3OAd9jZTMD.webp"
+            src="https://res.cloudinary.com/assignment22/image/upload/v1668812529/Ass-reactjs/20221114_LvgOAj9N9Fklx76G5UyG9SHD_pncdqr.jpg"
           />
           <section>
             <div className="min-h-full flex items-center justify-center p-12 px-4 sm:px-6 lg:px-8">
