@@ -38,9 +38,9 @@ const ClientFooter = (props: Props) => {
         <div>
           <h4 className='font-semibold text-xl py-4'>Kết nối với chúng tôi</h4>
           <ul className="flex gap-5 text-2xl items-center">
-            <li className="hover:text-blue-400 transition duration-400 ease-in-out"><Link to={''}><BsFacebook /></Link></li>
-            <li className="hover:text-blue-400 transition duration-400 ease-in-out"><Link to={''}><BsInstagram /></Link></li>
-            <li className="hover:text-blue-400 transition duration-400 ease-in-out"><Link to={''}><FaTiktok /></Link></li>
+            <li className="hover:text-blue-400 transition duration-400 ease-in-out"> <a href="https://www.facebook.com/The-Man-Shop-111802751747168" target="_blank"><BsFacebook /></a></li>
+            <li className="hover:text-blue-400 transition duration-400 ease-in-out"><a href="https://www.instagram.com/themanshop122/" target="_blank"><BsInstagram /></a></li>
+            <li className="hover:text-blue-400 transition duration-400 ease-in-out"><a href="https://www.tiktok.com/@themanshop122" target="_blank"><FaTiktok /></a></li>
             <li className="hover:text-blue-400 transition duration-400 ease-in-out"><Link to={''}><BsYoutube /></Link></li>
 
           </ul>

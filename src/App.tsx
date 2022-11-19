@@ -46,6 +46,7 @@ import ThankkiuPage from "./pages/Thankkiu_page";
 import Scoll from "./components/ScrollButton";
 import ContactManager from "./pages/Admin/Contact/ContactManager";
 import Products from "./pages/Products";
+import Mess from "./components/messenger"
 function App() {
   return (
     <>
@@ -258,6 +259,7 @@ function App() {
         </Route>
       </Routes>
       <Scoll />
+      <Mess/>
     </>
   );
 }

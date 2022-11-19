@@ -69,17 +69,7 @@ const AdminLayout = () => {
                   <span className={styles.icon}>
                     <IoHomeOutline className={styles.io} />
                   </span>
-                  <span className={styles.title}>Dashboard</span>
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin/products">
-                <a>
-                  <span className={styles.icon}>
-                    <RiProductHuntLine className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Product</span>
+                  <span className={styles.title}>Thống kê</span>
                 </a>
               </Link>
             </li>
@@ -89,7 +79,27 @@ const AdminLayout = () => {
                   <span className={styles.icon}>
                     <AiOutlineShoppingCart className={styles.io} />
                   </span>
-                  <span className={styles.title}>Carts</span>
+                  <span className={styles.title}>Danh sách đơn hàng</span>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/contact">
+                <a>
+                  <span className={styles.icon}>
+                    <RiContactsLine className={styles.io} />
+                  </span>
+                  <span className={styles.title}>Thông tin phản hồi</span>
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/products">
+                <a>
+                  <span className={styles.icon}>
+                    <RiProductHuntLine className={styles.io} />
+                  </span>
+                  <span className={styles.title}>Tất cả sản phẩm</span>
                 </a>
               </Link>
             </li>
@@ -99,7 +109,7 @@ const AdminLayout = () => {
                   <span className={styles.icon}>
                     <BiCategoryAlt className={styles.io} />
                   </span>
-                  <span className={styles.title}>Category Product</span>
+                  <span className={styles.title}>Danh mục sản phẩm</span>
                 </a>
               </Link>
             </li>
@@ -139,17 +149,7 @@ const AdminLayout = () => {
                   <span className={styles.icon}>
                     <FaRegUser className={styles.io} />
                   </span>
-                  <span className={styles.title}>User</span>
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin/contact">
-                <a>
-                  <span className={styles.icon}>
-                    <RiContactsLine className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Contact</span>
+                  <span className={styles.title}>Danh sách tài khoản</span>
                 </a>
               </Link>
             </li>
