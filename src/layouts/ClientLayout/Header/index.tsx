@@ -122,13 +122,13 @@ const ClientHeader = (props: Props) => {
 
       <div className={styles.box_icon}>
         <div className={styles.search}>
-          <IoSearchOutline/>
+          <IoSearchOutline />
           <div className={styles.search_input}>
             <input type="text" placeholder="Tìm kiếm sản phẩm...." />
             <button type="submit" className={styles.ico}>
-              <IoSearchOutline/></button>
+              <IoSearchOutline />
+            </button>
           </div>
-
         </div>
 
         <div className={styles.box_user}>
@@ -167,14 +167,21 @@ const ClientHeader = (props: Props) => {
                   <span>Xin chào!</span>
                   <h3>{currentUser?.users?.fullname}</h3>
                 </div>
+
                 {currentUser?.users?.role == 1 ? (
                   <Link to={"/admin/dashboard"}>
                     <div className={styles.item_user}>Trang quản trị</div>
                   </Link>
                 ) : null}
+                {currentUser?.users?.role == 0 ? (
+                  <Link to={"/profile"}>
+                    <div className={styles.item_user}>Thông tin</div>
+                  </Link>
+                ) : null}
                 <Link to={"/order"}>
                   <div className={styles.item_user}>Đơn hàng</div>
                 </Link>
+
                 <div
                   className={styles.item_user}
                   onClick={() => handleSignout()}

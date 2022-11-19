@@ -46,7 +46,8 @@ import ThankkiuPage from "./pages/Thankkiu_page";
 import Scoll from "./components/ScrollButton";
 import ContactManager from "./pages/Admin/Contact/ContactManager";
 import Products from "./pages/Products";
-import Mess from "./components/messenger"
+import Mess from "./components/messenger";
+import Profile from "./pages/Profile";
 function App() {
   return (
     <>
@@ -72,6 +73,14 @@ function App() {
           element={
             <ClientLayout>
               <OrderStatus />
+            </ClientLayout>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ClientLayout>
+              <Profile />
             </ClientLayout>
           }
         />
@@ -259,7 +268,7 @@ function App() {
         </Route>
       </Routes>
       <Scoll />
-      <Mess/>
+      <Mess />
     </>
   );
 }
