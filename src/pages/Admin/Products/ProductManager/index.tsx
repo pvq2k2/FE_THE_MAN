@@ -109,7 +109,7 @@ const ProductManager = (props: Props) => {
                     />
                   </td>
                   <td>{item.price}đ</td>
-                  <td>{item.desc}</td>
+                  <td className="h-[150px] w-[400px] overflow-x-auto">{item.desc}</td>
                   <td className={styles.action}>
                     {/* <AiOutlineInfoCircle className={styles.info} onClick={() => showDetailProduct(item._id)}/> */}
                     <Link to={`/admin/products/${item._id}/edit`}>

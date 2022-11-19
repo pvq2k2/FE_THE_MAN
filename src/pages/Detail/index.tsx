@@ -179,7 +179,7 @@ const DetailProduct = (props: Props) => {
               />
             </div>
             <div className="info__product">
-              <h1 className="name__product !font-bold !text-[25px]">
+              <h1 className="name__product !font-bold !text-[26px]">
                 {" "}
                 {product?.name}
               </h1>
@@ -207,7 +207,7 @@ const DetailProduct = (props: Props) => {
                         <div
                           className={`code_color ${
                             colorSelected === c[0]
-                              ? "!border-[2px] !border-[#000]"
+                              ? "!border-[2px] !border-[#050c05]"
                               : ""
                           } `}
                           style={{ backgroundColor: `${c[0]}` }}
@@ -248,7 +248,7 @@ const DetailProduct = (props: Props) => {
                       )
                     )}
                   </div>
-                  <h2 className="t_quantity text-[18px] font-bold my-[20px]">
+                  <h2 className="t_quantity text-[16px] font-bold my-[15px]">
                     Số lượng:
                   </h2>
                   {rproducts == 0 ? (
@@ -257,10 +257,10 @@ const DetailProduct = (props: Props) => {
                     </div>
                   ) : (
                     <>
-                      <div className="text-rose-600 text-sm font-semibold my-[10px]">
+                      <div className="text-rose-600 text-sm font-semibold my-[9px]">
                         {rproducts ? `Còn lại: ${rproducts}` : ""}
                       </div>
-                      <div className="quantity flex items-center mb-[30px]">
+                      <div className="quantity flex items-center mb-[15px]">
                         <input
                           className="appearance-none block !w-[50%] bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                           type="number"
@@ -290,8 +290,8 @@ const DetailProduct = (props: Props) => {
                 </div>
               </form>
               <div className="desc__wrapper">
-                <h6 className="section-title">Mô tả</h6>
-                <p className="desc min-w-[430px]">{product?.desc}</p>
+                <h6 className="section-title font-bold">Mô tả</h6>
+                <p className="desc min-w-[430px] text-[15px] h-[150px] w-[280px] overflow-auto">{product?.desc}</p>
               </div>
             </div>
           </div>
