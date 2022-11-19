@@ -11,3 +11,14 @@ export const get = (id: string): Promise<User> => {
 export const update = (User: User): Promise<User> => {
   return instance.put(`/user/${User._id}`, User);
 };
+
+export const getComment = (id: User): Promise<User> => {
+  return instance.get(`/comment/getByProduct/${id}`);
+};
+export const removeComemnt = (id: any): Promise<any> => {
+  return instance.delete(`/comment/${id}`);
+};
+
+export const addComment = (Comment: any): Promise<any> => {
+  return instance.post(`/comment`, Comment);
+};

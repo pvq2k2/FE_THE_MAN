@@ -13,7 +13,7 @@ type UsersState = {
   User: User;
   page: number;
   limit: number;
-  usera: {}
+  usera: {};
 };
 
 const initialState: UsersState = {
@@ -24,7 +24,7 @@ const initialState: UsersState = {
   page: 1,
   limit: 10,
   User: {},
-  usera: {}
+  usera: {},
 };
 
 export const getUsers = createAsyncThunk(
@@ -40,10 +40,10 @@ export const addUser = createAsyncThunk("Users/addUser", async (User: any) => {
   return res;
 });
 
-export const readUserLocal = createAsyncThunk("Users/readuserlocal",  () => {
-          const res =  JSON.parse(localStorage.getItem("user") as any)
-          return res
-})
+export const readUserLocal = createAsyncThunk("Users/readuserlocal", () => {
+  const res = JSON.parse(localStorage.getItem("user") as any);
+  return res;
+});
 
 export const getUser = createAsyncThunk("Users/getUser", async (id: any) => {
   const res = await get(id);
@@ -80,10 +80,9 @@ const UsersSlice = createSlice({
         item._id === payload?._id ? payload : item
       ) as User[];
     });
-    builder.addCase(readUserLocal.fulfilled, (state, {payload}) => {
-          state.usera = payload.users
-          
-    })
+    builder.addCase(readUserLocal.fulfilled, (state, { payload }) => {
+      state.usera = payload?.users;
+    });
   },
 });
 

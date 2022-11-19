@@ -6,7 +6,8 @@ import "./assets/css/detail.css";
 import NumberFormat from "react-number-format";
 import { json, useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../../redux/slices/cartSlice";
-import {useForm, SubmitHandler} from 'react-hook-form'
+import { useForm, SubmitHandler } from "react-hook-form";
+import Comment from "./comment";
 type Props = {};
 
 type TypeColorSize = Map<
@@ -21,11 +22,11 @@ type TypeColorSize = Map<
 
 const DetailProduct = (props: Props) => {
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch<any>();
   const product = useSelector((state: any) => state.product.product);
   const [colorSize, setColorSize] = useState<TypeColorSize>(new Map());
-  const {register, handleSubmit} = useForm()
+  const { register, handleSubmit } = useForm();
   const [rproducts, setRproducts] = useState<Number>();
   const [colorSelected, setColorSelected] = useState<string>();
   const [sizeSelected, setSizeSelected] = useState<string>();
@@ -34,10 +35,10 @@ const DetailProduct = (props: Props) => {
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user") as any));
   }, []);
-  const onAddOrder:SubmitHandler<any> = async (data: any) => {
+  const onAddOrder: SubmitHandler<any> = async (data: any) => {
     if (!User) {
       setTimeout(() => {
-          navigate('/signin')
+        navigate("/signin");
       }, 2000);
       return toast.info("Bạn cần phải đăng nhập mới có thể mua hàng", {
         position: "top-right",
@@ -49,10 +50,9 @@ const DetailProduct = (props: Props) => {
         progress: undefined,
       });
     }
-    if(data.quantity > rproducts!) {
-      return  toast.info("Số lượng còn lại không đủ");
-        
-    } 
+    if (data.quantity > rproducts!) {
+      return toast.info("Số lượng còn lại không đủ");
+    }
     if (data.quantity < 1) {
       return toast.info("Số lượng phải lớn hơn 1", {
         position: "top-right",
@@ -84,9 +84,8 @@ const DetailProduct = (props: Props) => {
       },
       userID: iduser,
     };
-   
-    
-   await dispatch(addToCart(carts));
+
+    await dispatch(addToCart(carts));
   };
   const onSize = async (c: any) => {
     setSizeSelected(c.title);
@@ -99,7 +98,7 @@ const DetailProduct = (props: Props) => {
   };
 
   const onColor = (c: any) => {
-    setRproducts(undefined)
+    setRproducts(undefined);
     setColorSelected(c);
     setSizeSelected(undefined);
     setQuantities(0);
@@ -143,9 +142,7 @@ const DetailProduct = (props: Props) => {
 
   return (
     <>
-    
       <div className="detail_page">
-
         {/* pagination */}
         <div className="containerx">
           <div className="breadcrumb_list">
@@ -224,72 +221,73 @@ const DetailProduct = (props: Props) => {
                   </label> */}
                 </div>
               </div>
-              <form onSubmit={handleSubmit(onAddOrder)}>  
-              <div className="size__wrapper">
-                <h6 className="section-title">Kích cỡ:</h6>
-                <div className="select__size dp-flex">
-                  {(colorSize.get(colorSelected || "")?.size || []).map(
-                    (c, index) => (
-                      <label
-                        key={index++}
-                        className={`btn_size ${
-                          sizeSelected === c.title
-                            ? "!border-4 !border-black"
-                            : ""
-                        }`}
-                        htmlFor="38"
-                        onClick={() => onSize(c)}
-                      >
-                        <input
-                          type="radio"
-                          name="size"
-                          id="size"
-                          defaultValue={38}
-                        />
-                        {c.title}
-                      </label>
-                    )
-                  )}
-                </div>
-                <h2 className="t_quantity text-[18px] font-bold my-[20px]">
-                  Số lượng:
-                </h2>
-                {rproducts == 0 ? (
-                  <div className="text-rose-600 text-sm font-semibold">
-                    Hết hàng
+              <form onSubmit={handleSubmit(onAddOrder)}>
+                <div className="size__wrapper">
+                  <h6 className="section-title">Kích cỡ:</h6>
+                  <div className="select__size dp-flex">
+                    {(colorSize.get(colorSelected || "")?.size || []).map(
+                      (c, index) => (
+                        <label
+                          key={index++}
+                          className={`btn_size ${
+                            sizeSelected === c.title
+                              ? "!border-4 !border-black"
+                              : ""
+                          }`}
+                          htmlFor="38"
+                          onClick={() => onSize(c)}
+                        >
+                          <input
+                            type="radio"
+                            name="size"
+                            id="size"
+                            defaultValue={38}
+                          />
+                          {c.title}
+                        </label>
+                      )
+                    )}
                   </div>
-                ) : (
-                  <>
-                    <div className="text-rose-600 text-sm font-semibold my-[10px]">
-                     {rproducts ?  `Còn lại: ${rproducts}`   : ""}
+                  <h2 className="t_quantity text-[18px] font-bold my-[20px]">
+                    Số lượng:
+                  </h2>
+                  {rproducts == 0 ? (
+                    <div className="text-rose-600 text-sm font-semibold">
+                      Hết hàng
                     </div>
-                    <div className="quantity flex items-center mb-[30px]">
-                     
-                  
-                   <input  className="appearance-none block !w-[50%] bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="number" {...register("quantity")} placeholder="Nhập số lượng cần mua"  />
-                  
-                     
-                    </div>
-                  </>
-                )}
+                  ) : (
+                    <>
+                      <div className="text-rose-600 text-sm font-semibold my-[10px]">
+                        {rproducts ? `Còn lại: ${rproducts}` : ""}
+                      </div>
+                      <div className="quantity flex items-center mb-[30px]">
+                        <input
+                          className="appearance-none block !w-[50%] bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          type="number"
+                          {...register("quantity")}
+                          placeholder="Nhập số lượng cần mua"
+                        />
+                      </div>
+                    </>
+                  )}
 
-                <div className="size__guide dp-flex items-center">
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/93/93640.png"
-                    alt=""
-                    className="logo w-[20px] h-[20px] "
-                  />
-                  <a href="#" className="section-title">
-                    Hướng dẫn chọn size
-                  </a>
+                  <div className="size__guide dp-flex items-center">
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/93/93640.png"
+                      alt=""
+                      className="logo w-[20px] h-[20px] "
+                    />
+                    <a href="#" className="section-title">
+                      Hướng dẫn chọn size
+                    </a>
+                  </div>
                 </div>
-              </div>
-                 
-              <div className="add_cart">
-                <button type="submit"  className="btn_add">
-                  Thêm vào giỏ hàng
-                </button>
-              </div>
+
+                <div className="add_cart">
+                  <button type="submit" className="btn_add">
+                    Thêm vào giỏ hàng
+                  </button>
+                </div>
               </form>
               <div className="desc__wrapper">
                 <h6 className="section-title">Mô tả</h6>
@@ -301,60 +299,11 @@ const DetailProduct = (props: Props) => {
 
         {/* comment */}
         <div className="comments_wrapper">
-          <div className="containerx">
-            <h2 className="heading-title">
-              Bình luận về Áo sơ mi - AR220134DT
-            </h2>
-            <div className="form_comment">
-             
-                <textarea
-                  name=""
-                  id=""
-                  cols={30}
-                  placeholder="Mời bạn để lại bình luận..."
-                  rows={6}
-                  defaultValue={""}
-                />
-                <button type="submit">GỬI</button>
-             
-            </div>
-            
-            <div className="list-comments_wrapper">
-              <div className="item">
-                <div className="user dp-flex">
-                  <img
-                    src="https://i.ibb.co/4jB5j40/Avatar.png"
-                    alt=""
-                    className="logo"
-                  />
-                  <div className="info">
-                    <h3 className="name">Quyết</h3>
-                    <span className="time-comment">1 giờ trước</span>
-                  </div>
-                </div>
-                <p className="content">Áo này đẹp quá !</p>
-              </div>
-              <div className="item">
-                <div className="user dp-flex">
-                  <img
-                    src="https://i.ibb.co/4jB5j40/Avatar.png"
-                    alt=""
-                    className="logo"
-                  />
-                  <div className="info">
-                    <h3 className="name">Quyết</h3>
-                    <span className="time-comment">1 giờ trước</span>
-                  </div>
-                </div>
-                <p className="content">Áo này đẹp quá !</p>
-                
-              </div>
-            </div>
-          </div>
+          <Comment />
         </div>
 
         {/* Product like */}
-        <div className="product-related_wrapper">
+        {/* <div className="product-related_wrapper">
           <div className="containerx">
             <div className="heading-title">
               <h2>Có thể bạn sẽ thích</h2>
@@ -406,10 +355,8 @@ const DetailProduct = (props: Props) => {
               </div>
             </div>
           </div>
-        </div>
-
+        </div> */}
       </div>
-      
     </>
   );
 };
