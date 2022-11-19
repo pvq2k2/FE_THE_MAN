@@ -136,7 +136,8 @@ const CartPage = (props: Props) => {
           </table>
           <div className="border-t-2 flex justify-between">
             <button className="border-2  font-semibold p-3 px-5 mt-10">
-              Tiếp tục mua sắm
+              <Link to='/'>  Tiếp tục mua sắm</Link>
+            
             </button>{" "}
           </div>
         </section>

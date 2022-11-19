@@ -70,14 +70,14 @@ const ProductManager = (props: Props) => {
   return (
     <div className={styles.content}>
       <header>
-        <div className={styles.title}>Product Manager</div>
+        <div className={styles.title}>Danh sách sản phẩm</div>
         <Link to="add" className="sm:ml-3">
           <button
             type="button"
             className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]"
           >
             <TiPlus className="text-[20px] mr-2" />
-            Add Product
+            Thêm sản phẩm
           </button>
         </Link>
       </header>
@@ -86,11 +86,11 @@ const ProductManager = (props: Props) => {
           <thead>
             <tr>
               <td>STT</td>
-              <td>Name</td>
-              <td>Image</td>
-              <td>Price</td>
-              <td>Description</td>
-              <td>Action</td>
+              <td>Tên sản phẩm</td>
+              <td>Ảnh sản phẩm</td>
+              <td>Giá sản phẩm</td>
+              <td>Chi tiết sản phẩm</td>
+              <td>Hành động</td>
             </tr>
           </thead>
           <tbody>
@@ -108,7 +108,7 @@ const ProductManager = (props: Props) => {
                       width="100px"
                     />
                   </td>
-                  <td>{item.price}</td>
+                  <td>{item.price}đ</td>
                   <td>{item.desc}</td>
                   <td className={styles.action}>
                     {/* <AiOutlineInfoCircle className={styles.info} onClick={() => showDetailProduct(item._id)}/> */}

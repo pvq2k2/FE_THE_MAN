@@ -90,14 +90,14 @@ const ProductAdd = () => {
       <div>
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between">
-            <h1 className="text-3xl font-bold text-gray-900">Product Add</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Thêm sản phẩm</h1>
             <Link to="/admin/products" className="sm:ml-3">
               <button
                 type="button"
                 className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B]  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E] hover:bg-[#4D535E]"
               >
                 <HiOutlineX className="text-[20px] mr-2" />
-                Close
+                Trở về 
               </button>
             </Link>
           </div>
@@ -117,7 +117,7 @@ const ProductAdd = () => {
                       htmlFor="name"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Name
+                      Tên sản phẩm
                     </label>
 
                     <div className="mt-1">
@@ -141,7 +141,7 @@ const ProductAdd = () => {
                       htmlFor="price"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Price
+                      Giá sản phẩm
                     </label>
                     <div className="mt-1">
                       <input
@@ -163,7 +163,7 @@ const ProductAdd = () => {
                         htmlFor="name"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Size And Color
+                        Lựa chọn "Màu sắc" và "Kích cỡ" sản phẩm
                       </label>
                       <input
                         type="button"
@@ -175,9 +175,9 @@ const ProductAdd = () => {
                       {types &&
                         types.map((item: any) => {
                           return (
-                            <div>
-                              Color: {item.color} - Size: {item.size} -
-                              Quantity: {item.quantity}
+                            <div className="mb-2">
+                              Màu: {item.color} - Size: {item.size} -
+                              Số lượng: {item.quantity}
                             </div>
                           );
                         })}
@@ -224,7 +224,7 @@ const ProductAdd = () => {
                       htmlFor="category"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Category
+                      Lựa chọn danh mục
                     </label>
                     <select
                       {...register("categoryId", {
@@ -249,7 +249,7 @@ const ProductAdd = () => {
                       htmlFor="description"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Description
+                      Chi tiết sản phẩm
                     </label>
                     <div className="mt-1">
                       <input
@@ -269,7 +269,7 @@ const ProductAdd = () => {
 
                   <div className="col-span-3">
                     <label className="block text-sm font-medium text-gray-700">
-                      Image preview
+                      Ảnh xem trước
                     </label>
                     <div className="mt-1 w-40 h-40 relative">
                       <img
@@ -286,7 +286,7 @@ const ProductAdd = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Image
+                      Ảnh sản phẩm
                     </label>
                     <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                       <div className="space-y-1 text-center">
@@ -331,7 +331,7 @@ const ProductAdd = () => {
                     className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]"
                   >
                     <HiOutlineCheck className="mr-2 text-[20px]" />
-                    Save
+                    Lưu sản phẩm
                   </button>
                 </div>
               </div>

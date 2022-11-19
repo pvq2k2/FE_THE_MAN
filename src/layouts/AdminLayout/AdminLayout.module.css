@@ -6,8 +6,8 @@
   position: fixed;
   width: 300px;
   height: 100%;
-  background: #2A303B;
-  border-left: 10px solid #2A303B;
+  background: #2a303b;
+  border-left: 10px solid #2a303b;
   transition: 0.5s;
   overflow: hidden;
 }
@@ -37,7 +37,7 @@
 }
 .navigation ul li:hover a,
 .navigation ul li.active a {
-  color: #5B6372;
+  color: #5b6372;
 }
 .navigation ul li:hover a::before,
 .navigation ul li.active a::before {
@@ -147,7 +147,7 @@
 }
 .main .search label .io {
   position: absolute;
-  top: 20px;
+  top: 0;
   left: 10px;
   font-size: 1.2rem;
 }
