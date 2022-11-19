@@ -1,10 +1,38 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { HiRefresh } from 'react-icons/hi'
+import NumberFormat from 'react-number-format'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { getOrders, infoOrder } from '../../../redux/slices/orderSlice'
+import { readUserLocal } from '../../../redux/slices/userSlice'
+import "./index.css"
 
 const Done = () => {
+  const dispatch = useDispatch<any>()
+  const [Orders,setOrders] = useState([])
+  useEffect(() => {
+    (async () => {
+      const user = await dispatch(readUserLocal())
+      const or = await dispatch(getOrders()) 
+      let ord = []
+      const orafter = or?.payload?.filter((item:any) => item.userID  == user?.payload?.users?.id && item.order_code != null)
+      console.log("aa",orafter);
+      for (let i = 0; i < orafter.length; i++) {  
+          let orderId:any = {
+            order_code: orafter[i].order_code
+          }
+          const order =  await dispatch(infoOrder(orderId || '')) 
+          
+          if(order?.payload?.data?.status == "delivered") {
+                ord.push(...Orders, orafter[i])     
+          }
+      }
+      setOrders(ord as [])
+
+    }) ()
+  }, [])
   return (
-    <div>
+    <div className="scoll h-[350px] w-[1280px] overflow-auto">
 
     <div className="m-auto max-w-full pb-36 mt-5">
       <div className="mt-5 md:mt-0 md:col-span-2">
@@ -20,23 +48,21 @@ const Done = () => {
           </tr>
         </thead>
         <tbody className="w-full">
-        <tr className="border-t-2">
-          <td className=" py-10  gap-8">1</td>  
-          <td className="prod py-10 gap-8 inline-flex ml-[40px]">
-           <div className="img-item w-[190px] h-[190px] overflow-hidden pt-4">
-              <img src="https://res.cloudinary.com/assignment22/image/upload/v1666929320/Ass-reactjs/%C3%A1o_hqugdy.jpg" alt="Áo thun" />
-           </div>
+        {Orders?.map((item: any, index:  number) => {
+          return <tr key={index ++ } className="border-t-2">
+          <td className=" py-10  gap-8">{index ++}</td>  
+          <td className="prod py-10 gap-8 inline-flex ml-[40px]">      
            <div className="pt-3">
-              <div className="w-[330px] break-words">
-                  <span className="text-[17px] ">Áo thun nam Teelab sieu chat luong thoang mat cho mua he nang dong</span>
-              </div>
-              <div className="text-[15px] text-gray-500 pt-[10px]">Phân loại hàng : <b> M</b></div> 
-              <div className="text-[15px] text-gray-500 pt-[7px] flex">Màu săc : <p className="w-[20px] h-[20px] bg-red-600 ml-2"></p></div>  
-              <div className="text-[15px] text-gray-500 pt-[7px]">Số lượng : 2</div>  
+              <div className="text-[15px] text-gray-500 pt-[7px]">Số lượng : {item?.product?.length}</div>  
               <div className="sales  w-[110px] pt-[8px]"> <p className="text-[#ee4d2d] text-[11px]">7 ngày đổi trả hàng</p> </div>            
             </div> 
           </td>  
-          <td className=" py-10  gap-8"> 200.000 VND</td>  
+          <td className=" py-10  gap-8"> { <NumberFormat
+                  value={item?.totalprice}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={""}
+                />} VND</td>  
           <td className="py-10  gap-8 text-red-600 ">Đã giao hàng thành công</td>  
           <td className=" py-10  gap-8 "> <button className="btn">Chi tiết sản phẩm</button></td>  
           <td className="py-10  gap-8">
@@ -49,6 +75,7 @@ const Done = () => {
             
             </td>
         </tr>
+        })}
         
         </tbody>
        

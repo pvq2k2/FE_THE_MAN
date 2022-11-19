@@ -49,7 +49,7 @@ export const infoOrder = createAsyncThunk("orders/infoorder", async (id: string)
   }
   
 })
-export const cancleOrder = createAsyncThunk("orders/cancleorders", async (data:any) => {
+export const cancelOrder = createAsyncThunk("orders/cancleorders", async (data:any) => {
         const res = await axios.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel', data , 
             {
               headers: {
@@ -115,7 +115,7 @@ const orderSlice = createSlice({
     builder.addCase(infoOrder.fulfilled, (state, { payload }) => {
       state.orderinfo = payload
     }),
-    builder.addCase(cancleOrder.fulfilled, (state, { payload }) => {
+    builder.addCase(cancelOrder.fulfilled, (state, { payload }) => {
 
     })
   },

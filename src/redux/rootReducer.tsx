@@ -10,6 +10,8 @@ import userReducer from "./slices/userSlice";
 import provinceReducer from "./slices/provinceSlice";
 import cartReducer from "./slices/cartSlice";
 import orderReducer from "./slices/orderSlice";
+import contactReducer from "./slices/contactSlice";
+
 const rootReducer = combineReducers({
   auth: authReducer,
   post: postReducer,
@@ -20,7 +22,8 @@ const rootReducer = combineReducers({
   slider: sliderReducer,
   carts: cartReducer,
   province: provinceReducer,
-  orders: orderReducer
+  orders: orderReducer,
+  contact: contactReducer,
 });
 
 export default rootReducer;
