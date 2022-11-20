@@ -207,7 +207,7 @@ function App() {
           }
         />
         <Route
-          path="/detailOrder"
+          path="/detailOrder/:id"
           element={
             <ClientLayout>
               <Detail_Order />

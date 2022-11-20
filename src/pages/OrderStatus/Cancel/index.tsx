@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import NumberFormat from 'react-number-format'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getOrders } from '../../../redux/slices/orderSlice'
@@ -42,8 +43,13 @@ const Cancel = () => {
                    <div className="sales  w-[110px] pt-[8px]"> <p className="text-[#ee4d2d] text-[11px]">7 ngày đổi trả hàng</p> </div>            
                  </div> 
                </td>  
-               <td className=" py-10  gap-8"> 200.000 VND</td>  
-               <td className=" py-10  gap-8 "> <Link to="/detailOrder"><button className="btn" >Chi tiết sản phẩm</button></Link> </td>  
+               <td className=" py-10  gap-8"> { <NumberFormat
+                  value={item?.totalprice}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={""}
+                />} VND</td> 
+              <td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết sản phẩm</button></Link> </td> 
                <td className="py-10  gap-8">
                 
                    <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' >Huỷ đơn hàng</button>

@@ -78,6 +78,8 @@ export const orderConfirm = createAsyncThunk("orders/orderconfirm", async (data:
       'Token': '755b4fbb-5918-11ed-bd1f-1a28f04fff2f',
     },
   })
+  console.log("r",res);
+  
   return res.data
 })
 
