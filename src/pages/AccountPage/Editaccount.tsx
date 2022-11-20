@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, {useState, useEffect} from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { HiOutlineCheck } from 'react-icons/hi';
@@ -14,7 +15,7 @@ type Inputs = {
   phone: string;
   address: string;
   email: string;
-  image: string;
+  img: string;
   status: string
   };
 const Editaccount = (props: Props) => {
@@ -52,16 +53,30 @@ const Editaccount = (props: Props) => {
   }, [id, dispatch, reset]);
 
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
-    console.log(values.status);
+    console.log(values.phone);
 
     try {
-      dispatch(
+      const apiUrl = "https://api.cloudinary.com/v1_1/dmlv9tzte/image/upload";
+      const images = values.img[0];
+      const formdata = new FormData();
+      formdata.append("file", images);
+      formdata.append("upload_preset", "duanTn");
+      const { data } = await axios.post(apiUrl, formdata, {
+        headers: {
+          "Content-type": "application/form-data",
+        },
+      });
+      console.log(values.img);
+      
+      await dispatch(
         updateUser({
           fullname: values.fullname,
+          phone : values.phone,
           status,
           _id: id,
+          img: data.url,
         })
-      );
+      ).unwrap();
       toast.success("Sửa người dùng thành công !", {
         position: "top-right",
         autoClose: 5000,
@@ -176,7 +191,7 @@ const Editaccount = (props: Props) => {
                   </svg>
                   <div className="flex text-sm text-gray-600">
                     <input
-                      {...register("image", {
+                      {...register("img", {
                         required: "Vui lòng chọn ảnh",
                       })}
                       onChange={(e: any) => {
@@ -186,7 +201,7 @@ const Editaccount = (props: Props) => {
                       type="file"
                     />
                     <div className="text-sm mt-0.5 text-red-500">
-                      {errors.image?.message}
+                      {errors.img?.message}
                     </div>
                   </div>
                 </div>
