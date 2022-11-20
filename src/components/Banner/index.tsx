@@ -4,7 +4,9 @@ import './Banner.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { RootState, useAppDispatch } from '../../redux/store';
+import { useEffect } from 'react';
+import { getSliders } from '../../redux/slices/Slider';
 type Props = {}
 
 function SampleNextArrow(props: { onClick: () => void; }) {
@@ -21,7 +23,19 @@ function SamplePrevArrow(props: { onClick: () => void; }) {
   );
 }
 const Banner = (props: Props) => {
-  const slider = useSelector((state : RootState) => state.slider)
+  const picture = useSelector((state : RootState) => state?.slider)
+  const pages = useSelector((state: RootState) => state?.slider.page);
+  const dispatch = useAppDispatch();
+  useEffect(()=>{
+    dispatch(
+      getSliders(
+        {
+          page: pages,
+          limit: 10,
+        }
+      )
+    )
+  },[dispatch])
     const settings = {
           dots: true,
           arrows: true,
@@ -38,8 +52,13 @@ const Banner = (props: Props) => {
         return (
           <section className="banner">
             <Slider {...settings}>
-              <img src='https://img.cdn.vncdn.io/nvn/ncdn/store1/41786/bn/Banner1_1.JPG' alt='Banner1-1'/>
-              <img src='https://img.cdn.vncdn.io/nvn/ncdn/store1/41786/bn/bannercollection1.jpg' alt='bannercollection1'/>
+              {picture?.Sliders.Slider?.map((item:any,index:any)=>{
+                return (
+                  <img src={item.image} alt='Banner1-1'/>
+                )
+              })}
+            
+          
             </Slider>
           </section>
         );

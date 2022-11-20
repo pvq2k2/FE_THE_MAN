@@ -49,7 +49,6 @@ const Waitting = (props: Props) => {
               <th className=" font-semibold pb-5">STT</th>
               <th className=" font-semibold pb-5 text-center">Sản phẩm</th>
               <th className="font-semibold pb-5">Tổng tiền</th>
-              <th className="font-semibold pb-5">Trạng thái đơn hàng</th>
               <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
               <th className="font-semibold pb-5">Hành động</th>
             </tr>
@@ -66,8 +65,7 @@ const Waitting = (props: Props) => {
                  </div> 
                </td>  
                <td className=" py-10  gap-8"> 200.000 VND</td>  
-               <td className="py-10  gap-8 text-red-600 ">Đang chờ xác nhận</td>  
-               <td className=" py-10  gap-8 "> <button className="btn">Chi tiết sản phẩm</button></td>  
+               <td className=" py-10  gap-8 "> <Link to="/detailOrder"><button className="btn" >Chi tiết sản phẩm</button></Link> </td>  
                <td className="py-10  gap-8">
                 
                    <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' onClick={() => onCancelOrder(item)}>Huỷ đơn hàng</button>
