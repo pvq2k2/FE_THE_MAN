@@ -7,28 +7,28 @@ import { getOrders, infoOrder } from '../../../redux/slices/orderSlice'
 import { readUserLocal } from '../../../redux/slices/userSlice'
 import "./index.css"
 
-const Done = () => {
-  const dispatch = useDispatch<any>()
-  const [Orders,setOrders] = useState([])
-  useEffect(() => {
-    (async () => {
-      const user = await dispatch(readUserLocal())
-      const or = await dispatch(getOrders()) 
-      let ord = []
-      const orafter = or?.payload?.filter((item:any) => item.userID  == user?.payload?.users?.id && item.order_code != null)
-      for (let i = 0; i < orafter.length; i++) {  
-          let orderId:any = {
-            order_code: orafter[i].order_code
-          }
-          const order =  await dispatch(infoOrder(orderId || '')) 
-          
-          if(order?.payload?.data?.status == "delivered") {
-                ord.push(...Orders, orafter[i])     
-          }
-      }
-      console.log(ord);
-      
-      setOrders(ord as [])
+  const Done = () => {
+    const dispatch = useDispatch<any>()
+    const [Orders,setOrders] = useState([])
+    useEffect(() => {
+      (async () => {
+        const user = await dispatch(readUserLocal())
+        const or = await dispatch(getOrders()) 
+        let ord = []
+        const orafter = or?.payload?.filter((item:any) => item.userID  == user?.payload?.users?.id && item.order_code != null)
+        for (let i = 0; i < orafter.length; i++) {  
+            let orderId:any = {
+              order_code: orafter[i].order_code
+            }
+            const order =  await dispatch(infoOrder(orderId || '')) 
+            
+            if(order?.payload?.data?.status == "delivered") {
+                  ord.push(...Orders, orafter[i])     
+            }
+        }
+        console.log(ord);
+        
+        setOrders(ord as [])
 
     }) ()
   }, [])
@@ -63,7 +63,7 @@ const Done = () => {
                   thousandSeparator={true}
                   prefix={""}
                 />} VND</td>  
-<td className=" py-10  gap-8 "> <Link to="/detailOrder"><button className="btn" >Chi tiết sản phẩm</button></Link> </td>    
+<td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết sản phẩm</button></Link> </td> 
           <td className="py-10  gap-8">
           
             <form  className='flex flex-col pt-7'>

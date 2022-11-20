@@ -39,6 +39,10 @@ const CartPage = (props: Props) => {
       await dispatch(readCart(user?.payload?.users?.id)).unwrap();
     })();
   }, []);
+  const changeQuantity = (data: any) => {
+    console.log(data);
+    
+  }
   return (
     <div>
       <div>
@@ -99,6 +103,7 @@ const CartPage = (props: Props) => {
                         type="number"
                         min={0}
                         // max={100}
+                        onChange={(e ) => changeQuantity({cart: item, e})}
                         value={item.quantity}
                       />
                       {/* <button
