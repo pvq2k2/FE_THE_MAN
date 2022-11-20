@@ -48,6 +48,7 @@ import ContactManager from "./pages/Admin/Contact/ContactManager";
 import Products from "./pages/Products";
 import Mess from "./components/messenger";
 import Profile from "./pages/Profile";
+import Detail_Order from "./pages/OrderStatus/Detail_Order";
 function App() {
   return (
     <>
@@ -202,6 +203,14 @@ function App() {
           element={
             <ClientLayout>
               <Editaccount />
+            </ClientLayout>
+          }
+        />
+        <Route
+          path="/detailOrder"
+          element={
+            <ClientLayout>
+              <Detail_Order />
             </ClientLayout>
           }
         />

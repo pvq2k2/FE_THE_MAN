@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import "./index.css"
 
 const Deliver = () => {
@@ -13,7 +14,6 @@ const Deliver = () => {
             <th className=" font-semibold pb-5">STT</th>
             <th className=" font-semibold pb-5 text-center">Sản phẩm</th>
             <th className="font-semibold pb-5">Tổng tiền</th>
-            <th className="font-semibold pb-5">Trạng thái đơn hàng</th>
             <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
           </tr>
         </thead>
@@ -35,8 +35,7 @@ const Deliver = () => {
             </div> 
           </td>  
           <td className=" py-10  gap-8"> 200.000 VND</td>  
-          <td className="py-10  gap-8 text-red-600 ">Đang giao hàng</td>  
-          <td className=" py-10  gap-8 "> <button className="btn">Chi tiết sản phẩm</button></td>  
+          <td className=" py-10  gap-8 "> <Link to="/detailOrder"><button className="btn" >Chi tiết sản phẩm</button></Link> </td>  
         </tr>
         
         </tbody>

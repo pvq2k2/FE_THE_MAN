@@ -284,7 +284,7 @@ const CartUpdate = () => {
               <td className="py-10  gap-8 outline-none">
                 <h2 className='my-[10px]'>Xác nhận đơn hàng: </h2>
                 <form onSubmit={handleSubmit(onUpdate)} className='flex flex-col'>
-                  <select {...register('status')} className='max-w-[150px] my-[5px] py-[10px]'>
+                  <select {...register('status')} className='max-w-[150px] my-[5px] py-[10px] border-[1px] border-[#333] rounded outline-none'>
                     <option value={0}>Đang xử lý</option>
                     <option value={1}>Xác nhận</option>
                     <option value={2}>Huỷ đơn hàng</option>
