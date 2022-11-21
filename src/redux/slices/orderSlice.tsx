@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { removeCart } from "../../api-cilent/Cart";
 import {
   AddOrderApi,
@@ -29,10 +30,6 @@ export const getOrders = createAsyncThunk("orders/getorders", async () => {
 export const addOrder = createAsyncThunk(
   "Users/addorder",
   async (data: any) => {
-    for (let index = 0; index < data.product?.length; index++) {
-      const element = data.product[index];
-      await UpdateQuantityCart(element);
-    }
     return data;
   }
 );
@@ -100,7 +97,26 @@ export const updateOrder = createAsyncThunk(
     return res.data;
   }
 );
-
+export const searchOrder = createAsyncThunk(
+  "orders/search",
+  async (id: string) => {
+    let result = [];
+    try {
+      const res = await readOrdertApi(id);
+      if (id) {
+        result.push(res.data);
+      } else {
+        result = res.data;
+      }
+      if (res.data == null) {
+        result = [];
+      }
+    } catch (error) {
+      toast.info("Không tìm thấy!!!");
+    }
+    return result;
+  }
+);
 export const orderConfirm = createAsyncThunk(
   "orders/orderconfirm",
   async (data: any) => {
@@ -138,6 +154,10 @@ const orderSlice = createSlice({
       builder.addCase(addOrder.fulfilled, (state, { payload }) => {
         const response = AddOrderApi(payload);
         const remove = removeCart(payload?._id);
+        for (let index = 0; index < payload.product?.length; index++) {
+          const element = payload.product[index];
+          UpdateQuantityCart(element);
+        }
       }),
       builder.addCase(orderConfirm.fulfilled, (state, { payload }) => {}),
       builder.addCase(updateOrder.fulfilled, (state, { payload }) => {
@@ -148,7 +168,13 @@ const orderSlice = createSlice({
       builder.addCase(infoOrder.fulfilled, (state, { payload }) => {
         state.orderinfo = payload;
       }),
-      builder.addCase(cancelOrder.fulfilled, (state, { payload }) => {});
+      builder.addCase(cancelOrder.fulfilled, (state, { payload }) => {}),
+      builder.addCase(searchOrder.fulfilled, (state, { payload }) => {
+        if (payload.length >= 1) {
+          state.orders = payload;
+        } else {
+        }
+      });
   },
 });
 

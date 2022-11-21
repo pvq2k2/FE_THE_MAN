@@ -3,37 +3,41 @@ import { HiRefresh } from 'react-icons/hi'
 import NumberFormat from 'react-number-format'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import CartLoad from '../../../components/CartLoad'
 import { getOrders, infoOrder } from '../../../redux/slices/orderSlice'
 import { readUserLocal } from '../../../redux/slices/userSlice'
 import "./index.css"
 
-const Done = () => {
-  const dispatch = useDispatch<any>()
-  const [Orders,setOrders] = useState([])
-  useEffect(() => {
-    (async () => {
-      const user = await dispatch(readUserLocal())
-      const or = await dispatch(getOrders()) 
-      let ord = []
-      const orafter = or?.payload?.filter((item:any) => item.userID  == user?.payload?.users?.id && item.order_code != null)
-      console.log("aa",orafter);
-      for (let i = 0; i < orafter.length; i++) {  
-          let orderId:any = {
-            order_code: orafter[i].order_code
-          }
-          const order =  await dispatch(infoOrder(orderId || '')) 
-          
-          if(order?.payload?.data?.status == "delivered") {
-                ord.push(...Orders, orafter[i])     
-          }
-      }
-      setOrders(ord as [])
+  const Done = () => {
+    const dispatch = useDispatch<any>()
+    const [Orders,setOrders] = useState([])
+    const [Loading,setLoading] = useState(false)
+    useEffect(() => {
+      (async () => {
+        const user = await dispatch(readUserLocal())
+        const or = await dispatch(getOrders()) 
+        let ord = []
+        const orafter = or?.payload?.filter((item:any) => item.userID  == user?.payload?.users?.id && item.order_code != null)
+        for (let i = 0; i < orafter.length; i++) {  
+            let orderId:any = {
+              order_code: orafter[i].order_code
+            }
+            const order =  await dispatch(infoOrder(orderId || '')) 
+            
+            if(order?.payload?.data?.status == "delivered") {
+                  ord.push(...Orders, orafter[i])     
+            }
+        }
+        console.log(ord);
+        
+        setOrders(ord as [])
+        setLoading(true)
 
     }) ()
   }, [])
   return (
     <div className="scoll h-[350px] w-[1280px] overflow-auto">
-
+ {Loading == false ? <CartLoad /> : ""}
     <div className="m-auto max-w-full pb-36 mt-5">
       <div className="mt-5 md:mt-0 md:col-span-2">
       <table className="table-auto w-full ">
@@ -42,7 +46,6 @@ const Done = () => {
             <th className=" font-semibold pb-5">STT</th>
             <th className=" font-semibold pb-5 text-center">Sản phẩm</th>
             <th className="font-semibold pb-5">Tổng tiền</th>
-            <th className="font-semibold pb-5">Trạng thái đơn hàng</th>
             <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
             <th className="font-semibold pb-5">Đánh giá chất lượng</th>
           </tr>
@@ -63,12 +66,11 @@ const Done = () => {
                   thousandSeparator={true}
                   prefix={""}
                 />} VND</td>  
-          <td className="py-10  gap-8 text-red-600 ">Đã giao hàng thành công</td>  
-          <td className=" py-10  gap-8 "> <button className="btn">Chi tiết sản phẩm</button></td>  
+<td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết sản phẩm</button></Link> </td> 
           <td className="py-10  gap-8">
           
             <form  className='flex flex-col pt-7'>
-              <textarea className='max-w-[190px] my-[6px] py-[5px] p-[10px] outline-none'>
+              <textarea className='max-w-[190px] my-[6px] py-[5px] p-[10px] outline-none border-[1px] border-[#333]'>
               </textarea>
               <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit'>Gửi</button>
             </form>

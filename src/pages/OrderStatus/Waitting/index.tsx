@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { HiRefresh } from "react-icons/hi";
+import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import CartLoad from "../../../components/CartLoad";
 import { getOrders, updateOrder } from "../../../redux/slices/orderSlice";
 import { readUserLocal } from "../../../redux/slices/userSlice";
 import "./waiting.css"
@@ -11,7 +13,7 @@ type Props = {};
 
 const Waitting = (props: Props) => {
   const dispatch = useDispatch<any>()
- 
+  const [Loading, setLoading] = useState(false)
   const [Orders,setOrders] = useState([])
   const onCancelOrder = async (data: any) => {
     const dataa = {
@@ -35,12 +37,13 @@ const Waitting = (props: Props) => {
           const or = await dispatch(getOrders())   
           const orafter = or?.payload?.filter((item:any) => item.userID  == user?.payload?.users?.id && item.status == 0)
           setOrders(orafter)  
+          setLoading(true)
         }) ()
   }, [])
   return (
 
     <div className="scoll h-[350px]  overflow-auto">
-
+ {Loading == false ? <CartLoad /> : ""}
       <div className="m-auto max-w-full pb-36 mt-5 ">
         <div className="mt-5 md:mt-0 md:col-span-2 ">
         <table className="table-auto w-full ">
@@ -49,7 +52,6 @@ const Waitting = (props: Props) => {
               <th className=" font-semibold pb-5">STT</th>
               <th className=" font-semibold pb-5 text-center">Sản phẩm</th>
               <th className="font-semibold pb-5">Tổng tiền</th>
-              <th className="font-semibold pb-5">Trạng thái đơn hàng</th>
               <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
               <th className="font-semibold pb-5">Hành động</th>
             </tr>
@@ -65,9 +67,13 @@ const Waitting = (props: Props) => {
                    <div className="sales  w-[110px] pt-[8px]"> <p className="text-[#ee4d2d] text-[11px]">7 ngày đổi trả hàng</p> </div>            
                  </div> 
                </td>  
-               <td className=" py-10  gap-8"> 200.000 VND</td>  
-               <td className="py-10  gap-8 text-red-600 ">Đang chờ xác nhận</td>  
-               <td className=" py-10  gap-8 "> <button className="btn">Chi tiết sản phẩm</button></td>  
+               <td className=" py-10  gap-8"> { <NumberFormat
+                  value={item?.totalprice}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={""}
+                />} VND</td>
+               <td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết sản phẩm</button></Link> </td>  
                <td className="py-10  gap-8">
                 
                    <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' onClick={() => onCancelOrder(item)}>Huỷ đơn hàng</button>

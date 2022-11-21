@@ -2303,6 +2303,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-numeric-input@^2.2.4":
+  "integrity" "sha512-T1p5pPr2legoXxzbcvp85/v70kKdQBtL7lTkc/sQf4BnF/RIAysNguVHv82xkJUtWHCB+X865NArFnHmjFa7rA=="
+  "resolved" "https://registry.npmjs.org/@types/react-numeric-input/-/react-numeric-input-2.2.4.tgz"
+  "version" "2.2.4"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@^5.3.3":
   "integrity" "sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw=="
   "resolved" "https://registry.npmjs.org/@types/react-router-dom/-/react-router-dom-5.3.3.tgz"

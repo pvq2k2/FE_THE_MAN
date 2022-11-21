@@ -6,12 +6,8 @@ import NumberFormat from 'react-number-format'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { updateStatusOrderApi } from '../../../../api-cilent/Orders'
-import { getCatePost, updateCatePost } from '../../../../redux/slices/catePostSlice'
-import { cancelOrder, infoOrder, orderConfirm, readOrder, updateOrder } from '../../../../redux/slices/orderSlice'
-import { useAppDispatch } from '../../../../redux/store'
-import { formatDateGHN } from '../../../../ultis'
-
+import { infoOrder, readOrder } from '../../redux/slices/orderSlice'
+import { formatDateGHN } from '../../ultis'
 
 
 const CartUpdate = () => {
@@ -21,88 +17,6 @@ const CartUpdate = () => {
   const {register,handleSubmit,formState:{errors}, reset}=useForm();
   const order = useSelector((state:any) => state.orders)
   let sum = 0
-
-  const onUpdate = async (data: any) => {
-            data.status = parseInt(data.status)
-            let product = []
-           
-            if(order.order.status == 1  && data.status == 1 ) {
-              return toast.info("Đơn hàng đã được xác nhận");
-            }
-            if(data.status == 2 && order?.orderinfo?.data?.status != "ready_to_pick") {
-              return toast.info("Đơn hàng này đã xác nhận không thể huỷ");
-            }
-            product = data.product 
-            const infocart = {
-              "payment_type_id": 2,
-              "note": "The Man",
-              "from_name":"The Man",
-              "from_phone":"0982641483",
-              "from_address":"Chung Cư Ct6, Ngõ 89 Đường Lê Đức Thọ Phường Mỹ Đình 2, Quận Nam Từ Liêm, Hà Nội",
-              "from_ward_name":"Phường Mỹ Đình 2",
-              "from_district_name":"Quận Nam Từ Liêm",
-              "from_province_name":"Hà Nội",
-              "required_note": "CHOTHUHANG",
-              "return_name": "The Man",
-              "return_phone": "0982641483",
-              "return_address": "Chung Cư Ct6, Ngõ 89 Đường Lê Đức Thọ Phường Mỹ Đình 2, Quận Nam Từ Liêm, Hà Nội",
-              "return_ward_name": "Phường Mỹ Đình 2",
-              "return_district_name": "Quận Nam Từ Liêm",
-              "return_province_name":"Hà Nội",
-              "client_order_code": "",  
-              "to_name": data?.infomation?.fullname,
-              "to_phone": data?.infomation?.phonenumber,
-              "to_address": data?.infomation?.address,
-              "to_ward_name":data?.infomation?.to_ward_name,
-              "to_district_name":data?.infomation?.to_district_name,
-              "to_province_name":data?.infomation?.to_province_name,
-              "cod_amount": data?.totalprice,
-              "content": data?.infomation?.note,
-              "weight": data?.weight,
-              "length": data?.length,
-              "width": data?.width,
-              "height": data?.height,
-              "pick_station_id": null,
-              "deliver_station_id": null,
-              "insurance_value": data?.productmonney,
-              "service_type_id":2,
-              "coupon":null,
-              "pick_shift":null,
-              "pickup_time": null,
-              "items": product
-            }
-
-            if(data.status === 2 && data.order_code) {
-               await  dispatch(updateOrder(data))   
-                  let raw = {
-                    order_codes: []
-                  } 
-                  raw.order_codes.push(data.order_code as never)
-               const res =  await dispatch(cancelOrder(raw))
-               if(res.payload.code == 200) {
-                   return toast.info("Huỷ đơn hàng thành công !");
-               } 
-               
-            }
-            if(data.order_code) {
-              return toast.info("Đơn hàng này đã được xác nhận. Đang đợi shipper tới lấy hàng");
-            }
-            if(data.status === 1) {  
-                  const res = await dispatch(orderConfirm(infocart))
-                  if(res?.payload?.code == 200) {
-                    data.order_code = res?.payload?.data?.order_code
-                    navigate("/admin/carts")
-                  }else {
-                      toast.info(res?.error?.message)
-                  }
-                  if(data.order_code) {
-                    const update = await  dispatch(updateOrder(data))  
-                    toast.info("Thành công");             
-                  }
-            }
-            
-          
-  }
   let currentstatus = ""
   if(order?.orderinfo?.data?.status == "ready_to_pick") {
     currentstatus = "Mới tạo đơn hàng"
@@ -171,9 +85,7 @@ const CartUpdate = () => {
   //   const res = await dispatch(infoOrder(id))
   //   })()
   // },[order.order.order_code])
-  const onPrint = () => {
-        window.print()
-  }
+
   return (
     <div>
       <div className='ml-[40px] mx-8'>
@@ -202,7 +114,6 @@ const CartUpdate = () => {
                 <th className="font-semibold pb-10">Phí giao hàng</th>
                 <th className="font-semibold pb-10">Tiền hàng</th>
                 <th className="font-semibold pb-10">Tổng tiền</th>
-                <th className="font-semibold pb-10">Hành động</th>
               </tr>
             </thead>
             <tbody className="w-full">
@@ -286,18 +197,7 @@ const CartUpdate = () => {
                             prefix={""}
                           />
                           }VNĐ</td>  
-              <td className="py-10  gap-8 outline-none">
-                <h2 className='my-[10px]'>Xác nhận đơn hàng: </h2>
-                <form onSubmit={handleSubmit(onUpdate)} className='flex flex-col'>
-                  <select {...register('status')} className='max-w-[150px] my-[5px] py-[10px] border-[1px] border-[#333] rounded outline-none'>
-                    <option value={0}>Đang xử lý</option>
-                    <option value={1}>Xác nhận</option>
-                    <option value={2}>Huỷ đơn hàng</option>
-                  </select>
-                  <button className='max-w-[150px] bg-blue-300 py-[5px]' type='submit'>Gửi</button>
-                </form>
-                
-                </td>  
+             
             </tr>
             
             </tbody>
@@ -366,7 +266,6 @@ const CartUpdate = () => {
             </tbody>
            
           </table>
-          <button type='submit' className='max-w-[150px] bg-yellow-500 p-[5px] my-[5px]' onClick={() => onPrint()}>In đơn hàng</button>
         
          
           </div>
