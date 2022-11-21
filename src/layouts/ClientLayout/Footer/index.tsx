@@ -21,8 +21,8 @@ const ClientFooter = (props: Props) => {
         <div>
           <h4 className='font-semibold text-xl py-4'>Về chúng tôi</h4>
           <ul>
-            <li className='font-semibold text-[#888888] pb-3 hover:text-blue-400 transition duration-400 ease-in-out'><Link to={''}>Giới thiệu</Link></li>
-            <li className='font-semibold text-[#888888] pb-3 hover:text-blue-400 transition duration-400 ease-in-out'><Link to={''}>Liên hệ</Link></li>
+            <li className='font-semibold text-[#888888] pb-3 hover:text-blue-400 transition duration-400 ease-in-out'><Link to='/intro'>Giới thiệu</Link></li>
+            <li className='font-semibold text-[#888888] pb-3 hover:text-blue-400 transition duration-400 ease-in-out'><Link to='/contact'>Liên hệ</Link></li>
           </ul>
         </div>
 

@@ -8,6 +8,7 @@ import { json, useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../../redux/slices/cartSlice";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Comment from "./comment";
+import { AiOutlineClose, AiOutlineHome, AiOutlineMail, AiOutlineMessage, AiOutlinePhone, AiOutlineUser } from "react-icons/ai";
 type Props = {};
 
 type TypeColorSize = Map<
@@ -21,6 +22,7 @@ type TypeColorSize = Map<
 >;
 
 const DetailProduct = (props: Props) => {
+  const [show, isShow] = useState(false)
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<any>();
@@ -35,6 +37,9 @@ const DetailProduct = (props: Props) => {
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user") as any));
   }, []);
+  const showTest = () =>{
+    isShow(true);     
+    }
   const onAddOrder: SubmitHandler<any> = async (data: any) => {
     if (!User) {
       setTimeout(() => {
@@ -139,6 +144,8 @@ const DetailProduct = (props: Props) => {
       document.body.appendChild(script);
     })();
   }, [id, dispatch]);
+
+
 
   return (
     <>
@@ -262,7 +269,7 @@ const DetailProduct = (props: Props) => {
                       </div>
                       <div className="quantity flex items-center mb-[15px]">
                         <input
-                          className="appearance-none block !w-[50%] bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          className="appearance-none block !w-[50%] bg-gray-100 text-gray-700 border border-blue-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                           type="number"
                           {...register("quantity")}
                           placeholder="Nhập số lượng cần mua"
@@ -277,7 +284,7 @@ const DetailProduct = (props: Props) => {
                       alt=""
                       className="logo w-[20px] h-[20px] "
                     />
-                    <a href="#" className="section-title">
+                    <a href="#" className="section-title" onClick={() => showTest()}>
                       Hướng dẫn chọn size
                     </a>
                   </div>
@@ -356,6 +363,45 @@ const DetailProduct = (props: Props) => {
             </div>
           </div>
         </div> */}
+
+     {show ? (
+      <div
+      className="modal fixed z-[999] inset-0 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="flex min-h-screen text-center  md:block md:px-2 lg:px-4"
+        style={{ fontSize: 0 }}
+      >
+        <div
+          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity md:block"
+          aria-hidden="true"
+          onClick={() => isShow(false)}
+        />
+        <div className="text-base flex justify-center items-center absolute top-[15%] right-[28%] text-left transform transition md:inline-block md:max-w-2xl md:px-4 md:my-8 md:align-middle lg:max-w-4xl">
+          <div className="rounded relative bg-white px-4 pt-14 pb-8 overflow-hidden shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8 ">
+            <div
+              className="modal-close absolute top-4 right-4 text-2xl text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8 cursor-pointer"
+              onClick={() => isShow(false)}
+            >
+              <AiOutlineClose />
+            </div>
+            <div className="modal-container items-start">
+              <div className="mt-3 text-left sm:mt-0 sm:ml-4 w-[500px]">
+         <div className="text-hd">
+         <p >Hướng dẫn chọn size</p>
+         <img src="https://res.cloudinary.com/assignment22/image/upload/v1669001659/Ass-reactjs/h%C6%B0%E1%BB%9Bng_d%E1%BA%ABn_ch%E1%BB%8Dn_size_d4qcnn.jpg" alt="" />
+         </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     ) : (
+      <></>
+     )} 
       </div>
     </>
   );
