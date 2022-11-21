@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { TiPlus } from "react-icons/ti";
 import NumberFormat from "react-number-format";
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import CartLoad from "../../../../components/CartLoad";
 import { deleteCatePost, getAllCatePosts } from "../../../../redux/slices/catePostSlice";
 import { getOrders, removeOrder, searchOrder } from "../../../../redux/slices/orderSlice";
 import { formatCurrency } from "../../../../ultis";
@@ -16,6 +17,7 @@ type Props = {};
 const CartPostManager = () => {
   const dispatch = useDispatch<any>()
   const order = useSelector((state: any) => state.orders)
+  const [Loading, setLoading] = useState(false);
   const onDelete = async (id:any) => {
     const confirm = window.confirm("Bạn có chắc chắc muốn xoá đơn hàng này không?")
       if(confirm) { 
@@ -24,22 +26,27 @@ const CartPostManager = () => {
       }
   }
   const onSearch = (e:any) => {
-        console.log("e",e.target.value);
         dispatch(searchOrder(e.target.value))
   }
   useEffect(() => {
-        dispatch(getOrders())
+       ( async () => {
+        await dispatch(getOrders())
+        setLoading(true)
+       }) ()
+       
   }, [dispatch])
   return (
     <div className={styles.content}>
       <header>
+        
         <div className={styles.title}>Danh sách đơn hàng</div>
         <div className="searchCart">
             <input className="border-2 border-indigo-600 border-solid min-w-[200px] py-[5px]" onChange={(e) => onSearch(e)} placeholder="Tìm kiếm theo id đơn hàng" type="text" name="" id="" />
         </div>
       </header>
       <main>
-        <table>
+      
+       {Loading ?  <table>
           <thead>
             <tr>
               <td>STT</td>
@@ -101,7 +108,9 @@ const CartPostManager = () => {
         </tr>
          })}
           </tbody>
-        </table>
+        </table> : 
+        <CartLoad/>
+        }
       </main>
     </div>
   );

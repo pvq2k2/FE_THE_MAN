@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import CartLoad from '../../../components/CartLoad'
 import { getOrders, infoOrder } from '../../../redux/slices/orderSlice'
 import { readUserLocal } from '../../../redux/slices/userSlice'
 import "./index.css"
 
 const Deliver = () => {
   const dispatch = useDispatch<any>()
+  const [Loading, setLoading] = useState(false)
   const [Orders,setOrders] = useState([])
   useEffect(() => {
     (async () => {
@@ -31,15 +33,15 @@ const Deliver = () => {
           }
 
       }
-      console.log(ord);
-      
       setOrders(ord as [])
+      setLoading(true)
+      
 
   }) ()
 }, [])
   return (
     <div className="scoll h-[350px] w-[1280px] overflow-auto">
-
+ {Loading == false ? <CartLoad /> : ""}
     <div className="m-auto max-w-full pb-36 mt-5">
       <div className="mt-5 md:mt-0 md:col-span-2">
       <table className="table-auto w-full ">

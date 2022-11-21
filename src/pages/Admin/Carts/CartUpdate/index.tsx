@@ -171,7 +171,9 @@ const CartUpdate = () => {
   //   const res = await dispatch(infoOrder(id))
   //   })()
   // },[order.order.order_code])
-
+  const onPrint = () => {
+        window.print()
+  }
   return (
     <div>
       <div className='ml-[40px] mx-8'>
@@ -364,6 +366,7 @@ const CartUpdate = () => {
             </tbody>
            
           </table>
+          <button type='submit' className='max-w-[150px] bg-yellow-500 p-[5px] my-[5px]' onClick={() => onPrint()}>In đơn hàng</button>
         
          
           </div>

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { removeCart } from "../../api-cilent/Cart";
 import { AddOrderApi, GetOrdersApi, readOrdertApi, removeOrderApi, UpdateQuantityCart, updateStatusOrderApi } from "../../api-cilent/Orders";
 import { get } from "../../api-cilent/Product";
@@ -69,15 +70,20 @@ export const updateOrder = createAsyncThunk("orders/updateorder", async (data: a
   return res.data
 })
 export const searchOrder = createAsyncThunk("orders/search", async (id: string) => { 
+  let result = []
+  try {
     const res = await readOrdertApi(id);
-    console.log("res",res.data);
-    
-    let result = []
     if(id) {
       result.push(res.data)
     }else {
       result = res.data
     }
+    if(res.data == null ) {
+      result = []
+    }
+  } catch (error) {
+      toast.info("Không tìm thấy!!!")
+  }
     return result   
 })
 export const orderConfirm = createAsyncThunk("orders/orderconfirm", async (data:any) => {
@@ -129,9 +135,6 @@ const orderSlice = createSlice({
 
     }),
     builder.addCase(searchOrder.fulfilled, (state, { payload }) => {
-          console.log("a", payload);
-          console.log("leng", payload.length);
-          
           if(payload.length >=  1) {
             state.orders = payload
           }else{
