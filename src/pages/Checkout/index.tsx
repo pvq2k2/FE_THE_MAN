@@ -80,7 +80,10 @@ const CheckoutPage = (props: Props) => {
         ...data
       }
     let product = []
-    product = carts.carts.products
+    product = carts?.carts?.products
+    if(!carts?.carts?.products) {
+      return toast.info("Không có sản phẩm");
+    }
     let _id = ""
     _id = carts.carts._id
     const products = {
