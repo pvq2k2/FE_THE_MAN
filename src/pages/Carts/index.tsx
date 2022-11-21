@@ -105,7 +105,8 @@ const CartPage = (props: Props) => {
                         // max={100}
                         onChange={(e ) => changeQuantity({cart: item, e})}
                         value={item.quantity}
-                      />
+                      /> */}
+                      <NumericInput mobile className="w-[80px] ml-[10px] mr-[-20px] h-[30px] outline-none !border-none" required type="number" min={0}  onChange={(e ) => changeQuantity({cart: item, e})} value={item.quantity} />
                       {/* <button
                         onClick={() => DecrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"
