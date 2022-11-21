@@ -52,12 +52,9 @@ const NewProduct = (props: Props) => {
             return (
               <div className={styles.product__item}>
                 <div className={styles.item__box}>
-                  {/* <div className={styles.img_product}> */}
                   <Link to={`/detail/${item._id}`}>
                     <img src={item.image} alt='000017' />
                   </Link>
-                  {/* </div> */}
-          
                   <div className={styles.detail}>
                     <Link to={`/detail/${item._id}`}>
                       <h3>{item.name}</h3>
@@ -70,8 +67,6 @@ const NewProduct = (props: Props) => {
               </div>
             );
           })}
-
-
         </Slider>
       </div>
     </section>
