@@ -97,9 +97,9 @@ const CartPage = (props: Props) => {
                         / {item.size}
                       </div>
                     </td>
-                    <td className="w-40">
-                      <NumericInput
-                        className="h-6 mr-2 outline-none rounded-md"
+                    <td className=" mr-[300px]">
+                      {/* <NumericInput
+                        className="h-[40px] mr-[39px] w-[100px] outline-none rounded-md"
                         type="number"
                         min={0}
                         // max={100}
