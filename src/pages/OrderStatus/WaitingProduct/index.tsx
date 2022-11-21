@@ -4,6 +4,7 @@ import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import CartLoad from "../../../components/CartLoad";
 import { cancelOrder, getOrders, infoOrder, updateOrder } from "../../../redux/slices/orderSlice";
 import { readUserLocal } from "../../../redux/slices/userSlice";
 import "./waitingProduct.css"
@@ -12,6 +13,7 @@ type Props = {};
 
 const WaittingProduct = (props: Props) => {
   const dispatch = useDispatch<any>()
+  const [Loading,setLoading] = useState(false)
   const [Orders,setOrders] = useState([]);
   useEffect(() => {
     (async () => {
@@ -37,7 +39,7 @@ const WaittingProduct = (props: Props) => {
       }
       setOrders(ord as [])
      
-      
+      setLoading(true)
 
      // setOrders(orafter)  
     }) ()
@@ -63,7 +65,7 @@ const WaittingProduct = (props: Props) => {
   return (
 
     <div className="scoll h-[350px] w-[1280px] overflow-auto">
-
+      {Loading == false ? <CartLoad /> : ""}
       <div className="m-auto max-w-full pb-36 mt-5">
         <div className="mt-5 md:mt-0 md:col-span-2">
         <table className="table-auto w-full ">

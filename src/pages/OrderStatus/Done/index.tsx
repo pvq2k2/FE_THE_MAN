@@ -3,6 +3,7 @@ import { HiRefresh } from 'react-icons/hi'
 import NumberFormat from 'react-number-format'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import CartLoad from '../../../components/CartLoad'
 import { getOrders, infoOrder } from '../../../redux/slices/orderSlice'
 import { readUserLocal } from '../../../redux/slices/userSlice'
 import "./index.css"
@@ -10,6 +11,7 @@ import "./index.css"
   const Done = () => {
     const dispatch = useDispatch<any>()
     const [Orders,setOrders] = useState([])
+    const [Loading,setLoading] = useState(false)
     useEffect(() => {
       (async () => {
         const user = await dispatch(readUserLocal())
@@ -29,12 +31,13 @@ import "./index.css"
         console.log(ord);
         
         setOrders(ord as [])
+        setLoading(true)
 
     }) ()
   }, [])
   return (
     <div className="scoll h-[350px] w-[1280px] overflow-auto">
-
+ {Loading == false ? <CartLoad /> : ""}
     <div className="m-auto max-w-full pb-36 mt-5">
       <div className="mt-5 md:mt-0 md:col-span-2">
       <table className="table-auto w-full ">

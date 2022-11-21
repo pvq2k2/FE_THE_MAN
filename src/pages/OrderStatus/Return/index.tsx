@@ -5,10 +5,12 @@ import "./return.css"
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import NumberFormat from "react-number-format";
+import CartLoad from "../../../components/CartLoad";
 
 type Props = {};
 
 const ReturnProduct = (props: Props) => {
+  const [Loading, setLoading] = useState(false)
   const dispatch = useDispatch<any>()
   const [Orders,setOrders] = useState([])
   useEffect(() => {
@@ -28,11 +30,12 @@ const ReturnProduct = (props: Props) => {
           }
       }
       setOrders(ord as [])
-
+      setLoading(true)
     }) ()
   }, [])
   return (
     <div className="scoll h-[350px] w-[1280px] overflow-auto">
+       {Loading == false ? <CartLoad /> : ""}
       <div className="m-auto max-w-full pb-36 mt-5">
         <div className="mt-5 md:mt-0 md:col-span-2">
         <table className="table-auto w-full ">
