@@ -25,7 +25,6 @@ export const getOrders = createAsyncThunk(
 export const addOrder = createAsyncThunk(
   "Users/addorder",
   async (data: any) => {
-   
     return data;
   }
 );
@@ -69,7 +68,18 @@ export const updateOrder = createAsyncThunk("orders/updateorder", async (data: a
   const res = await updateStatusOrderApi(data)
   return res.data
 })
-
+export const searchOrder = createAsyncThunk("orders/search", async (id: string) => { 
+    const res = await readOrdertApi(id);
+    console.log("res",res.data);
+    
+    let result = []
+    if(id) {
+      result.push(res.data)
+    }else {
+      result = res.data
+    }
+    return result   
+})
 export const orderConfirm = createAsyncThunk("orders/orderconfirm", async (data:any) => {
   const res = await axios.post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create", data, {
     headers: {
@@ -78,8 +88,6 @@ export const orderConfirm = createAsyncThunk("orders/orderconfirm", async (data:
       'Token': '755b4fbb-5918-11ed-bd1f-1a28f04fff2f',
     },
   })
-  console.log("r",res);
-  
   return res.data
 })
 
@@ -119,6 +127,16 @@ const orderSlice = createSlice({
     }),
     builder.addCase(cancelOrder.fulfilled, (state, { payload }) => {
 
+    }),
+    builder.addCase(searchOrder.fulfilled, (state, { payload }) => {
+          console.log("a", payload);
+          console.log("leng", payload.length);
+          
+          if(payload.length >=  1) {
+            state.orders = payload
+          }else{
+
+          }
     })
   },
 });
