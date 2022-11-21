@@ -30,7 +30,7 @@ const AccountPage = (props: Props) => {
     <div className='p-40'>
         <section className="grid grid-cols-2 grid-flow-row-dense gap-2">
         <div className="logo flex gap-5 items-center">
-            <img src={`${users?.User?.fullname}`} className="bg-left-top bg-no-repeat h-40 w-40" alt="" />
+            <img src={`${users?.User?.img}`} className="bg-left-top bg-no-repeat h-40 w-40" alt="" />
             <div>
                 <h4 className="font-bold text-lg">{users?.User?.email}</h4>
                 <Link to={`/editaccount/${users?.User?.id}`} className="sm:ml-3">
@@ -48,8 +48,7 @@ const AccountPage = (props: Props) => {
                 <div className='text-xl pb-2' >Họ Tên :</div>
                 <div className='text-lg pb-2'>{users?.User?.fullname}</div>
                 <div className='text-xl pb-2' >Số Điện Thoại :</div>
-                {/* <div className='text-lg pb-2'>{users?.User?.fullname}</div> */}
-                <div className='text-lg pb-2'>011551</div>
+                <div className='text-lg pb-2'>{users?.User?.phone}</div>
             </div>
           </div>
         </section>
