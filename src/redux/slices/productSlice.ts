@@ -1,5 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { add, get, getAll, remove, update } from "../../api-cilent/Product";
+import {
+  add,
+  get,
+  getAll,
+  remove,
+  thongke,
+  update,
+} from "../../api-cilent/Product";
 
 import { Product } from "../../models/Product";
 import { useAppDispatch } from "../store";
@@ -28,6 +35,13 @@ export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (data: any) => {
     const response = await getAll(data.page, data.limit);
+    return response.data;
+  }
+);
+export const thongkes = createAsyncThunk(
+  "products/thongke",
+  async (data: any) => {
+    const response = await thongke(data.page, data.limit);
     return response.data;
   }
 );
@@ -75,6 +89,9 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
+      state.products = payload as any;
+    });
+    builder.addCase(thongkes.fulfilled, (state, { payload }) => {
       state.products = payload as any;
     });
     builder.addCase(deleteProduct.fulfilled, (state, { payload }) => {
