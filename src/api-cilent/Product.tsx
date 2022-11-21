@@ -1,4 +1,3 @@
-
 import { Product } from "../models/Product";
 import instance from "./Config";
 export const getAll = (page: any, limit: any): Promise<Product[]> => {
@@ -18,4 +17,7 @@ export const get = (id: string): Promise<Product> => {
 
 export const update = (product: Product): Promise<Product> => {
   return instance.put(`/product/${product._id}`, product);
+};
+export const thongke = (page: any, limit: any): Promise<Product[]> => {
+  return instance.post("/thongke", { page, limit });
 };
