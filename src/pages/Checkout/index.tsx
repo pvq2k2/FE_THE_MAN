@@ -142,15 +142,15 @@ const CheckoutPage = (props: Props) => {
               <input
                 className="border w-8/12 py-3 px-2  mt-5 mb-5"
                 type="text"
-                placeholder="Địa chỉ"
+                placeholder="Địa chỉ cụ thể"
                 {...register("address", { required: true })}
               />
               {errors?.address && <span>Không được để trống </span>}
             </table>
-            <table className="table-auto w-full flex">
+            <table className="table-auto w-full flex pb-[20px]">
               <select
                 onChange={(e) => onProvince(e)}
-                className="py-[10px]"
+                className="py-[12px] border-[1px]"
                 name=""
                 id=""
               >
@@ -165,7 +165,7 @@ const CheckoutPage = (props: Props) => {
               </select>
               <select
                 onChange={(e) => onDistrict(e)}
-                className="py-[10px] mx-[10px]"
+                className="py-[12px] mx-[10px] border-[1px]"
                 name=""
                 id=""
               >
@@ -180,7 +180,7 @@ const CheckoutPage = (props: Props) => {
               </select>
               <select
                 onChange={(e) => onWard(e)}
-                className="py-[10px]"
+                className="py-[12px]  border-[1px]"
                 name=""
                 id=""
               >
@@ -237,11 +237,9 @@ const CheckoutPage = (props: Props) => {
           <section className="basis-2/6 w-full">
             <section className="bg-zinc-100 mt-12">
               <div className="p-10">
-                <p className="text-2xl font-bold">ĐƠN HÀNG CỦA BẠN</p>
-                <div>
-                  -----------------------------------------------------------
-                </div>
-                <div className=" pt-5 flex">
+                <p className="text-2xl font-bold mb-[25px]">ĐƠN HÀNG CỦA BẠN</p>
+            
+                <div className=" pt-5 flex border-dashed border-t-2 border-t-black">
                   <span className="grow font-semibold">Sản Phẩm</span>
                   <span className="text-right font-semibold">Giá</span>
                 </div>
@@ -256,7 +254,7 @@ const CheckoutPage = (props: Props) => {
                         sumwidth = item.width
                   }
                   return (
-                    <div key={index++} className=" pt-5 flex">
+                    <div key={index++} className=" pt-5 flex mb-[20px]">
                       <span className="grow flex">
                         {(index = index + 1)}.{" "}
                         <span className="font-bold">{item.name}</span> -{" "}
@@ -264,7 +262,7 @@ const CheckoutPage = (props: Props) => {
                           style={{ backgroundColor: `${item.color}` }}
                           className="w-[20px] h-[20px] rounded-[50%]"
                         ></div>{" "}
-                        / {item.size}
+                        - {item.size}
                       </span>
                       <span className="text-right ">
                         {formatCurrency(item.price * item.quantity)}
@@ -272,10 +270,8 @@ const CheckoutPage = (props: Props) => {
                     </div>
                   );
                 })}
-                <div>
-                  -----------------------------------------------------------
-                </div>
-                <div className=" pt-5 flex">
+  
+                <div className=" pt-5 flex border-dashed border-t-2 border-t-black">
                   <span className="grow font-semibold">Tạm Tính </span>
                   <span className="text-right ">{formatCurrency(sum)}</span>
                 </div>

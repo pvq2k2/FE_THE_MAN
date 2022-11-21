@@ -262,3 +262,13 @@ input {
 .font_icon {
   margin-left: 50px;
 }
+.text-hd p{text-align: center; font-weight: 600;}
+/* .quantity{} */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}

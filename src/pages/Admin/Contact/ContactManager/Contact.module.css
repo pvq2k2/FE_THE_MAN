@@ -88,6 +88,9 @@
   color: #dc3545;
   cursor: pointer;
 }
+.info{
+  cursor: pointer;
+}
 @media (max-width: 991px) {
   .content header {
     padding: 10px;
