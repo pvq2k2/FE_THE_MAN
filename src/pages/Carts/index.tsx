@@ -98,15 +98,15 @@ const CartPage = (props: Props) => {
                       </div>
                     </td>
                     <td className="w-40">
-                      <NumericInput
+                      {/* <NumericInput
                         className="h-6 mr-2 outline-none rounded-md"
                         type="number"
                         min={0}
                         // max={100}
                         onChange={(e ) => changeQuantity({cart: item, e})}
                         value={item.quantity}
-                      />
-                      {/* <button
+                      /> */}
+                      <button
                         onClick={() => DecrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"
                       >{`-`}</button>
@@ -114,7 +114,7 @@ const CartPage = (props: Props) => {
                       <button
                         onClick={() => IncrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"
-                      >{`+`}</button> */}
+                      >{`+`}</button>
                     </td>
                     <td className="font-bold">
                       {" "}
