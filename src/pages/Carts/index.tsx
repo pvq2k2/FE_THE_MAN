@@ -97,16 +97,17 @@ const CartPage = (props: Props) => {
                         / {item.size}
                       </div>
                     </td>
-                    <td className="w-40">
+                    <td className=" mr-[300px]">
                       {/* <NumericInput
-                        className="h-6 mr-2 outline-none rounded-md"
+                        className="h-[40px] mr-[39px] w-[100px] outline-none rounded-md"
                         type="number"
                         min={0}
                         // max={100}
                         onChange={(e ) => changeQuantity({cart: item, e})}
                         value={item.quantity}
                       /> */}
-                      <button
+                      <NumericInput mobile className="w-[80px] ml-[10px] mr-[-20px] h-[30px] outline-none !border-none" required type="number" min={0}  onChange={(e ) => changeQuantity({cart: item, e})} value={item.quantity} />
+                      {/* <button
                         onClick={() => DecrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"
                       >{`-`}</button>
@@ -114,7 +115,7 @@ const CartPage = (props: Props) => {
                       <button
                         onClick={() => IncrementC(item)}
                         className="bg-blue-300 rounded-[4px] w-[30px] text-white"
-                      >{`+`}</button>
+                      >{`+`}</button> */}
                     </td>
                     <td className="font-bold">
                       {" "}
@@ -175,11 +176,11 @@ const CartPage = (props: Props) => {
                   VNĐ
                 </span>
               </div>
-              {/* <div className="pt-5 flex ">
+              <div className="pt-5 flex ">
                 {" "}
                 <span className="grow">Subtotal</span>
                 <span className="text-center">$ 169.50</span>
-              </div> */}
+              </div>
               <button
                 onClick={() => navigate("/checkout")}
                 className="bg-black text-white font-semibold p-3 mt-10 w-full rounded-md"
