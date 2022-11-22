@@ -49,171 +49,168 @@ import Products from "./pages/Products";
 import Mess from "./components/messenger";
 import Profile from "./pages/Profile";
 import Detail_Order from "./pages/OrderStatus/Detail_Order";
+import ScrollIntoView from "./hooks/useScrollIntoView";
 function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ClientLayout>
-              <HomePage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/cart"
-          element={
-            <ClientLayout>
-              <CartPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/order"
-          element={
-            <ClientLayout>
-              <OrderStatus />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ClientLayout>
-              <Profile />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/thankkiu"
-          element={
-            <ClientLayout>
-              <ThankkiuPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/signin"
-          element={
-            <ClientLayout>
-              <Signin />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <ClientLayout>
-              <Signup />
-            </ClientLayout>
-          }
-        />
-        <Route path="/users/verify/:id" element={<EmailVerify />} />
-        <Route
-          path="/users/forget-password"
-          element={
-            <ClientLayout>
-              <ForgetPassword />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/user/reset-password"
-          element={
-            <ClientLayout>
-              <ConfirmPassword />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/detail/:id"
-          element={
-            <ClientLayout>
-              <DetailProduct />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/products"
-          element={
-            <ClientLayout>
-              <Products />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/post"
-          element={
-            <ClientLayout>
-              <PostPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/post/:id"
-          element={
-            <ClientLayout>
-              <PostPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/detail/:id/post"
-          element={
-            <ClientLayout>
-              <DetailPost />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/detail/cate/:id/product"
-          element={
-            <ClientLayout>
-              <DetailCateProduct />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <ClientLayout>
-              <ContactPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/checkout"
-          element={
-            <ClientLayout>
-              <CheckoutPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/account"
-          element={
-            <ClientLayout>
-              <AccountPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/editaccount/:id"
-          element={
-            <ClientLayout>
-              <Editaccount />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/detailOrder/:id"
-          element={
-            <ClientLayout>
-              <Detail_Order />
-            </ClientLayout>
-          }
-        />
+        <Route path="/" element={<ClientLayout />}>
+          <Route index element={<HomePage />} />
+          <Route
+            path="/cart"
+            element={
+              <ScrollIntoView>
+                <CartPage />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/order"
+            element={
+              <ScrollIntoView>
+                <OrderStatus />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ScrollIntoView>
+                <Profile />
+              </ScrollIntoView>
+            }
+          />
+          <Route path="/thankkiu" element={<ThankkiuPage />} />
+          <Route
+            path="/signin"
+            element={
+              <ScrollIntoView>
+                <Signin />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <ScrollIntoView>
+                <Signup />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/users/verify/:id"
+            element={
+              <ScrollIntoView>
+                <EmailVerify />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/users/forget-password"
+            element={
+              <ScrollIntoView>
+                <ForgetPassword />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/user/reset-password"
+            element={
+              <ScrollIntoView>
+                <ConfirmPassword />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/detail/:id"
+            element={
+              <ScrollIntoView>
+                <DetailProduct />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <ScrollIntoView>
+                <Products />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/post"
+            element={
+              <ScrollIntoView>
+                <PostPage />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/post/:id"
+            element={
+              <ScrollIntoView>
+                <PostPage />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/detail/:id/post"
+            element={
+              <ScrollIntoView>
+                <DetailPost />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/detail/cate/:id/product"
+            element={
+              <ScrollIntoView>
+                <DetailCateProduct />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <ScrollIntoView>
+                <ContactPage />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ScrollIntoView>
+                <CheckoutPage />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <ScrollIntoView>
+                <AccountPage />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/editaccount/:id"
+            element={
+              <ScrollIntoView>
+                <Editaccount />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/detailOrder/:id"
+            element={
+              <ScrollIntoView>
+                <Detail_Order />
+              </ScrollIntoView>
+            }
+          />
+        </Route>
+
         <Route path="/*" element={<NotFound />} />
         {/* Admin */}
 
