@@ -66,7 +66,7 @@ const UserManager = (props: Props) => {
           <tbody>
             {user?.Users.users?.map((e: any, index: any) => {
               return (
-                <tr key="index">
+                <tr key={index}>
                   <td>{(pages - 1) * 10 + ++index}</td>
 
                   <td>{e.fullname}</td>

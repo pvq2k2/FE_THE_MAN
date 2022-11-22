@@ -7,9 +7,6 @@ import styles from "./FeaturedNews.module.css";
 type Props = {};
 const FeaturedNews = () => {
   const post = useSelector((state: RootState) => state?.post);
-  
-  console.log(post);
-  
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
