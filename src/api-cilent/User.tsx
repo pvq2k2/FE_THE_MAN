@@ -18,6 +18,9 @@ export const getComment = (id: User): Promise<User> => {
 export const removeComemnt = (id: any): Promise<any> => {
   return instance.delete(`/comment/${id}`);
 };
+export const udpateComment = (Comment: any): Promise<any> => {
+  return instance.put(`/comment/${Comment?.id}`, Comment);
+};
 
 export const addComment = (Comment: any): Promise<any> => {
   return instance.post(`/comment`, Comment);
