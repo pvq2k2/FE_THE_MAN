@@ -1,20 +1,18 @@
-import React from 'react'
-import ClientFooter from './Footer';
-import ClientHeader from './Header';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import ClientFooter from "./Footer";
+import ClientHeader from "./Header";
 
-type ClientLayoutProps = {
-    children: JSX.Element;
-};
-
-const ClientLayout = ({ children }: ClientLayoutProps) => {
-  
+const ClientLayout = () => {
   return (
     <>
-    <ClientHeader />
-    <main className='mt-[67px]'>{children}</main>
-    <ClientFooter />
+      <ClientHeader />
+      <main className="mt-[67px]">
+        <Outlet />
+      </main>
+      <ClientFooter />
     </>
-  )
-}
+  );
+};
 
-export default ClientLayout
+export default ClientLayout;
