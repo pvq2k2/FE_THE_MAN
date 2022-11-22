@@ -44,10 +44,44 @@ export const Increment = createAsyncThunk(
       cartnew.quantity++;
     } else {
       toast.info("Sản phẩm này chỉ còn " + quantityold.quantity);
-    } 
+    }
     return data;
   }
 );
+
+export const changeQuantity = createAsyncThunk(
+  "carts/changequantity",
+  async (product: any) => {
+    const { data } = await readcart(product.userID);
+    const { data: producta } = await get(product._id);
+
+    const quantityold = producta.type.find(
+      (item: any) => item.color == product.color && item.size == product.size
+    );
+    const cartnew = data.products.find(
+      (item: any) =>
+        item._id == product._id &&
+        item.color == product.color &&
+        item.size == product.size
+    );
+    // console.log("product.quantitychange", product.quantitychange);
+
+    cartnew.quantitychange = product.quantitychange;
+    if (product.quantitychange > 0) {
+      if (product.quantitychange < quantityold.quantity) {
+        cartnew.quantity = product.quantitychange;
+      } else {
+        cartnew.quantity = quantityold.quantity
+        toast.info("Sản phẩm này chỉ còn " + quantityold.quantity);
+      }
+    } else {
+      cartnew.quantity = 1
+      toast.info("Số lượng sản phẩm phải lớn hơn 0");
+    }
+    return data;
+  }
+);
+
 export const Decrement = createAsyncThunk(
   "carts/decrement",
   async (product: any) => {
@@ -113,7 +147,6 @@ export const addToCart = createAsyncThunk(
       cart.userID = carts.userID;
       await addcart(cart);
     }
-
     return cart;
   }
 );
@@ -129,11 +162,12 @@ const cartSlice = createSlice({
     }),
       build.addCase(readCart.fulfilled, (state, { payload }) => {
         state.carts = payload;
-        
       }),
       build.addCase(Increment.fulfilled, (state, { payload }) => {
-        console.log("payload,", payload);
-        
+        state.carts = payload;
+        updateCart(payload);
+      }),
+      build.addCase(changeQuantity.fulfilled, (state, { payload }) => {
         state.carts = payload;
         updateCart(payload);
       }),
@@ -141,7 +175,7 @@ const cartSlice = createSlice({
         state.carts = payload;
         updateCart(payload);
         if (payload.products.length <= 0) {
-           removeCart(payload._id);
+          removeCart(payload._id);
         }
       });
   },

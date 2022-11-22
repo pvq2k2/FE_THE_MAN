@@ -75,6 +75,7 @@ export const getSevicePackage = createAsyncThunk("province/getsevicepackage", as
 
 
 export const getFee = createAsyncThunk("province, getfee", async (data: any) => { 
+  console.log("da",data);
         const res = await axios.post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", data , {
           headers: {
             'token': '755b4fbb-5918-11ed-bd1f-1a28f04fff2f',

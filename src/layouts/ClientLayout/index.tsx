@@ -7,6 +7,7 @@ type ClientLayoutProps = {
 };
 
 const ClientLayout = ({ children }: ClientLayoutProps) => {
+  
   return (
     <>
     <ClientHeader />
