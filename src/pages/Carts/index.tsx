@@ -1,36 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Decrement, Increment, readCart } from "../../redux/slices/cartSlice";
+import {
+  changeQuantity,
+  Decrement,
+  Increment,
+  readCart,
+} from "../../redux/slices/cartSlice";
 import NumericInput from "react-numeric-input";
 import { readUserLocal } from "../../redux/slices/userSlice";
 import "../Carts/cart.css";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CartItem from "./CartItem";
 
 type Props = {};
 
 const CartPage = (props: Props) => {
   const dispatch = useDispatch<any>();
   const carts = useSelector((state: any) => state.carts);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const navigate = useNavigate();
   let sum = 0;
   const [Id, setId] = useState<any>();
-  const IncrementC = (data: any) => {
-    const product = {
-      ...data,
-      userID: Id,
-    };
-    dispatch(Increment(product));
-  };
-  const DecrementC = (data: any) => {
-    const product = {
-      ...data,
-      userID: Id,
-    };
-    dispatch(Decrement(product));
-  };
 
   useEffect(() => {
     (async () => {
@@ -39,10 +33,7 @@ const CartPage = (props: Props) => {
       await dispatch(readCart(user?.payload?.users?.id)).unwrap();
     })();
   }, []);
-  const changeQuantity = (data: any) => {
-    console.log(data);
-    
-  }
+
   return (
     <div>
       <div>
@@ -69,81 +60,13 @@ const CartPage = (props: Props) => {
                 {
                   sum += item.quantity * item.price;
                 }
-                return (
-                  <tr key={index++} className="border-t-2">
-                    <td className="flex py-10  gap-8">
-                      <img src={item.image} className="w-20"></img>
-                      <div className="pt-7">
-                        <p>{item.name}</p>
-                        <p className="font-bold">
-                          {" "}
-                          <NumberFormat
-                            value={item?.price}
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix={""}
-                          />{" "}
-                          VNĐ
-                        </p>
-                      </div>
-                    </td>
-                    <td className="w-40">
-                      <div className="font-bold flex">
-                        {" "}
-                        <div
-                          style={{ backgroundColor: `${item.color}` }}
-                          className="h-[20px] w-[20px] rounded-[50%]"
-                        ></div>{" "}
-                        / {item.size}
-                      </div>
-                    </td>
-                    <td className=" mr-[300px]">
-                      {/* <NumericInput
-                        className="h-[40px] mr-[39px] w-[100px] outline-none rounded-md"
-                        type="number"
-                        min={0}
-                        // max={100}
-                        onChange={(e ) => changeQuantity({cart: item, e})}
-                        value={item.quantity}
-                      /> */}
-                      <NumericInput mobile className="w-[80px] ml-[10px] mr-[-20px] h-[30px] outline-none !border-none" required type="number" min={0}  onChange={(e ) => changeQuantity({cart: item, e})} value={item.quantity} />
-                      {/* <button
-                        onClick={() => DecrementC(item)}
-                        className="bg-blue-300 rounded-[4px] w-[30px] text-white"
-                      >{`-`}</button>
-                      <span className="px-6 w-[15px]">{item.quantity}</span>
-                      <button
-                        onClick={() => IncrementC(item)}
-                        className="bg-blue-300 rounded-[4px] w-[30px] text-white"
-                      >{`+`}</button> */}
-                    </td>
-                    <td className="font-bold">
-                      {" "}
-                      <NumberFormat
-                        value={item?.price * item?.quantity}
-                        displayType={"text"}
-                        thousandSeparator={true}
-                        prefix={""}
-                      />{" "}
-                      VNĐ
-                    </td>
-                    <td>
-                      <button>
-                        <i className="fa-sharp fa-solid fa-circle-xmark text-slate-300 bg-black rounded-full shadow-md shadow-black text-3xl"></i>
-                      </button>
-                    </td>
-                    <td className="text-slate-400 text-base">
-                      <FontAwesomeIcon icon={faTrash} />
-                    </td>
-                  </tr>
-                );
+                return <CartItem key={index} item={item} id={Id} />;
               })}
             </tbody>
           </table>
           <div className="border-t-2 flex justify-between">
             <button className="border-2  font-semibold p-3 px-5 mt-10">
-              <Link to='/'>  Tiếp tục mua sắm</Link>
-            
+              <Link to="/"> Tiếp tục mua sắm</Link>
             </button>{" "}
           </div>
         </section>

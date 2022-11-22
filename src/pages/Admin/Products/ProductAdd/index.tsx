@@ -3,10 +3,10 @@ import { HiOutlineX, HiOutlineCheck } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { RootState, useAppDispatch } from "../../../../redux/store";
+import { RootState } from "../../../../redux/store";
 import { addProduct } from "../../../../redux/slices/productSlice";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCatePro } from "./../../../../redux/slices/cateProductSlice";
 type Inputs = {
   name: string;
@@ -25,7 +25,7 @@ const ProductAdd = () => {
   console.log("lỗi cl", categories);
 
   const [preview, setPreview] = useState<string>();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch<any>()
   const [types, setTypes] = useState<any[]>([]);
   const [data, setData] = useState({
     color: "",
@@ -35,7 +35,7 @@ const ProductAdd = () => {
   const [isShow, setIsShow] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => dispatch(getCatePro()), [dispatch]);
+  useEffect(() => dispatch(getCatePro()), []);
   const {
     register,
     handleSubmit,
