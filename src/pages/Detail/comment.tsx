@@ -17,10 +17,13 @@ type Inputs = {
 
 const Comment = (props: Props) => {
   const [dataComment, setDatacomment] = useState([]);
-  console.log(dataComment);
+  // console.log(dataComment);
 
   const user = useSelector((state: any) => state?.auth.currentUser);
-  console.log(user.users);
+  // console.log(user.users);
+  const product = useSelector((state: any) => state.product.product);
+  // console.log("sản phẩm",product.name);
+  
 
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -74,7 +77,7 @@ const Comment = (props: Props) => {
   return (
     <div>
       <div className="containerx">
-        <h2 className="heading-title">Bình luận về Áo sơ mi - AR220134DT</h2>
+        <h2 className="heading-title">Bình luận về : {product.name}</h2>
         {user?.users && (
           <form
             action=""
@@ -99,7 +102,7 @@ const Comment = (props: Props) => {
         )}
         <div className="list-comments_wrapper">
           <div className="comments_wrapper">
-            {dataComment?.map((e: any) => {
+            {dataComment?.map((e: any, index) => {
               var date1 = moment();
               var date2 = moment(e.createdAt);
               var diffYear = date1.diff(date2, "year");
@@ -127,8 +130,7 @@ const Comment = (props: Props) => {
 
               //   moment(endTimes).format("HH:mm")
               return (
-                <>
-                  <div className="item">
+                  <div className="item" key={index} >
                     <div className="user dp-flex">
                       <img
                         src={e?.user?.img || avatablack}
@@ -157,7 +159,6 @@ const Comment = (props: Props) => {
                       </div>
                     )}
                   </div>
-                </>
               );
             })}
           </div>

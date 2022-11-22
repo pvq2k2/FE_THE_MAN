@@ -57,7 +57,7 @@ const Cancel = () => {
               <td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết sản phẩm</button></Link> </td> 
                <td className="py-10  gap-8">
                 
-                   <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' >Huỷ đơn hàng</button>
+                   <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded p-[5px]' type='submit' >Huỷ đơn hàng</button>
           
                  
                  </td>

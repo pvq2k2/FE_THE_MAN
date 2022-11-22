@@ -22,6 +22,7 @@ import Swal from "sweetalert2";
 import { getAll } from "../../../../api-cilent/Product";
 import { Pagination } from "antd";
 import "../../Dashboard/dashboard.css"
+import "../../../OrderStatus/Cancel/index.css"
 type Props = {};
 
 const ProductManager = (props: Props) => {
@@ -109,7 +110,9 @@ const ProductManager = (props: Props) => {
                     />
                   </td>
                   <td>{item.price}đ</td>
-                  <td className="h-[150px] w-[400px] overflow-x-auto">{item.desc}</td>
+                  <td >
+                    <div className="h-[150px] w-[400px] overflow-x-auto scoll">{item.desc}</div>
+                    </td>
                   <td className={styles.action}>
                     {/* <AiOutlineInfoCircle className={styles.info} onClick={() => showDetailProduct(item._id)}/> */}
                     <Link to={`/admin/products/${item._id}/edit`}>

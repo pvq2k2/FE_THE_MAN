@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import CartLoad from '../../../components/CartLoad'
 import { getOrders, infoOrder } from '../../../redux/slices/orderSlice'
 import { readUserLocal } from '../../../redux/slices/userSlice'
-import "./index.css"
+import "../Cancel/index.css"
 
   const Done = () => {
     const dispatch = useDispatch<any>()

@@ -87,7 +87,7 @@ const PostManager = (props: Props) => {
           <tbody>
             {post?.posts.Post?.map((e: any, index: any) => {
               return (
-                <tr key="index">
+                <tr key={index}>
                   <td>{(pages - 1) * 10 + ++index}</td>
 
                   <td>{e.title}</td>

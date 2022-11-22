@@ -52,7 +52,7 @@ const AdminLayout = () => {
           <ul>
             <li>
               <Link to="/">
-                <a href="#">
+                
                   <span className={styles.icon}>
                     <IoLogoOctocat className={styles.io} />
                     {/* <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" /> */}
@@ -60,97 +60,97 @@ const AdminLayout = () => {
                   <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">
                     The Man
                   </span>
-                </a>
+                
               </Link>
             </li>
             <li>
               <Link to="/admin/dashboard">
-                <a href="#">
+                
                   <span className={styles.icon}>
                     <IoHomeOutline className={styles.io} />
                   </span>
                   <span className={styles.title}>Thống kê</span>
-                </a>
+              
               </Link>
             </li>
             <li>
               <Link to="/admin/carts">
-                <a>
+                
                   <span className={styles.icon}>
                     <AiOutlineShoppingCart className={styles.io} />
                   </span>
                   <span className={styles.title}>Danh sách đơn hàng</span>
-                </a>
+            
               </Link>
             </li>
             <li>
               <Link to="/admin/contact">
-                <a>
+               
                   <span className={styles.icon}>
                     <RiContactsLine className={styles.io} />
                   </span>
                   <span className={styles.title}>Thông tin phản hồi</span>
-                </a>
+               
               </Link>
             </li>
             <li>
               <Link to="/admin/products">
-                <a>
+               
                   <span className={styles.icon}>
                     <RiProductHuntLine className={styles.io} />
                   </span>
                   <span className={styles.title}>Tất cả sản phẩm</span>
-                </a>
+             
               </Link>
             </li>
             <li>
               <Link to="/admin/category_product">
-                <a>
+             
                   <span className={styles.icon}>
                     <BiCategoryAlt className={styles.io} />
                   </span>
                   <span className={styles.title}>Danh mục sản phẩm</span>
-                </a>
+              
               </Link>
             </li>
             <li>
               <Link to="/admin/post">
-                <a>
+              
                   <span className={styles.icon}>
                     <BsNewspaper className={styles.io} />
                   </span>
                   <span className={styles.title}>Bài viết</span>
-                </a>
+              
               </Link>
             </li>
             <li>
               <Link to="/admin/category_post">
-                <a>
+            
                   <span className={styles.icon}>
                     <MdOutlineCategory className={styles.io} />
                   </span>
                   <span className={styles.title}>Danh mục bài viết</span>
-                </a>
+            
               </Link>
             </li>
             <li>
               <Link to="/admin/slider">
-                <a>
+          
                   <span className={styles.icon}>
                     <TbSlideshow className={styles.io} />
                   </span>
                   <span className={styles.title}>Slide</span>
-                </a>
+              
               </Link>
             </li>
             <li>
               <Link to="/admin/users">
-                <a>
+            
                   <span className={styles.icon}>
                     <FaRegUser className={styles.io} />
                   </span>
                   <span className={styles.title}>Danh sách tài khoản</span>
-                </a>
+             
               </Link>
             </li>
           </ul>
