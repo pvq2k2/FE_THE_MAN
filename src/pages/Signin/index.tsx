@@ -25,7 +25,7 @@ const Signin = (props: Props) => {
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
       const user = await signin(values);
-      // console.log(values);
+      console.log(values);
 
       toast.success("Đăng nhập thành công !", {
         position: "top-right",

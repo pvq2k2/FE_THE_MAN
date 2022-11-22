@@ -1,6 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
-import { addComment, getComment, removeComemnt } from "../../api-cilent/User";
+import React, { useEffect, useState, useRef } from "react";
+import {
+  addComment,
+  getComment,
+  removeComemnt,
+  udpateComment,
+} from "../../api-cilent/User";
 import avatablack from "./assets/img/avatar-blank.png";
 import { useParams } from "react-router-dom";
 import moment from "moment";
@@ -17,10 +22,13 @@ type Inputs = {
 
 const Comment = (props: Props) => {
   const [dataComment, setDatacomment] = useState([]);
+  const [checkId, setCheckid] = useState("");
+  console.log(checkId);
+
   console.log(dataComment);
 
   const user = useSelector((state: any) => state?.auth.currentUser);
-  console.log(user.users);
+  console.log(user?.users);
 
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -33,6 +41,7 @@ const Comment = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<Inputs>();
   useEffect(() => {
     (async () => {
@@ -42,10 +51,11 @@ const Comment = (props: Props) => {
   }, [dataComment.length]);
 
   const Sendcomment: SubmitHandler<Inputs> = async (datas: Inputs) => {
+    reset();
     addComment({
       content: datas?.content,
       productId: id,
-      userId: user.users.id,
+      userId: user?.users?.id,
     }).then((result: any) => {
       setDatacomment((prev: any) => {
         return [...prev, result];
@@ -62,14 +72,29 @@ const Comment = (props: Props) => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then(async (result: any) => {
-      console.log(id);
-
       if (result.isConfirmed) {
         await removeComemnt(id);
         Swal.fire("Thành công!", "Xóa thành công.", "success");
         setDatacomment(dataComment.filter((item) => item._id != id));
       }
     });
+  };
+
+  const edit = async (value: any) => {
+    udpateComment({
+      content: value,
+      id: checkId,
+    }).then(async () => {
+      setCheckid("");
+      const { data } = await getComment(id);
+      setDatacomment(data);
+    });
+  };
+
+  const moveCaretAtEnd = (e: any) => {
+    var temp_value = e.target.value;
+    e.target.value = "";
+    e.target.value = temp_value;
   };
   return (
     <div>
@@ -136,24 +161,69 @@ const Comment = (props: Props) => {
                         className="avata"
                       />
                       <div className="info">
-                        <h3 className="name">{e?.user?.fullname}</h3>
-                        <span className="time-comment">{text} trước</span>
+                        <h3 className="name text-lg font-semibold">
+                          {e?.user?.fullname}
+                        </h3>
+                        <span className="time-comment text-sm">
+                          {text} trước
+                        </span>
                       </div>
                     </div>
-                    <span className="content">{e?.content} </span>
+                    {checkId != e?.id ? (
+                      <span className="content  text-base not-italic">
+                        {e?.content}{" "}
+                      </span>
+                    ) : (
+                      <>
+                        {" "}
+                        <textarea
+                          autoFocus={true}
+                          id="w3review"
+                          name="w3review"
+                          className="area_content w-10/12"
+                          onKeyPress={(element) => {
+                            if (element.which === 13) {
+                              if (element.target?.value) {
+                                edit(element?.target?.value);
+                              } else {
+                                handleremove(e?.id);
+                              }
+                            }
+                          }}
+                          onFocus={moveCaretAtEnd}
+                        >
+                          {e?.content}
+                        </textarea>
+                        <br />
+                        <button className="exit" onClick={() => setCheckid("")}>
+                          Hủy chỉnh sửa
+                        </button>
+                      </>
+                    )}
                     {e?.userId == user?.users?.id && (
                       <div className="icon">
-                        <span onClick={() => handleremove(e?.id)}>
+                        <button
+                          className="hover:text-blue-400"
+                          onClick={() => handleremove(e?.id)}
+                        >
                           <FontAwesomeIcon
-                            className="font_icon"
+                            className="font_icon pr-2 "
                             icon={faTrash}
                           />
                           Xóa
-                        </span>
-                        <span>
-                          <FontAwesomeIcon className="font_icon" icon={faPen} />
+                        </button>
+                        <button
+                          className="hover:text-blue-400"
+                          onClick={() => {
+                            setCheckid(e?.id);
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            className="font_icon pr-2"
+                            icon={faPen}
+                          />
                           Sửa
-                        </span>
+                        </button>
                       </div>
                     )}
                   </div>

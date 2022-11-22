@@ -1,15 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../models/User";
 
-
 type AuthState = {
   isLogged: boolean;
-  currentUser: User | {};
+  currentUser: User | null;
 };
 
 const initialState: AuthState = {
   isLogged: false,
-  currentUser: {},
+  currentUser: null,
 };
 
 const authSlice = createSlice({
@@ -18,13 +17,15 @@ const authSlice = createSlice({
   reducers: {
     signin(state, { payload }) {
       state.isLogged = true;
+      console.log(payload);
+
       state.currentUser = payload.data;
       localStorage.setItem("user", JSON.stringify(state.currentUser));
     },
-      
+
     signout(state) {
       state.isLogged = false;
-      state.currentUser = {};
+      state.currentUser = null;
       localStorage.removeItem("user");
     },
   },
