@@ -10,6 +10,7 @@ import {
   updateProduct,
 } from "../../../../redux/slices/productSlice";
 import { RootState, useAppDispatch } from "../../../../redux/store";
+import "../../../OrderStatus/Cancel/index.css"
 
 type Inputs = {
   name: string;
@@ -182,13 +183,7 @@ const ProductEdit = () => {
                     Chi tiết sản phẩm
                   </label>
                   <div className="mt-1">
-                    <input
-                      type="text"
-                      {...register("desc")}
-                      id="description-add-product"
-                      className="shadow-sm focus:outline-none focus:ring-[#4D535E] focus:border-[#4D535E] mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
-                      placeholder="Description..."
-                    />
+                    <textarea  {...register("desc")} id="message"  className="scoll h-[200px] block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
                   </div>
                 </div>
                 {/* End description */}
