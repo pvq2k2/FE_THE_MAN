@@ -41,6 +41,7 @@ const DetailCateProduct = (props: Props) => {
         </nav>
       </div>
       <div>
+        <p className="text-[16px] pt-[40px] font-bold ml-[6px]">Tổng sản phẩm: {product.length}</p>
         <div className="grid sm:grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-6 mt-3">
           {product.map((item:any,index) => {
             return (
