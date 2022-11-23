@@ -18,7 +18,7 @@ type Inputs = {
 const Comment = (props: Props) => {
   const [dataComment, setDatacomment] = useState([]);
   // console.log(dataComment);
-
+  const [checkId, setCheckid] = useState("");
   const user = useSelector((state: any) => state?.auth.currentUser);
   // console.log(user.users);
   const product = useSelector((state: any) => state.product.product);
