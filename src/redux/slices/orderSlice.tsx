@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { removeCart } from "../../api-cilent/Cart";
 import {
   AddOrderApi,
+  countProductApi,
   GetOrdersApi,
   readOrdertApi,
   removeOrderApi,
@@ -15,24 +16,21 @@ type orderState = {
   order: {};
   orders: any[];
   orderinfo: {};
+  success: number;
 };
 
 const initialState: orderState = {
   order: {},
   orders: [],
   orderinfo: {},
+  success: 0,
 };
 
 export const getOrders = createAsyncThunk("orders/getorders", async () => {
   const res = await GetOrdersApi();
   return res.data;
 });
-export const addOrder = createAsyncThunk(
-  "Users/addorder",
-  async (data: any) => {
-    return data;
-  }
-);
+
 export const removeOrder = createAsyncThunk(
   "orders/removeorders",
   async (id: string) => {
@@ -151,14 +149,7 @@ const orderSlice = createSlice({
       builder.addCase(readOrder.fulfilled, (state, { payload }) => {
         state.order = payload;
       }),
-      builder.addCase(addOrder.fulfilled, (state, { payload }) => {
-        const response = AddOrderApi(payload);
-        const remove = removeCart(payload?._id);
-        for (let index = 0; index < payload.product?.length; index++) {
-          const element = payload.product[index];
-          UpdateQuantityCart(element);
-        }
-      }),
+    
       builder.addCase(orderConfirm.fulfilled, (state, { payload }) => {}),
       builder.addCase(updateOrder.fulfilled, (state, { payload }) => {
         state.orders = state.orders.map((item: any) =>

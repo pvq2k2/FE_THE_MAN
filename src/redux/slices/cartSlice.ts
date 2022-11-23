@@ -6,6 +6,7 @@ import {
   removeCart,
   updateCart,
 } from "../../api-cilent/Cart";
+import { AddOrderApi, countProductApi, UpdateQuantityCart } from "../../api-cilent/Orders";
 import { get } from "../../api-cilent/Product";
 
 interface Icart {
@@ -150,7 +151,43 @@ export const addToCart = createAsyncThunk(
     return cart;
   }
 );
+export const addOrder = createAsyncThunk(
+  "Users/addorder",
+  async (data: any) => {
+    let error = 0;
+   
+      for (let index = 0; index < data.product?.length; index++) {
+        const element = data.product[index];
 
+        const res = await countProductApi(element);
+        if (res?.data?.code == 503) {
+          error++;
+          toast.error(res?.data?.message);
+        }
+      }
+
+      if (error < 1) {
+        const response = AddOrderApi(data);
+        const remove = removeCart(data?._id);
+        for (let index = 0; index < data.product?.length; index++) {
+          const element = data.product[index];
+          const res = await UpdateQuantityCart(element);
+        }
+        return {
+          code: 200, 
+          message: "Success"
+        }
+      } else {
+        return {
+            code: 503,
+            message: "Fail"
+        }
+      }
+
+   
+    
+  }
+);
 const cartSlice = createSlice({
   name: "carts",
   initialState,
@@ -177,7 +214,12 @@ const cartSlice = createSlice({
         if (payload.products.length <= 0) {
           removeCart(payload._id);
         }
-      });
+      }),
+      build.addCase(addOrder.fulfilled, (state, { payload }) => {
+          if(payload?.code == 200) { 
+            state.carts = {}
+          }
+      })
   },
 });
 export default cartSlice.reducer;

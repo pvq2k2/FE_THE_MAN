@@ -21,3 +21,6 @@ export const updateStatusOrderApi = (data:any) => {
 export const UpdateQuantityCart = (data:any) => {
     return instance.put(`/updatequantity`,data)
 }
+export const countProductApi = (data:any) => {
+    return instance.post(`/countproduct`, data)
+}

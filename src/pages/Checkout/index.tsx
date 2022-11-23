@@ -10,9 +10,9 @@ import {
   getWards,
 } from "../../redux/slices/provinceSlice";
 import { readUserLocal } from "../../redux/slices/userSlice";
-import { readCart } from "../../redux/slices/cartSlice";
+import { addOrder, readCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
-import { addOrder } from "../../redux/slices/orderSlice";
+
 type Props = {};
 
 const CheckoutPage = (props: Props) => {
@@ -43,6 +43,8 @@ const CheckoutPage = (props: Props) => {
   }, []);
 
   useEffect(() => {
+    console.log("a" , carts);
+    
     (async () => {
       const data = {
         ...provicei,
@@ -71,7 +73,7 @@ const CheckoutPage = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onAdd: SubmitHandler<any> = (data: any) => {
+  const onAdd: SubmitHandler<any> = async (data: any) => {
     if(provicei.to_district_id  == 0) {
         return toast.info("Vui lòng chọn địa chỉ giao hàng")
     }
@@ -99,8 +101,16 @@ const CheckoutPage = (props: Props) => {
       height: sumheight,
       weight: sumweight
     };  
-      dispatch(addOrder(products))
-       navigate("/thankkiu");
+    
+      const res = await dispatch(addOrder(products))
+     console.log("res",res);
+      if(res?.payload?.code == 200) {
+          navigate("/thankkiu");
+      }else{
+        navigate("/cart");
+      }
+    
+     
   };
   const onProvince = async (e: any) => {
     await dispatch(getDistrict(parseInt(e.target.value)));

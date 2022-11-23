@@ -56,7 +56,7 @@ const DetailProduct = (props: Props) => {
       });
     }
     if (data.quantity > rproducts!) {
-      return toast.info("Số lượng còn lại không đủ");
+      return toast.error("Số lượng hàng còn lại không đủ");
     }
     if (data.quantity < 1) {
       return toast.info("Số lượng phải lớn hơn 1", {
@@ -144,9 +144,6 @@ const DetailProduct = (props: Props) => {
       document.body.appendChild(script);
     })();
   }, [id, dispatch]);
-
-
-
   return (
     <>
       <div className="detail_page">
@@ -306,7 +303,7 @@ const DetailProduct = (props: Props) => {
 
         {/* comment */}
         <div className="comments_wrapper">
-          <Comment />
+          {/* <Comment /> */}
         </div>
 
         {/* Product like */}
