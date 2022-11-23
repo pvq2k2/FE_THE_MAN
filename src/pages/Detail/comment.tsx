@@ -217,7 +217,7 @@ const Comment = (props: Props) => {
                             icon={faPen}
                           />
                           Sửa
-                        </span>
+                        </button>
                       </div>
                     )}
                   </div>
