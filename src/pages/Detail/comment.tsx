@@ -17,13 +17,13 @@ type Inputs = {
 
 const Comment = (props: Props) => {
   const [dataComment, setDatacomment] = useState([]);
+  // console.log(dataComment);
   const [checkId, setCheckid] = useState("");
-  console.log(checkId);
-
-  console.log(dataComment);
-
   const user = useSelector((state: any) => state?.auth.currentUser);
-  console.log(user?.users);
+  // console.log(user.users);
+  const product = useSelector((state: any) => state.product.product);
+  // console.log("sản phẩm",product.name);
+
 
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -36,7 +36,6 @@ const Comment = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<Inputs>();
   useEffect(() => {
     (async () => {
