@@ -113,7 +113,14 @@
   font-weight: 500;
 }
 .search {
-  font-size: 27px;
+  font-size: 30px;
+  cursor: pointer;
+}
+.search .icon{
+  padding-top: 2px;
+}
+.search .icon:hover{
+  color: rgb(59 130 246);
 }
 .search:hover .search_input{
   visibility: visible;
@@ -174,6 +181,13 @@
   width: 1.75rem /* 28px */;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
+
+}
+.box_user .icon{
+  font-size: 28px;
+}
+.box_user .icon:hover{
+  color: rgb(59 130 246);
 }
 .modal_user {
   position: relative;
@@ -220,15 +234,19 @@
 .box_cart {
   position: relative;
 }
+.box_cart .icon2{
+  font-size: 30px;
+}
 .count_cart {
   display: inline-block;
   position: absolute;
-  top: 10px;
+  top: 0;
   right: 0;
   background-color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   user-select: none;
+  color: red;
 }
 @media (max-width: 1024px) {
   .nav_bar_desktop {

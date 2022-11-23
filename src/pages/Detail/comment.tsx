@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
-import { addComment, getComment, removeComemnt } from "../../api-cilent/User";
+import { addComment, getComment, removeComemnt, udpateComment } from "../../api-cilent/User";
 import avatablack from "./assets/img/avatar-blank.png";
 import { useParams } from "react-router-dom";
 import moment from "moment";
@@ -36,6 +36,7 @@ const Comment = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<Inputs>();
   useEffect(() => {
     (async () => {
@@ -84,6 +85,7 @@ const Comment = (props: Props) => {
       setDatacomment(data);
     });
   };
+
 
   const moveCaretAtEnd = (e: any) => {
     var temp_value = e.target.value;
