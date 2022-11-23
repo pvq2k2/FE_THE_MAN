@@ -1,11 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import React, { useEffect, useState, useRef } from "react";
-import {
-  addComment,
-  getComment,
-  removeComemnt,
-  udpateComment,
-} from "../../api-cilent/User";
+import React, { useEffect, useState } from "react";
+import { addComment, getComment, removeComemnt } from "../../api-cilent/User";
 import avatablack from "./assets/img/avatar-blank.png";
 import { useParams } from "react-router-dom";
 import moment from "moment";
@@ -99,7 +94,7 @@ const Comment = (props: Props) => {
   return (
     <div>
       <div className="containerx">
-        <h2 className="heading-title">Bình luận về Áo sơ mi - AR220134DT</h2>
+        <h2 className="heading-title">Bình luận về : {product.name}</h2>
         {user?.users && (
           <form
             action=""
@@ -124,7 +119,7 @@ const Comment = (props: Props) => {
         )}
         <div className="list-comments_wrapper">
           <div className="comments_wrapper">
-            {dataComment?.map((e: any) => {
+            {dataComment?.map((e: any, index) => {
               var date1 = moment();
               var date2 = moment(e.createdAt);
               var diffYear = date1.diff(date2, "year");
@@ -152,8 +147,7 @@ const Comment = (props: Props) => {
 
               //   moment(endTimes).format("HH:mm")
               return (
-                <>
-                  <div className="item">
+                  <div className="item" key={index} >
                     <div className="user dp-flex">
                       <img
                         src={e?.user?.img || avatablack}
@@ -227,7 +221,6 @@ const Comment = (props: Props) => {
                       </div>
                     )}
                   </div>
-                </>
               );
             })}
           </div>

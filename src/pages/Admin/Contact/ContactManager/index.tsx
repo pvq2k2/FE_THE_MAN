@@ -32,7 +32,7 @@ const ContactManager = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const contactList = useSelector((state: RootState) => state.contact.contacts);
   const contact = useSelector((state: RootState) => state.contact.contact);
-  console.log(contact);
+  // console.log(contact);
 
   const dispatch = useDispatch<any>();
 

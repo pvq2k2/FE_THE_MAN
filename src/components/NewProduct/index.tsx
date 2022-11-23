@@ -50,7 +50,7 @@ const NewProduct = (props: Props) => {
         <Slider className={styles.slider} {...settings}>
           {product?.products?.products?.map((item: any, index: any) => {
             return (
-              <div className={styles.product__item}>
+              <div key={index} className={styles.product__item}>
                 <div className={styles.item__box}>
                   <Link to={`/detail/${item._id}`}>
                     <img src={item.image} alt='000017' />

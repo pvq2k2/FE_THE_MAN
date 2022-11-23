@@ -21,7 +21,6 @@ function SampleNextArrow(props: { onClick: () => void; }) {
   }
 const Categories = (props: Props) => {
   const catePro = useSelector((state : RootState) => state.catePro)
-  console.log(catePro);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
@@ -44,8 +43,8 @@ const Categories = (props: Props) => {
             <h2>Danh mục sản phẩm</h2>
         </div>
         <Slider className={styles.slider} {...settings}>
-        {catePro?.cateproducts?.map((item : any)=>{
-            return <div className={styles.categories__item}>
+        {catePro?.cateproducts?.map((item : any,e)=>{
+            return <div key={e} className={styles.categories__item}>
             <div className={styles.item__box}>
               <Link to={`/detail/cate/${item._id}/product`}>
               <img src={item.image} alt='000017'/>

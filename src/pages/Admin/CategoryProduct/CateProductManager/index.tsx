@@ -12,7 +12,7 @@ type Props = {}
 
 const CategoryProductManager = (props: Props) => {
   const catePro = useSelector((state : RootState) => state.catePro)
-  console.log(catePro);
+  // console.log(catePro);
   
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -67,7 +67,7 @@ const CategoryProductManager = (props: Props) => {
         </thead>
         <tbody>
           {catePro?.cateproducts?.map((item : any , index : number)=>{
-            return <tr key="1">
+            return <tr key={index}>
             <td>{index + 1}</td>
             <td>{item.name}</td>
             <td>

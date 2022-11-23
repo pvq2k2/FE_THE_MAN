@@ -86,7 +86,7 @@ const SliderManager = (props: Props) => {
           <tbody>
             {post?.Sliders.Slider?.map((e: any, index: any) => {
               return (
-                <tr key="index">
+                <tr key={index}>
                   <td>{(pages - 1) * 10 + ++index}</td>
 
                   <td>{e.title}</td>

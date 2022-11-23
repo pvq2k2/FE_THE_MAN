@@ -54,7 +54,7 @@ const Banner = (props: Props) => {
             <Slider {...settings}>
               {picture?.Sliders.Slider?.map((item:any,index:any)=>{
                 return (
-                  <img src={item.image} alt='Banner1-1'/>
+                  <img key={index} src={item.image} alt='Banner1-1'/>
                 )
               })}
             
