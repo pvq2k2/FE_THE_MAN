@@ -46,8 +46,8 @@ export default function AddType() {
           />
           {errors.type && errors.type[index]?.size?.message}
           <input placeholder="Số lượng"
-          type="number"
-            {...register(`type.${index}.quantity`,{ required: "Không được để trống" })}
+            type="number"
+            {...register(`type.${index}.quantity`, { required: "Không được để trống" })}
             className="shadow-sm focus:outline-none focus:ring-[#4D535E] focus:border-[#4D535E] mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
           />
           {errors.type && errors.type[index]?.quantity?.message}
