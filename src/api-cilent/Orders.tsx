@@ -6,6 +6,9 @@ export const AddOrderApi = (data: any) => {
 export const GetOrdersApi = () => {
     return instance.get(`/orders`);
 }
+export const findOrder = (data: any) => {
+    return instance.post(`/orderfind`, data)
+}
 
 export const removeOrderApi = (id: string) => {
     return instance.delete(`/orders/${id}`);
