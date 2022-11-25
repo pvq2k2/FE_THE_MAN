@@ -45,8 +45,6 @@ const cateProSlice = createSlice({
     reducers:{},
     extraReducers:(build) =>{
         build.addCase(getCatePro.fulfilled,(state,{payload})=>{
-        //  console.log("hải", payload);
-          
             state.cateproducts = payload as any;
         })
 
