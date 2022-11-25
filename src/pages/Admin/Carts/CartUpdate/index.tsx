@@ -220,6 +220,7 @@ const CartUpdate = () => {
                   <th className="font-semibold pb-10">Phí giao hàng</th>
                   <th className="font-semibold pb-10">Tiền hàng</th>
                   <th className="font-semibold pb-10">Tổng tiền</th>
+                  <th className="font-semibold pb-10">Trạng thái thanh toán</th>
                   <th className="font-semibold pb-10">Hành động</th>
                 </tr>
               </thead>
@@ -351,6 +352,9 @@ const CartUpdate = () => {
                     }
                     VNĐ
                   </td>
+                  <td className=" py-10  gap-8">
+                      {order?.order?.payment_status == 0 ?  "Chưa thanh toán" : "Đã thanh toán"}
+                  </td>
                   <td className="py-10  gap-8 outline-none">
                     <h2 className="my-[10px]">Xác nhận đơn hàng: </h2>
                     <form
@@ -364,6 +368,15 @@ const CartUpdate = () => {
                         <option value={0}>Đang xử lý</option>
                         <option value={1}>Xác nhận</option>
                         <option value={2}>Huỷ đơn hàng</option>
+                      </select>
+                      <h2 className="my-[10px]">Trạng thái thanh toán: </h2>
+                      <select
+                        {...register("payment_status")}
+                        className="max-w-[150px] my-[5px] py-[10px] border-[1px] border-[#333] rounded outline-none"
+                      >
+                        <option value={0}>Chưa thanh toán</option>
+                        <option value={1}>Đã thanh toán</option>
+              
                       </select>
                       <button
                         className="max-w-[150px] bg-blue-300 py-[5px]"

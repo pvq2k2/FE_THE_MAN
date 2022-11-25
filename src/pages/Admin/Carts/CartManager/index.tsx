@@ -41,7 +41,7 @@ const CartPostManager = () => {
         
         <div className={styles.title}>Danh sách đơn hàng</div>
         <div className="searchCart">
-            <input className="border-2 border-indigo-600 border-solid min-w-[200px] py-[5px]" onChange={(e) => onSearch(e)} placeholder="Tìm kiếm theo id đơn hàng" type="text" name="" id="" />
+            <input className="border-2 border-indigo-600 border-solid min-w-[200px] py-[5px]" onChange={(e) => onSearch(e)} placeholder="Tìm kiếm theo mã đơn hàng" type="text" name="" id="" />
         </div>
       </header>
       <main>
@@ -55,6 +55,7 @@ const CartPostManager = () => {
               <td>Tiền hàng</td>
               <td>Tổng tiền</td>
               <td>Trạng thái</td>
+              <td>Trạng thái thanh toán</td>
               <td>Hành động</td>
             </tr>
           </thead>
@@ -98,6 +99,7 @@ const CartPostManager = () => {
                           />
                           } VNĐ </td> 
           <td>{status}</td>
+          <td>{item?.payment_status == 0 ? "Chưa thanh toán" : "Đã thanh toán"}</td>
           <td className={styles.action}>
             <Link to={`/admin/carts/update/${item?._id}`}>
               <AiOutlineEdit className={styles.edit} />

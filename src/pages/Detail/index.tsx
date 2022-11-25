@@ -80,6 +80,7 @@ const DetailProduct = (props: Props) => {
       ...rest
     } = product;
     const iduser = User.users.id;
+    const tmcode = "TheMan_"+Math.floor(Math.random() * 999999);
     const carts = {
       products: {
         ...rest,
@@ -88,9 +89,20 @@ const DetailProduct = (props: Props) => {
         quantity: parseInt(data?.quantity),
       },
       userID: iduser,
+      tm_codeorder: tmcode
     };
-
-    await dispatch(addToCart(carts));
+      const res = await dispatch(addToCart(carts));
+      if(res?.payload?.code == 409) {
+        
+        onAddOrder(carts)
+        
+      }else {
+          toast.success("Thêm đơn hàng thành công !")
+      }
+      
+    
+    
+    
   };
   const onSize = async (c: any) => {
     setSizeSelected(c.title);
