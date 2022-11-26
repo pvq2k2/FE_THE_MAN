@@ -4,7 +4,7 @@ import { signin } from "../../redux/slices/authSlice";
 
 function GetUser() {
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = JSON.parse(localStorage.getItem("user") as string);
   useEffect(() => {
     if (user) {
       dispatch(

@@ -17,6 +17,7 @@ type orderState = {
   orders: any[];
   orderinfo: {};
   success: number;
+  check: boolean;
 };
 
 const initialState: orderState = {
@@ -24,6 +25,7 @@ const initialState: orderState = {
   orders: [],
   orderinfo: {},
   success: 0,
+  check: false,
 };
 
 export const getOrders = createAsyncThunk("orders/getorders", async () => {
@@ -88,6 +90,31 @@ export const readOrder = createAsyncThunk(
     return res.data;
   }
 );
+export const isBuy = createAsyncThunk("orders/isBuy", async (id: any) => {
+  const resp = await readOrdertApi(id);
+
+  if (resp.data.order_code) {
+    const { data } = await axios.post(
+      "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail",
+      {
+        order_code: resp.data.order_code || "",
+      },
+      {
+        headers: {
+          Token: "755b4fbb-5918-11ed-bd1f-1a28f04fff2f",
+        },
+      }
+    );
+    if (data?.data?.log) {
+      const type = data?.data?.log.find((e: any) => e.status == "picked")
+        ? true
+        : false;
+      return type;
+    }
+
+    // console.log(resp.data.order_code);
+  }
+});
 export const updateOrder = createAsyncThunk(
   "orders/updateorder",
   async (data: any) => {
@@ -149,7 +176,9 @@ const orderSlice = createSlice({
       builder.addCase(readOrder.fulfilled, (state, { payload }) => {
         state.order = payload;
       }),
-    
+      builder.addCase(isBuy.fulfilled, (state, { payload }) => {
+        state.check = payload;
+      }),
       builder.addCase(orderConfirm.fulfilled, (state, { payload }) => {}),
       builder.addCase(updateOrder.fulfilled, (state, { payload }) => {
         state.orders = state.orders.map((item: any) =>
