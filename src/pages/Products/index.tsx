@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { AiOutlineControl } from "react-icons/ai";
 import styles from "./Products.module.css";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { getProducts } from "../../redux/slices/productSlice";
+import { getCatePro } from "../../redux/slices/cateProductSlice";
 type Props = {};
 
 const Products = (props: Props) => {
+  const product = useSelector((state: RootState) => state?.product);
+  const pages = useSelector((state: RootState) => state?.product.page);
+  const catePro = useSelector((state : RootState) => state.catePro)
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(
+      getProducts({
+        page: pages,
+        limit: 8,
+      })
+    );
+  }, [dispatch, 1]);
+  // category
+  useEffect(() => {
+    dispatch(
+      getCatePro()
+    )
+  }, [dispatch])
   return (
     <div className={styles.container}>
       <div className={styles.breadcrumb}>
@@ -23,46 +45,20 @@ const Products = (props: Props) => {
       <div className={styles.content}>
         <div className={styles.category}>
           <div className={styles.boxCategory}>
-            <h3>Áo</h3>
+            <h3>Danh mục</h3>
             <ul>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
+           {
+            catePro?.cateproducts.map((item:any,index:any)=>{
+              return (
+                <li key={index+1}>
+              <Link to={`/detail/cate/${item._id}/product`}>{item.name}</Link>
+               </li>
+              )
+            })
+           }
             </ul>
           </div>
 
-          <div className={styles.boxCategory}>
-            <h3>Áo</h3>
-            <ul>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-              <li>
-                <Link to="#">Áo Sơ Mi</Link>
-              </li>
-            </ul>
-          </div>
         </div>
         <div className="products">
           <div className={styles.filter}>
@@ -71,60 +67,20 @@ const Products = (props: Props) => {
           </div>
           <div className="boxProducts">
             <div className={styles.rowProduct}>
-              <div className={styles.itemProduct}>
-                <div className={styles.imgProduct}>
-                  <img
-                    src="https://bucket.nhanh.vn/store1/41786/ps/20220818/000017.jpg"
-                    alt=""
-                  />
-                </div>
-                <h3>Anselm Loose Fit Jean Light Blue</h3>
-                <span>690,000 đ</span>
-              </div>
+              {product?.products.products?.map((item: any, index: any) => {
+                return (
+                  <div key={index+1} className={styles.itemProduct}>
+                    <Link to={`/detail/${item._id}`}>
+                    <div className={styles.imgProduct}>
+                      <img src={item.image} alt="" />
+                    </div>
+                    <h3>{item.name}</h3>
+                    <span>{item.price} VNĐ</span>
+                    </Link>
+                  </div>
+                );
+              })}
 
-              <div className={styles.itemProduct}>
-                <div className={styles.imgProduct}>
-                  <img
-                    src="https://bucket.nhanh.vn/store1/41786/ps/20220818/000017.jpg"
-                    alt=""
-                  />
-                </div>
-                <h3>Anselm Loose Fit Jean Light Blue</h3>
-                <span>690,000 đ</span>
-              </div>
-
-              <div className={styles.itemProduct}>
-                <div className={styles.imgProduct}>
-                  <img
-                    src="https://bucket.nhanh.vn/store1/41786/ps/20220818/000017.jpg"
-                    alt=""
-                  />
-                </div>
-                <h3>Anselm Loose Fit Jean Light Blue</h3>
-                <span>690,000 đ</span>
-              </div>
-
-              <div className={styles.itemProduct}>
-                <div className={styles.imgProduct}>
-                  <img
-                    src="https://bucket.nhanh.vn/store1/41786/ps/20220818/000017.jpg"
-                    alt=""
-                  />
-                </div>
-                <h3>Anselm Loose Fit Jean Light Blue</h3>
-                <span>690,000 đ</span>
-              </div>
-
-              <div className={styles.itemProduct}>
-                <div className={styles.imgProduct}>
-                  <img
-                    src="https://bucket.nhanh.vn/store1/41786/ps/20220818/000017.jpg"
-                    alt=""
-                  />
-                </div>
-                <h3>Anselm Loose Fit Jean Light Blue</h3>
-                <span>690,000 đ</span>
-              </div>
             </div>
           </div>
         </div>

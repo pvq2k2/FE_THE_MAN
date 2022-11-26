@@ -5,6 +5,7 @@ import { removeCart } from "../../api-cilent/Cart";
 import {
   AddOrderApi,
   countProductApi,
+  findOrder,
   GetOrdersApi,
   readOrdertApi,
   removeOrderApi,
@@ -124,18 +125,34 @@ export const updateOrder = createAsyncThunk(
 );
 export const searchOrder = createAsyncThunk(
   "orders/search",
-  async (id: string) => {
+  async (code: string) => {
+    const codes  = {
+      "tm_codeorder": code
+    }
     let result = [];
     try {
-      const res = await readOrdertApi(id);
-      if (id) {
-        result.push(res.data);
+      
+      if (code) {
+        const res = await findOrder(codes);
+        if (res.data == null) {
+         return result = [];
+        }else {
+          result.push(res.data);
+        }
+        
+       
       } else {
-        result = res.data;
+        const res = await GetOrdersApi();
+        if (res.data == null) {
+          result = [];
+        }else {
+          result = res.data;
+        }
+      
+        
       }
-      if (res.data == null) {
-        result = [];
-      }
+      return result
+     
     } catch (error) {
       toast.info("Không tìm thấy!!!");
     }
@@ -190,9 +207,12 @@ const orderSlice = createSlice({
       }),
       builder.addCase(cancelOrder.fulfilled, (state, { payload }) => {}),
       builder.addCase(searchOrder.fulfilled, (state, { payload }) => {
+        console.log("searchOrder",payload);
+        
         if (payload.length >= 1) {
           state.orders = payload;
         } else {
+          state.orders = []
         }
       });
   },

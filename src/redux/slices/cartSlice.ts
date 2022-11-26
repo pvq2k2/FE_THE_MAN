@@ -107,13 +107,41 @@ export const Decrement = createAsyncThunk(
   }
 );
 
+
+
+export const RemoveCart = createAsyncThunk(
+  "carts/removecart",
+  async (product: any) => {
+    const { data } = await readcart(product.userID);
+    const cartnew = data.products.find(
+      (item: any) =>
+        item._id == product._id &&
+        item.color == product.color &&
+        item.size == product.size
+    );
+    
+      const confirm = window.confirm("Bạn có muốn xoá không?");
+      if (confirm) {
+        const cartnewa = data.products.filter((item: any) => item !== cartnew);
+        data.products = cartnewa;
+        toast.info("Xoá thành công?");
+      }
+     
+    return data;
+  }
+);
+
+
 export const addToCart = createAsyncThunk(
   "carts/addtocart",
   async (carts: any) => {
+    console.log("ccc",carts);
+    
     const { data } = await readcart(carts.userID);
     let cart = {
       products: [],
       userID: {},
+      tm_codeorder: String
     };
     if (data) {
       cart = data;
@@ -121,6 +149,7 @@ export const addToCart = createAsyncThunk(
       cart = {
         products: [],
         userID: {},
+        tm_codeorder: String
       };
     }
     if (cart?.products?.length > 0) {
@@ -146,7 +175,14 @@ export const addToCart = createAsyncThunk(
     } else {
       cart.products.push(...cart.products, carts.products as never);
       cart.userID = carts.userID;
-      await addcart(cart);
+      cart.tm_codeorder = carts.tm_codeorder
+      const res = await addcart(cart);
+      if(res?.data?.code == 409) {
+          return {
+            code: 409
+          }
+      }
+      
     }
     return cart;
   }
@@ -154,6 +190,8 @@ export const addToCart = createAsyncThunk(
 export const addOrder = createAsyncThunk(
   "Users/addorder",
   async (data: any) => {
+    console.log("cec0",data);
+    
     let error = 0;
    
       for (let index = 0; index < data.product?.length; index++) {
@@ -195,7 +233,6 @@ const cartSlice = createSlice({
   extraReducers: (build) => {
     build.addCase(addToCart.fulfilled, (state, { payload }) => {
       state.carts = payload;
-      toast.success("Thêm đơn hàng thành công!");
     }),
       build.addCase(readCart.fulfilled, (state, { payload }) => {
         state.carts = payload;
@@ -215,6 +252,14 @@ const cartSlice = createSlice({
           removeCart(payload._id);
         }
       }),
+      build.addCase(RemoveCart.fulfilled, (state, { payload }) => {
+        state.carts = payload;
+        updateCart(payload);
+        if (payload.products.length <= 0) {
+          removeCart(payload._id);
+        }
+      }),
+      
       build.addCase(addOrder.fulfilled, (state, { payload }) => {
           if(payload?.code == 200) { 
             state.carts = {}

@@ -40,7 +40,7 @@ const DetailPost = (props: Props) => {
           <li className=" block relative mx-1 mt-1 text-slate-200 duration-400">
             |
           </li>
-          <li className=" block relative mx-1 mt-1 transition duration-400">
+          <li className=" block relative mx-1 mt-1 transition duration-400 w-[100px] truncate">
            {post.title}
           </li>
         </ul>

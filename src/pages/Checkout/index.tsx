@@ -12,6 +12,7 @@ import {
 import { readUserLocal } from "../../redux/slices/userSlice";
 import { addOrder, readCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 type Props = {};
 
@@ -19,9 +20,10 @@ const CheckoutPage = (props: Props) => {
   const dispatch = useDispatch<any>();
   const navigate = useNavigate();
   const carts = useSelector((state: any) => state.carts);
+  
   const province = useSelector((state: any) => state.province);
   const [fee, setFee] = useState<number>(0);
-  const [User,setUser] = useState<any>();
+  const [Payment,setPayment] = useState<Number>(0)
   const [Receiver, setReceiver] = useState({
     to_ward_name: "",
     to_district_name: "",
@@ -37,14 +39,12 @@ const CheckoutPage = (props: Props) => {
   useEffect(() => {
     (async () => {
       const res = await dispatch(readUserLocal());
-      const res2 = await dispatch(readCart(res?.payload?.users?.id));
-      setUser(res);
+      await dispatch(readCart(res?.payload?.users?.id));
+     
     })();
   }, []);
 
   useEffect(() => {
-    console.log("a" , carts);
-    
     (async () => {
       const data = {
         ...provicei,
@@ -94,17 +94,23 @@ const CheckoutPage = (props: Props) => {
       infomation: info,
       fee: fee,
       productmonney: sum,
-      userID:User?.payload?.users?.id,
+      userID:carts?.carts?.userID,
+      tm_codeorder: carts?.carts?.tm_codeorder,
       totalprice: sum+fee,
       width: sumwidth,
       length: sumlength,
       height: sumheight,
-      weight: sumweight
+      weight: sumweight,
+      payment_methods: Payment
     };  
     
       const res = await dispatch(addOrder(products))
-     console.log("res",res);
       if(res?.payload?.code == 200) {
+          toast.success("Thêm đơn hàng thành công")
+          var text = "Bạn có đơn hàng mới. Mã đơn hàng: "+carts?.carts?.tm_codeorder
+         const tele =  axios.post("http://api.vidieu.net/sendnoti.php?token=5911904199:AAFlYAd1od8pI0Qymj8vWUHpblFhrrfLdos&text="+encodeURIComponent(text)+"&id=@TheManClothes");
+          console.log("ac",tele);
+          
           navigate("/thankkiu");
       }else{
         navigate("/cart");
@@ -301,6 +307,31 @@ const CheckoutPage = (props: Props) => {
                   </span>
                 </div>
 
+                <div className="flex flex-col  my-[10px]">
+    <div className="flex items-center mr-4">
+        <input id="inline-radio" type="radio" onClick={() => setPayment(0)}
+         name="inline-radio-group" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+        <label htmlFor="inline-radio"  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Thanh toán khi giao hàng (COD)</label>
+    </div>
+    <div className="flex items-center mr-4">
+        <input id="inline-2-radio" type="radio" onClick={() => setPayment(1)} name="inline-radio-group" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+        <label htmlFor="inline-2-radio" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Chuyển khoản qua ngân hàng</label>
+    </div>
+    {Payment == 1 ? (<div className="max-w-sm p-6 my-[15px] bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <img width="100px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Logo_MB_new.png/1200px-Logo_MB_new.png" alt="" />
+        <h5 className="mb-2 text-[15px] font-semibold tracking-tight text-gray-900 dark:text-white">Số tài khoản: 2730101186666</h5>
+        <h5 className="mb-2 text-[15px] font-semibold tracking-tight text-gray-900 dark:text-white">Chủ tài khoản: Nguyễn Văn Hải</h5>
+        <h5 className="mb-2 text-[15px] font-semibold tracking-tight text-gray-900 dark:text-white">Nội dung : {carts?.carts?.tm_codeorder}</h5>
+        <div className="selection:bg-fuchsia-300 font-semibold selection:text-fuchsia-900">
+  <p>
+    Lưu ý: Vui lòng chuyển khoản đúng nội dung, nếu chuyển sai vui lòng <a href="https://chat.zalo.me/?phone=0982641483" className="text-blue-600">bấm vào đây</a> để liện hệ với người bán hàng
+  </p>
+</div>
+   
+</div>) : " "}
+    
+</div>
+               
                 <button className="bg-black text-white font-semibold p-3 mt-10 w-full">
                   Hoàn tất Đơn hàng
                 </button>

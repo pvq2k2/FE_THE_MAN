@@ -5,6 +5,7 @@ import {
   changeQuantity,
   Decrement,
   Increment,
+  RemoveCart,
 } from "../../redux/slices/cartSlice";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
@@ -39,7 +40,14 @@ export default function CartItem(props: CartItemProps) {
     dispatch(Increment(product));
     //setDisabled(false)
   };
-
+  const RemoveCartClient = (data:any) => {
+    const product = {
+      ...data,
+      userID: id,
+    };
+    dispatch(RemoveCart(product));
+    //setDisabled(false)
+  }
   const DecrementC = (data: any) => {
   //  setDisabled(true)
     const product = {
@@ -128,7 +136,7 @@ export default function CartItem(props: CartItemProps) {
         </button>
       </td>
       <td className="text-slate-400 text-base">
-        <FontAwesomeIcon icon={faTrash} />
+        <FontAwesomeIcon className="cursor-pointer" icon={faTrash} onClick={() => RemoveCartClient(item)}/>
       </td>
     </tr>
   );
