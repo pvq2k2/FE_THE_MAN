@@ -28,7 +28,7 @@ type Inputs = {
 
 const Comment = (props: Props) => {
   const [dataComment, setDatacomment] = useState([]);
-  const { id } = useParams();
+  const params = useParams();
   // console.log(dataComment);
   const [checkId, setCheckid] = useState("");
   const user = useSelector((state: any) => state?.auth.currentUser);
@@ -45,27 +45,32 @@ const Comment = (props: Props) => {
   console.log("sản phẩm", order);
 
   useEffect(() => {
+    dispatch(getOrders());
+  }, [dispatch]);
+
+  console.log(params.id);
+
+  useEffect(() => {
+    // dispatch(isBuy("63811daf55696ccfd45ac8f6"));
     for (let i = 0; i < order.orders.length; i++) {
       // console.log(order.orders[i]);
+      console.log(order?.orders[i].userID);
+      console.log(code);
 
       if (order?.orders[i].userID == code) {
         for (let a = 0; a < order?.orders[i].product.length; a++) {
           // console.log(order?.orders[i].product[a]._id);
 
-          if (order?.orders[i].product[a]._id == id) {
+          if (order?.orders[i].product[a]._id == params.id) {
             console.log("a", order?.orders[i]);
+            console.log(order?.orders[i]._id);
+
             dispatch(isBuy(order?.orders[i]._id));
           }
         }
       }
     }
-  }, [dispatch]);
-
-  useEffect(() => {
-    (async () => {
-      await dispatch(getOrders());
-    })();
-  }, []);
+  }, [dispatch, order.orders.length]);
 
   useEffect(() => {
     dispatch(readUserLocal());
