@@ -93,12 +93,18 @@ export const readOrder = createAsyncThunk(
 );
 export const isBuy = createAsyncThunk("orders/isBuy", async (id: any) => {
   const resp = await readOrdertApi(id);
+  if (resp.data.order_code) {
+    console.log(id);
+
+    console.log(resp);
+  }
 
   if (resp.data.order_code) {
     const { data } = await axios.post(
       "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail",
       {
-        order_code: resp.data.order_code || "",
+        order_code: resp.data.order_code,
+        // order_code: "LLU7GH",
       },
       {
         headers: {
@@ -106,14 +112,13 @@ export const isBuy = createAsyncThunk("orders/isBuy", async (id: any) => {
         },
       }
     );
-    if (data?.data?.log) {
-      const type = data?.data?.log.find((e: any) => e.status == "picked")
-        ? true
-        : false;
-      return type;
-    }
+    console.log(data?.data?.status);
 
-    // console.log(resp.data.order_code);
+    if (data?.data?.status === "delivered") {
+      return true;
+    }
+    return false;
+    // console.log(data);
   }
 });
 export const updateOrder = createAsyncThunk(
@@ -126,33 +131,27 @@ export const updateOrder = createAsyncThunk(
 export const searchOrder = createAsyncThunk(
   "orders/search",
   async (code: string) => {
-    const codes  = {
-      "tm_codeorder": code
-    }
+    const codes = {
+      tm_codeorder: code,
+    };
     let result = [];
     try {
-      
       if (code) {
         const res = await findOrder(codes);
         if (res.data == null) {
-         return result = [];
-        }else {
+          return (result = []);
+        } else {
           result.push(res.data);
         }
-        
-       
       } else {
         const res = await GetOrdersApi();
         if (res.data == null) {
           result = [];
-        }else {
+        } else {
           result = res.data;
         }
-      
-        
       }
-      return result
-     
+      return result;
     } catch (error) {
       toast.info("Không tìm thấy!!!");
     }
@@ -194,7 +193,9 @@ const orderSlice = createSlice({
         state.order = payload;
       }),
       builder.addCase(isBuy.fulfilled, (state, { payload }) => {
-        state.check = payload;
+        // console.log(payload);
+
+        state.check = payload as boolean;
       }),
       builder.addCase(orderConfirm.fulfilled, (state, { payload }) => {}),
       builder.addCase(updateOrder.fulfilled, (state, { payload }) => {
@@ -207,12 +208,12 @@ const orderSlice = createSlice({
       }),
       builder.addCase(cancelOrder.fulfilled, (state, { payload }) => {}),
       builder.addCase(searchOrder.fulfilled, (state, { payload }) => {
-        console.log("searchOrder",payload);
-        
+        console.log("searchOrder", payload);
+
         if (payload.length >= 1) {
           state.orders = payload;
         } else {
-          state.orders = []
+          state.orders = [];
         }
       });
   },
