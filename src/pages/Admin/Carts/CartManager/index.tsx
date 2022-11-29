@@ -39,7 +39,19 @@ const CartPostManager = () => {
     <div className={styles.content}>
       <header>
         
-        <div className={styles.title}>Danh sách đơn hàng</div>
+        {/* <div className={styles.title}>Danh sách đơn hàng</div> */}
+        <form action="" className="inline-flex">
+          <div className="pr-4">
+              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
+          </div>
+          <div className="pr-4">
+              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
+          </div>
+          <div className="pr-4">
+              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
+          </div>
+        <button className="inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]">Tìm kiếm</button>
+        </form>
         <div className="searchCart">
             <input className="border-2 border-indigo-600 border-solid min-w-[200px] py-[5px]" onChange={(e) => onSearch(e)} placeholder="Tìm kiếm theo mã đơn hàng" type="text" name="" id="" />
         </div>
