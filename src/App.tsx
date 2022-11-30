@@ -50,6 +50,7 @@ import Mess from "./components/messenger";
 import Profile from "./pages/Profile";
 import Detail_Order from "./pages/OrderStatus/Detail_Order";
 import ScrollIntoView from "./hooks/useScrollIntoView";
+import Search from "./pages/Search";
 function App() {
   return (
     <>
@@ -206,6 +207,14 @@ function App() {
             element={
               <ScrollIntoView>
                 <Detail_Order />
+              </ScrollIntoView>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <ScrollIntoView>
+                <Search />
               </ScrollIntoView>
             }
           />
