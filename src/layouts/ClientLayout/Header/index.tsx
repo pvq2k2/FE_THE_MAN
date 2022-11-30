@@ -7,7 +7,13 @@ import { signout } from "../../../redux/slices/authSlice";
 import styles from "./Header.module.css";
 import { readCart } from "../../../redux/slices/cartSlice";
 import { IoSearchOutline } from "react-icons/io5";
-import {CiSearch, CiShoppingCart, CiUser, FaRegUser, GrCart} from "react-icons/all";
+import {
+  CiSearch,
+  CiShoppingCart,
+  CiUser,
+  FaRegUser,
+  GrCart,
+} from "react-icons/all";
 type Props = {};
 
 const ClientHeader = (props: Props) => {
@@ -122,9 +128,9 @@ const ClientHeader = (props: Props) => {
       </Link>
 
       <div className={styles.box_icon}>
-        <div className={styles.search}>
+        <Link to="/search" className={styles.search}>
           <div className={styles.icon}>
-          <CiSearch/>
+            <CiSearch />
           </div>
           <div className={styles.search_input}>
             <input type="text" placeholder="Tìm kiếm sản phẩm...." />
@@ -132,13 +138,13 @@ const ClientHeader = (props: Props) => {
               <IoSearchOutline />
             </button>
           </div>
-        </div>
+        </Link>
 
         <div className={styles.box_user}>
           <div className={styles.icon}>
-          <CiUser/>
+            <CiUser />
           </div>
-          
+
           <div className={styles.modal_user}>
             {isLogged && currentUser ? (
               <div>
@@ -187,7 +193,7 @@ const ClientHeader = (props: Props) => {
           <div className={styles.box_cart}>
             <Link to={"/cart"}>
               <div className={styles.icon2}>
-              {/* <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   xmlnsXlink="http://www.w3.org/1999/xlink"
                   version="1.1"
@@ -215,7 +221,7 @@ const ClientHeader = (props: Props) => {
                   <g />
                   <g />
                 </svg> */}
-                <CiShoppingCart/>
+                <CiShoppingCart />
               </div>
             </Link>
             <div className={styles.count_cart}>
