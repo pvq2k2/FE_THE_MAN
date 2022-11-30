@@ -10,6 +10,9 @@ export const remove = (id: string): Promise<Product> => {
 export const add = (product: Product): Promise<Product> => {
   return instance.post("/product", product);
 };
+export const filter = (product: any): Promise<any> => {
+  return instance.post("/product/filter", product);
+};
 
 export const get = (id: string): Promise<Product> => {
   return instance.get(`/product/${id}`);
