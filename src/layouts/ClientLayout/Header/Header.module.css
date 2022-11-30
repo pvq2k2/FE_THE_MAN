@@ -86,12 +86,12 @@
   position: fixed;
   margin: 0 auto;
   padding: 0 100px;
-  top: 67px;
+  top: 60px;
   right: 0;
   left: 0;
   background-color: white;
   visibility: hidden;
-  transition: all 0.3s linear;
+  transition: all 0.1s linear;
 }
 .rowSubNav {
   display: flex;
@@ -116,20 +116,20 @@
   font-size: 30px;
   cursor: pointer;
 }
-.search .icon{
+.search .icon {
   padding-top: 2px;
 }
-.search .icon:hover{
+.search .icon:hover {
   color: rgb(59 130 246);
 }
-.search:hover .search_input{
+.search:hover .search_input {
   visibility: visible;
 }
 .search_input {
   position: absolute;
   visibility: hidden;
   top: 67px;
- right: 7px;
+  right: 7px;
   margin: auto;
   padding: 10px;
   border-radius: 10px;
@@ -153,10 +153,10 @@
   background: none;
   position: absolute;
 }
-.search_input .ico{
+.search_input .ico {
   top: 24px;
-    right: 25px;
-    font-size: 23px;
+  right: 25px;
+  font-size: 23px;
 }
 .logo {
   width: 30%;
@@ -181,12 +181,11 @@
   width: 1.75rem /* 28px */;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
-
 }
-.box_user .icon{
+.box_user .icon {
   font-size: 28px;
 }
-.box_user .icon:hover{
+.box_user .icon:hover {
   color: rgb(59 130 246);
 }
 .modal_user {
@@ -204,7 +203,6 @@
 }
 .box_user:hover .modal_user {
   visibility: visible;
-  
 }
 .hello {
   padding-left: 0.5rem /* 8px */;
@@ -234,7 +232,7 @@
 .box_cart {
   position: relative;
 }
-.box_cart .icon2{
+.box_cart .icon2 {
   font-size: 30px;
 }
 .count_cart {
