@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
-import { AiOutlineControl } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import styles from "./Products.module.css";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -12,8 +12,10 @@ type Props = {};
 const Products = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
   const pages = useSelector((state: RootState) => state?.product.page);
-  const catePro = useSelector((state : RootState) => state.catePro)
+  const catePro = useSelector((state: RootState) => state.catePro);
   const dispatch = useAppDispatch();
+  const [isShowFilter, setIsShowFilter] = useState(false);
+
   useEffect(() => {
     dispatch(
       getProducts({
@@ -24,13 +26,11 @@ const Products = (props: Props) => {
   }, [dispatch, 1]);
   // category
   useEffect(() => {
-    dispatch(
-      getCatePro()
-    )
-  }, [dispatch])
+    dispatch(getCatePro());
+  }, [dispatch]);
   return (
     <div className={styles.container}>
-      <div className={styles.breadcrumb}>
+      {/* <div className={styles.breadcrumb}>
         <Link to="/" className={styles.linkBreakcrumb}>
           Trang chủ
         </Link>
@@ -41,47 +41,128 @@ const Products = (props: Props) => {
           src="https://owen.vn/media/catalog/category/_o_nam_2_1_.jpg"
           alt=""
         />
-      </div>
+      </div> */}
       <div className={styles.content}>
-        <div className={styles.category}>
-          <div className={styles.boxCategory}>
+        <div className={styles.row_ctr}>
+          <div className={styles.category}>
             <h3>Danh mục</h3>
-            <ul>
-           {
-            catePro?.cateproducts.map((item:any,index:any)=>{
-              return (
-                <li key={index+1}>
-              <Link to={`/detail/cate/${item._id}/product`}>{item.name}</Link>
-               </li>
-              )
-            })
-           }
-            </ul>
+            <div className={styles.boxCategory}>
+              <span>Tất cả</span>
+              <ul>
+                {catePro?.cateproducts.map((item: any, index: any) => {
+                  return (
+                    <li key={index + 1}>
+                      <Link to={`/detail/cate/${item._id}/product`}>
+                        {item.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
 
-        </div>
-        <div className="products">
           <div className={styles.filter}>
-            <span>Bộ lọc</span>
-            <AiOutlineControl size={25} />
+            <div
+              className={styles.title_filter}
+              onClick={() => setIsShowFilter(!isShowFilter)}
+            >
+              <span>Tìm theo</span>
+              <AiOutlinePlus size={15} />
+            </div>
+            {isShowFilter ? (
+              <div className={styles.box_filter}>
+                <div className={styles.price}>
+                  <h3>Giá sản phẩm</h3>
+                  <ul>
+                    <li>
+                      <input type="checkbox" name="100k" id="100k" />
+                      <label htmlFor="100k">Giá dưới 100.000đ</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="200k" id="200k" />
+                      <label htmlFor="200k">100.000đ - 200.000đ</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="300k" id="300k" />
+                      <label htmlFor="300k">200.000đ - 300.000đ</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="500k" id="500k" />
+                      <label htmlFor="500k">300.000đ - 500.000đ</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="500k" id="500k" />
+                      <label htmlFor="500k">300.000đ - 500.000đ</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="1000k" id="1000k" />
+                      <label htmlFor="1000k">500.000đ - 1.000.000đ</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="1m" id="1m" />
+                      <label htmlFor="1m">Giá trên 1.000.000đ</label>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className={styles.size}>
+                  <h3>Size</h3>
+                  <ul>
+                    <li>
+                      <input type="checkbox" name="s" id="s" />
+                      <label htmlFor="s">S</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="m" id="m" />
+                      <label htmlFor="m">M</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="l" id="l" />
+                      <label htmlFor="l">L</label>
+                    </li>
+                    <li>
+                      <input type="checkbox" name="xl" id="xl" />
+                      <label htmlFor="xl">XL</label>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            ) : null}
           </div>
-          <div className="boxProducts">
-            <div className={styles.rowProduct}>
-              {product?.products.products?.map((item: any, index: any) => {
-                return (
-                  <div key={index+1} className={styles.itemProduct}>
-                    <Link to={`/detail/${item._id}`}>
+        </div>
+
+        <div className="boxProducts">
+          <div className={styles.rowProduct}>
+            {product?.products.products?.map((item: any, index: any) => {
+              return (
+                <div key={index + 1} className={styles.itemProduct}>
+                  <Link to={`/detail/${item._id}`}>
                     <div className={styles.imgProduct}>
-                      <img src={item.image} alt="" />
+                      <img src={item.image} alt="" className={styles.imgDf} />
+                      <img src={item.subimg[0]} className={styles.subImg} />
+                      <div className={styles.color}>
+                        <div
+                          className={styles.item_color}
+                          style={{
+                            backgroundColor: `red`,
+                          }}
+                        ></div>
+
+                        <div
+                          className={styles.item_color}
+                          style={{
+                            backgroundColor: `green`,
+                          }}
+                        ></div>
+                      </div>
                     </div>
                     <h3>{item.name}</h3>
                     <span>{item.price} VNĐ</span>
-                    </Link>
-                  </div>
-                );
-              })}
-
-            </div>
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
