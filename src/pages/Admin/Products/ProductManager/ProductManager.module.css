@@ -41,7 +41,7 @@
   border-radius: 20px;
 }
 .contents {
-  margin: 0px 20px  ;
+  margin: 0px 20px;
 }
 .contents main {
   position: relative;
@@ -57,6 +57,10 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+}
+header {
+  box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
+  border-collapse: collapse;
 }
 .content main table thead td {
   font-weight: 600;

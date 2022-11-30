@@ -13,6 +13,7 @@ import {
   getProducts,
   getProduct,
   setPage,
+  filter_product,
 } from "../../../../redux/slices/productSlice";
 import { useAppDispatch } from "../../../../redux/store";
 import { RootState } from "../../../../redux/store";
@@ -21,12 +22,19 @@ import "../../../../styleAntd/panigation.css";
 import Swal from "sweetalert2";
 import { getAll } from "../../../../api-cilent/Product";
 import { Pagination } from "antd";
-import "../../Dashboard/dashboard.css"
-import "../../../OrderStatus/Cancel/index.css"
+import "../../Dashboard/dashboard.css";
+import "../../../OrderStatus/Cancel/index.css";
+import { SubmitHandler, useForm } from "react-hook-form";
 type Props = {};
+type Inputs = {
+  name: String;
+  start_price: Number;
+  end_price: Number;
+};
 
 const ProductManager = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
+  console.log(product);
 
   const pages = useSelector((state: RootState) => state?.product.page);
   const dispatch = useAppDispatch();
@@ -38,6 +46,13 @@ const ProductManager = (props: Props) => {
       })
     );
   }, [dispatch, pages]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Inputs>();
 
   // const showDetailProduct = async (id: any) => {
   //   const detailProduct = await dispatch(getProduct(id));
@@ -68,26 +83,63 @@ const ProductManager = (props: Props) => {
     });
   };
 
+  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+    dispatch(
+      filter_product({
+        name: values?.name || "",
+        prices: {
+          gt: values?.start_price || 0,
+          lt: values?.end_price || 100000000000,
+        },
+      })
+    );
+  };
+  console.log(product?.products.products);
+
   return (
     <div className={styles.content}>
       <header>
         {/* <div className={styles.title}>Danh sách sản phẩm</div> */}
-        <form action="" className="inline-flex">
+        <form
+          action=""
+          className="inline-flex"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
+            <input
+              className="pl-4 border-2 border-gray-300 border-solid min-w-[250px] py-[6px] rounded-md outline-0"
+              placeholder="Tên sản phẩm"
+              type="text"
+              {...register("name")}
+              id=""
+            />
           </div>
           <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
+            <input
+              type="number"
+              {...register("start_price")}
+              id="price-add-product"
+              className="pl-4 border-2 border-gray-300 border-solid min-w-[250px] py-[6px] rounded-md outline-0"
+              placeholder="Từ giá"
+            />
           </div>
           <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
+            <input
+              type="number"
+              {...register("end_price")}
+              id="price-add-product"
+              className="pl-4 border-2 border-gray-300 border-solid min-w-[250px] py-[6px] rounded-md  outline-0"
+              placeholder="Đến giá"
+            />
           </div>
-        <button className="inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]">Tìm kiếm</button>
+          <button className=" inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E] outline-0">
+            Tìm kiếm
+          </button>
         </form>
         <Link to="add" className="sm:ml-3">
           <button
             type="button"
-            className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]"
+            className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]"
           >
             <TiPlus className="text-[20px] mr-2" />
             Thêm sản phẩm
@@ -95,52 +147,60 @@ const ProductManager = (props: Props) => {
         </Link>
       </header>
       <main>
-        <table>
-          <thead>
-            <tr>
-              <td>STT</td>
-              <td>Tên sản phẩm</td>
-              <td>Ảnh sản phẩm</td>
-              <td>Giá sản phẩm</td>
-              <td>Chi tiết sản phẩm</td>
-              <td>Hành động</td>
-            </tr>
-          </thead>
-          <tbody>
-            {product?.products.products?.map((item: any, index: any) => {
-              return (
-                <tr key={item._id}>
-                  <td>{(pages - 1) * 10 + ++index}</td>
+        {product?.products?.products?.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <td>STT</td>
+                <td>Tên sản phẩm</td>
+                <td>Ảnh sản phẩm</td>
+                <td>Giá sản phẩm</td>
+                <td>Chi tiết sản phẩm</td>
+                <td>Hành động</td>
+              </tr>
+            </thead>
+            <tbody>
+              {product?.products.products?.map((item: any, index: any) => {
+                return (
+                  <tr key={item._id}>
+                    <td>{(pages - 1) * 10 + ++index}</td>
 
-                  <td>{item.name}</td>
-                  <td>
-                    <img
-                      className={styles.image}
-                      src={item.image}
-                      alt=""
-                      width="100px"
-                    />
-                  </td>
-                  <td>{item.price}đ</td>
-                  <td >
-                    <div className="h-[150px] w-[400px] overflow-x-auto scoll">{item.desc}</div>
+                    <td>{item.name}</td>
+                    <td>
+                      <img
+                        className={styles.image}
+                        src={item.image}
+                        alt=""
+                        width="100px"
+                      />
                     </td>
-                  <td className={styles.action}>
-                    {/* <AiOutlineInfoCircle className={styles.info} onClick={() => showDetailProduct(item._id)}/> */}
-                    <Link to={`/admin/products/${item._id}/edit`}>
-                      <AiOutlineEdit className={styles.edit} />
-                    </Link>
+                    <td>{item.price}đ</td>
+                    <td>
+                      <div className="h-[150px] w-[400px] overflow-x-auto scoll">
+                        {item.desc}
+                      </div>
+                    </td>
+                    <td className={styles.action}>
+                      {/* <AiOutlineInfoCircle className={styles.info} onClick={() => showDetailProduct(item._id)}/> */}
+                      <Link to={`/admin/products/${item._id}/edit`}>
+                        <AiOutlineEdit className={styles.edit} />
+                      </Link>
 
-                    <AiOutlineDelete
-                      onClick={() => handleRemove(item._id)}
-                      className={styles.delete}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                      <AiOutlineDelete
+                        onClick={() => handleRemove(item._id)}
+                        className={styles.delete}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <div className="text-center text-md font-semibold">
+            Không tìm thấy sản phẩm
+          </div>
+        )}
         <Pagination
           defaultCurrent={1}
           total={product?.products.count}

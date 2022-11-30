@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   add,
+  filter,
   get,
   getAll,
   remove,
@@ -63,6 +64,14 @@ export const addProduct = createAsyncThunk(
   }
 );
 
+export const filter_product = createAsyncThunk(
+  "products/filter_product",
+  async (product: any) => {
+    const res = await filter(product);
+    return res;
+  }
+);
+
 export const getProduct = createAsyncThunk(
   "products/getProduct",
   async (id: any) => {
@@ -89,10 +98,17 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
+      console.log(payload);
+
       state.products = payload as any;
     });
     builder.addCase(thongkes.fulfilled, (state, { payload }) => {
       state.products = payload as any;
+    });
+    builder.addCase(filter_product.fulfilled, (state, { payload }) => {
+      console.log(payload);
+
+      state.products = payload.data as any;
     });
     builder.addCase(deleteProduct.fulfilled, (state, { payload }) => {
       state.products.Product = state.products.Product.filter(
