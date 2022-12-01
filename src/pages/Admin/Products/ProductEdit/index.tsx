@@ -149,6 +149,7 @@ const ProductEdit = () => {
 
   useEffect(() => {
     (async () => {
+      await dispatch(getCatePro())
       const cateproduct = await dispatch(getProduct(id));
       reset(cateproduct.payload);
     })();
@@ -392,7 +393,28 @@ const ProductEdit = () => {
                         </div>
                       </div>
                     </div>
-
+                    <div>
+                      <label
+                        htmlFor="listed_price"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Giá niêm yết
+                      </label>
+                      <div className="mt-1">
+                        <input
+                          type="number"
+                          {...register("listed_price", {
+                            required: "Vui lòng nhập giá niêm yết",
+                          })}
+                          id="price-add-product"
+                          className="shadow-sm focus:outline-none focus:ring-[#4D535E] focus:border-[#4D535E] mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
+                          placeholder="Listed_price..."
+                        />
+                        <div className="text-sm mt-0.5 text-red-500">
+                          {errors.listed_price?.message}
+                        </div>
+                      </div>
+                    </div>
                     <EditType />
 
                     <div className="col-span-6 sm:col-span-3">
