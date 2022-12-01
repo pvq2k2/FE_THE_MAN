@@ -28,7 +28,7 @@ type Inputs = {
 
 const Comment = (props: Props) => {
   const [dataComment, setDatacomment] = useState([]);
-  const params = useParams();
+  const { id } = useParams();
   // console.log(dataComment);
   const [checkId, setCheckid] = useState("");
   const user = useSelector((state: any) => state?.auth.currentUser);
@@ -48,8 +48,6 @@ const Comment = (props: Props) => {
     dispatch(getOrders());
   }, [dispatch]);
 
-  console.log(params.id);
-
   useEffect(() => {
     // dispatch(isBuy("63811daf55696ccfd45ac8f6"));
     for (let i = 0; i < order.orders.length; i++) {
@@ -61,7 +59,7 @@ const Comment = (props: Props) => {
         for (let a = 0; a < order?.orders[i].product.length; a++) {
           // console.log(order?.orders[i].product[a]._id);
 
-          if (order?.orders[i].product[a]._id == params.id) {
+          if (order?.orders[i].product[a]._id == id) {
             console.log("a", order?.orders[i]);
             console.log(order?.orders[i]._id);
 

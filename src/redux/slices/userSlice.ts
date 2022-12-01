@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { signup } from "../../api-cilent/Auth";
-import { get, getAll, update } from "../../api-cilent/User";
+import { filter, get, getAll, update } from "../../api-cilent/User";
 
 import { User } from "../../models/User";
 import { useAppDispatch } from "../store";
@@ -32,6 +32,13 @@ export const getUsers = createAsyncThunk(
   async (data: any) => {
     const response = await getAll(data.page, data.limit);
     return response.data;
+  }
+);
+export const filter_user = createAsyncThunk(
+  "products/filter_product",
+  async (user: any) => {
+    const res = await filter(user);
+    return res;
   }
 );
 
@@ -73,6 +80,11 @@ const UsersSlice = createSlice({
 
     builder.addCase(getUser.fulfilled, (state, { payload }) => {
       state.User = payload as User;
+    });
+    builder.addCase(filter_user.fulfilled, (state, { payload }) => {
+      console.log(payload);
+
+      state.Users = payload.data as any;
     });
 
     builder.addCase(updateUser.fulfilled, (state, { payload }) => {
