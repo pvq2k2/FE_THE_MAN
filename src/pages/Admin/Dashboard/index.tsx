@@ -128,7 +128,7 @@ const Dashboard = () => {
             <option value="FR">France</option>
             <option value="DE">Germany</option> */}
           </select>
-          <table>
+          <table className="mb-10">
             <thead>
               <tr>
                 <td>STT</td>

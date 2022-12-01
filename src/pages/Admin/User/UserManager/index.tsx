@@ -12,9 +12,19 @@ import Swal from "sweetalert2";
 import styles from "./ProductManager.module.css";
 import { getAll } from "../../../../api-cilent/Post";
 import { Pagination } from "antd";
-import { getUser, getUsers, setPage } from "../../../../redux/slices/userSlice";
+import {
+  filter_user,
+  getUser,
+  getUsers,
+  setPage,
+} from "../../../../redux/slices/userSlice";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type Props = {};
+type Inputs = {
+  fullname: String;
+  email: String;
+};
 
 const UserManager = (props: Props) => {
   const user = useSelector((state: RootState) => state?.user);
@@ -36,18 +46,59 @@ const UserManager = (props: Props) => {
       })
     );
   }, [dispatch, pages]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+    dispatch(
+      filter_user({
+        fullname: values?.fullname || "",
+        email: values?.email || "",
+      })
+    );
+  };
 
   return (
     <div className={styles.content}>
       <header>
-        <div className={styles.title}>Quản lí bài viết</div>
-        <Link to="/admin/users/add" className="sm:ml-3">
+        {/* <div className={styles.title}>Danh sách sản phẩm</div> */}
+        <form
+          action=""
+          className="inline-flex"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="pr-4">
+            <input
+              className="pl-4 border-2 border-gray-300 border-solid min-w-[250px] py-[6px] rounded-md outline-0"
+              placeholder="Tên người dùng"
+              type="text"
+              {...register("fullname")}
+              id=""
+            />
+          </div>{" "}
+          <div className="pr-4">
+            <input
+              className="pl-4 border-2 border-gray-300 border-solid min-w-[250px] py-[6px] rounded-md outline-0"
+              placeholder="Tên người dùng"
+              type="text"
+              {...register("email")}
+              id=""
+            />
+          </div>
+          <button className=" inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E] outline-0">
+            Tìm kiếm
+          </button>
+        </form>
+        <Link to="add" className="sm:ml-3">
           <button
             type="button"
-            className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-3 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]"
           >
             <TiPlus className="text-[20px] mr-2" />
-            Thêm bài viết
+            Thêm người dùng
           </button>
         </Link>
       </header>

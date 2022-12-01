@@ -25,3 +25,6 @@ export const udpateComment = (Comment: any): Promise<any> => {
 export const addComment = (Comment: any): Promise<any> => {
   return instance.post(`/comment`, Comment);
 };
+export const filter = (user: any): Promise<any> => {
+  return instance.post("/user/filter", user);
+};
