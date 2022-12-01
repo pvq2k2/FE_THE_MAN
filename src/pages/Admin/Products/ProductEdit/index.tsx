@@ -149,6 +149,7 @@ const ProductEdit = () => {
 
   useEffect(() => {
     (async () => {
+      await dispatch(getCatePro())
       const cateproduct = await dispatch(getProduct(id));
       reset(cateproduct.payload);
     })();

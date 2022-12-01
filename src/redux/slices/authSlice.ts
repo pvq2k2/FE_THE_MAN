@@ -18,7 +18,11 @@ const authSlice = createSlice({
     signin(state, { payload }) {
       state.isLogged = true;
       state.currentUser = payload.data;
-      localStorage.setItem("user", JSON.stringify(state.currentUser));
+      console.log("ac", payload.data);
+      
+      if(payload?.data) {
+        localStorage.setItem("user", JSON.stringify(state.currentUser));
+      }
     },
 
     signout(state) {

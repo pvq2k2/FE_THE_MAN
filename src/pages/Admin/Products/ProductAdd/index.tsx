@@ -44,7 +44,9 @@ const ProductAdd = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getCatePro())
+    (async () => {
+      await dispatch(getCatePro())
+    })
   }, [])
   const methods = useForm<Inputs>({
     defaultValues: {
