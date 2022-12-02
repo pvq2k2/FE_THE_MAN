@@ -94,7 +94,6 @@ const ProductManager = (props: Props) => {
       })
     );
   };
-  console.log(product?.products.products);
 
   return (
     <div className={styles.content}>

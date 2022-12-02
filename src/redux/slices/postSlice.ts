@@ -1,12 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { add, get, getAll, getAllPost, remove, update } from "../../api-cilent/Post";
+import {
+  add,
+  filter,
+  get,
+  getAll,
+  getAllPost,
+  remove,
+  update,
+} from "../../api-cilent/Post";
 
 import { Posts } from "../../models/post";
 import { useAppDispatch } from "../store";
 
 type PostsState = {
-  posta: [],
+  posta: [];
   posts: {
     count: number;
     Post: Posts[];
@@ -56,6 +64,13 @@ export const getPost = createAsyncThunk("posts/getPost", async (id: any) => {
   const res = await get(id);
   return res.data;
 });
+export const filter_post = createAsyncThunk(
+  "posts/filter_post",
+  async (post: any) => {
+    const res = await filter(post);
+    return res;
+  }
+);
 
 export const updatePosts = createAsyncThunk(
   "posts/updatePost",
@@ -76,13 +91,18 @@ const postsSlice = createSlice({
     builder.addCase(getPosts.fulfilled, (state, { payload }) => {
       state.posts = payload as any;
     });
-   
+
     builder.addCase(deletePosts.fulfilled, (state, { payload }) => {
       state.posts.Post = state.posts.Post.filter(
         (item) => item._id !== payload
       );
     });
-   
+
+    builder.addCase(filter_post.fulfilled, (state, { payload }) => {
+      console.log(payload);
+
+      state.posts = payload.data as any;
+    });
 
     builder.addCase(getPost.fulfilled, (state, { payload }) => {
       state.post = payload as Posts;

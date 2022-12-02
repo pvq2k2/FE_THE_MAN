@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deletePosts,
+  filter_post,
   getPosts,
   setPage,
 } from "../../../../redux/slices/postSlice";
@@ -16,11 +17,16 @@ import Swal from "sweetalert2";
 import styles from "../../Products/ProductManager/ProductManager.module.css";
 import { getAll } from "../../../../api-cilent/Post";
 import { Pagination } from "antd";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type Props = {};
-
+type Inputs = {
+  title: String;
+};
 const PostManager = (props: Props) => {
   const post = useSelector((state: RootState) => state?.post);
+  console.log(post);
+
   const pages = useSelector((state: RootState) => state?.post.page);
 
   const dispatch = useAppDispatch();
@@ -32,6 +38,12 @@ const PostManager = (props: Props) => {
       })
     );
   }, [dispatch, pages]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Inputs>();
 
   const handremove = (id: any) => {
     Swal.fire({
@@ -56,21 +68,37 @@ const PostManager = (props: Props) => {
     });
   };
 
+  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+    dispatch(
+      filter_post({
+        title: values?.title || "",
+      })
+    );
+  };
+  console.log(post?.posts);
+
   return (
     <div className={styles.content}>
       <header>
         {/* <div className={styles.title}>Quản lí bài viết</div> */}
-        <form action="" className="inline-flex">
+        <form
+          action=""
+          className="inline-flex"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
+            <input
+              className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"
+              placeholder="Nhập tiêu đề"
+              type="text"
+              {...register("title")}
+              id=""
+            />
           </div>
-          <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
-          </div>
-          <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
-          </div>
-        <button className="inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]">Tìm kiếm</button>
+
+          <button className="inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]">
+            Tìm kiếm
+          </button>
         </form>
         <Link to="/admin/post/add" className="sm:ml-3">
           <button
@@ -97,7 +125,7 @@ const PostManager = (props: Props) => {
             </tr>
           </thead>
           <tbody>
-            {post?.posts.Post?.map((e: any, index: any) => {
+            {post?.posts?.Post?.map((e: any, index: any) => {
               return (
                 <tr key={index}>
                   <td>{(pages - 1) * 10 + ++index}</td>
