@@ -18,3 +18,6 @@ export const get = (id: string): Promise<Posts> => {
 export const update = (post: Posts): Promise<Posts> => {
   return instance.put(`/post/${post._id}`, post);
 };
+export const filter = (user: any): Promise<any> => {
+  return instance.post("/post/filter", user);
+};

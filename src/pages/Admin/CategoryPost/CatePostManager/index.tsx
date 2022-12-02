@@ -4,56 +4,46 @@ import { TiPlus } from "react-icons/ti";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { deleteCatePost, getAllCatePosts } from "../../../../redux/slices/catePostSlice";
+import {
+  deleteCatePost,
+  getAllCatePosts,
+} from "../../../../redux/slices/catePostSlice";
 import styles from "./CatePostManager.module.css";
 
 type Props = {};
 
 const CategoryPostManager = () => {
   const cateposts = useSelector((state: any) => state.catepost);
-  
+
   // console.log(cateposts);
   const dispatch = useDispatch<any>();
-useEffect(()=>{
-  dispatch(getAllCatePosts());
-},[dispatch])
+  useEffect(() => {
+    dispatch(getAllCatePosts());
+  }, [dispatch]);
 
-const handremove = (id: any) => {
-  Swal.fire({
-    title: "Bạn có chắc chắn muốn xóa không?",
-    text: "Không thể hoàn tác sau khi xóa",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      await dispatch(deleteCatePost(id));
-      Swal.fire("Thành công!", "Xóa thành công.", "success");
-      dispatch(
-        getAllCatePosts()
-      );
-    }
-  });
-};
-  
+  const handremove = (id: any) => {
+    Swal.fire({
+      title: "Bạn có chắc chắn muốn xóa không?",
+      text: "Không thể hoàn tác sau khi xóa",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await dispatch(deleteCatePost(id));
+        Swal.fire("Thành công!", "Xóa thành công.", "success");
+        dispatch(getAllCatePosts());
+      }
+    });
+  };
+
   return (
     <div className={styles.content}>
       <header>
-        {/* <div className={styles.title}>Danh mục bài viết</div> */}
-        <form action="" className="inline-flex">
-          <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
-          </div>
-          <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
-          </div>
-          <div className="pr-4">
-              <input className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"  placeholder="Tìm kiếm" type="text" name="" id="" />
-          </div>
-        <button className="inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]">Tìm kiếm</button>
-        </form>
+        <div className={styles.title}>Danh mục bài viết</div>
+
         <Link to="add" className="sm:ml-3">
           <button
             type="button"
@@ -76,19 +66,22 @@ const handremove = (id: any) => {
           <tbody>
             {cateposts?.cateposts?.map((item: any, index: any) => {
               return (
-                <tr key={item._id} >
-                  <td>{index+1}</td>
+                <tr key={item._id}>
+                  <td>{index + 1}</td>
                   <td>{item.name}</td>
                   <td className={styles.action}>
                     <Link to={`/admin/category_post/${item._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />
                     </Link>
 
-                    <AiOutlineDelete onClick={()=>handremove(item._id)} className={styles.delete} />
+                    <AiOutlineDelete
+                      onClick={() => handremove(item._id)}
+                      className={styles.delete}
+                    />
                   </td>
                 </tr>
-               );
-            })} 
+              );
+            })}
           </tbody>
         </table>
       </main>

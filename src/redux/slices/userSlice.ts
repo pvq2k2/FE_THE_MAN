@@ -35,7 +35,7 @@ export const getUsers = createAsyncThunk(
   }
 );
 export const filter_user = createAsyncThunk(
-  "products/filter_product",
+  "Users/filter_user",
   async (user: any) => {
     const res = await filter(user);
     return res;
