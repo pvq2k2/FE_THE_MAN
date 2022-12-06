@@ -11,6 +11,7 @@ import provinceReducer from "./slices/provinceSlice";
 import cartReducer from "./slices/cartSlice";
 import orderReducer from "./slices/orderSlice";
 import contactReducer from "./slices/contactSlice";
+import voucherReducer from "./slices/voucherSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   province: provinceReducer,
   orders: orderReducer,
   contact: contactReducer,
+  voucher: voucherReducer
 });
 
 export default rootReducer;

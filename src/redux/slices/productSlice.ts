@@ -14,6 +14,7 @@ import { useAppDispatch } from "../store";
 
 type ProductsState = {
   products: {
+    [x: string]: any;
     count: number;
     Product: Product[];
   };

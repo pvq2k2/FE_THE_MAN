@@ -9,6 +9,7 @@ import {
 } from "../../redux/slices/cartSlice";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
 
 interface CartItemProps {
   item: any;
@@ -18,56 +19,54 @@ interface CartItemProps {
 export default function CartItem(props: CartItemProps) {
   const { item, id } = props;
   const dispatch = useDispatch<any>();
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [isDisabled, setDisabled] = useState(false);
 
-//   console.log({ "item.quantitychange": item.quantity });
-//const [isDisabled, setDisabled] = useState(false);
   useEffect(() => {
-    // setTimeout(() => {
-
-    // }, 1000)
     if (item.quantity != inputValue) {
       setInputValue(item.quantity);
     }
   }, [item.quantity]);
-
-  const IncrementC = (data: any) => {
-    //setDisabled(true)
+  const IncrementC = async (data: any) => {
+    setDisabled(() => true);
     const product = {
       ...data,
       userID: id,
     };
-    dispatch(Increment(product));
-    //setDisabled(false)
-  };
-  const RemoveCartClient = (data:any) => {
-    const product = {
-      ...data,
-      userID: id,
-    };
-    dispatch(RemoveCart(product));
-    //setDisabled(false)
-  }
-  const DecrementC = (data: any) => {
-  //  setDisabled(true)
-    const product = {
-      ...data,
-      userID: id,
-    };
-    dispatch(Decrement(product));
-    //setDisabled(false)
+    await dispatch(Increment(product));
+    setDisabled(false);
   };
 
-  const onBlurQuantity = (data: any, e: any) => {
-   // setDisabled(true)
+  const RemoveCartClient = async (data: any) => {
+    setDisabled(true);
+    const product = {
+      ...data,
+      userID: id,
+    };
+    await dispatch(RemoveCart(product));
+    setDisabled(false);
+  };
+
+  const DecrementC = async (data: any) => {
+    setDisabled(true);
+    const product = {
+      ...data,
+      userID: id,
+    };
+    await dispatch(Decrement(product));
+    setDisabled(false);
+  };
+
+  const onBlurQuantity = async (data: any, e: any) => {
+    setDisabled(true);
     setInputValue(e.target.value);
     const product = {
       ...data,
       userID: id,
       quantitychange: e.target.value,
     };
-    dispatch(changeQuantity(product));
-  //  setDisabled(false)
+    await dispatch(changeQuantity(product));
+    setDisabled(false);
   };
 
   return (
@@ -99,26 +98,38 @@ export default function CartItem(props: CartItemProps) {
         </div>
       </td>
       <td className="mr-[300px]">
-       <div className="inline-block h-[32px]">
-         <button
-          onClick={() => DecrementC(item)}
-          className="bg-white-300 border-[rgba(0,0,0,.09)] border-2 h-[32px] w-[30px] text-black"
-        >{`-`}</button>
+        <div className="inline-block h-[32px]">
+          <button disabled={isDisabled}
+            onClick={() => DecrementC(item)}
+            className={clsx(
+              "bg-white-300 border-[rgba(0,0,0,.09)] border-2 h-[32px] w-[30px] text-black",
+              { "text-[#ccc]": isDisabled }
+            )}
+          >{`-`}</button>
 
-        <input
-          onBlur={(e) => onBlurQuantity(item, e)}
-          type="number"
-          defaultValue={item.quantity}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        //   onChange={(e) => onChangeQuantity(item, e)}
-          className="w-[50px] h-[32px] border-[rgba(0,0,0,.09)]  border-2 text-center"
-        />
+          <input
+            disabled={isDisabled}
+            onBlur={(e) => onBlurQuantity(item, e)}
+            type="number"
+            defaultValue={item.quantity}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            //   onChange={(e) => onChangeQuantity(item, e)}
+            className={clsx(
+              "w-[50px] h-[32px] border-[rgba(0,0,0,.09)]  border-2 text-center",
+              { "text-[#ccc]": isDisabled }
+            )}
+          />
 
-        <button
-          onClick={() => IncrementC(item)}
-          className="bg-white-300 border-[rgba(0,0,0,.09)] border-2 h-[32px] w-[30px] text-black"
-        >{`+`}</button></div>
+          <button
+            disabled={isDisabled}
+            onClick={() => IncrementC(item)}
+            className={clsx(
+              "bg-white-300 border-[rgba(0,0,0,.09)] border-2 h-[32px] w-[30px] text-black",
+              { "text-[#ccc]": isDisabled }
+            )}
+          >{`+`}</button>
+        </div>
       </td>
       <td className="font-bold">
         {" "}
@@ -136,7 +147,11 @@ export default function CartItem(props: CartItemProps) {
         </button>
       </td>
       <td className="text-slate-400 text-base">
-        <FontAwesomeIcon className="cursor-pointer" icon={faTrash} onClick={() => RemoveCartClient(item)}/>
+        <FontAwesomeIcon
+          className="cursor-pointer"
+          icon={faTrash}
+          onClick={() => RemoveCartClient(item)}
+        />
       </td>
     </tr>
   );

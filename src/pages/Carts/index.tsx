@@ -3,34 +3,37 @@ import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  changeQuantity,
-  Decrement,
-  Increment,
   readCart,
 } from "../../redux/slices/cartSlice";
-import NumericInput from "react-numeric-input";
 import { readUserLocal } from "../../redux/slices/userSlice";
 import "../Carts/cart.css";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CartItem from "./CartItem";
 
+
 type Props = {};
-
+export type Iform = {
+  code? : String,
+  iduser?: String,
+  update?: boolean,
+}
 const CartPage = (props: Props) => {
+
+  
   const dispatch = useDispatch<any>();
+
   const carts = useSelector((state: any) => state.carts);
-  const inputRef = useRef<HTMLInputElement>(null);
-
+  const vouchers = useSelector((state: any) => state.voucher)
   const navigate = useNavigate();
+  
   let sum = 0;
-  const [Id, setId] = useState<any>();
 
-  useEffect(() => {
-    (async () => {
+  const [Id, setId] = useState<any>();
+ 
+  useEffect(() => {  
+    (async () => {   
       const user = await dispatch(readUserLocal());
       setId(user?.payload?.users?.id);
-      await dispatch(readCart(user?.payload?.users?.id)).unwrap();
+     await dispatch(readCart(user?.payload?.users?.id)).unwrap();
     })();
   }, []);
 
@@ -56,12 +59,15 @@ const CartPage = (props: Props) => {
               </tr>
             </thead>
             <tbody className="w-full ">
-              {carts?.carts?.products?.map((item: any, index: number) => {
+              {carts?.carts?.products ? carts?.carts?.products?.map((item: any, index: number) => {
                 {
                   sum += item.quantity * item.price;
+                  
                 }
+               
                 return <CartItem key={index} item={item} id={Id} />;
-              })}
+              }
+              ) : <h1 className="font-bold text-[30px]"> Không có sản phẩm </h1>}
             </tbody>
           </table>
           <div className="border-t-2 flex justify-between">
@@ -71,17 +77,7 @@ const CartPage = (props: Props) => {
           </div>
         </section>
         <section className="basis-2/6 w-full">
-          <p className="font-semibold">Mã giảm giá</p>
-          <div className=" w-full">
-            <input
-              className="border w-8/12 py-3 px-2  mt-10"
-              type="text"
-              placeholder="Mã giảm giá"
-            />
-            <button className="border w-3/12 py-3 px-2 mt-10 bg-black text-white rounded-md">
-              Áp dụng
-            </button>
-          </div>
+          
           <section className="bg-zinc-100 mt-12">
             <div className="p-10">
               {" "}
@@ -101,8 +97,7 @@ const CartPage = (props: Props) => {
               </div>
               <div className="pt-5 flex ">
                 {" "}
-                <span className="grow">Subtotal</span>
-                <span className="text-center">$ 169.50</span>
+                
               </div>
               <button
                 onClick={() => navigate("/checkout")}
