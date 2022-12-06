@@ -5,3 +5,13 @@
 main {
   min-height: 0px !important;
 }
+.react-datepicker__input-container {
+  border: 1px solid black;
+}
+.react-datepicker-wrapper {
+  /* width: 100% !important; */
+  display: inline-block !important;
+}
+form button {
+  margin-left: 10px;
+}

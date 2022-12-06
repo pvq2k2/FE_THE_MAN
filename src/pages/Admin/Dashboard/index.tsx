@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie, Bar } from "react-chartjs-2";
 import Swal from "sweetalert2";
@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { Link } from "react-router-dom";
 import { TiPlus } from "react-icons/ti";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Pagination } from "antd";
 import { setPage, thongkes } from "../../../redux/slices/productSlice";
 import { formatCurrency, formatCurrencys } from "../../../ultis";
@@ -23,15 +25,14 @@ type Inputs = {
 
 const Dashboard = () => {
   const { product } = useSelector((state: RootState) => state?.product);
-
-  console.log(product);
-
   const pages = useSelector((state: RootState) => state?.product.page);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
       thongkes({
-        gt: "2022-11-2",
+        gt: "2022-12-10",
         lt: "2022-12-30",
       })
     );
@@ -73,18 +74,23 @@ const Dashboard = () => {
             className="inline-flex"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="pr-4">
-              <input
-                className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"
-                placeholder="YYYY/MM/DD"
-                type="date"
-                {...register("date")}
-                id=""
-              />
-            </div>
-
-            <button className="outline-0 inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]">
-              Thống kê
+            <DatePicker
+              selected={startDate}
+              // onChange={(date) => setStartDate(date)}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+            />
+            <DatePicker
+              selected={endDate}
+              // onChange={(date) => setEndDate(date)}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+            />
+            <button className="w-100 inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E] outline-0">
+              Tìm kiếm
             </button>
           </form>
         </header>
@@ -208,10 +214,12 @@ const Dashboard = () => {
             </thead>
             <tbody>
               {product?.list?.map((e: any, index: any) => {
+                console.log(e);
+
                 return (
                   <tr key="index">
                     <td>{(pages - 1) * 10 + ++index}</td>
-                    <td className="text-center">{e?.product?.name}</td>
+                    <td className="">{e?.product?.name}</td>
                     <td className="text-center">
                       {formatCurrencys(
                         e?.product?.listed_price ? e?.product?.listed_price : 0
@@ -220,30 +228,32 @@ const Dashboard = () => {
                     </td>
 
                     <td className="text-center">
-                      {formatCurrencys(
-                        e?.product?.price ? e?.product?.price : 0
-                      )}{" "}
+                      {formatCurrencys(e?.tiendaban ? e?.tiendaban : 0)}{" "}
                       <sup className="">đ</sup>
                     </td>
                     <td className="text-center">
                       {e?.product?.quantity ? e?.product?.quantity : 0}
                     </td>
                     <td className="text-center">{e?.sold ? e?.sold : 0}</td>
-                    <td className="text-center">{e?.stock ? e?.stock : 0}</td>
+                    <td className="text-center">
+                      {e?.product?.stock ? e?.product?.stock : 0}
+                    </td>
+                    <td className="text-center">
+                      {formatCurrencys(e?.productmonney ? e?.productmonney : 0)}{" "}
+                      <sup className="">đ</sup>
+                    </td>
                     <td className="text-center">
                       {formatCurrencys(
-                        e?.total_import_price ? e?.total_import_price : 0
+                        e?.product?.total_import_price
+                          ? e?.product?.total_import_price
+                          : 0
                       )}{" "}
                       <sup className="">đ</sup>
                     </td>
                     <td className="text-center">
                       {formatCurrencys(
-                        e?.total_export_price ? e?.total_export_price : 0
+                        e?.product?.turnover ? e?.product?.turnover : 0
                       )}{" "}
-                      <sup className="">đ</sup>
-                    </td>
-                    <td className="text-center">
-                      {formatCurrencys(e?.turnover ? e?.turnover : 0)}{" "}
                       <sup className="">đ</sup>
                     </td>
                   </tr>
