@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { getProducts } from "../../redux/slices/productSlice";
 import { getCatePro } from "../../redux/slices/cateProductSlice";
+import NumberFormat from "react-number-format";
 type Props = {};
 
 const Products = (props: Props) => {
@@ -134,7 +135,7 @@ const Products = (props: Props) => {
 
         <div className="boxProducts">
           <div className={styles.rowProduct}>
-            {product?.products.products?.map((item: any, index: any) => {
+            {product?.products?.products?.map((item: any, index: any) => {
               return (
                 <div key={index + 1} className={styles.itemProduct}>
                   <Link to={`/detail/${item._id}`}>
@@ -158,7 +159,13 @@ const Products = (props: Props) => {
                       </div>
                     </div>
                     <h3>{item.name}</h3>
-                    <span>{item.price} VNĐ</span>
+                    <span> <NumberFormat
+                    value={item?.price}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={""}
+                  />{" "}
+                   VNĐ</span>
                   </Link>
                 </div>
               );

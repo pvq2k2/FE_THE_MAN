@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
+import NumberFormat from 'react-number-format';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -60,7 +61,13 @@ const NewProduct = (props: Props) => {
                       <h3>{item.name}</h3>
                     </Link>
 
-                    <span>{item.price} VNĐ</span>
+                    <span> <NumberFormat
+                    value={item?.price}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={""}
+                  />{" "}
+                   VNĐ</span>
                   </div>
                 </div>
 

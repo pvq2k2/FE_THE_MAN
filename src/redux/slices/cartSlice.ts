@@ -109,6 +109,13 @@ export const Decrement = createAsyncThunk(
 
 
 
+export const updateCartRd = createAsyncThunk("carts/updatecart", async (data:any) => {
+      const res = await updateCart(data)
+      console.log("res",res);
+      return res.data
+      
+})
+
 export const RemoveCart = createAsyncThunk(
   "carts/removecart",
   async (product: any) => {
@@ -264,7 +271,12 @@ const cartSlice = createSlice({
           if(payload?.code == 200) { 
             state.carts = {}
           }
-      })
+      }),
+      build.addCase(updateCartRd.fulfilled, (state, { payload }) => {
+        console.log("payload,", payload);
+        
+        state.carts = payload
+    })
   },
 });
 export default cartSlice.reducer;
