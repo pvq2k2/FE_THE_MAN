@@ -11,11 +11,13 @@ import provinceReducer from "./slices/provinceSlice";
 import cartReducer from "./slices/cartSlice";
 import orderReducer from "./slices/orderSlice";
 import contactReducer from "./slices/contactSlice";
+import statisticalReducer from "./slices/statisticalSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   post: postReducer,
   catePro: cateproReducer,
+  statistical: statisticalReducer,
   user: userReducer,
   catepost: cateReducer,
   product: productReducer,

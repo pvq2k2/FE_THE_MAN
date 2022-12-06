@@ -42,7 +42,9 @@ export const getProducts = createAsyncThunk(
 export const thongkes = createAsyncThunk(
   "products/thongke",
   async (data: any) => {
-    const response = await thongke(data.page, data.limit);
+    const response = await thongke(data);
+    console.log(response);
+
     return response.data;
   }
 );
@@ -103,7 +105,7 @@ const productsSlice = createSlice({
       state.products = payload as any;
     });
     builder.addCase(thongkes.fulfilled, (state, { payload }) => {
-      state.products = payload as any;
+      state.product = payload as any;
     });
     builder.addCase(filter_product.fulfilled, (state, { payload }) => {
       console.log(payload);

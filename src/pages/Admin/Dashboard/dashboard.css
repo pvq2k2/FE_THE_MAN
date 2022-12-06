@@ -1,1 +1,7 @@
-.center{margin: auto; margin-right: 200px;}
+.center {
+  margin: auto;
+  margin-right: 200px;
+}
+main {
+  min-height: 0px !important;
+}

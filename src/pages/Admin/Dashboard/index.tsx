@@ -10,87 +10,20 @@ import { TiPlus } from "react-icons/ti";
 import { Pagination } from "antd";
 import { setPage, thongkes } from "../../../redux/slices/productSlice";
 import { formatCurrency, formatCurrencys } from "../../../ultis";
-// import faker from 'faker';
+import { SubmitHandler, useForm } from "react-hook-form";
+import "./dashboard.css";
+import { statistical_total } from "../../../redux/slices/statisticalSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaEllipsisV } from "react-icons/fa";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-// ChartJS.register(ArcElement, Tooltip, Legend);
-
-// const data = {
-//   labels: [
-//     "tong so san pham nhap vao",
-//     "Blue",
-//     "Yellow",
-//     "Green",
-//     "Purple",
-//     "Orange",
-//   ],
-//   datasets: [
-//     {
-//       label: "# of Votes",
-//       data: [12, 19, 3, 5, 2, 3],
-//       backgroundColor: [
-//         "rgba(255, 99, 132, 0.2)",
-//         "rgba(54, 162, 235, 0.2)",
-//         "rgba(255, 206, 86, 0.2)",
-//         "rgba(75, 192, 192, 0.2)",
-//         "rgba(153, 102, 255, 0.2)",
-//         "rgba(255, 159, 64, 0.2)",
-//       ],
-//       borderColor: [
-//         "rgba(255, 99, 132, 1)",
-//         "rgba(54, 162, 235, 1)",
-//         "rgba(255, 206, 86, 1)",
-//         "rgba(75, 192, 192, 1)",
-//         "rgba(153, 102, 255, 1)",
-//         "rgba(255, 159, 64, 1)",
-//       ],
-//       borderWidth: 1,
-//     },
-//   ],
-// };
-
-// đường
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend
-// );
-
-// export const options = {
-//   responsive: true,
-//   plugins: {
-//     legend: {
-//       position: 'top' as const,
-//     },
-//     title: {
-//       display: true,
-//       text: 'Chart.js Bar Chart',
-//     },
-//   },
-// };
-
-// const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-// export const data2 = {
-//   labels,
-//   datasets: [
-//     {
-//       label: 'Dataset 1',
-//       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-//       backgroundColor: 'rgba(255, 99, 132, 0.5)',
-//     },
-//     {
-//       label: 'Dataset 2',
-//       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-//       backgroundColor: 'rgba(53, 162, 235, 0.5)',
-//     },
-//   ],
-// };
+type Inputs = {
+  date: String;
+};
 
 const Dashboard = () => {
-  const product = useSelector((state: RootState) => state?.product);
+  const { product } = useSelector((state: RootState) => state?.product);
+
   console.log(product);
 
   const pages = useSelector((state: RootState) => state?.product.page);
@@ -98,11 +31,18 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(
       thongkes({
-        page: pages,
-        limit: 10,
+        gt: "2022-11-2",
+        lt: "2022-12-30",
       })
     );
   }, [dispatch, pages]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Inputs>();
 
   // const showDetailProduct = async (id: any) => {
   //   const detailProduct = await dispatch(getProduct(id));
@@ -110,24 +50,147 @@ const Dashboard = () => {
   //     {detailProduct.payload}
   //   </div>)
   // }
+  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+    console.log(values);
 
+    // dispatch(
+    //   filter_product({
+    //     name: values?.name || "",
+    //     prices: {
+    //       gt: values?.start_price || 0,
+    //       lt: values?.end_price || 100000000000,
+    //     },
+    //   })
+    // );
+  };
   return (
     <div>
       <div className={styles.content}>
         <header>
-          <div className={styles.title}>Thống kê sản phẩm</div>
-        </header>
-        <main className="flex flex-col justify-between ">
-          <select
-            id="countries"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          {/* <div className={styles.title}>Quản lí bài viết</div> */}
+          <form
+            action=""
+            className="inline-flex"
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <option selected>DEMO</option>
-            {/* <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option> */}
-          </select>
+            <div className="pr-4">
+              <input
+                className="pl-4 border-2 border-gray-400 border-solid min-w-[250px] py-[6px] rounded-xl"
+                placeholder="YYYY/MM/DD"
+                type="date"
+                {...register("date")}
+                id=""
+              />
+            </div>
+
+            <button className="outline-0 inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]">
+              Thống kê
+            </button>
+          </form>
+        </header>
+        <div>
+          <main className="flex flex-col justify-between ">
+            <table>
+              <div className=" overflow-hidden">
+                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                  <div className="flex bg-white">
+                    <div className="bg-red-500 flex items-center px-3 text-white rounded-l-md">
+                      BV
+                    </div>
+                    <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
+                      <div>
+                        <span className="block font-semibold">
+                          Tổng sản phẩm nhập
+                        </span>
+                        <span className="block text-gray-500">
+                          {formatCurrencys(product?.total?.quantity)} Chiếc
+                        </span>
+                      </div>
+                      <div className="text-gray-500">
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex bg-white">
+                    <div className="bg-red-500 flex items-center px-3 text-white rounded-l-md">
+                      BV
+                    </div>
+                    <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
+                      <div>
+                        <span className="block font-semibold">
+                          Tổng sản phẩm bán ra
+                        </span>
+                        <span className="block text-gray-500">
+                          {formatCurrencys(product?.total?.sold)} Chiếc
+                        </span>
+                      </div>
+                      <div className="text-gray-500">
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex bg-white">
+                    <div className="bg-indigo-500 flex items-center px-3 text-white rounded-l-md">
+                      TK
+                    </div>
+                    <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
+                      <div>
+                        <span className="block font-semibold">
+                          Tổng tiền nhập vào
+                        </span>
+                        <span className="block text-gray-500">
+                          {formatCurrencys(product?.total?.total_import_price)}{" "}
+                          VND
+                        </span>
+                      </div>
+                      <div className="text-gray-500">
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex bg-white">
+                    <div className="bg-yellow-500 flex items-center px-3 text-white rounded-l-md">
+                      SP
+                    </div>
+                    <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
+                      <div>
+                        <span className="block font-semibold">
+                          Tổng tiền bán ra
+                        </span>
+                        {formatCurrencys(product?.total?.total_export_price)}{" "}
+                        VND
+                      </div>
+                      {/* <div className="text-gray-500">
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                      </div> */}
+                    </div>
+                  </div>
+                  <div className="flex bg-white">
+                    <div className="bg-green-500 flex items-center px-3 text-white rounded-l-md">
+                      DT
+                    </div>
+                    <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
+                      <div>
+                        <span className="block font-semibold">
+                          Tổng doang thu
+                        </span>
+                        <span className="block text-gray-500">
+                          {" "}
+                          {formatCurrencys(product?.total?.doanhthu)} VND
+                        </span>
+                      </div>
+                      <div className="text-gray-500">
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </table>
+          </main>
+        </div>
+        <div className="pt-10 font-semibold text-lg">Sản phẩm bán chạy</div>
+        <main className="flex flex-col justify-between ">
           <table className="mb-10">
             <thead>
               <tr>
@@ -144,23 +207,26 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {product?.products?.list?.map((e: any, index: any) => {
+              {product?.list?.map((e: any, index: any) => {
                 return (
                   <tr key="index">
                     <td>{(pages - 1) * 10 + ++index}</td>
-                    <td>{e?.name}</td>
-
+                    <td className="text-center">{e?.product?.name}</td>
                     <td className="text-center">
-                      {formatCurrencys(e?.listed_price ? e?.listed_price : 0)}{" "}
+                      {formatCurrencys(
+                        e?.product?.listed_price ? e?.product?.listed_price : 0
+                      )}{" "}
                       <sup className="">đ</sup>
                     </td>
 
                     <td className="text-center">
-                      {formatCurrencys(e?.price ? e?.price : 0)}{" "}
+                      {formatCurrencys(
+                        e?.product?.price ? e?.product?.price : 0
+                      )}{" "}
                       <sup className="">đ</sup>
                     </td>
                     <td className="text-center">
-                      {e?.quantity ? e?.quantity : 0}
+                      {e?.product?.quantity ? e?.product?.quantity : 0}
                     </td>
                     <td className="text-center">{e?.sold ? e?.sold : 0}</td>
                     <td className="text-center">{e?.stock ? e?.stock : 0}</td>
@@ -185,64 +251,9 @@ const Dashboard = () => {
               })}
             </tbody>
           </table>
-          <Pagination
-            defaultCurrent={1}
-            // total={post?.Sliders.count}
-            pageSize={10}
-            onChange={(pages) => {
-              dispatch(setPage(pages));
-            }}
-          />
         </main>
-      </div>
-      <div className="pb-20">
-        <div className={styles.contents}>
-          <main className="flex flex-col justify-between ">
-            <table>
-              <thead>
-                <tr>
-                  <td className="text-center">Tổng số sản phẩm nhập vào</td>
-                  <td className="text-center">Tổng số sản phẩm bán ra</td>
-                  <td className="text-center">Tổng số tiền nhập vào</td>
-                  <td className="text-center">Tổng số tiền bán ra</td>
-                  <td className="text-center">Tổng số doang thu</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr key="index">
-                  <td className="text-center">
-                    {product?.products?.total?.quantity}
-                  </td>
-                  <td className="text-center">
-                    {product?.products?.total?.sold}
-                  </td>
-
-                  <td className="text-center">
-                    {formatCurrencys(
-                      product?.products?.total?.total_export_price
-                    )}{" "}
-                    <sup className="">đ</sup>
-                  </td>
-
-                  <td className="text-center">
-                    {formatCurrencys(
-                      product?.products?.total?.total_export_price
-                    )}{" "}
-                    <sup className="">đ</sup>
-                  </td>
-
-                  <td className="text-center">
-                    {formatCurrencys(product?.products?.total?.doanhthu)}{" "}
-                    <sup className="">đ</sup>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </main>
-        </div>
       </div>
     </div>
   );
 };
-
 export default Dashboard;

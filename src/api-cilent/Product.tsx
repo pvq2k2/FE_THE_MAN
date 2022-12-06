@@ -21,6 +21,6 @@ export const get = (id: string): Promise<Product> => {
 export const update = (product: Product): Promise<Product> => {
   return instance.put(`/product/${product._id}`, product);
 };
-export const thongke = (page: any, limit: any): Promise<Product[]> => {
-  return instance.post("/thongke", { page, limit });
+export const thongke = (data: any): Promise<Product[]> => {
+  return instance.post("/thongke", data);
 };
