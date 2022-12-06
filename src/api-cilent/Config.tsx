@@ -7,16 +7,15 @@ const instance = axios.create({
   },
 });
 
-const { token } = JSON.parse(localStorage.getItem("user") ?? "{}");
-
-
-
-
 instance.interceptors.response.use(
   function (response) {
     return response;
   },
   function (error) {
+    if (error?.response?.status === 401) {
+      localStorage.clear();
+      window.location.href = "/signin";
+    }
     return Promise.reject(error);
   }
 );
@@ -24,6 +23,8 @@ instance.interceptors.response.use(
 // Add a request interceptor
 instance.interceptors.request.use(
   function (config) {
+    const { token } = JSON.parse(localStorage.getItem("user") ?? "{}");
+
     if (token) {
       config.headers = {
         Authorization: `Bearer ${token}`,
