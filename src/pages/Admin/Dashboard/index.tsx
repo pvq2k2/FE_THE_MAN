@@ -92,10 +92,10 @@ const Dashboard = () => {
           <main className="flex flex-col justify-between ">
             <table>
               <div className=" overflow-hidden">
-                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
                   <div className="flex bg-white">
                     <div className="bg-red-500 flex items-center px-3 text-white rounded-l-md">
-                      BV
+                      TT
                     </div>
                     <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
                       <div>
@@ -113,7 +113,7 @@ const Dashboard = () => {
                   </div>
                   <div className="flex bg-white">
                     <div className="bg-red-500 flex items-center px-3 text-white rounded-l-md">
-                      BV
+                      TT
                     </div>
                     <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
                       <div>
@@ -130,8 +130,8 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="flex bg-white">
-                    <div className="bg-indigo-500 flex items-center px-3 text-white rounded-l-md">
-                      TK
+                    <div className="bg-yellow-500 flex items-center px-3 text-white rounded-l-md">
+                      SL
                     </div>
                     <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
                       <div>
@@ -150,7 +150,7 @@ const Dashboard = () => {
                   </div>
                   <div className="flex bg-white">
                     <div className="bg-yellow-500 flex items-center px-3 text-white rounded-l-md">
-                      SP
+                      SL
                     </div>
                     <div className="rounded-r-md flex shadow-sm items-center flex-1 justify-between px-3 py-2 leading-snug border-y border-r">
                       <div>
