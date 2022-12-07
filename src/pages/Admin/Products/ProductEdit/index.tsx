@@ -1,105 +1,3 @@
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
-// import { SubmitHandler, useForm } from "react-hook-form";
-// import { HiOutlineCheck, HiOutlineX } from "react-icons/hi";
-// import { useSelector } from "react-redux";
-// import { Link, useNavigate, useParams } from "react-router-dom";
-// import { toast } from "react-toastify";
-// import {
-//   getProduct,
-//   updateProduct,
-// } from "../../../../redux/slices/productSlice";
-// import { RootState, useAppDispatch } from "../../../../redux/store";
-// import "../../../OrderStatus/Cancel/index.css"
-
-// type Inputs = {
-//   name: string;
-
-// };
-
-// const ProductEdit = () => {
-//   const categories = useSelector(
-//     (state: RootState) => state.catePro.cateproducts
-//   );
-
-//   const [preview, setPreview] = useState<string>();
-//   const dispatch = useAppDispatch();
-//   const navigate = useNavigate();
-//   const { id } = useParams();
-//   const {
-//     register,
-//     handleSubmit,
-//     reset,
-//   } = useForm<Inputs>();
-
-//   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
-//       await dispatch(updateProduct({ ...values })).unwrap();
-//     toast.success('sửa thành công')
-//   };
-
-//   useEffect(() => {
-//     (async () => {
-//       const cateproduct = await dispatch(getProduct(id));
-//       reset(cateproduct.payload);
-//     })();
-//   }, []);
-
-//   return (
-//     <div>
-
-//       <div className="m-auto max-w-7xl pb-36 mt-5">
-//         <div className="mt-5 md:mt-0 md:col-span-2">
-//           <form
-//             action="#"
-//             id="form-add-product"
-//             method="POST"
-//             onSubmit={handleSubmit(onSubmit)}
-//           >
-//             <div className="shadow sm:rounded-md sm:overflow-hidden">
-//               <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-//                 {/* Name */}
-//                 <div>
-//                   <label
-//                     htmlFor="name"
-//                     className="block text-sm font-bold text-gray-700"
-//                   >
-//                     Tên sản phẩm
-//                   </label>
-//                   <div className="mt-1">
-//                     <input
-//                       type="text"
-//                       {...register("name")}
-//                       id="name-add-product"
-//                       className="shadow-sm focus:outline-none focus:ring-[#4D535E] focus:border-[#4D535E] mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
-//                       placeholder="Name..."
-//                     />
-//                   </div>
-//                 </div>
-//                 {/* End name */}
-
-//               </div>
-
-//               {/* Button */}
-//               <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-//                 <button
-//                   type="submit"
-//                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2A303B] hover:bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E]"
-//                 >
-//                   <HiOutlineCheck className="mr-2 text-[20px]" />
-//                   Sửa sản phẩm
-//                 </button>
-//               </div>
-//               {/* End button */}
-//             </div>
-//           </form>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductEdit;
-
 import React, { useEffect, useState } from "react";
 import { HiOutlineX, HiOutlineCheck } from "react-icons/hi";
 import { toast } from "react-toastify";
@@ -218,7 +116,7 @@ const ProductEdit = () => {
       console.log(product);
 
       await dispatch(updateProduct(product)).unwrap();
-      toast.success("Thêm bài viết thành công !", {
+      toast.success("Sửa sản phẩm thành công !", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
