@@ -51,6 +51,9 @@ import Profile from "./pages/Profile";
 import Detail_Order from "./pages/OrderStatus/Detail_Order";
 import ScrollIntoView from "./hooks/useScrollIntoView";
 import Search from "./pages/Search";
+import VoucherManager from "./pages/Admin/Voucher";
+import VoucherAdd from "./pages/Admin/Voucher/Add";
+import VoucherEdit from "./pages/Admin/Voucher/Edit";
 function App() {
   return (
     <>
@@ -237,6 +240,12 @@ function App() {
             <Route index element={<ProductManager />} />
             <Route path="add" element={<ProductAdd />} />
             <Route path=":id/edit" element={<ProductEdit />} />
+            {/* <Route path=':id' element={<AdminLayout><ProductEdit onUpdate={onHandleUpdate} /></AdminLayout>} /> */}
+          </Route>
+          <Route path="vouchers">
+            <Route index element={<VoucherManager />} />
+            <Route path="add" element={<VoucherAdd />} />
+            <Route path=":id/edit" element={<VoucherEdit />} />
             {/* <Route path=':id' element={<AdminLayout><ProductEdit onUpdate={onHandleUpdate} /></AdminLayout>} /> */}
           </Route>
           <Route path="carts">

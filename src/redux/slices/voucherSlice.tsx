@@ -1,14 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { checkVoucherApi } from "../../api-cilent/Voucher";
+import { addVoucherApi, checkVoucherApi, getVoucherApi, getVouchersApi, removeVoucherApi, updateVoucherApi } from "../../api-cilent/Voucher";
 
 type Ivoucher = {
-      voucher: {}
+      voucher: {},
+      vouchera: {},
+      vouchers: []
 };
 
 const initialState: Ivoucher = {
-    voucher: {}
+    voucher: {},
+    vouchera: {},
+    vouchers: []
 };
 
 
@@ -34,7 +38,35 @@ export const checkVoucher = createAsyncThunk("voucher/checkvoucher", async (data
     return response
 })
 
+export const removeVoucher = createAsyncThunk("voucher/removevoucher", async () => {
 
+})
+
+export const addVoucher = createAsyncThunk("voucher/addvoucher",async (params:any) => {
+          const res = await addVoucherApi(params)
+          return res?.data
+          
+})
+export const updateVoucher = createAsyncThunk("voucher/updatevoucer",async (params:any) => {
+  const res = await updateVoucherApi(params)
+  return res?.data
+  
+})
+
+export const getVouchers = createAsyncThunk("voucher/getvouchers", async () => {
+          const res = await getVouchersApi()
+          return res.data        
+})
+
+
+export const removeVoucherData = createAsyncThunk("voucher/removevoucherdata", async (id:any) => {
+              const res = await removeVoucherApi(id)
+              return res.data
+})
+export const getVoucher = createAsyncThunk("voucher/getvoucher", async (id:any) => {
+  const res = await getVoucherApi(id)
+  return res.data
+})
 
 const voucherSlice = createSlice({
   name: "voucher",
@@ -46,7 +78,31 @@ const voucherSlice = createSlice({
             state.voucher = payload
           }
           
-    })
+    }),
+    builder.addCase(removeVoucher.fulfilled, (state, {payload}) => {
+            state.voucher = {
+              amount: 0,
+              percent: 0
+            }     
+    }),
+    builder.addCase(addVoucher.fulfilled, (state, {payload}) => {
+          if(payload?.result == 200) {
+                state.vouchers.push(payload?.response as never)
+          }
+      
+}),
+    builder.addCase(getVouchers.fulfilled, (state,{payload}) => {
+              state.vouchers = payload
+    }),
+    builder.addCase(removeVoucherData.fulfilled, (state,{payload}) => {
+      state.vouchers = state.vouchers.filter((item:any) => item._id !== payload?.response?._id) as never
+}),
+builder.addCase(updateVoucher.fulfilled, (state,{payload}) => {
+  state.vouchers = state.vouchers.map((item:any) => item._id === payload?.response?._id ? item:payload?.response) as never
+})
+builder.addCase(getVoucher.fulfilled, (state,{payload}) => {
+  state.vouchera = payload
+})
   },
 });
 
