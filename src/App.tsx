@@ -211,7 +211,7 @@ function App() {
             }
           />
           <Route
-            path="/search"
+            path="/search/:name"
             element={
               <ScrollIntoView>
                 <Search />
@@ -231,7 +231,7 @@ function App() {
             </PrivateRouter>
           }
         >
-          {/* <Route index element={<AdminLayout><h1>Dashboard</h1></AdminLayout>} />*/}
+          {/* <Route index element={<AdminLayout><h1>Dashboard</h1></AdminLayout>} /> */}
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products">
             <Route index element={<ProductManager />} />

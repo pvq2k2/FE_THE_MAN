@@ -18,6 +18,7 @@ import { statistical_total } from "../../../redux/slices/statisticalSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaEllipsisV } from "react-icons/fa";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
 
 type Inputs = {
   date: String;
@@ -26,14 +27,14 @@ type Inputs = {
 const Dashboard = () => {
   const { product } = useSelector((state: RootState) => state?.product);
   const pages = useSelector((state: RootState) => state?.product.page);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
       thongkes({
-        gt: "2022-12-10",
-        lt: "2022-12-30",
+        gt: startDate ? moment(startDate).format("YYYY-MM-DD") : "2022-5-1",
+        lt: endDate ? moment(endDate).format("YYYY-MM-DD") : new Date(),
       })
     );
   }, [dispatch, pages]);
@@ -52,7 +53,12 @@ const Dashboard = () => {
   //   </div>)
   // }
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
-    console.log(values);
+    dispatch(
+      thongkes({
+        gt: startDate ? moment(startDate).format("YYYY-MM-DD") : "2022-5-1",
+        lt: endDate ? moment(endDate).format("YYYY-MM-DD") : new Date(),
+      })
+    );
 
     // dispatch(
     //   filter_product({
@@ -74,23 +80,26 @@ const Dashboard = () => {
             className="inline-flex"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <span>Ngày bắt đầu : </span>
             <DatePicker
               selected={startDate}
-              // onChange={(date) => setStartDate(date)}
+              onChange={(date: any) => setStartDate(date)}
               selectsStart
               startDate={startDate}
               endDate={endDate}
             />
+            <span>Ngày kết thúc : </span>
+
             <DatePicker
               selected={endDate}
-              // onChange={(date) => setEndDate(date)}
+              onChange={(date: any) => setEndDate(date)}
               selectsEnd
               startDate={startDate}
               endDate={endDate}
               minDate={startDate}
             />
             <button className="w-100 inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E] outline-0">
-              Tìm kiếm
+              Thống kê
             </button>
           </form>
         </header>
@@ -195,6 +204,7 @@ const Dashboard = () => {
             </table>
           </main>
         </div>
+
         <div className="pt-10 font-semibold text-lg">Sản phẩm bán chạy</div>
         <main className="flex flex-col justify-between ">
           <table className="mb-10">

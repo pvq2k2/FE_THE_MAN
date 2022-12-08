@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineBars, AiOutlineUser } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { User } from "../../../models/User";
@@ -14,12 +14,16 @@ import {
   FaRegUser,
   GrCart,
 } from "react-icons/all";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { search } from "../../../redux/slices/productSlice";
 type Props = {};
-
+type Inputs = {
+  name: String;
+};
 const ClientHeader = (props: Props) => {
   const navBar = useRef<HTMLDivElement>(null);
   const cart = useSelector((state: any) => state.carts);
-
+  const navigate = useNavigate();
   const [showNav, setShowNav] = useState<Boolean>(false);
   useEffect(() => {
     const navBarElement = navBar.current!;
@@ -29,6 +33,12 @@ const ClientHeader = (props: Props) => {
       navBarElement.style.left = "-100%";
     }
   }, [showNav]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Inputs>();
   let isLogged = useSelector((state: any) => state.auth.isLogged);
   let currentUser = useSelector((state: any) => state.auth.currentUser) as User;
 
@@ -47,6 +57,15 @@ const ClientHeader = (props: Props) => {
       }
     })();
   }, [dispatch]);
+
+  const onSubmit = async (values: Inputs) => {
+    // dispatch(
+    //   search({
+    //     name: values?.name || "",
+    //   })
+    // );
+    navigate(`/search/${values?.name}`);
+  };
 
   return (
     <header className={styles.header}>
@@ -128,17 +147,23 @@ const ClientHeader = (props: Props) => {
       </Link>
 
       <div className={styles.box_icon}>
-        <Link to="/search" className={styles.search}>
+        <div className={styles.search}>
           <div className={styles.icon}>
             <CiSearch />
           </div>
           <div className={styles.search_input}>
-            <input type="text" placeholder="Tìm kiếm sản phẩm...." />
-            <button type="submit" className={styles.ico}>
-              <IoSearchOutline />
-            </button>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <input
+                type="text"
+                {...register("name")}
+                placeholder="Tìm kiếm sản phẩm...."
+              />
+              <button type="submit" className={styles.ico}>
+                <IoSearchOutline />
+              </button>
+            </form>
           </div>
-        </Link>
+        </div>
 
         <div className={styles.box_user}>
           <div className={styles.icon}>
