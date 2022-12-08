@@ -411,7 +411,7 @@ const CheckoutPage = (props: Props) => {
                  
 
     <div className="flex justify-between border-dashed border-t-2 border-t-black pt-[20px]">
-                {voucher.amount > 0 ? <span className="font-bold">Mã giảm giá: {voucher.amount} VNĐ </span> :  "" }  
+                {voucher.amount > 0 ? <span className="font-bold">Mã giảm giá: {formatCurrency(voucher?.amount)} </span> :  "" }  
              {voucher.percent > 0 ? <span className="font-bold">Mã giảm giá: {voucher.percent} % </span> :  "" }  
                 {voucher.amount > 0 || voucher.percent > 0 ?  <button onClick={() => onRemoveVoucher()} type="button" className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">Xoá</button>  : ""}
                 </div>  

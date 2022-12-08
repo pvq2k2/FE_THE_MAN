@@ -156,7 +156,6 @@ const VoucherEdit = () => {
                         {
                       ...register("startday",{required:"Vui lòng nhập ngày bắt đầu"})
                         }
-                        min={moment().format("YYYY-MM-DD")}
                         id="name-catepost"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-50% sm:text-sm border border-gray-300 rounded-md p-2"
                         placeholder="Tên danh mục..."

@@ -5,6 +5,10 @@ export const formatCurrency = (currency: number) => {
     currency: "VND",
   });
 };
+
+
+
+
 export const formatCurrencys = (currency: number) => {
   const tempCurrency = +currency;
   const a = tempCurrency.toLocaleString("it-IT", {
