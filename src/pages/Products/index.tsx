@@ -16,6 +16,8 @@ const Products = (props: Props) => {
   const catePro = useSelector((state: RootState) => state.catePro);
   const dispatch = useAppDispatch();
   const [isShowFilter, setIsShowFilter] = useState(false);
+  const [values, setValues] = useState("");
+  console.log(values);
 
   useEffect(() => {
     dispatch(
@@ -29,6 +31,11 @@ const Products = (props: Props) => {
   useEffect(() => {
     dispatch(getCatePro());
   }, [dispatch]);
+  // console.log("100000-200000".split("-")[0]);
+  const array = [
+    { label: "tren 100", value: "1000000" },
+    { label: "tren 200", value: "2000000" },
+  ];
   return (
     <div className={styles.container}>
       {/* <div className={styles.breadcrumb}>
@@ -76,32 +83,54 @@ const Products = (props: Props) => {
                 <div className={styles.price}>
                   <h3>Giá sản phẩm</h3>
                   <ul>
+                    {array.map((e: any) => {
+                      return (
+                        <li>
+                          <input
+                            type="checkbox"
+                            value={e.value}
+                            onChange={(e) => {
+                              setValues(e.target.value);
+                            }}
+                            checked={e.value === values}
+                            name="a"
+                            id="100k"
+                          />
+                          <label htmlFor="100k">{e.label}</label>
+                        </li>
+                      );
+                    })}
+
                     <li>
-                      <input type="checkbox" name="100k" id="100k" />
-                      <label htmlFor="100k">Giá dưới 100.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="200k" id="200k" />
+                      <input
+                        type="checkbox"
+                        name="a"
+                        value="100000-200000"
+                        id="200k"
+                        onChange={(e) => {
+                          setValues(e.target.value);
+                        }}
+                      />
                       <label htmlFor="200k">100.000đ - 200.000đ</label>
                     </li>
                     <li>
-                      <input type="checkbox" name="300k" id="300k" />
+                      <input type="checkbox" name="a" id="300k" />
                       <label htmlFor="300k">200.000đ - 300.000đ</label>
                     </li>
                     <li>
-                      <input type="checkbox" name="500k" id="500k" />
+                      <input type="checkbox" name="a" id="500k" />
                       <label htmlFor="500k">300.000đ - 500.000đ</label>
                     </li>
                     <li>
-                      <input type="checkbox" name="500k" id="500k" />
+                      <input type="checkbox" name="a" id="500k" />
                       <label htmlFor="500k">300.000đ - 500.000đ</label>
                     </li>
                     <li>
-                      <input type="checkbox" name="1000k" id="1000k" />
+                      <input type="checkbox" name="a" id="1000k" />
                       <label htmlFor="1000k">500.000đ - 1.000.000đ</label>
                     </li>
                     <li>
-                      <input type="checkbox" name="1m" id="1m" />
+                      <input type="checkbox" name="a" id="1m" />
                       <label htmlFor="1m">Giá trên 1.000.000đ</label>
                     </li>
                   </ul>
@@ -159,13 +188,16 @@ const Products = (props: Props) => {
                       </div>
                     </div>
                     <h3>{item.name}</h3>
-                    <span> <NumberFormat
-                    value={item?.price}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={""}
-                  />{" "}
-                   VNĐ</span>
+                    <span>
+                      {" "}
+                      <NumberFormat
+                        value={item?.price}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={""}
+                      />{" "}
+                      VNĐ
+                    </span>
                   </Link>
                 </div>
               );

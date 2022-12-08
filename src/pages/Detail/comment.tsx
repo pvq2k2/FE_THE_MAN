@@ -42,7 +42,7 @@ const Comment = (props: Props) => {
   const product = useSelector((state: any) => state.product.product);
   // console.log("sản phẩm",product.name);
   const order = useSelector((state: any) => state.orders);
-  console.log("sản phẩm", order);
+  console.log("sản phẩm", order?.check);
 
   useEffect(() => {
     dispatch(getOrders());
@@ -51,10 +51,6 @@ const Comment = (props: Props) => {
   useEffect(() => {
     // dispatch(isBuy("63811daf55696ccfd45ac8f6"));
     for (let i = 0; i < order.orders.length; i++) {
-      // console.log(order.orders[i]);
-      console.log(order?.orders[i].userID);
-      console.log(code);
-
       if (order?.orders[i].userID == code) {
         for (let a = 0; a < order?.orders[i].product.length; a++) {
           // console.log(order?.orders[i].product[a]._id);
@@ -138,28 +134,30 @@ const Comment = (props: Props) => {
     <div>
       <div className="containerx">
         <h2 className="heading-title">Bình luận về : {product.name}</h2>
-        {user?.users && (
-          <form
-            action=""
-            className="form_comment"
-            onSubmit={handleSubmit(Sendcomment)}
-          >
-            <textarea
-              id=""
-              {...register("content", {
-                required: "Vui lòng nhập tên bài viết",
-              })}
-              cols={30}
-              placeholder="Mời bạn để lại bình luận..."
-              rows={6}
-              defaultValue={""}
-            />
-            <div className="text-sm mt-0.5 text-red-500">
-              {errors.content?.message}
-            </div>
-            <button type="submit">GỬI</button>
-          </form>
-        )}
+        {user?.users
+          ? order?.check && (
+              <form
+                action=""
+                className="form_comment"
+                onSubmit={handleSubmit(Sendcomment)}
+              >
+                <textarea
+                  id=""
+                  {...register("content", {
+                    required: "Vui lòng nhập tên bài viết",
+                  })}
+                  cols={30}
+                  placeholder="Mời bạn để lại bình luận..."
+                  rows={6}
+                  defaultValue={""}
+                />
+                <div className="text-sm mt-0.5 text-red-500">
+                  {errors.content?.message}
+                </div>
+                <button type="submit">GỬI</button>
+              </form>
+            )
+          : ""}
         <div className="list-comments_wrapper">
           <div className="comments_wrapper">
             {dataComment?.map((e: any, index) => {

@@ -1,11 +1,25 @@
-import React from "react";
 import { BiSearch } from "react-icons/bi";
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { RootState, useAppDispatch } from "../../redux/store";
 import styles from "./Search.module.css";
+import React, { useEffect, useState } from "react";
+import { search } from "../../redux/slices/productSlice";
 type Props = {};
 
 const Search = (props: Props) => {
+  const { products } = useSelector((state: RootState) => state?.product);
+  console.log(products?.Product);
+
+  const { name } = useParams();
+  console.log(name);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(search({ name }));
+  }, [dispatch, name]);
+
   return (
     <div className={styles.searchContainer}>
       <div className={styles.title}>
@@ -26,149 +40,41 @@ const Search = (props: Props) => {
       </div> */}
 
       <div className={styles.rowProduct}>
-        <div
-          //key={index + 1}
-          className={styles.itemProduct}
-        >
-          <Link to={`/detail/1`}>
-            <div className={styles.imgProduct}>
-              <img
-                src="https://bizweb.dktcdn.net/100/414/728/products/15-ddab1c6e-2819-4a2a-aa6e-7e6b594112e9.jpg?v=1669434384850"
-                alt=""
-                className={styles.imgDf}
-              />
-              <img
-                src="https://bizweb.dktcdn.net/100/414/728/products/16.jpg?v=1669434388827"
-                className={styles.subImg}
-              />
-              <div className={styles.color}>
-                <div
-                  className={styles.item_color}
-                  style={{
-                    backgroundColor: `red`,
-                  }}
-                ></div>
+        {products?.Product?.map((e: any) => {
+          return (
+            <div
+              //key={index + 1}
+              className={styles.itemProduct}
+            >
+              <Link to={`/detail/1`}>
+                <div className={styles.imgProduct}>
+                  <img src={e?.image} alt="" className={styles.imgDf} />
+                  <img
+                    src="https://bizweb.dktcdn.net/100/414/728/products/16.jpg?v=1669434388827"
+                    className={styles.subImg}
+                  />
+                  <div className={styles.color}>
+                    <div
+                      className={styles.item_color}
+                      style={{
+                        backgroundColor: `red`,
+                      }}
+                    ></div>
 
-                <div
-                  className={styles.item_color}
-                  style={{
-                    backgroundColor: `green`,
-                  }}
-                ></div>
-              </div>
+                    <div
+                      className={styles.item_color}
+                      style={{
+                        backgroundColor: `green`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+                <h3>{e?.name}</h3>
+                <span>649.000 VNĐ</span>
+              </Link>
             </div>
-            <h3>CLOWNZ LEOPARD ZIPPED HOODIE</h3>
-            <span>649.000 VNĐ</span>
-          </Link>
-        </div>
-
-        <div
-          //key={index + 1}
-          className={styles.itemProduct}
-        >
-          <Link to={`/detail/1`}>
-            <div className={styles.imgProduct}>
-              <img
-                src="https://bizweb.dktcdn.net/100/414/728/products/15-ddab1c6e-2819-4a2a-aa6e-7e6b594112e9.jpg?v=1669434384850"
-                alt=""
-                className={styles.imgDf}
-              />
-              <img
-                src="https://bizweb.dktcdn.net/100/414/728/products/16.jpg?v=1669434388827"
-                className={styles.subImg}
-              />
-              <div className={styles.color}>
-                <div
-                  className={styles.item_color}
-                  style={{
-                    backgroundColor: `red`,
-                  }}
-                ></div>
-
-                <div
-                  className={styles.item_color}
-                  style={{
-                    backgroundColor: `green`,
-                  }}
-                ></div>
-              </div>
-            </div>
-            <h3>CLOWNZ LEOPARD ZIPPED HOODIE</h3>
-            <span>649.000 VNĐ</span>
-          </Link>
-        </div>
-
-        <div
-          //key={index + 1}
-          className={styles.itemProduct}
-        >
-          <Link to={`/detail/1`}>
-            <div className={styles.imgProduct}>
-              <img
-                src="https://bizweb.dktcdn.net/100/414/728/products/15-ddab1c6e-2819-4a2a-aa6e-7e6b594112e9.jpg?v=1669434384850"
-                alt=""
-                className={styles.imgDf}
-              />
-              <img
-                src="https://bizweb.dktcdn.net/100/414/728/products/16.jpg?v=1669434388827"
-                className={styles.subImg}
-              />
-              <div className={styles.color}>
-                <div
-                  className={styles.item_color}
-                  style={{
-                    backgroundColor: `red`,
-                  }}
-                ></div>
-
-                <div
-                  className={styles.item_color}
-                  style={{
-                    backgroundColor: `green`,
-                  }}
-                ></div>
-              </div>
-            </div>
-            <h3>CLOWNZ LEOPARD ZIPPED HOODIE</h3>
-            <span>649.000 VNĐ</span>
-          </Link>
-        </div>
-
-        <div
-          //key={index + 1}
-          className={styles.itemProduct}
-        >
-          <Link to={`/detail/1`}>
-            <div className={styles.imgProduct}>
-              <img
-                src="https://bizweb.dktcdn.net/100/414/728/products/15-ddab1c6e-2819-4a2a-aa6e-7e6b594112e9.jpg?v=1669434384850"
-                alt=""
-                className={styles.imgDf}
-              />
-              <img
-                src="https://bizweb.dktcdn.net/100/414/728/products/16.jpg?v=1669434388827"
-                className={styles.subImg}
-              />
-              <div className={styles.color}>
-                <div
-                  className={styles.item_color}
-                  style={{
-                    backgroundColor: `red`,
-                  }}
-                ></div>
-
-                <div
-                  className={styles.item_color}
-                  style={{
-                    backgroundColor: `green`,
-                  }}
-                ></div>
-              </div>
-            </div>
-            <h3>CLOWNZ LEOPARD ZIPPED HOODIE</h3>
-            <span>649.000 VNĐ</span>
-          </Link>
-        </div>
+          );
+        })}
       </div>
 
       <div className={styles.pagination}>
