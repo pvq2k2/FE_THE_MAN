@@ -9,3 +9,15 @@ export const removeVoucherApi = (id: any) => {
 export const addVoucherApi = (data: any) => {
     return instance.post("/discounts/",data);
 };
+
+export const getVouchersApi = () => {
+  return instance.get("/discounts");
+}
+
+export const getVoucherApi = (id: any) => {
+  return instance.get("/discounts/"+id)
+}
+
+export const updateVoucherApi = (data: any) => {
+  return instance.put("/discounts/"+data._id, data)
+}

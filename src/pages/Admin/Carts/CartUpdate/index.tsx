@@ -33,8 +33,6 @@ const CartUpdate = () => {
     reset,
   } = useForm();
   const order = useSelector((state: any) => state.orders);
-  console.log("aa", order);
-  
   let sum = 0;
 
   const onUpdate = async (data: any) => {
@@ -106,7 +104,10 @@ const CartUpdate = () => {
       );
     }
     if (data.status === 1) {
-      const res = await dispatch(orderConfirm(infocart));
+      try {
+        const res = await dispatch(orderConfirm(infocart));
+      console.log("rrrrr",res);
+      
       if (res?.payload?.code == 200) {
         data.order_code = res?.payload?.data?.order_code;
         navigate("/admin/carts");
@@ -117,6 +118,11 @@ const CartUpdate = () => {
         const update = await dispatch(updateOrder(data));
         toast.info("Thành công");
       }
+      } catch (error) {
+        console.log("error",error);
+         
+      }
+      
     }
   };
   let currentstatus = "";

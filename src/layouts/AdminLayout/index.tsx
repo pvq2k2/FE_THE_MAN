@@ -14,7 +14,8 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { Link, Outlet } from "react-router-dom";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { BsNewspaper } from "react-icons/bs";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { TiGift,TiShoppingCart } from "react-icons/ti";
+
 // import Dashboard from "../../pages/Admin/Dashboard";
 
 const AdminLayout = () => {
@@ -77,10 +78,21 @@ const AdminLayout = () => {
               <Link to="/admin/carts">
                 
                   <span className={styles.icon}>
-                    <AiOutlineShoppingCart className={styles.io} />
+                    <TiShoppingCart className={styles.io} />
                   </span>
                   <span className={styles.title}>Danh sách đơn hàng</span>
             
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/vouchers">
+            
+                  <span className={styles.icon}>
+                    <TiGift className={styles.io} /> 
+                    
+                  </span>
+                  <span className={styles.title}>Danh sách voucher</span>
+             
               </Link>
             </li>
             <li>
@@ -153,6 +165,7 @@ const AdminLayout = () => {
              
               </Link>
             </li>
+            
           </ul>
         </div>
         {/* ========================= Main ==================== */}
