@@ -191,6 +191,16 @@ const CheckoutPage = (props: Props) => {
       update: false,
     };
     const res = await dispatch(checkVoucher(data));
+    console.log("res",res?.payload);
+    
+    if(res?.payload?.code == 200) {
+      if(res?.payload?.amount > 0 ) { 
+        toast.success("Chúc mừng bạn đã được giảm giá " + formatCurrency(res?.payload?.amount))
+      }else {
+        toast.success("Chúc mừng bạn đã được giảm giá " + res?.payload?.percent + "%")
+      }
+    }
+    
     
   };
 
