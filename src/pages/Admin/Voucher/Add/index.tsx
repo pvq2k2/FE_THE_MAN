@@ -24,6 +24,11 @@ const VoucherAdd = () => {
   const [hidden,setHidden] = useState(false)
   const {register,handleSubmit,formState:{errors}}=useForm<Inputs>();
   const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{
+    if(values?.amount == 0 && values?.percent == 0) {
+      return toast.error("Vui lòng nhập số tiền hoặc nhập % lớn hơn 0")
+}else if(values?.amount > 0 && values?.percent > 0) {
+      return toast.error("Chỉ được nhập 1 số tiền hoặc %")
+}
     try {
         const res = await dispatch(addVoucher(values))
         if(res?.payload?.result == 200) {
@@ -265,15 +270,13 @@ const VoucherAdd = () => {
                       <input
                         type="number"
                         {
-                      ...register("amount",{required:"Vui lòng không được để trống"})
+                      ...register("amount")
                         }
                         id="name-catepost"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
                         placeholder="Nhập số tiền..."
                       />
-                      <div className="text-sm mt-0.5 text-red-500">
-                        {errors.amount?.message}
-                      </div>
+                      
                     </div>
                   </div> :    <div>
                     <label
@@ -286,19 +289,17 @@ const VoucherAdd = () => {
                       <input
                         type="number"
                         {
-                      ...register("percent",{required:"Vui lòng không được để trống"})
+                      ...register("percent")
                         }
                         id="name-catepost"
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
                         placeholder="Nhập số %..."
                       />
-                      <div className="text-sm mt-0.5 text-red-500">
-                        {errors.percent?.message}
-                      </div>
+                     
                     </div>
                   </div>}
 
-
+                  <h1 className="font-bold">Lưu ý: Chỉ được nhập số tiền hoặc % không nhập cả 2</h1>
                 </div>
 
                 

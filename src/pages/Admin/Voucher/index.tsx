@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { TiPlus } from "react-icons/ti";
@@ -65,12 +66,13 @@ const VoucherManager = () => {
              
               <td>Mã</td>
               <td>Giảm</td>
-              <td>Giới hạn số lần sử dụng</td>
-              <td>Đã sử dụng được</td>
-              <td>Ngày bắt đầu</td>
-              <td>Ngày kết thúc</td>
-              <td>Mỗi tài khoản được sử dụng</td>
-              <td>Tài khoản lập bao lâu thì được sd</td>
+              <td>Giới hạn lần sử dụng</td>
+              <td>Đã sử dụng </td>
+              <td>Bắt đầu</td>
+              <td>Kết thúc</td>
+              <td>Giới hạn tài khoản</td>
+              <td>Tài khoản</td>
+              <td>Trạng thái</td>
               <td>Action</td>
               
             </tr>
@@ -99,6 +101,7 @@ const VoucherManager = () => {
                   <td>{item?.endtime}</td>
                   <td>{item?.limiteduse} / lần</td>
                   <td>{item?.timeuser} / ngày</td>
+                  <td>{item?.numberofuses <= item?.numberoftimesused || moment(item?.endtime).unix() <= moment().unix() ? <p className="text-center p-[5px] bg-[#009efb] rounded-md text-white">Inactive</p> : <p className="text-center text-white p-[5px] bg-[#f62d51] rounded-md">Active</p>}</td>
                   <td className={styles.action}>
                     <Link to={`/admin/vouchers/${item?._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />

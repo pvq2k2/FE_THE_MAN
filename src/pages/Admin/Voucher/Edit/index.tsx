@@ -33,9 +33,7 @@ const VoucherEdit = () => {
     }) ()
     
 }, [])
-  const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{
-          console.log("vaaaaaa",values);
-          
+  const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{ 
         if(values?.amount == 0 && values?.percent == 0) {
                 return toast.error("Vui lòng nhập số tiền hoặc nhập % lớn hơn 0")
         }else if(values?.amount > 0 && values?.percent > 0) {
@@ -84,7 +82,7 @@ const VoucherEdit = () => {
       <div>
         <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between">
-            <h1 className="text-3xl font-bold text-gray-900">Thêm danh mục</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Sửa voucher</h1>
             <Link to="/admin/vouchers" className="sm:ml-3">
               <button
                 type="button"
@@ -278,9 +276,6 @@ const VoucherEdit = () => {
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
                         placeholder="Nhập số tiền..."
                       />
-                      <div className="text-sm mt-0.5 text-red-500">
-                        {errors.amount?.message}
-                      </div>
                     </div>
                   </div>     <div>
                     <label
@@ -299,9 +294,6 @@ const VoucherEdit = () => {
                         className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
                         placeholder="Nhập số %..." 
                       />
-                      <div className="text-sm mt-0.5 text-red-500">
-                        {errors.percent?.message}
-                      </div>
                     </div>
                   </div>
                         <h1 className="font-bold">Lưu ý: Chỉ được nhập số tiền hoặc % không nhập cả 2</h1>
