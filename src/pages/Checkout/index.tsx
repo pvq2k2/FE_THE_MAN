@@ -13,7 +13,7 @@ import { readUserLocal } from "../../redux/slices/userSlice";
 import { addOrder, readCart, updateCartRd } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { checkVoucher } from "../../redux/slices/voucherSlice";
+import { checkVoucher, removeVoucher } from "../../redux/slices/voucherSlice";
 import moment from "moment";
 type Props = {};
 
@@ -62,11 +62,23 @@ const CheckoutPage = (props: Props) => {
     if (voucher) {
       if (voucher?.amount > 0) {
         sum = sum - voucher.amount
-        setTotal(sum);
+        if(sum < 0) {
+          setTotal(0);
+        }else {
+          setTotal(sum);
+        }
+        
       } else {
         sum = sum - (sum * voucher.percent / 100)
-        setTotal(sum);
+        if(sum < 0) {
+          setTotal(0);
+        }else {
+          setTotal(sum);
+        }
       }
+    }else{
+
+      setTotal(sum)
     }
   }, [voucher]);
 
@@ -179,8 +191,24 @@ const CheckoutPage = (props: Props) => {
       update: false,
     };
     const res = await dispatch(checkVoucher(data));
+    console.log("res",res?.payload);
+    
+    if(res?.payload?.code == 200) {
+      if(res?.payload?.amount > 0 ) { 
+        toast.success("Chúc mừng bạn đã được giảm giá " + formatCurrency(res?.payload?.amount))
+      }else {
+        toast.success("Chúc mừng bạn đã được giảm giá " + res?.payload?.percent + "%")
+      }
+    }
+    
     
   };
+
+  const onRemoveVoucher = async () => {
+          await dispatch(removeVoucher())
+         
+          
+  }
 
   const onProvince = async (e: any) => {
     await dispatch(getDistrict(parseInt(e.target.value)));
@@ -392,10 +420,11 @@ const CheckoutPage = (props: Props) => {
 
                  
 
-    <div className="flex border-dashed border-t-2 border-t-black pt-[20px]">
-                <h1 >{voucher.amount > 0 ? <span className="font-bold">Mã giảm giá: {voucher.amount} VNĐ </span> :  "" } </h1>  
-                <h1>{voucher.percent > 0 ? <span className="font-bold">Mã giảm giá: {voucher.percent} % </span> :  "" } </h1>  
-                  </div>
+    <div className="flex justify-between border-dashed border-t-2 border-t-black pt-[20px]">
+                {voucher.amount > 0 ? <span className="font-bold">Mã giảm giá: {formatCurrency(voucher?.amount)} </span> :  "" }  
+             {voucher.percent > 0 ? <span className="font-bold">Mã giảm giá: {voucher.percent} % </span> :  "" }  
+                {voucher.amount > 0 || voucher.percent > 0 ?  <button onClick={() => onRemoveVoucher()} type="button" className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">Xoá</button>  : ""}
+                </div>  
                 <div className=" pt-5 flex ">
                   <span className="grow font-semibold">Tạm Tính </span>
                   <span className="text-right ">{formatCurrency(total)}</span>

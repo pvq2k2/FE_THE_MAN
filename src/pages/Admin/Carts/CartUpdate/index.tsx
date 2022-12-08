@@ -25,6 +25,7 @@ import { formatDateGHN } from "../../../../ultis";
 const CartUpdate = () => {
   const dispatch = useDispatch<any>();
   const navigate = useNavigate();
+  const [hidden, setHidden] = useState(false);
   const { id } = useParams();
   const {
     register,
@@ -33,8 +34,6 @@ const CartUpdate = () => {
     reset,
   } = useForm();
   const order = useSelector((state: any) => state.orders);
-  console.log("aa", order);
-  
   let sum = 0;
 
   const onUpdate = async (data: any) => {
@@ -106,16 +105,20 @@ const CartUpdate = () => {
       );
     }
     if (data.status === 1) {
-      const res = await dispatch(orderConfirm(infocart));
-      if (res?.payload?.code == 200) {
-        data.order_code = res?.payload?.data?.order_code;
-        navigate("/admin/carts");
-      } else {
-        toast.info(res?.error?.message);
-      }
-      if (data.order_code) {
-        const update = await dispatch(updateOrder(data));
-        toast.info("Thành công");
+      try {
+        const res = await dispatch(orderConfirm(infocart));
+        if (res?.payload?.code == 200) {
+          data.order_code = res?.payload?.data?.order_code;
+          navigate("/admin/carts");
+        } else {
+          toast.info(res?.error?.message);
+        }
+        if (data.order_code) {
+          const update = await dispatch(updateOrder(data));
+          toast.info("Thành công");
+        }
+      } catch (error) {
+        console.log("error", error);
       }
     }
   };
@@ -188,8 +191,16 @@ const CartUpdate = () => {
   //   })()
   // },[order.order.order_code])
   const onPrint = () => {
-    window.print();
+    setHidden(true);
   };
+
+  useEffect(() => {
+    if (hidden === true) {
+      window.print();
+      setHidden(false);
+    }
+  }, [hidden]);
+
   return (
     <div>
       <div className="ml-[40px] mx-8">
@@ -221,12 +232,16 @@ const CartUpdate = () => {
                   <th className="font-semibold pb-10">Tiền hàng</th>
                   <th className="font-semibold pb-10">Tổng tiền</th>
                   <th className="font-semibold pb-10">Trạng thái thanh toán</th>
-                  <th className="font-semibold pb-10">Hành động</th>
+                  {hidden ? (
+                    ""
+                  ) : (
+                    <th className="font-semibold pb-10">Hành động</th>
+                  )}
                 </tr>
               </thead>
               <tbody className="w-full">
                 <tr className="border-t-2">
-                  <td className=" py-10  gap-8 text-[15px]">
+                  <td className=" py-10  gap-8 text-[15px] w-[10%]">
                     <div>
                       <b>Họ tên: </b> {order?.order?.infomation?.fullname}
                     </div>
@@ -312,7 +327,11 @@ const CartUpdate = () => {
                   </td>
                   <td className="py-10  gap-8">
                     {" "}
-                    <p className="whitespace-pre">{moment(order?.order?.createdAt).format('DD [tháng] MM, YYYY[\r\n]HH Giờ mm [Phút]')}</p>
+                    <p className="whitespace-pre">
+                      {moment(order?.order?.createdAt).format(
+                        "DD [tháng] MM, YYYY[\r\n]HH Giờ mm [Phút]"
+                      )}
+                    </p>
                     {/* <p>{formatDateGHN(order?.order?.createdAt).dateg}</p>{" "} */}
                     {/* <p>{formatDateGHN(order?.order?.createdAt).hours}</p> */}
                   </td>
@@ -353,39 +372,44 @@ const CartUpdate = () => {
                     VNĐ
                   </td>
                   <td className=" py-10  gap-8">
-                      {order?.order?.payment_status == 0 ?  "Chưa thanh toán" : "Đã thanh toán"}
+                    {order?.order?.payment_status == 0
+                      ? "Chưa thanh toán"
+                      : "Đã thanh toán"}
                   </td>
-                  <td className="py-10  gap-8 outline-none">
-                    <h2 className="my-[10px]">Xác nhận đơn hàng: </h2>
-                    <form
-                      onSubmit={handleSubmit(onUpdate)}
-                      className="flex flex-col"
-                    >
-                      <select
-                        {...register("status")}
-                        className="max-w-[150px] my-[5px] py-[10px] border-[1px] border-[#333] rounded outline-none"
+                  {hidden ? (
+                    ""
+                  ) : (
+                    <td className="py-10  gap-8 outline-none">
+                      <h2 className="my-[10px]">Xác nhận đơn hàng: </h2>
+                      <form
+                        onSubmit={handleSubmit(onUpdate)}
+                        className="flex flex-col"
                       >
-                        <option value={0}>Đang xử lý</option>
-                        <option value={1}>Xác nhận</option>
-                        <option value={2}>Huỷ đơn hàng</option>
-                      </select>
-                      <h2 className="my-[10px]">Trạng thái thanh toán: </h2>
-                      <select
-                        {...register("payment_status")}
-                        className="max-w-[150px] my-[5px] py-[10px] border-[1px] border-[#333] rounded outline-none"
-                      >
-                        <option value={0}>Chưa thanh toán</option>
-                        <option value={1}>Đã thanh toán</option>
-              
-                      </select>
-                      <button
-                        className="max-w-[150px] bg-blue-300 py-[5px]"
-                        type="submit"
-                      >
-                        Gửi
-                      </button>
-                    </form>
-                  </td>
+                        <select
+                          {...register("status")}
+                          className="max-w-[150px] my-[5px] py-[10px] border-[1px] border-[#333] rounded outline-none"
+                        >
+                          <option value={0}>Đang xử lý</option>
+                          <option value={1}>Xác nhận</option>
+                          <option value={2}>Huỷ đơn hàng</option>
+                        </select>
+                        <h2 className="my-[10px]">Trạng thái thanh toán: </h2>
+                        <select
+                          {...register("payment_status")}
+                          className="max-w-[150px] my-[5px] py-[10px] border-[1px] border-[#333] rounded outline-none"
+                        >
+                          <option value={0}>Chưa thanh toán</option>
+                          <option value={1}>Đã thanh toán</option>
+                        </select>
+                        <button
+                          className="max-w-[150px] bg-blue-300 py-[5px] !ml-0"
+                          type="submit"
+                        >
+                          Gửi
+                        </button>
+                      </form>
+                    </td>
+                  )}
                 </tr>
               </tbody>
             </table>

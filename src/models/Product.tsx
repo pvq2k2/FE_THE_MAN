@@ -1,4 +1,6 @@
 export type Product = {
+  list: any;
+  total: any;
   _id?: number;
   name: string;
   image: string;
