@@ -197,7 +197,8 @@ const orderSlice = createSlice({
 
         state.check = payload as boolean;
       }),
-      builder.addCase(orderConfirm.fulfilled, (state, { payload }) => {}),
+      builder.addCase(orderConfirm.fulfilled, (state, { payload }) => {
+      }),
       builder.addCase(updateOrder.fulfilled, (state, { payload }) => {
         state.orders = state.orders.map((item: any) =>
           item._id === payload?._id ? payload : item
