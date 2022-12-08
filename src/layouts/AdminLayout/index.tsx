@@ -53,25 +53,21 @@ const AdminLayout = () => {
           <ul>
             <li>
               <Link to="/">
-                
-                  <span className={styles.icon}>
-                    <IoLogoOctocat className={styles.io} />
-                    {/* <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" /> */}
-                  </span>
-                  <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">
-                    The Man
-                  </span>
-                
+                <span className={styles.icon}>
+                  <IoLogoOctocat className={styles.io} />
+                  {/* <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" /> */}
+                </span>
+                <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">
+                  The Man
+                </span>
               </Link>
             </li>
             <li>
               <Link to="/admin/dashboard">
-                
-                  <span className={styles.icon}>
-                    <IoHomeOutline className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Thống kê</span>
-              
+                <span className={styles.icon}>
+                  <IoHomeOutline className={styles.io} />
+                </span>
+                <span className={styles.title}>Thống kê</span>
               </Link>
             </li>
             <li>
@@ -97,72 +93,58 @@ const AdminLayout = () => {
             </li>
             <li>
               <Link to="/admin/contact">
-               
-                  <span className={styles.icon}>
-                    <RiContactsLine className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Thông tin phản hồi</span>
-               
+                <span className={styles.icon}>
+                  <RiContactsLine className={styles.io} />
+                </span>
+                <span className={styles.title}>Thông tin phản hồi</span>
               </Link>
             </li>
             <li>
               <Link to="/admin/products">
-               
-                  <span className={styles.icon}>
-                    <RiProductHuntLine className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Tất cả sản phẩm</span>
-             
+                <span className={styles.icon}>
+                  <RiProductHuntLine className={styles.io} />
+                </span>
+                <span className={styles.title}>Tất cả sản phẩm</span>
               </Link>
             </li>
             <li>
               <Link to="/admin/category_product">
-             
-                  <span className={styles.icon}>
-                    <BiCategoryAlt className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Danh mục sản phẩm</span>
-              
+                <span className={styles.icon}>
+                  <BiCategoryAlt className={styles.io} />
+                </span>
+                <span className={styles.title}>Danh mục sản phẩm</span>
               </Link>
             </li>
             <li>
               <Link to="/admin/post">
-              
-                  <span className={styles.icon}>
-                    <BsNewspaper className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Bài viết</span>
-              
+                <span className={styles.icon}>
+                  <BsNewspaper className={styles.io} />
+                </span>
+                <span className={styles.title}>Bài viết</span>
               </Link>
             </li>
             <li>
               <Link to="/admin/category_post">
-            
-                  <span className={styles.icon}>
-                    <MdOutlineCategory className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Danh mục bài viết</span>
-            
+                <span className={styles.icon}>
+                  <MdOutlineCategory className={styles.io} />
+                </span>
+                <span className={styles.title}>Danh mục bài viết</span>
               </Link>
             </li>
             <li>
               <Link to="/admin/slider">
-          
-                  <span className={styles.icon}>
-                    <TbSlideshow className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Slide</span>
-              
+                <span className={styles.icon}>
+                  <TbSlideshow className={styles.io} />
+                </span>
+                <span className={styles.title}>Slide</span>
               </Link>
             </li>
             <li>
               <Link to="/admin/users">
-            
-                  <span className={styles.icon}>
-                    <FaRegUser className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Danh sách tài khoản</span>
-             
+                <span className={styles.icon}>
+                  <FaRegUser className={styles.io} />
+                </span>
+                <span className={styles.title}>Danh sách tài khoản</span>
               </Link>
             </li>
             
@@ -174,12 +156,12 @@ const AdminLayout = () => {
             <div onClick={() => setToggle(!toggle)} className={styles.toggle}>
               <IoMenuOutline className={styles.io} />
             </div>
-            <div className={styles.search}>
+            {/* <div className={styles.search}>
               <label>
                 <input type="text" placeholder="Search here" />
                 <IoSearchOutline className={styles.io} />
               </label>
-            </div>
+            </div> */}
             <div
               className={styles.user}
               onClick={() => setShowModelUser(!showModelUser)}
