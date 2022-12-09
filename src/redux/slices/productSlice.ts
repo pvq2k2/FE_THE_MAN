@@ -4,6 +4,7 @@ import {
   filter,
   get,
   getAll,
+  searchs,
   remove,
   thongke,
   update,
@@ -18,6 +19,7 @@ type ProductsState = {
     count: number;
     Product: Product[];
   };
+  loading: boolean;
   product: Product;
   page: number;
   limit: number;
@@ -31,6 +33,7 @@ const initialState: ProductsState = {
   page: 1,
   limit: 10,
   product: {},
+  loading: false,
 };
 
 export const getProducts = createAsyncThunk(
@@ -49,6 +52,12 @@ export const thongkes = createAsyncThunk(
     return response.data;
   }
 );
+export const search = createAsyncThunk("products/filter", async (data: any) => {
+  const response = await searchs(data);
+  console.log(response);
+
+  return response.data;
+});
 
 export const deleteProduct = createAsyncThunk(
   "products/deleteProduct",
@@ -105,8 +114,19 @@ const productsSlice = createSlice({
 
       state.products = payload as any;
     });
+    builder.addCase(thongkes.pending, (state, { payload }) => {
+      console.log(payload);
+
+      state.loading = true;
+    });
     builder.addCase(thongkes.fulfilled, (state, { payload }) => {
       state.product = payload as any;
+      state.loading = false;
+    });
+    builder.addCase(search.fulfilled, (state, { payload }) => {
+      console.log(payload);
+
+      state.products.Product = payload as any;
     });
     builder.addCase(filter_product.fulfilled, (state, { payload }) => {
       console.log(payload);

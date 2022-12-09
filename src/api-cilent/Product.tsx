@@ -24,3 +24,6 @@ export const update = (product: Product): Promise<Product> => {
 export const thongke = (data: any): Promise<Product[]> => {
   return instance.post("/thongke", data);
 };
+export const searchs = (data: any): Promise<Product[]> => {
+  return instance.post("/products/search", data);
+};
