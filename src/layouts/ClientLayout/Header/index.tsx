@@ -59,11 +59,6 @@ const ClientHeader = (props: Props) => {
   }, [dispatch]);
 
   const onSubmit = async (values: Inputs) => {
-    // dispatch(
-    //   search({
-    //     name: values?.name || "",
-    //   })
-    // );
     navigate(`/search/${values?.name}`);
   };
 
@@ -184,11 +179,6 @@ const ClientHeader = (props: Props) => {
                 {currentUser?.users?.role == 1 ? (
                   <Link to={"/admin/dashboard"}>
                     <div className={styles.item_user}>Trang quản trị</div>
-                  </Link>
-                ) : null}
-                {currentUser?.users?.role == 0 ? (
-                  <Link to={"/profile"}>
-                    <div className={styles.item_user}>Thông tin</div>
                   </Link>
                 ) : null}
                 <Link to={"/order"}>

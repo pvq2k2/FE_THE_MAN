@@ -33,6 +33,4 @@
 .slick-dots {
     bottom: 10px !important;
 }
-/* img .image {
-    width: 100%;
-} */
+.slide_img img{width: 100px; height: 80px}

@@ -171,21 +171,21 @@ const Products = (props: Props) => {
                     <div className={styles.imgProduct}>
                       <img src={item.image} alt="" className={styles.imgDf} />
                       <img src={item.subimg[0]} className={styles.subImg} />
-                      <div className={styles.color}>
-                        <div
-                          className={styles.item_color}
-                          style={{
-                            backgroundColor: `red`,
-                          }}
-                        ></div>
+                      {/*<div className={styles.color}>*/}
+                      {/*  <div*/}
+                      {/*    className={styles.item_color}*/}
+                      {/*    style={{*/}
+                      {/*      backgroundColor: `red`,*/}
+                      {/*    }}*/}
+                      {/*  ></div>*/}
 
-                        <div
-                          className={styles.item_color}
-                          style={{
-                            backgroundColor: `green`,
-                          }}
-                        ></div>
-                      </div>
+                      {/*  <div*/}
+                      {/*    className={styles.item_color}*/}
+                      {/*    style={{*/}
+                      {/*      backgroundColor: `green`,*/}
+                      {/*    }}*/}
+                      {/*  ></div>*/}
+                      {/*</div>*/}
                     </div>
                     <h3>{item.name}</h3>
                     <span>
