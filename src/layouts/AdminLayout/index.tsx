@@ -4,19 +4,23 @@ import {
   IoHomeOutline,
   IoLogoOctocat,
   IoMenuOutline,
-  IoSearchOutline,
 } from "react-icons/io5";
 import { RiContactsLine, RiProductHuntLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { MdOutlineCategory } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa";
+import {FaRegComment, FaRegUser} from "react-icons/fa";
 import { BiCategoryAlt } from "react-icons/bi";
-import { Link, Outlet } from "react-router-dom";
-import { HiMenuAlt2 } from "react-icons/hi";
+import {Link, Outlet, useNavigate} from "react-router-dom";
 import { BsNewspaper } from "react-icons/bs";
 import { TiGift,TiShoppingCart } from "react-icons/ti";
+import {useDispatch, useSelector} from "react-redux";
+import {User} from "../../models/User";
+import {RootState} from "../../redux/store";
+import {signout} from "../../redux/slices/authSlice";
+import {readUserLocal} from "../../redux/slices/userSlice";
 
-// import Dashboard from "../../pages/Admin/Dashboard";
+
+
 
 const AdminLayout = () => {
   const boxUser = useRef<HTMLDivElement>(null);
@@ -24,6 +28,16 @@ const AdminLayout = () => {
   const mainElement = useRef<HTMLDivElement>(null);
   const [toggle, setToggle] = useState<boolean>(false);
   const [showModelUser, setShowModelUser] = useState<Boolean>(false);
+  let currentUser = useSelector((state: any) => state.auth.currentUser) as User;
+  const users = useSelector((state: any) => state.user);
+
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch<any>();
+  const handleSignout = async () => {
+    await dispatch(signout());
+    navigate("/signin");
+  };
 
   useEffect(() => {
     const navigationE = navigationElement.current!;
@@ -45,6 +59,13 @@ const AdminLayout = () => {
       boxUserElement.style.display = "none";
     }
   }, [showModelUser]);
+
+  useEffect(() => {
+    (async () => {
+        await dispatch(readUserLocal());
+    })();
+  }, []);
+
   return (
     <>
       {/* =============== Navigation ================ */}
@@ -54,8 +75,8 @@ const AdminLayout = () => {
             <li>
               <Link to="/">
                 <span className={styles.icon}>
-                  <IoLogoOctocat className={styles.io} />
-                  {/* <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" /> */}
+                  {/*<IoLogoOctocat className={styles.io} />*/}
+                   <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" />
                 </span>
                 <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">
                   The Man
@@ -147,7 +168,14 @@ const AdminLayout = () => {
                 <span className={styles.title}>Danh sách tài khoản</span>
               </Link>
             </li>
-            
+            <li>
+              <Link to="/admin/users">
+                <span className={styles.icon}>
+                  <FaRegComment className={styles.io} />
+                </span>
+                <span className={styles.title}>Quản lý bình luận</span>
+              </Link>
+            </li>
           </ul>
         </div>
         {/* ========================= Main ==================== */}
@@ -167,24 +195,25 @@ const AdminLayout = () => {
               onClick={() => setShowModelUser(!showModelUser)}
             >
               <img
-                src="https://res.cloudinary.com/assignmentjs/image/upload/v1664199286/nextjsuser/dw1r1yybpmahpl8qwmkb.png"
-                alt=""
+                  src={users?.usera?.img ? users?.usera?.img : "https://res.cloudinary.com/assignmentjs/image/upload/v1664199286/nextjsuser/dw1r1yybpmahpl8qwmkb.png"}
+                  alt=""
               />
+
+              {/*<img src={`${users?.User?.img}`} alt=""/>*/}
               {/* ---------------------- */}
               <div ref={boxUser} className={styles.box}>
                 <ul>
                   <li>
                     <span className="block italic">Xin chào!</span>
                     <span className="font-bold">
-                      {/* {curentUser.user?.firstName} */}
-                      Quyết
+                    {currentUser?.users?.fullname}
                     </span>
                   </li>
                   <li>
                     <Link to="/">Trang chủ</Link>
                   </li>
                   <li>
-                    <div>Đăng xuất</div>
+                    <div onClick={() => handleSignout()}>Đăng xuất</div>
                   </li>
                 </ul>
               </div>

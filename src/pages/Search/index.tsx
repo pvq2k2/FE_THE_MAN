@@ -6,11 +6,14 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import styles from "./Search.module.css";
 import React, { useEffect, useState } from "react";
 import { search } from "../../redux/slices/productSlice";
+import {formatCurrency} from "../../ultis";
+import {Product} from "../../models/Product";
 type Props = {};
 
 const Search = (props: Props) => {
+
   const { products } = useSelector((state: RootState) => state?.product);
-  console.log(products?.Product);
+  console.log("log product",products?.Product);
 
   const { name } = useParams();
   console.log(name);
@@ -24,7 +27,7 @@ const Search = (props: Props) => {
     <div className={styles.searchContainer}>
       <div className={styles.title}>
         {/* <h1>NHẬP TỪ KHÓA ĐỂ TÌM KIẾM SẢN PHẨM</h1> */}
-        <h1>CÓ 19 KẾT QUẢ TÌM KIẾM PHÙ HỢP</h1>
+        <h1>CÓ {products?.Product?.length} KẾT QUẢ TÌM KIẾM PHÙ HỢP</h1>
 
         {/* Không có sản phẩm thì hiện thông báo này lên và input search */}
         {/* <h1>KHÔNG TÌM THẤY BẤT KỲ KẾT QUẢ NÀO VỚI TỪ KHÓA TRÊN.</h1> */}
@@ -43,14 +46,14 @@ const Search = (props: Props) => {
         {products?.Product?.map((e: any) => {
           return (
             <div
-              //key={index + 1}
+              key={e}
               className={styles.itemProduct}
             >
-              <Link to={`/detail/1`}>
+              <Link to={`/detail/${e._id}`}>
                 <div className={styles.imgProduct}>
                   <img src={e?.image} alt="" className={styles.imgDf} />
                   <img
-                    src="https://bizweb.dktcdn.net/100/414/728/products/16.jpg?v=1669434388827"
+                    // src="https://bizweb.dktcdn.net/100/414/728/products/16.jpg?v=1669434388827"
                     className={styles.subImg}
                   />
                   <div className={styles.color}>
@@ -70,7 +73,7 @@ const Search = (props: Props) => {
                   </div>
                 </div>
                 <h3>{e?.name}</h3>
-                <span>649.000 VNĐ</span>
+                <span>{(formatCurrency(e.price))} VNĐ</span>
               </Link>
             </div>
           );
