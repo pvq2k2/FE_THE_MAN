@@ -16,6 +16,7 @@ import {
   AiOutlinePhone,
   AiOutlineUser,
 } from "react-icons/ai";
+import { Link } from "react-router-dom";
 type Props = {};
 
 type TypeColorSize = Map<
@@ -87,7 +88,7 @@ const DetailProduct = (props: Props) => {
       ...rest
     } = product;
     const iduser = User.users.id;
-    const tmcode = "TheMan_"+Math.floor(Math.random() * 999999);
+    const tmcode = "TheMan_" + Math.floor(Math.random() * 999999);
     const carts = {
       products: {
         ...rest,
@@ -96,20 +97,14 @@ const DetailProduct = (props: Props) => {
         quantity: parseInt(data?.quantity),
       },
       userID: iduser,
-      tm_codeorder: tmcode
+      tm_codeorder: tmcode,
     };
-      const res = await dispatch(addToCart(carts));
-      if(res?.payload?.code == 409) {
-        
-        onAddOrder(carts)
-        
-      }else {
-          toast.success("Thêm đơn hàng thành công !")
-      }
-      
-    
-    
-    
+    const res = await dispatch(addToCart(carts));
+    if (res?.payload?.code == 409) {
+      onAddOrder(carts);
+    } else {
+      toast.success("Thêm đơn hàng thành công !");
+    }
   };
   const onSize = async (c: any) => {
     setSizeSelected(c.title);
@@ -168,7 +163,7 @@ const DetailProduct = (props: Props) => {
       <div className="detail_page">
         {/* pagination */}
         <div className="containerx">
-          <div className="breadcrumb_list">
+          {/* <div className="breadcrumb_list">
             <span className="breadcrumb_item_text">
               <a className="home_navigation" href="#">
                 Trang chủ
@@ -179,6 +174,12 @@ const DetailProduct = (props: Props) => {
                 {product?.name}
               </a>
             </span>
+          </div> */}
+          <div className="breadcrumb">
+            <Link to="/" className="linkBreakcrumb">
+              Trang chủ
+            </Link>
+            <span>{product?.name}</span>
           </div>
         </div>
 

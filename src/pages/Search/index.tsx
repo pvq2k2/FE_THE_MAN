@@ -6,14 +6,13 @@ import { RootState, useAppDispatch } from "../../redux/store";
 import styles from "./Search.module.css";
 import React, { useEffect, useState } from "react";
 import { search } from "../../redux/slices/productSlice";
-import {formatCurrency} from "../../ultis";
-import {Product} from "../../models/Product";
+import { formatCurrency } from "../../ultis";
+import { Product } from "../../models/Product";
 type Props = {};
 
 const Search = (props: Props) => {
-
   const { products } = useSelector((state: RootState) => state?.product);
-  console.log("log product",products?.Product);
+  console.log("log product", products?.Product);
 
   const { name } = useParams();
   console.log(name);
@@ -45,10 +44,7 @@ const Search = (props: Props) => {
       <div className={styles.rowProduct}>
         {products?.Product?.map((e: any) => {
           return (
-            <div
-              key={e}
-              className={styles.itemProduct}
-            >
+            <div key={e} className={styles.itemProduct}>
               <Link to={`/detail/${e._id}`}>
                 <div className={styles.imgProduct}>
                   <img src={e?.image} alt="" className={styles.imgDf} />
@@ -56,7 +52,7 @@ const Search = (props: Props) => {
                     // src="https://bizweb.dktcdn.net/100/414/728/products/16.jpg?v=1669434388827"
                     className={styles.subImg}
                   />
-                  <div className={styles.color}>
+                  {/* <div className={styles.color}>
                     <div
                       className={styles.item_color}
                       style={{
@@ -70,17 +66,17 @@ const Search = (props: Props) => {
                         backgroundColor: `green`,
                       }}
                     ></div>
-                  </div>
+                  </div> */}
                 </div>
                 <h3>{e?.name}</h3>
-                <span>{(formatCurrency(e.price))} VNĐ</span>
+                <span>{formatCurrency(e.price)}</span>
               </Link>
             </div>
           );
         })}
       </div>
 
-      <div className={styles.pagination}>
+      {/* <div className={styles.pagination}>
         <div className={styles.arrows}>
           <SlArrowLeft />
         </div>
@@ -90,7 +86,7 @@ const Search = (props: Props) => {
         <div className={styles.arrows}>
           <SlArrowRight />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

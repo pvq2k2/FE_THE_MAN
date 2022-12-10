@@ -14,17 +14,17 @@ main {
   display: inline-block !important;
   margin-right: 12px;
 }
-form button {
+.formDashboard button {
   margin-left: 10px;
 }
-form {
+.formDashboard {
   flex-grow: 1;
 }
 .react-datepicker-wrapper input {
   padding: 4px;
   width: 200px;
 }
-form span {
+.formDashboard span {
   padding-top: 5px;
   padding-right: 5px;
 }

@@ -106,18 +106,18 @@ const ClientHeader = (props: Props) => {
           </li>
           <li className={`${styles.item} ${styles.itemSubNav}`}>
             <Link to={"/products"} className={styles.itemLink}>
-              Áo
+              Sản phẩm
             </Link>
             <div className={styles.line}></div>
-            <SubNav />
+            {/* <SubNav /> */}
           </li>
-          <li className={`${styles.item} ${styles.itemSubNav}`}>
+          {/* <li className={`${styles.item} ${styles.itemSubNav}`}>
             <Link to={""} className={styles.itemLink}>
               Phụ Kiện
             </Link>
             <div className={styles.line}></div>
             <SubNav />
-          </li>
+          </li> */}
           <li className={styles.item}>
             <Link to={""} className={styles.itemLink}>
               Giới Thiệu
