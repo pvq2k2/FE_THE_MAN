@@ -83,7 +83,7 @@ const Dashboard = () => {
             {/* <div className={styles.title}>Quản lí bài viết</div> */}
             <form
               action=""
-              className="inline-flex"
+              className="inline-flex formDashboard"
               onSubmit={handleSubmit(onSubmit)}
             >
               <span>Ngày bắt đầu : </span>
