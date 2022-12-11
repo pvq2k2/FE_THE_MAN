@@ -5,7 +5,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import styles from "./Products.module.css";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { getProducts } from "../../redux/slices/productSlice";
+import { filter_product, getProducts } from "../../redux/slices/productSlice";
 import { getCatePro } from "../../redux/slices/cateProductSlice";
 import NumberFormat from "react-number-format";
 type Props = {};
@@ -17,7 +17,8 @@ const Products = (props: Props) => {
   const dispatch = useAppDispatch();
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [values, setValues] = useState("");
-  console.log(values);
+  const [size, setSize] = useState("");
+  console.log(size);
 
   useEffect(() => {
     dispatch(
@@ -31,10 +32,32 @@ const Products = (props: Props) => {
   useEffect(() => {
     dispatch(getCatePro());
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(
+      filter_product({
+        name: "",
+        prices: {
+          gt: values?.split("-")[0] || 0,
+          lt: values?.split("-")[1] || 100000000000,
+        },
+        size,
+      })
+    );
+  }, [values, size]);
   // console.log("100000-200000".split("-")[0]);
   const array = [
-    { label: "tren 100", value: "1000000" },
-    { label: "tren 200", value: "2000000" },
+    { label: "Dưới 100.000đ", value: "0-100000" },
+    { label: "100.000đ - 200.000đ", value: "100000-200000" },
+    { label: "200.000đ - 300.000đ", value: "200000-300000" },
+    { label: "300.000đ - 500.000đ", value: "300000-500000" },
+    { label: "500.000đ - 1.000.000đ", value: "500000-1000000" },
+    { label: "Trên 1.000.000đ", value: "1000000" },
+  ];
+  const array_size = [
+    { label: "S", value: "S" },
+    { label: "L", value: "L" },
+    { label: "M", value: "M" },
+    { label: "XL", value: "XL" },
   ];
   return (
     <div className={styles.container}>
@@ -100,61 +123,29 @@ const Products = (props: Props) => {
                         </li>
                       );
                     })}
-
-                    <li>
-                      <input
-                        type="checkbox"
-                        name="a"
-                        value="100000-200000"
-                        id="200k"
-                        onChange={(e) => {
-                          setValues(e.target.value);
-                        }}
-                      />
-                      <label htmlFor="200k">100.000đ - 200.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="a" id="300k" />
-                      <label htmlFor="300k">200.000đ - 300.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="a" id="500k" />
-                      <label htmlFor="500k">300.000đ - 500.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="a" id="500k" />
-                      <label htmlFor="500k">300.000đ - 500.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="a" id="1000k" />
-                      <label htmlFor="1000k">500.000đ - 1.000.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="a" id="1m" />
-                      <label htmlFor="1m">Giá trên 1.000.000đ</label>
-                    </li>
                   </ul>
                 </div>
 
                 <div className={styles.size}>
                   <h3>Size</h3>
                   <ul>
-                    <li>
-                      <input type="checkbox" name="s" id="s" />
-                      <label htmlFor="s">S</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="m" id="m" />
-                      <label htmlFor="m">M</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="l" id="l" />
-                      <label htmlFor="l">L</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="xl" id="xl" />
-                      <label htmlFor="xl">XL</label>
-                    </li>
+                    {array_size?.map((e: any) => {
+                      return (
+                        <li>
+                          <input
+                            type="checkbox"
+                            value={e.value}
+                            onChange={(e) => {
+                              setSize(e.target.value);
+                            }}
+                            checked={e.value === size}
+                            name="s"
+                            id="s"
+                          />
+                          <label htmlFor="s">{e.label}</label>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
