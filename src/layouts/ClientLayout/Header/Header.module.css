@@ -244,7 +244,7 @@
   font-size: 14px;
   font-weight: 600;
   user-select: none;
-  color: red;
+  color: #000;
 }
 @media (max-width: 1024px) {
   .nav_bar_desktop {
@@ -257,7 +257,7 @@
     justify-content: center;
   }
   .modal_user {
-    left: -540%;
+    left: -500%;
   }
 }
 @media (min-width: 1024px) {
@@ -287,6 +287,6 @@
     width: 25%;
   }
   .modal_user {
-    left: -330%;
+    left: -500%;
   }
 }

@@ -59,11 +59,6 @@ const ClientHeader = (props: Props) => {
   }, [dispatch]);
 
   const onSubmit = async (values: Inputs) => {
-    // dispatch(
-    //   search({
-    //     name: values?.name || "",
-    //   })
-    // );
     navigate(`/search/${values?.name}`);
   };
 
@@ -111,18 +106,18 @@ const ClientHeader = (props: Props) => {
           </li>
           <li className={`${styles.item} ${styles.itemSubNav}`}>
             <Link to={"/products"} className={styles.itemLink}>
-              Áo
+              Sản phẩm
             </Link>
             <div className={styles.line}></div>
-            <SubNav />
+            {/* <SubNav /> */}
           </li>
-          <li className={`${styles.item} ${styles.itemSubNav}`}>
+          {/* <li className={`${styles.item} ${styles.itemSubNav}`}>
             <Link to={""} className={styles.itemLink}>
               Phụ Kiện
             </Link>
             <div className={styles.line}></div>
             <SubNav />
-          </li>
+          </li> */}
           <li className={styles.item}>
             <Link to={""} className={styles.itemLink}>
               Giới Thiệu
@@ -184,11 +179,6 @@ const ClientHeader = (props: Props) => {
                 {currentUser?.users?.role == 1 ? (
                   <Link to={"/admin/dashboard"}>
                     <div className={styles.item_user}>Trang quản trị</div>
-                  </Link>
-                ) : null}
-                {currentUser?.users?.role == 0 ? (
-                  <Link to={"/profile"}>
-                    <div className={styles.item_user}>Thông tin</div>
                   </Link>
                 ) : null}
                 <Link to={"/order"}>
