@@ -83,6 +83,7 @@ const ProductManager = (props: Props) => {
           gt: values?.start_price || 0,
           lt: values?.end_price || 100000000000,
         },
+        size: "",
       })
     );
   };
