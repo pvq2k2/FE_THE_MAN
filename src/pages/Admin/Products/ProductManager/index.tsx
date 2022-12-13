@@ -34,8 +34,6 @@ type Inputs = {
 
 const ProductManager = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
-  console.log("product",product);
-
   const pages = useSelector((state: RootState) => state?.product.page);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -53,13 +51,6 @@ const ProductManager = (props: Props) => {
     formState: { errors },
     reset,
   } = useForm<Inputs>();
-
-  // const showDetailProduct = async (id: any) => {
-  //   const detailProduct = await dispatch(getProduct(id));
-  //   return ( <div>
-  //     {detailProduct.payload}
-  //   </div>)
-  // }
   const handleRemove = (id: any) => {
     Swal.fire({
       title: "Bạn có chắc chắn muốn xóa không?",
@@ -91,6 +82,7 @@ const ProductManager = (props: Props) => {
           gt: values?.start_price || 0,
           lt: values?.end_price || 100000000000,
         },
+        size: "",
       })
     );
   };
@@ -131,7 +123,9 @@ const ProductManager = (props: Props) => {
               placeholder="Đến giá"
             />
           </div>
-          <button className=" inline-flex items-center px-6 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E] outline-0">
+          <button className="search-add inline-flex items-center px-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E] outline-0">
+         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+
             Tìm kiếm
           </button>
         </form>

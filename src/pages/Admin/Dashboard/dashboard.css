@@ -6,12 +6,25 @@ main {
   min-height: 0px !important;
 }
 .react-datepicker__input-container {
-  border: 1px solid black;
+  border: 2px solid #e2e5e8;
+  border-radius: 10px;
 }
 .react-datepicker-wrapper {
-  /* width: 100% !important; */
+  width: unset !important;
   display: inline-block !important;
+  margin-right: 12px;
 }
-form button {
+.formDashboard button {
   margin-left: 10px;
+}
+.formDashboard {
+  flex-grow: 1;
+}
+.react-datepicker-wrapper input {
+  padding: 4px;
+  width: 200px;
+}
+.formDashboard span {
+  padding-top: 5px;
+  padding-right: 5px;
 }

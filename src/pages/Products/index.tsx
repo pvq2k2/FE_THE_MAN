@@ -5,7 +5,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import styles from "./Products.module.css";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { getProducts } from "../../redux/slices/productSlice";
+import { filter_product, getProducts } from "../../redux/slices/productSlice";
 import { getCatePro } from "../../redux/slices/cateProductSlice";
 import NumberFormat from "react-number-format";
 type Props = {};
@@ -16,6 +16,9 @@ const Products = (props: Props) => {
   const catePro = useSelector((state: RootState) => state.catePro);
   const dispatch = useAppDispatch();
   const [isShowFilter, setIsShowFilter] = useState(false);
+  const [values, setValues] = useState("");
+  const [size, setSize] = useState("");
+  console.log(size);
 
   useEffect(() => {
     dispatch(
@@ -29,6 +32,33 @@ const Products = (props: Props) => {
   useEffect(() => {
     dispatch(getCatePro());
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(
+      filter_product({
+        name: "",
+        prices: {
+          gt: values?.split("-")[0] || 0,
+          lt: values?.split("-")[1] || 100000000000,
+        },
+        size,
+      })
+    );
+  }, [values, size]);
+  // console.log("100000-200000".split("-")[0]);
+  const array = [
+    { label: "Dưới 100.000đ", value: "0-100000" },
+    { label: "100.000đ - 200.000đ", value: "100000-200000" },
+    { label: "200.000đ - 300.000đ", value: "200000-300000" },
+    { label: "300.000đ - 500.000đ", value: "300000-500000" },
+    { label: "500.000đ - 1.000.000đ", value: "500000-1000000" },
+    { label: "Trên 1.000.000đ", value: "1000000" },
+  ];
+  const array_size = [
+    { label: "S", value: "S" },
+    { label: "L", value: "L" },
+    { label: "M", value: "M" },
+    { label: "XL", value: "XL" },
+  ];
   return (
     <div className={styles.container}>
       {/* <div className={styles.breadcrumb}>
@@ -76,56 +106,46 @@ const Products = (props: Props) => {
                 <div className={styles.price}>
                   <h3>Giá sản phẩm</h3>
                   <ul>
-                    <li>
-                      <input type="checkbox" name="100k" id="100k" />
-                      <label htmlFor="100k">Giá dưới 100.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="200k" id="200k" />
-                      <label htmlFor="200k">100.000đ - 200.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="300k" id="300k" />
-                      <label htmlFor="300k">200.000đ - 300.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="500k" id="500k" />
-                      <label htmlFor="500k">300.000đ - 500.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="500k" id="500k" />
-                      <label htmlFor="500k">300.000đ - 500.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="1000k" id="1000k" />
-                      <label htmlFor="1000k">500.000đ - 1.000.000đ</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="1m" id="1m" />
-                      <label htmlFor="1m">Giá trên 1.000.000đ</label>
-                    </li>
+                    {array.map((e: any) => {
+                      return (
+                        <li>
+                          <input
+                            type="checkbox"
+                            value={e.value}
+                            onChange={(e) => {
+                              setValues(e.target.value);
+                            }}
+                            checked={e.value === values}
+                            name="a"
+                            id="100k"
+                          />
+                          <label htmlFor="100k">{e.label}</label>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
 
                 <div className={styles.size}>
                   <h3>Size</h3>
                   <ul>
-                    <li>
-                      <input type="checkbox" name="s" id="s" />
-                      <label htmlFor="s">S</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="m" id="m" />
-                      <label htmlFor="m">M</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="l" id="l" />
-                      <label htmlFor="l">L</label>
-                    </li>
-                    <li>
-                      <input type="checkbox" name="xl" id="xl" />
-                      <label htmlFor="xl">XL</label>
-                    </li>
+                    {array_size?.map((e: any) => {
+                      return (
+                        <li>
+                          <input
+                            type="checkbox"
+                            value={e.value}
+                            onChange={(e) => {
+                              setSize(e.target.value);
+                            }}
+                            checked={e.value === size}
+                            name="s"
+                            id="s"
+                          />
+                          <label htmlFor="s">{e.label}</label>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
@@ -142,30 +162,33 @@ const Products = (props: Props) => {
                     <div className={styles.imgProduct}>
                       <img src={item.image} alt="" className={styles.imgDf} />
                       <img src={item.subimg[0]} className={styles.subImg} />
-                      <div className={styles.color}>
-                        <div
-                          className={styles.item_color}
-                          style={{
-                            backgroundColor: `red`,
-                          }}
-                        ></div>
+                      {/*<div className={styles.color}>*/}
+                      {/*  <div*/}
+                      {/*    className={styles.item_color}*/}
+                      {/*    style={{*/}
+                      {/*      backgroundColor: `red`,*/}
+                      {/*    }}*/}
+                      {/*  ></div>*/}
 
-                        <div
-                          className={styles.item_color}
-                          style={{
-                            backgroundColor: `green`,
-                          }}
-                        ></div>
-                      </div>
+                      {/*  <div*/}
+                      {/*    className={styles.item_color}*/}
+                      {/*    style={{*/}
+                      {/*      backgroundColor: `green`,*/}
+                      {/*    }}*/}
+                      {/*  ></div>*/}
+                      {/*</div>*/}
                     </div>
                     <h3>{item.name}</h3>
-                    <span> <NumberFormat
-                    value={item?.price}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={""}
-                  />{" "}
-                   VNĐ</span>
+                    <span>
+                      {" "}
+                      <NumberFormat
+                        value={item?.price}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={""}
+                      />{" "}
+                      VNĐ
+                    </span>
                   </Link>
                 </div>
               );

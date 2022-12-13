@@ -207,6 +207,7 @@ const CheckoutPage = (props: Props) => {
       productmonney: total,
       userID: carts?.carts?.userID,
       tm_codeorder: carts?.carts?.tm_codeorder,
+      linkpay: carts?.carts?.linkpay,
       totalprice: total + fee,
       width: sumwidth,
       length: sumlength,
