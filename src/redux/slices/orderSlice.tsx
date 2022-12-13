@@ -161,18 +161,24 @@ export const searchOrder = createAsyncThunk(
 export const orderConfirm = createAsyncThunk(
   "orders/orderconfirm",
   async (data: any) => {
-    const res = await axios.post(
-      "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create",
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          ShopId: 120366,
-          Token: "755b4fbb-5918-11ed-bd1f-1a28f04fff2f",
-        },
-      }
-    );
-    return res.data;
+    try {
+      const res = await axios.post(
+        "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ShopId: 120366,
+            Token: "755b4fbb-5918-11ed-bd1f-1a28f04fff2f",
+          },
+        }
+      );
+      return res.data;
+    } catch (er) {
+      toast.error(er?.response?.data.code_message_value)
+      toast.error(er?.response?.data.message)
+    } 
+    
   }
 );
 

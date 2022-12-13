@@ -38,6 +38,8 @@ const ProductAdd = () => {
   const categories = useSelector(
     (state: any) => state.catePro.cateproducts
   );
+  console.log("Product0",categories);
+  
   const [preview, setPreview] = useState<string>();
   const [previews, setPreviews] = useState<Iimgs[]>([]);
   const dispatch = useDispatch<any>();
@@ -46,7 +48,7 @@ const ProductAdd = () => {
   useEffect(() => {
     (async () => {
       await dispatch(getCatePro())
-    })
+    })()
   }, [])
   const methods = useForm<Inputs>({
     defaultValues: {

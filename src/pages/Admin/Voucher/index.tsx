@@ -95,12 +95,12 @@ const VoucherManager = () => {
                   thousandSeparator={true}
                   prefix={""}
                 />}      {item?.amount > 0 ? "VNĐ" : "%"}</td>
-                  <td>{item?.numberofuses}  / lần</td>
-                  <td>{item?.numberoftimesused} / lần</td>
+                  <td>{item?.numberofuses}   lần</td>
+                  <td>{item?.numberoftimesused}  lần</td>
                   <td>{item?.startday}</td>
                   <td>{item?.endtime}</td>
-                  <td>{item?.limiteduse} / lần</td>
-                  <td>{item?.timeuser} / ngày</td>
+                  <td>{item?.limiteduse}  lần</td>
+                  <td>{item?.timeuser}  ngày</td>
                   <td>{item?.numberofuses <= item?.numberoftimesused || moment(item?.endtime).unix() <= moment().unix() ? <p className="text-center p-[5px] bg-[#009efb] rounded-md text-white">Inactive</p> : <p className="text-center text-white p-[5px] bg-[#f62d51] rounded-md">Active</p>}</td>
                   <td className={styles.action}>
                     <Link to={`/admin/vouchers/${item?._id}/edit`}>

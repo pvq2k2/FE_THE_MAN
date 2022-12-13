@@ -19,7 +19,7 @@ interface CartItemProps {
 export default function CartItem(props: CartItemProps) {
   const { item, id } = props;
   const dispatch = useDispatch<any>();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState<Number>();
   const [isDisabled, setDisabled] = useState(false);
 
   useEffect(() => {
@@ -59,11 +59,11 @@ export default function CartItem(props: CartItemProps) {
 
   const onBlurQuantity = async (data: any, e: any) => {
     setDisabled(true);
-    setInputValue(e.target.value);
+    setInputValue(parseInt(e.target.value));
     const product = {
       ...data,
       userID: id,
-      quantitychange: e.target.value,
+      quantitychange: parseInt(e.target.value),
     };
     await dispatch(changeQuantity(product));
     setDisabled(false);
@@ -112,8 +112,8 @@ export default function CartItem(props: CartItemProps) {
             onBlur={(e) => onBlurQuantity(item, e)}
             type="number"
             defaultValue={item.quantity}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            value={parseInt(inputValue)}
+            onChange={(e) => setInputValue(parseInt(e.target.value))}
             //   onChange={(e) => onChangeQuantity(item, e)}
             className={clsx(
               "w-[50px] h-[32px] border-[rgba(0,0,0,.09)]  border-2 text-center",

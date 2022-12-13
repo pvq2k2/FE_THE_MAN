@@ -49,7 +49,7 @@ const NewProduct = (props: Props) => {
           <h2>Sản phẩm mới</h2>
         </div>
         <Slider className={styles.slider} {...settings}>
-          {product?.products?.products?.map((item: any, index: any) => {
+          {product?.products?.Product?.map((item: any, index: any) => {
             return (
               <div key={index} className={styles.product__item}>
                 <div className={styles.item__box}>

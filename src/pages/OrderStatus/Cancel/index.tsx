@@ -32,6 +32,7 @@ const Cancel = () => {
             <th className=" font-semibold pb-5 text-center">Sản phẩm</th>
             <th className="font-semibold pb-5">Tổng tiền</th>
             <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
+            <th className="font-semibold pb-5">Trạng thái đơn hàng</th>
             <th className="font-semibold pb-5">Hành động</th>
           </tr>
         </thead>
@@ -54,7 +55,12 @@ const Cancel = () => {
                   thousandSeparator={true}
                   prefix={""}
                 />} VND</td> 
-              <td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết sản phẩm</button></Link> </td> 
+              <td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết Đơn hàng</button></Link> </td> 
+              <td className=" text-red-500 font-bold py-10  gap-8">
+                    {item?.payment_status == 0
+                      ? "Chưa thanh toán"
+                      : "Đã thanh toán"}
+                  </td> 
                <td className="py-10  gap-8">
                 
                    <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded p-[5px]' type='submit' >Huỷ đơn hàng</button>

@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { checkVoucher, removeVoucher } from "../../redux/slices/voucherSlice";
 import moment from "moment";
+import { createUrlPayment } from "../../redux/slices/paymentSlice";
 type Props = {};
 
 
@@ -104,7 +105,8 @@ const CheckoutPage = (props: Props) => {
     (async () => {
       const data = {
         ...provicei,
-        service_type_id: 2,
+        service_id:53319,
+        service_type_id: null,
         insurance_value: total,
         coupon: null,
         from_district_id: 3440,
@@ -113,10 +115,21 @@ const CheckoutPage = (props: Props) => {
         weight: sumweight,
         width: sumwidth,
       };
-
-      const res = await dispatch(getFee(data));
-      setFee(res?.payload?.total);
+      
+        if(provicei?.to_ward_code) {
+          const res = await dispatch(getFee(data));
+          if(res?.payload?.total) {
+            setFee(res?.payload?.total)
+          }else{
+            setFee(0)
+          }
+        }
+        console.log("provicei",provicei);
+        
+      
     })();
+    console.log("provicei",provicei);
+    
   }, [provicei]);
 
   const {
@@ -124,7 +137,7 @@ const CheckoutPage = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onAdd: SubmitHandler<any> = async (data: any) => {
+  const onAdd: SubmitHandler<any> = async (data: any) => { 
     if (provicei.to_district_id == 0) {
       return toast.info("Vui lòng chọn địa chỉ giao hàng");
     }
@@ -137,14 +150,57 @@ const CheckoutPage = (props: Props) => {
     if (!carts?.carts?.products) {
       return toast.info("Không có sản phẩm");
     }
+    
     let _id = "";
     let idv = ""  //id voucher
     if(voucher?._id) {
       idv = voucher?._id
     }
     _id = carts.carts._id;
-    const products = {
-      _id,
+
+
+    const payment = {
+      "amount": total + fee,
+      "orderDescription": "Thanh toán đơn hàng " + carts?.carts?.tm_codeorder,
+      "orderType": 200000,
+      "bankCode": "",
+      "language":"vn",
+      "orderid": carts?.carts?.tm_codeorder
+    }
+    let linkpay = ""
+    if(Payment == 1) {
+        const res = await dispatch(createUrlPayment(payment))
+        if(res?.payload?.code == 200) {  
+          linkpay = res?.payload?.vnpUrl
+          window.open(res?.payload?.vnpUrl,"_blank")
+        }else {
+          return toast.error("Lỗi, Vui lòng thử lại");
+        }
+    }
+
+    let products = {};
+    if(Payment == 1) {
+      products = {
+        _id,
+      product,
+      infomation: info,
+      fee: fee,
+      productmonney: total,
+      userID: carts?.carts?.userID,
+      tm_codeorder: carts?.carts?.tm_codeorder,
+      linkpay,
+      totalprice: total + fee,
+      width: sumwidth,
+      length: sumlength,
+      height: sumheight,
+      weight: sumweight,
+      payment_methods: Payment,
+      voucher: idv,
+      
+      }
+    }else {
+      products = {
+        _id,
       product,
       infomation: info,
       fee: fee,
@@ -158,7 +214,10 @@ const CheckoutPage = (props: Props) => {
       weight: sumweight,
       payment_methods: Payment,
       voucher: idv
-    };
+      }
+    }
+   
+
 
     const res = await dispatch(addOrder(products));
     if (res?.payload?.code == 200) {
@@ -172,7 +231,7 @@ const CheckoutPage = (props: Props) => {
       );
       navigate("/thankkiu");
     } else {
-      navigate("/cart");
+    navigate("/cart");
     }
   };
 
@@ -381,13 +440,13 @@ const CheckoutPage = (props: Props) => {
                 <button
                   type="button"
                   onClick={() => onVoucher()}
-                  className="bg-black text-white font-semibold p-3 w-full"
+                  className="bg-black m-0 text-white font-semibold p-3 w-30%"
                 >
                   Áp dụng
                 </button>
 
-                <div className=" pt-5 flex border-dashed border-t-2 border-t-black">
-                  <span className="grow font-semibold">Sản Phẩm</span>
+                <div className=" pt-5 flex ">
+                  <span className="grow font-bold">Sản Phẩm</span>
                   <span className="text-right font-semibold">Giá</span>
                 </div>
                 {carts?.carts?.products?.map((item: any, index: number) => {    
@@ -429,9 +488,9 @@ const CheckoutPage = (props: Props) => {
                   <span className="grow font-semibold">Tạm Tính </span>
                   <span className="text-right ">{formatCurrency(total)}</span>
                 </div>
-                <div className=" pt-5 flex">
-                  <span className="grow font-semibold">Chi phí vận chuyển</span>
-                  <span className="text-right ">
+                <div className=" pt-5 flex justify-between">
+                  <div className="flex"><img className="w-[50px] mr-[5px]" src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png" alt="" /> <span>Phí giao hàng:</span></div>
+                  <span className="text-right">
                     {fee ? formatCurrency(fee) : 0}
                   </span>
                 </div>
@@ -444,7 +503,7 @@ const CheckoutPage = (props: Props) => {
 
                 <div className="flex flex-col  my-[10px]">
                   <div className="flex items-center mr-4">
-                    <input
+                    <input defaultChecked
                       id="inline-radio"
                       type="radio"
                       onClick={() => setPayment(0)}
@@ -470,42 +529,10 @@ const CheckoutPage = (props: Props) => {
                       htmlFor="inline-2-radio"
                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      Chuyển khoản qua ngân hàng
+                      Thanh toán tự động qua VNPAY <img src="https://i0.wp.com/discvietnam.com/wp-content/uploads/2020/07/C%E1%BB%95ng-thanh-to%C3%A1n-VNPAY-Logo-Th%E1%BA%BB-ATM-T%C3%A0i-kho%E1%BA%A3n-ng%C3%A2n-h%C3%A0ng-Online-Banking-M%C3%A3-QR-QR-Pay-Qu%C3%A9t-QR-Transparent.png?fit=360%2C140&ssl=1" className="w-[80px]" alt="" />
                     </label>
                   </div>
-                  {Payment == 1 ? (
-                    <div className="max-w-sm p-6 my-[15px] bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                      <img
-                        width="100px"
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Logo_MB_new.png/1200px-Logo_MB_new.png"
-                        alt=""
-                      />
-                      <h5 className="mb-2 text-[15px] font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Số tài khoản: 2730101186666
-                      </h5>
-                      <h5 className="mb-2 text-[15px] font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Chủ tài khoản: Nguyễn Văn Hải
-                      </h5>
-                      <h5 className="mb-2 text-[15px] font-semibold tracking-tight text-gray-900 dark:text-white">
-                        Nội dung : {carts?.carts?.tm_codeorder}
-                      </h5>
-                      <div className="selection:bg-fuchsia-300 font-semibold selection:text-fuchsia-900">
-                        <p>
-                          Lưu ý: Vui lòng chuyển khoản đúng nội dung, nếu chuyển
-                          sai vui lòng{" "}
-                          <a
-                            href="https://chat.zalo.me/?phone=0982641483"
-                            className="text-blue-600"
-                          >
-                            bấm vào đây
-                          </a>{" "}
-                          để liện hệ với người bán hàng
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
-                    " "
-                  )}
+                  
                 </div>
 
                 <button className="bg-black text-white font-semibold p-3 mt-10 w-full">

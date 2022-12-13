@@ -51,10 +51,6 @@ const Comment = (props: Props) => {
   useEffect(() => {
     // dispatch(isBuy("63811daf55696ccfd45ac8f6"));
     for (let i = 0; i < order.orders.length; i++) {
-      // console.log(order.orders[i]);
-      console.log(order?.orders[i].userID);
-      console.log(code);
-
       if (order?.orders[i].userID == code) {
         for (let a = 0; a < order?.orders[i].product.length; a++) {
           // console.log(order?.orders[i].product[a]._id);

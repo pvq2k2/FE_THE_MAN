@@ -8,6 +8,7 @@ import {
 } from "../../api-cilent/Cart";
 import { AddOrderApi, countProductApi, UpdateQuantityCart } from "../../api-cilent/Orders";
 import { get } from "../../api-cilent/Product";
+import { checkVoucherApi } from "../../api-cilent/Voucher";
 
 interface Icart {
   cart: {};
@@ -197,8 +198,6 @@ export const addToCart = createAsyncThunk(
 export const addOrder = createAsyncThunk(
   "Users/addorder",
   async (data: any) => {
-    console.log("cec0",data);
-    
     let error = 0;
    
       for (let index = 0; index < data.product?.length; index++) {
@@ -212,11 +211,19 @@ export const addOrder = createAsyncThunk(
       }
 
       if (error < 1) {
-        const response = AddOrderApi(data);
-        const remove = removeCart(data?._id);
+        const response = await AddOrderApi(data);
+        const remove = await removeCart(data?._id);
         for (let index = 0; index < data.product?.length; index++) {
           const element = data.product[index];
           const res = await UpdateQuantityCart(element);
+        }
+        if(data?.voucher) {
+          const raw = {
+            update:true,
+            _id: data?.voucher,
+            iduser: data?.userID
+          }
+          await checkVoucherApi(raw)
         }
         return {
           code: 200, 
@@ -268,6 +275,8 @@ const cartSlice = createSlice({
       }),
       
       build.addCase(addOrder.fulfilled, (state, { payload }) => {
+        
+        
           if(payload?.code == 200) { 
             state.carts = {}
           }
