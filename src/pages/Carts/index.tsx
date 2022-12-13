@@ -22,7 +22,8 @@ const CartPage = (props: Props) => {
   const dispatch = useDispatch<any>();
 
   const carts = useSelector((state: any) => state.carts);
-  const vouchers = useSelector((state: any) => state.voucher)
+
+
   const navigate = useNavigate();
   
   let sum = 0;

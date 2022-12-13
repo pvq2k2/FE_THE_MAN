@@ -53,6 +53,7 @@ const Waitting = (props: Props) => {
               <th className=" font-semibold pb-5 text-center">Sản phẩm</th>
               <th className="font-semibold pb-5">Tổng tiền</th>
               <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
+              <th className="font-semibold pb-5">Thông tin thanh toán</th>
               <th className="font-semibold pb-5">Hành động</th>
             </tr>
           </thead>
@@ -74,6 +75,13 @@ const Waitting = (props: Props) => {
                   prefix={""}
                 />} VND</td>
                <td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết sản phẩm</button></Link> </td>  
+               <td className=" text-red-500 font-bold py-10  gap-8 flex flex-col">
+                    {item?.payment_status == 0
+                      ? "Chưa thanh toán"
+                      : "Đã thanh toán"}
+
+                    {item?.payment_methods == 1 && item?.payment_status == 0 ? <a href={item?.linkpay} className="text-blue-500" target="_blank">Bấm vào đây để thanh toán</a> : ""} 
+                  </td> 
                <td className="py-10  gap-8">
                 
                    <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded py-[5px]' type='submit' onClick={() => onCancelOrder(item)}>Huỷ đơn hàng</button>

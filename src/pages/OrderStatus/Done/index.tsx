@@ -47,6 +47,7 @@ import "../Cancel/index.css"
             <th className=" font-semibold pb-5 text-center">Sản phẩm</th>
             <th className="font-semibold pb-5">Tổng tiền</th>
             <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
+            <th className="font-semibold pb-5">Thông tin thanh  toán </th>
             <th className="font-semibold pb-5">Đánh giá chất lượng</th>
           </tr>
         </thead>
@@ -67,6 +68,11 @@ import "../Cancel/index.css"
                   prefix={""}
                 />} VND</td>  
 <td className=" py-10  gap-8 "> <Link to={`/detailOrder/${item._id}`}><button className="btn" >Chi tiết sản phẩm</button></Link> </td> 
+<td className=" text-red-500 font-bold py-10  gap-8">
+                    {item?.payment_status == 0
+                      ? "Chưa thanh toán"
+                      : "Đã thanh toán"}
+                  </td> 
           <td className="py-10  gap-8">
           
             <form  className='flex flex-col pt-7'>

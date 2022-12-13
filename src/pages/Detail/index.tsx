@@ -42,6 +42,7 @@ const DetailProduct = (props: Props) => {
   const [sizeSelected, setSizeSelected] = useState<string>();
   const [quantities, setQuantities] = useState(0);
   const [User, setUser] = useState<any>();
+  const users = useSelector((state:any) => state.auth) 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user") as any));
   }, []);
@@ -49,7 +50,7 @@ const DetailProduct = (props: Props) => {
     isShow(true);
   };
   const onAddOrder: SubmitHandler<any> = async (data: any) => {
-    if (!User) {
+    if (users?.isLogged == false) {
       setTimeout(() => {
         navigate("/signin");
       }, 2000);
@@ -137,6 +138,8 @@ const DetailProduct = (props: Props) => {
           ],
         });
       });
+      console.log('colorSizeValue',colorSizeValue);
+      
       setColorSize(colorSizeValue);
       setColorSelected(Array.from(colorSizeValue.keys())[0]);
     }
@@ -186,21 +189,23 @@ const DetailProduct = (props: Props) => {
         {/* Product */}
         <div className="containerx">
           <div className="detail_product dp-flex">
-            <div className="product-gallary__thumbs">
-              {product?.subimg?.map((item: any, index: number) => {
-                return (
-                  <div key={index++} className="product-gallery__thumb">
-                    <img src={item} alt="" className="imglist " />
-                  </div>
-                );
-              })}
-            </div>
+           
             <div className="avatar__wrapper">
               <img
                 src={product?.image}
-                className="img_main max-w-[600px]"
+                className="img_main max-w-[550px] max-h-[500px] rounded-sm"
                 alt=""
               />
+               <div className="product-gallary__thumbs max-w-[550px] dp-flex flex-wrap">
+              {product?.subimg?.map((item: any, index: number) => {
+                return (
+                  <div key={index++} className="product-gallery__thumb mt-[10px]">
+                    <img src={item} alt="" className="imglist !max-w-[60px] mr-[5px] rounded-sm"/>
+                  </div>
+                );
+              })}
+              
+            </div>
             </div>
             <div className="info__product">
               <h1 className="name__product !font-bold !text-[26px]">

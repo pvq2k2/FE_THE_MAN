@@ -7,11 +7,6 @@ import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { updateStatusOrderApi } from "../../../../api-cilent/Orders";
-import {
-  getCatePost,
-  updateCatePost,
-} from "../../../../redux/slices/catePostSlice";
 import {
   cancelOrder,
   infoOrder,
@@ -19,8 +14,8 @@ import {
   readOrder,
   updateOrder,
 } from "../../../../redux/slices/orderSlice";
-import { useAppDispatch } from "../../../../redux/store";
-import { formatDateGHN } from "../../../../ultis";
+import { checkVoucher, GETVoucherX } from "../../../../redux/slices/voucherSlice";
+import { formatCurrency, formatDateGHN } from "../../../../ultis";
 
 const CartUpdate = () => {
   const dispatch = useDispatch<any>();
@@ -34,8 +29,8 @@ const CartUpdate = () => {
     reset,
   } = useForm();
   const order = useSelector((state: any) => state.orders);
-  let sum = 0;
-
+  const voucher = useSelector((state: any) => state.voucher);
+  let sum = 0
   const onUpdate = async (data: any) => {
     data.status = parseInt(data.status);
     let product = [];
@@ -43,8 +38,10 @@ const CartUpdate = () => {
     if (order.order.status == 1 && data.status == 1) {
       return toast.info("Đơn hàng đã được xác nhận");
     }
-    if (data.status == 2 && order?.orderinfo?.data?.status != "ready_to_pick") {
-      return toast.info("Đơn hàng này đã xác nhận không thể huỷ");
+    if (data.status == 2 && order.order.status == 2) {
+      return toast.info("Đơn hàng này đã huỷ");
+    }else if(data.status == 2 && order?.orderinfo?.data?.status != "ready_to_pick") {
+      return toast.info("Đơn hàng này đã giao hoặc đang được giao");
     }
     product = data.product;
     const infocart = {
@@ -81,7 +78,8 @@ const CartUpdate = () => {
       pick_station_id: null,
       deliver_station_id: null,
       insurance_value: data?.productmonney,
-      service_type_id: 2,
+      service_type_id: null,
+      service_id:53319,
       coupon: null,
       pick_shift: null,
       pickup_time: null,
@@ -99,9 +97,9 @@ const CartUpdate = () => {
         return toast.info("Huỷ đơn hàng thành công !");
       }
     }
-    if (data.order_code) {
+    if (data.status == 1 && data.order_code ) {
       return toast.info(
-        "Đơn hàng này đã được xác nhận. Đang đợi shipper tới lấy hàng"
+        "Đơn hàng này đã được xác nhận."
       );
     }
     if (data.status === 1) {
@@ -171,25 +169,20 @@ const CartUpdate = () => {
   useEffect(() => {
     (async () => {
       const carts = await dispatch(readOrder(id!));
+      const raw = {
+        view: true,
+        update:false,
+        _id: carts?.payload?.voucher,
+        iduser: carts?.payload?.userID
+    }
+    const vouc = await dispatch(GETVoucherX(raw))
       reset(carts?.payload);
       let orderId: any = {
         order_code: carts?.payload?.order_code,
       };
       dispatch(infoOrder(orderId || ""));
     })();
-  }, [id, dispatch]);
-
-  // console.log("order before", order);
-
-  // useEffect(() => {
-  //   (async() => {
-  //     // console.log("order after", order);
-  //     let id:any = {
-  //       order_code: order?.order?.order_code
-  //     }
-  //   const res = await dispatch(infoOrder(id))
-  //   })()
-  // },[order.order.order_code])
+  }, [id, dispatch, order?.order?.voucher]);
   const onPrint = () => {
     setHidden(true);
   };
@@ -312,9 +305,12 @@ const CartUpdate = () => {
                             return (
                               <div key={index++}>
                                 <p className="text-[#d53b3bcc]">
-                                  {formatDateGHN(item?.updated_date).dateg +
-                                    "-" +
-                                    formatDateGHN(item?.updated_date).hours}
+                                    {/* {formatDateGHN(item?.updated_date).dateg +
+                                      "-" +
+                                      formatDateGHN(item?.updated_date).hours} */}
+                                     {moment(item?.updated_date).format(
+                        "DD [tháng] MM, YYYY[\r\n]HH Giờ mm [Phút]"
+                      )}
                                 </p>
                                 <p className="text-[#26aa99] border-solid">
                                   {status}
@@ -358,6 +354,8 @@ const CartUpdate = () => {
                       />
                     }
                     VNĐ
+                    {voucher?.voucher?.code ?  <p className="font-bold text-[10px]">Giảm giá voucher:</p> : ""}
+                    {voucher?.voucher?.code ?  <p className="font-bold text-[10px]">{voucher?.voucher?.percent > 0 ? `- ` + voucher?.voucher?.percent + `%` : "-" + formatCurrency(voucher?.voucher?.amount)}</p> : ""}
                   </td>
                   <td className=" py-10  gap-8">
                     {" "}
@@ -370,6 +368,8 @@ const CartUpdate = () => {
                       />
                     }
                     VNĐ
+
+                    
                   </td>
                   <td className=" py-10  gap-8">
                     {order?.order?.payment_status == 0

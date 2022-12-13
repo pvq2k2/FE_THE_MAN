@@ -155,7 +155,7 @@ const Products = (props: Props) => {
 
         <div className="boxProducts">
           <div className={styles.rowProduct}>
-            {product?.products?.products?.map((item: any, index: any) => {
+            {product?.products?.Product?.map((item: any, index: any) => {
               return (
                 <div key={index + 1} className={styles.itemProduct}>
                   <Link to={`/detail/${item._id}`}>

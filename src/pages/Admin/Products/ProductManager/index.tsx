@@ -34,7 +34,6 @@ type Inputs = {
 
 const ProductManager = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
-
   const pages = useSelector((state: RootState) => state?.product.page);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -141,7 +140,7 @@ const ProductManager = (props: Props) => {
         </Link>
       </header>
       <main>
-        {product?.products?.products?.length > 0 ? (
+        {product?.products?.Product?.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -154,7 +153,7 @@ const ProductManager = (props: Props) => {
               </tr>
             </thead>
             <tbody>
-              {product?.products.products?.map((item: any, index: any) => {
+              {product?.products?.Product?.map((item: any, index: any) => {
                 return (
                   <tr key={item._id}>
                     <td>{(pages - 1) * 10 + ++index}</td>

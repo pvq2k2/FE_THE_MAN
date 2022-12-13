@@ -25,14 +25,14 @@
   margin: 0 auto;
 }
 .detail_page {
-  padding: 50px 0;
+  padding: 20px 0;
 }
 a {
   text-decoration: none;
 }
 
 .breadcrumb_list {
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 .breadcrumb_list .home_navigation {
   color: #a6a6a6;
@@ -167,9 +167,11 @@ input {
 .size__guide img {
   margin-right: 10px;
 }
+
 .add_cart .btn_add {
   width: 100%;
   padding: 15px 0;
+  margin: 0 0;
   border-radius: 10px;
   background-color: var(--black-color);
   color: var(--white-color);
@@ -246,7 +248,6 @@ input {
 }
 .comments_wrapper {
   margin-top: 65px;
-  width: 80%;
   margin: auto;
 }
 .form_comment textarea {

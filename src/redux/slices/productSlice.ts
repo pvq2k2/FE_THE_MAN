@@ -110,9 +110,9 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
-      console.log(payload);
+      console.log("payload",payload);
 
-      state.products = payload as any;
+      state.products.Product = payload.products as any;
     });
     builder.addCase(thongkes.pending, (state, { payload }) => {
       console.log(payload);

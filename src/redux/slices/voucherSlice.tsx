@@ -6,18 +6,23 @@ import { addVoucherApi, checkVoucherApi, getVoucherApi, getVouchersApi, removeVo
 type Ivoucher = {
       voucher: {},
       vouchera: {},
-      vouchers: []
+      vouchers: [],
+
 };
 
 const initialState: Ivoucher = {
     voucher: {},
     vouchera: {},
     vouchers: []
+      
 };
 
 
-export const checkVoucher = createAsyncThunk("voucher/checkvoucher", async (data:any) => {
-    const res = await checkVoucherApi(data)
+
+export const GETVoucherX = createAsyncThunk("voucher/getvoucherx", async (data:any) => {
+    let response = {}
+    if(data._id) {
+      const res = await checkVoucherApi(data)
     if(res?.data?.code == 404) {
         return toast.error(res?.data?.message)
     }else if(res?.data?.code == 495) {
@@ -31,10 +36,40 @@ export const checkVoucher = createAsyncThunk("voucher/checkvoucher", async (data
     }else if(res?.data?.code == 500) {
       return toast.error(res?.data?.message)
     }
-    const response = {
+     response = {
       ...res.data,
       code: 200
-    } 
+    }
+    }else {
+      response = {
+        code:500
+      }
+    }  
+    return response
+})
+
+export const checkVoucher = createAsyncThunk("voucher/checkvoucher", async (data:any) => {
+    let response = {}
+    
+      const res = await checkVoucherApi(data)
+    if(res?.data?.code == 404) {
+        return toast.error(res?.data?.message)
+    }else if(res?.data?.code == 495) {
+      return toast.error(res?.data?.message)
+    }else if(res?.data?.code == 496) {
+      return toast.error(res?.data?.message)
+    }else if(res?.data?.code == 498) {
+      return toast.error(res?.data?.message)
+    }else if(res?.data?.code == 499) {
+      return toast.error(res?.data?.message)
+    }else if(res?.data?.code == 500) {
+      return toast.error(res?.data?.message)
+    }
+     response = {
+      ...res.data,
+      code: 200
+    }
+      
     return response
 })
 
@@ -74,11 +109,23 @@ const voucherSlice = createSlice({
   reducers: { },
   extraReducers: (builder) => {
     builder.addCase(checkVoucher.fulfilled, (state, { payload }) => { 
-          if(payload.code == 200){
+          if(payload?.code == 200){
             state.voucher = payload
           }
           
+          
     }),
+    builder.addCase(GETVoucherX.fulfilled, (state, { payload }) => { 
+      if(payload?.code == 200){
+        state.voucher = payload
+      }
+      if(payload?.code == 500){
+        state.voucher = {}
+      }
+      
+      
+      
+}),
     builder.addCase(removeVoucher.fulfilled, (state, {payload}) => {
             state.voucher = {
               amount: 0,
