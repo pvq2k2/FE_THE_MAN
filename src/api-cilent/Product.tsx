@@ -3,6 +3,9 @@ import instance from "./Config";
 export const getAll = (page: any, limit: any): Promise<Product[]> => {
   return instance.post("/products", { page, limit });
 };
+export const getAllproduct = (page: any, limit: any): Promise<Product[]> => {
+  return instance.post("/productadmin", { page, limit });
+};
 export const remove = (id: string): Promise<Product> => {
   return instance.delete(`/product/${id}`);
 };

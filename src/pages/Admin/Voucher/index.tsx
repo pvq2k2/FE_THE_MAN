@@ -6,7 +6,10 @@ import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { getVouchers, removeVoucherData } from "../../../redux/slices/voucherSlice";
+import {
+  getVouchers,
+  removeVoucherData,
+} from "../../../redux/slices/voucherSlice";
 import styles from "./CatePostManager.module.css";
 
 type Props = {};
@@ -14,14 +17,14 @@ type Props = {};
 const VoucherManager = () => {
   const vouchers = useSelector((state: any) => state.voucher);
   console.log("vc", vouchers);
-  
+
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
     (async () => {
-          await dispatch(getVouchers())
-    })()
-} , [])
+      await dispatch(getVouchers());
+    })();
+  }, []);
   const handremove = (id: any) => {
     Swal.fire({
       title: "Bạn có chắc chắn muốn xóa không?",
@@ -34,9 +37,9 @@ const VoucherManager = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await dispatch(removeVoucherData(id));
-        if(res?.payload?.result == 200) {
+        if (res?.payload?.result == 200) {
           Swal.fire("Thành công!", "Xóa thành công.", "success");
-        }else {
+        } else {
           Swal.fire("Lỗi!", "Lỗi gì đó.", "error");
         }
       }
@@ -63,7 +66,7 @@ const VoucherManager = () => {
           <thead>
             <tr>
               <td>STT</td>
-             
+
               <td>Mã</td>
               <td>Giảm</td>
               <td>Giới hạn lần sử dụng</td>
@@ -72,9 +75,8 @@ const VoucherManager = () => {
               <td>Kết thúc</td>
               <td>Giới hạn tài khoản</td>
               <td>Tài khoản</td>
-              <td>Trạng thái</td>
+              <td className="text-center">Trạng thái</td>
               <td>Action</td>
-              
             </tr>
           </thead>
           <tbody>
@@ -82,26 +84,44 @@ const VoucherManager = () => {
               return (
                 <tr key={item?._id}>
                   <td>{index + 1}</td>
-                 
+
                   <td>{item?.code}</td>
-                  <td>{item?.amount > 0 ? <NumberFormat
-                    value={item?.amount}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={""}
-                  /> : <NumberFormat
-                  value={item?.percent}
-                  displayType={"text"}
-                  thousandSeparator={true}
-                  prefix={""}
-                />}      {item?.amount > 0 ? "VNĐ" : "%"}</td>
-                  <td>{item?.numberofuses}   lần</td>
-                  <td>{item?.numberoftimesused}  lần</td>
+                  <td>
+                    {item?.amount > 0 ? (
+                      <NumberFormat
+                        value={item?.amount}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={""}
+                      />
+                    ) : (
+                      <NumberFormat
+                        value={item?.percent}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        prefix={""}
+                      />
+                    )}{" "}
+                    {item?.amount > 0 ? "VNĐ" : "%"}
+                  </td>
+                  <td>{item?.numberofuses} lần</td>
+                  <td>{item?.numberoftimesused} lần</td>
                   <td>{item?.startday}</td>
                   <td>{item?.endtime}</td>
-                  <td>{item?.limiteduse}  lần</td>
-                  <td>{item?.timeuser}  ngày</td>
-                  <td>{item?.numberofuses <= item?.numberoftimesused || moment(item?.endtime).unix() <= moment().unix() ? <p className="text-center p-[5px] bg-[#009efb] rounded-md text-white">Inactive</p> : <p className="text-center text-white p-[5px] bg-[#f62d51] rounded-md">Active</p>}</td>
+                  <td>{item?.limiteduse} lần</td>
+                  <td>{item?.timeuser} ngày</td>
+                  <td className="text-center">
+                    {item?.numberofuses <= item?.numberoftimesused ||
+                    moment(item?.endtime).unix() <= moment().unix() ? (
+                      <p className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded-full">
+                        Ngừng hoạt động
+                      </p>
+                    ) : (
+                      <p className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full">
+                        Đang hoạt động
+                      </p>
+                    )}
+                  </td>
                   <td className={styles.action}>
                     <Link to={`/admin/vouchers/${item?._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />

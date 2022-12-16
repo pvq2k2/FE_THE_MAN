@@ -8,6 +8,7 @@ import {
   remove,
   thongke,
   update,
+  getAllproduct,
 } from "../../api-cilent/Product";
 
 import { Product } from "../../models/Product";
@@ -40,6 +41,13 @@ export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (data: any) => {
     const response = await getAll(data.page, data.limit);
+    return response.data;
+  }
+);
+export const getProductadmins = createAsyncThunk(
+  "products/getProductadmins",
+  async (data: any) => {
+    const response = await getAllproduct(data.page, data.limit);
     return response.data;
   }
 );
@@ -110,7 +118,12 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
-      console.log("payload",payload);
+      console.log("payload", payload);
+
+      state.products.Product = payload.products as any;
+    });
+    builder.addCase(getProductadmins.fulfilled, (state, { payload }) => {
+      console.log("payload", payload);
 
       state.products.Product = payload.products as any;
     });
