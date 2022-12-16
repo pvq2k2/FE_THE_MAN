@@ -6,7 +6,7 @@ import { HiOutlineCheck, HiOutlineX, HiRefresh } from "react-icons/hi";
 import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import {
   cancelOrder,
   infoOrder,
@@ -32,20 +32,30 @@ const CartUpdate = () => {
   const voucher = useSelector((state: any) => state.voucher);
   let sum = 0
   const onUpdate = async (data: any) => {
+    data.payment_status = parseInt(data.payment_status);
     data.status = parseInt(data.status);
     let product = [];
 
     if (order.order.status == 1 && data.status == 1) {
-      return toast.info("Đơn hàng đã được xác nhận");
+      return toast.error("Đơn hàng đã được xác nhận");
+    }
+    if(data.status == 1 && order.order.status == 2) {
+      return toast.error("Đơn hàng đã huỷ...");
     }
     if (data.status == 2 && order.order.status == 2) {
-      return toast.info("Đơn hàng này đã huỷ");
+      return toast.error("Đơn hàng này đã huỷ");
     }else if(data.status == 2 && order?.orderinfo?.data?.status != "ready_to_pick") {
-      return toast.info("Đơn hàng này đã giao hoặc đang được giao");
+      return toast.error("Đơn hàng này đã giao hoặc đang được giao");
+    }
+    let payment_type_id = 2
+    if(data?.payment_status == 1 ) {
+      payment_type_id = 1
+    }else {
+      payment_type_id = 2
     }
     product = data.product;
     const infocart = {
-      payment_type_id: 2,
+      payment_type_id: payment_type_id,
       note: "The Man",
       from_name: "The Man",
       from_phone: "0982641483",

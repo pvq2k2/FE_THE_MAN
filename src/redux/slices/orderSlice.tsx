@@ -10,6 +10,7 @@ import {
   readOrdertApi,
   removeOrderApi,
   UpdateQuantityCart,
+  UpdateQuantityCart2,
   updateStatusOrderApi,
 } from "../../api-cilent/Orders";
 import { get } from "../../api-cilent/Product";
@@ -124,6 +125,10 @@ export const isBuy = createAsyncThunk("orders/isBuy", async (id: any) => {
 export const updateOrder = createAsyncThunk(
   "orders/updateorder",
   async (data: any) => {
+    for (let index = 0; index < data.product?.length; index++) {
+      const element = data.product[index];
+      await UpdateQuantityCart2(element);
+    }
     const res = await updateStatusOrderApi(data);
     return res.data;
   }

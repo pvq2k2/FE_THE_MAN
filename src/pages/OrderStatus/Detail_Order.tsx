@@ -328,7 +328,7 @@ const CartUpdate = () => {
                         VNĐ{" "}
                       </td>
                       <td>
-                        <button className="bg-red-500 text-white rounded-sm p-[5px] font-semibold" onClick={() => navigate(`/detail/`+item._id)}>
+                        <button className="bg-red-500 text-white rounded-md p-[5px] font-semibold" onClick={() => navigate(`/detail/`+item._id)}>
                            Mua lại
                         </button>
                       </td>
