@@ -20,8 +20,11 @@ const Waitting = (props: Props) => {
       ...data,
       status: 2
     }
-    dispatch(updateOrder(dataa))
-     toast.info("Huỷ đơn hàng thành công !");
+  const confirm = window.confirm("Bạn có chắc chắn muốn huỷ đơn hàng này không?")
+  if(confirm) { 
+    await dispatch(updateOrder(dataa))
+    toast.info("Huỷ đơn hàng thành công !");
+  }
 //     let raw = {
 //       order_codes: []
 //     } 
