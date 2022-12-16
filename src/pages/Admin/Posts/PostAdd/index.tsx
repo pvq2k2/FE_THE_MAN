@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { RootState, useAppDispatch } from "../../../../redux/store";
-import { addPosts } from "../../../../redux/slices/postSlice";
+import { addPosts, getAllCatePosts } from "../../../../redux/slices/postSlice";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ type Inputs = {
   descShort: string;
   image: string;
   content: string;
+  categoryId: String;
   // categoryId: any;
 };
 
@@ -22,7 +23,13 @@ const PostAdd = () => {
   const [preview, setPreview] = useState<string>();
   const dispatch = useAppDispatch();
   // const categoryPost = useSelector((state:RootState) =>state.)
+  const post = useSelector((state: RootState) => state?.post?.catePost);
+  console.log(post);
+
   const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(getAllCatePosts());
+  }, [dispatch]);
 
   const {
     register,
@@ -147,35 +154,34 @@ const PostAdd = () => {
                     </div>
                   </div>
 
-                  {/* <div className="col-span-6 sm:col-span-3">
+                  <div className="col-span-6 sm:col-span-3">
                     <label
                       htmlFor="category"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Category
+                      Lựa chọn danh mục
                     </label>
                     <select
                       {...register("categoryId", {
                         required: "Vui lòng nhập chi tiết",
                       })}
-                      id="category"
-                      name="category"
+                      id="categoryId"
+                      name="categoryId"
                       autoComplete="category-name"
                       className="mt-1 block w-full py-2 px-3 appearance-none border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
-                      <option value="0">Select Category</option>
-                      {cateProducts &&
-                        cateProducts.map((category: any) => (
-                          <option key={category._id} value={category._id}>
-                            {category.name}
+                      {/* <option value="0">Vui lòng chọn danh mục</option> */}
+                      {post &&
+                        post.map((post: any) => (
+                          <option key={post._id} value={post._id}>
+                            {post.name}
                           </option>
                         ))}
-                      <option>Quần</option>
                     </select>
                     <div className="text-sm mt-0.5 text-red-500">
                       {errors.categoryId?.message}
                     </div>
-                  </div> */}
+                  </div>
 
                   <div>
                     <label
