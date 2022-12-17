@@ -14,6 +14,7 @@ import {
   getProduct,
   setPage,
   filter_product,
+  getProductadmins,
 } from "../../../../redux/slices/productSlice";
 import { useAppDispatch } from "../../../../redux/store";
 import { RootState } from "../../../../redux/store";
@@ -38,41 +39,24 @@ const ProductManager = (props: Props) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
-      getProducts({
+      getProductadmins({
         page: pages,
         limit: 10,
       })
     );
   }, [dispatch, pages]);
-
+  const statusObj = {
+    ACTIVE:
+      "text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded-full",
+    DEACTIVE:
+      "text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full",
+  };
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<Inputs>();
-  const handleRemove = (id: any) => {
-    Swal.fire({
-      title: "Bạn có chắc chắn muốn xóa không?",
-      text: "Không thể hoàn tác sau khi xóa",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await dispatch(deleteProduct(id));
-        Swal.fire("Thành công!", "Xóa thành công.", "success");
-        dispatch(
-          getProducts({
-            page: pages,
-            limit: 10,
-          })
-        );
-      }
-    });
-  };
 
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     dispatch(
@@ -124,8 +108,20 @@ const ProductManager = (props: Props) => {
             />
           </div>
           <button className="search-add inline-flex items-center px-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-[#2A303B] bg-[#4D535E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4D535E] outline-0">
-         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
             Tìm kiếm
           </button>
         </form>
@@ -149,6 +145,8 @@ const ProductManager = (props: Props) => {
                 <td>Ảnh sản phẩm</td>
                 <td>Giá sản phẩm</td>
                 <td>Chi tiết sản phẩm</td>
+                <td className="text-center">Trạng Thái</td>
+
                 <td>Hành động</td>
               </tr>
             </thead>
@@ -169,8 +167,17 @@ const ProductManager = (props: Props) => {
                     </td>
                     <td>{item.price}đ</td>
                     <td>
-                      <div className="h-[150px] w-[400px] overflow-x-auto scoll">
-                        {item.desc}
+                      <div className="h-[150px] w-[250px] overflow-x-auto scoll">
+                        {item.desc.length > 90
+                          ? `${item?.desc?.slice(0, 90)}...`
+                          : item?.desc}
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <div className={`${statusObj[item?.status]} text-center`}>
+                        {item?.status == "ACTIVE"
+                          ? "Đang hoạt động"
+                          : "Ngừng hoạt động"}
                       </div>
                     </td>
                     <td className={styles.action}>
@@ -179,10 +186,10 @@ const ProductManager = (props: Props) => {
                         <AiOutlineEdit className={styles.edit} />
                       </Link>
 
-                      <AiOutlineDelete
+                      {/* <AiOutlineDelete
                         onClick={() => handleRemove(item._id)}
                         className={styles.delete}
-                      />
+                      /> */}
                     </td>
                   </tr>
                 );
