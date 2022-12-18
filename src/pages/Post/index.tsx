@@ -1,4 +1,5 @@
 import { Pagination } from "antd";
+import moment from "moment";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -37,7 +38,7 @@ const PostPage = (props: Props) => {
   return (
     <div>
       <section className={styles.news}>
-        <SubBanner />
+        {/* <SubBanner /> */}
         <div className={styles.news__title}>
           <h2>Blog của chúng tôi</h2>
         </div>
@@ -84,7 +85,7 @@ const PostPage = (props: Props) => {
                     </div>
                   </Link>
                   <div className="bg-white rounded-b-xl shadow px-3 py-2">
-                    <p className="text-sm text-gray-500">11 Tháng 8, 2022</p>
+                    <p className="text-sm text-gray-500"> {moment(e.createdAt).format("DD [tháng] MM, YYYY")}</p>
                     <h3>
                       <Link to={`/detail/${e._id}/post`}>
                         <span className="limit-line-2 block my-1 font-semibold text-justify leading-tight transition duration-300 text-gray-600 hover:text-black">
@@ -92,7 +93,7 @@ const PostPage = (props: Props) => {
                         </span>
                       </Link>
                     </h3>
-                    <div className="limit-line-3 text-gray-500 text-sm text-justify">
+                    <div className="limit-line-3 text-gray-500 text-sm text-justify whitespace-nowrap w-[210px] text-ellipsis overflow-hidden">
                      {e.descShort}
                     </div>
                     <button className="bg-gray-500 w-24 h-7 text-base mt-4 rounded-full text-stone-50 hover:bg-slate-300 hover:text-slate-700 "> <Link to={`/detail/${e._id}/post`}> Xem thêm</Link> </button>

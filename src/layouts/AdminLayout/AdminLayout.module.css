@@ -7,9 +7,24 @@
   width: 300px;
   height: 100%;
   background: #2a303b;
-  border-left: 10px solid #2a303b;
+  /* border-left: 10px solid #2a303b; */
   transition: 0.5s;
-  overflow: hidden;
+  overflow-y: scroll;
+}
+.navigation::-webkit-scrollbar {
+  width: 10px;
+
+}
+.navigation::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  
+}
+.navigation::-webkit-scrollbar-thumb {
+  background: #4D535E;
+  border-radius: 10px;
+}
+.navigation::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 .navigation.active {
   width: 80px;
