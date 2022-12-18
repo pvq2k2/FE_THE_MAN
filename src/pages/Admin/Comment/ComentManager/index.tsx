@@ -136,8 +136,8 @@ const CommetManager = (props: Props) => {
               return (
                 <tr key={index}>
                   <td>{(pages - 1) * 10 + ++index}</td>
-                  <td>{e.user?._id}</td>
-                  <td>{e.productId}</td>
+                  <td>{e.user?.email}</td>
+                  <td>{e.product?.name}</td>
                   <td>{e.content}</td>
                   <td>{date}</td>
                   <td className={styles.action}>
