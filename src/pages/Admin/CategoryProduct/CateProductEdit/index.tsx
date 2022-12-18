@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { HiOutlineCheck, HiOutlineX, HiRefresh } from 'react-icons/hi'
+import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import { readCatePro, updateCatePro } from '../../../../redux/slices/cateProductSlice';
@@ -18,7 +19,7 @@ const CateProductEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const {register,handleSubmit,formState:{errors}, reset}=useForm<Inputs>();
-  
+  const categoryproduct= useSelector((state: any) => state.catePro?.cateproduct?.data?.Cateproduct)
   const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{
     try {
       const apiUrl = "https://api.cloudinary.com/v1_1/dmlv9tzte/image/upload";
@@ -95,6 +96,7 @@ const CateProductEdit = () => {
                         {errors.name?.message}
                       </div>
                     </div>
+                    <img className='w-32' src={preview ? preview : categoryproduct?.image} alt="" />
                     <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Hình ảnh
