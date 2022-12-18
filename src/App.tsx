@@ -54,6 +54,7 @@ import Search from "./pages/Search";
 import VoucherManager from "./pages/Admin/Voucher";
 import VoucherAdd from "./pages/Admin/Voucher/Add";
 import VoucherEdit from "./pages/Admin/Voucher/Edit";
+import CommetManager from "./pages/Admin/Comment/ComentManager";
 function App() {
   return (
     <>
@@ -270,6 +271,9 @@ function App() {
             <Route index element={<CategoryPostManager />} />
             <Route path="add" element={<CatePostAdd />} />
             <Route path=":id/edit" element={<CatePostEdit />} />
+          </Route>
+          <Route path="comment">
+            <Route index element={<CommetManager />} />
           </Route>
 
           <Route path="slider">

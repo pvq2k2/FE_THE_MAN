@@ -1,26 +1,19 @@
 import styles from "./AdminLayout.module.css";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  IoHomeOutline,
-  IoLogoOctocat,
-  IoMenuOutline,
-} from "react-icons/io5";
+import { IoHomeOutline, IoLogoOctocat, IoMenuOutline } from "react-icons/io5";
 import { RiContactsLine, RiProductHuntLine } from "react-icons/ri";
 import { TbSlideshow } from "react-icons/tb";
 import { MdOutlineCategory } from "react-icons/md";
-import {FaRegComment, FaRegUser} from "react-icons/fa";
+import { FaRegComment, FaRegUser } from "react-icons/fa";
 import { BiCategoryAlt } from "react-icons/bi";
-import {Link, Outlet, useNavigate} from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { BsNewspaper } from "react-icons/bs";
-import { TiGift,TiShoppingCart } from "react-icons/ti";
-import {useDispatch, useSelector} from "react-redux";
-import {User} from "../../models/User";
-import {RootState} from "../../redux/store";
-import {signout} from "../../redux/slices/authSlice";
-import {readUserLocal} from "../../redux/slices/userSlice";
-
-
-
+import { TiGift, TiShoppingCart } from "react-icons/ti";
+import { useDispatch, useSelector } from "react-redux";
+import { User } from "../../models/User";
+import { RootState } from "../../redux/store";
+import { signout } from "../../redux/slices/authSlice";
+import { readUserLocal } from "../../redux/slices/userSlice";
 
 const AdminLayout = () => {
   const boxUser = useRef<HTMLDivElement>(null);
@@ -30,7 +23,6 @@ const AdminLayout = () => {
   const [showModelUser, setShowModelUser] = useState<Boolean>(false);
   let currentUser = useSelector((state: any) => state.auth.currentUser) as User;
   const users = useSelector((state: any) => state.user);
-
 
   const navigate = useNavigate();
   const dispatch = useDispatch<any>();
@@ -62,7 +54,7 @@ const AdminLayout = () => {
 
   useEffect(() => {
     (async () => {
-        await dispatch(readUserLocal());
+      await dispatch(readUserLocal());
     })();
   }, []);
 
@@ -76,7 +68,12 @@ const AdminLayout = () => {
               <Link to="/">
                 <span className={styles.icon}>
                   {/*<IoLogoOctocat className={styles.io} />*/}
-                   <img src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png" className={styles.io} alt="" width="100px" />
+                  <img
+                    src="https://res.cloudinary.com/assignment22/image/upload/v1666604740/Ass-reactjs/logo.png21323_p2dpr8.png"
+                    className={styles.io}
+                    alt=""
+                    width="100px"
+                  />
                 </span>
                 <span className="text-[25px] font-[600] ml-[10px] italic hover:text-red-600 ">
                   The Man
@@ -93,23 +90,18 @@ const AdminLayout = () => {
             </li>
             <li>
               <Link to="/admin/carts">
-                
-                  <span className={styles.icon}>
-                    <TiShoppingCart className={styles.io} />
-                  </span>
-                  <span className={styles.title}>Danh sách đơn hàng</span>
-            
+                <span className={styles.icon}>
+                  <TiShoppingCart className={styles.io} />
+                </span>
+                <span className={styles.title}>Danh sách đơn hàng</span>
               </Link>
             </li>
             <li>
               <Link to="/admin/vouchers">
-            
-                  <span className={styles.icon}>
-                    <TiGift className={styles.io} /> 
-                    
-                  </span>
-                  <span className={styles.title}>Danh sách voucher</span>
-             
+                <span className={styles.icon}>
+                  <TiGift className={styles.io} />
+                </span>
+                <span className={styles.title}>Danh sách voucher</span>
               </Link>
             </li>
             <li>
@@ -169,7 +161,7 @@ const AdminLayout = () => {
               </Link>
             </li>
             <li>
-              <Link to="/admin/users">
+              <Link to="/admin/comment">
                 <span className={styles.icon}>
                   <FaRegComment className={styles.io} />
                 </span>
@@ -195,8 +187,12 @@ const AdminLayout = () => {
               onClick={() => setShowModelUser(!showModelUser)}
             >
               <img
-                  src={users?.usera?.img ? users?.usera?.img : "https://res.cloudinary.com/assignmentjs/image/upload/v1664199286/nextjsuser/dw1r1yybpmahpl8qwmkb.png"}
-                  alt=""
+                src={
+                  users?.usera?.img
+                    ? users?.usera?.img
+                    : "https://res.cloudinary.com/assignmentjs/image/upload/v1664199286/nextjsuser/dw1r1yybpmahpl8qwmkb.png"
+                }
+                alt=""
               />
 
               {/*<img src={`${users?.User?.img}`} alt=""/>*/}
@@ -206,7 +202,7 @@ const AdminLayout = () => {
                   <li>
                     <span className="block italic">Xin chào!</span>
                     <span className="font-bold">
-                    {currentUser?.users?.fullname}
+                      {currentUser?.users?.fullname}
                     </span>
                   </li>
                   <li>
