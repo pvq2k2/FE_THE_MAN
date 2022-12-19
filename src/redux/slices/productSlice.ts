@@ -125,7 +125,7 @@ const productsSlice = createSlice({
     builder.addCase(getProductadmins.fulfilled, (state, { payload }) => {
       console.log("payload", payload);
 
-      state.products.Product = payload.products as any;
+      state.products = payload as any;
     });
     builder.addCase(thongkes.pending, (state, { payload }) => {
       console.log(payload);

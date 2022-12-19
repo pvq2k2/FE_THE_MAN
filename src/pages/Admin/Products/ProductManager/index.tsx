@@ -71,6 +71,8 @@ const ProductManager = (props: Props) => {
     );
   };
 
+  console.log(product);
+
   return (
     <div className={styles.content}>
       <header>
@@ -135,8 +137,9 @@ const ProductManager = (props: Props) => {
           </button>
         </Link>
       </header>
+
       <main>
-        {product?.products?.Product?.length > 0 ? (
+        {product?.products?.products?.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -151,7 +154,7 @@ const ProductManager = (props: Props) => {
               </tr>
             </thead>
             <tbody>
-              {product?.products?.Product?.map((item: any, index: any) => {
+              {product?.products?.products?.map((item: any, index: any) => {
                 return (
                   <tr key={item._id}>
                     <td>{(pages - 1) * 10 + ++index}</td>
