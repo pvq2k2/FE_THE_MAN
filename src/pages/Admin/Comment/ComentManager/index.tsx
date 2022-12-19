@@ -32,7 +32,6 @@ type Inputs = {
 };
 const CommetManager = (props: Props) => {
   const post = useSelector((state: RootState) => state?.post);
-  console.log(post);
   const [data, setData] = useState();
   const [pages, setPage] = useState(1);
   const [search, setSearch] = useState();
