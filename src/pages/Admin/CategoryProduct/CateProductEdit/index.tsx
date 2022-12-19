@@ -20,6 +20,7 @@ const CateProductEdit = () => {
   const { id } = useParams();
   const {register,handleSubmit,formState:{errors}, reset}=useForm<Inputs>();
   const categoryproduct= useSelector((state: any) => state.catePro?.cateproduct?.data?.Cateproduct)
+  console.log("danhmuc",categoryproduct)
   const onSubmit:SubmitHandler<Inputs>=async(values:Inputs)=>{
     try {
       const apiUrl = "https://api.cloudinary.com/v1_1/dmlv9tzte/image/upload";
@@ -96,7 +97,13 @@ const CateProductEdit = () => {
                         {errors.name?.message}
                       </div>
                     </div>
+                    <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Hình ảnh hiện tại
+                    </label>
                     <img className='w-32' src={preview ? preview : categoryproduct?.image} alt="" />
+                    </div>
+                  
                     <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Hình ảnh
