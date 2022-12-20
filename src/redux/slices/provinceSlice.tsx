@@ -99,12 +99,16 @@ const provinceSlice = createSlice({
   reducers: { },
   extraReducers: (builder) => {
     builder.addCase(getProvince.fulfilled, (state, { payload }) => {
+      state.ward = []
+      state.district = []
       state.province = payload as any;
     });
     builder.addCase(getDistrict.fulfilled, (state, { payload }) => {
+        state.district = []
         state.district = payload as any;
       });
       builder.addCase(getWards.fulfilled, (state, { payload }) => {
+        state.ward = []
         state.ward = payload as any;
       });
       builder.addCase(getSevicePackage.fulfilled, (state, { payload }) => {

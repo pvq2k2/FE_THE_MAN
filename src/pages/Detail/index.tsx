@@ -100,6 +100,10 @@ const DetailProduct = (props: Props) => {
       userID: iduser,
       tm_codeorder: tmcode,
     };
+    if(!carts?.products?.size) {
+      return toast.error("Vui lòng chọn size")
+    }
+    
     const res = await dispatch(addToCart(carts));
     if (res?.payload?.code == 409) {
       onAddOrder(carts);
