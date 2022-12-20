@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getAlls } from "../../api-cilent/CatePost";
 import {
   add,
   filter,
@@ -19,6 +20,7 @@ type PostsState = {
     count: number;
     Post: Posts[];
   };
+  catePost: [];
   post: Posts | {};
   page: number;
   limit: number;
@@ -26,6 +28,7 @@ type PostsState = {
 
 const initialState: PostsState = {
   posta: [],
+  catePost: [],
   posts: {
     count: 0,
     Post: [],
@@ -42,7 +45,10 @@ export const getPosts = createAsyncThunk(
     return response.data;
   }
 );
-
+export const getAllCatePosts = createAsyncThunk("catepost/getall", async () => {
+  const res = await getAlls();
+  return res.data;
+});
 export const deletePosts = createAsyncThunk(
   "posts/deletePosts",
   async (_id: string) => {
@@ -91,7 +97,9 @@ const postsSlice = createSlice({
     builder.addCase(getPosts.fulfilled, (state, { payload }) => {
       state.posts = payload as any;
     });
-
+    builder.addCase(getAllCatePosts.fulfilled, (state, { payload }) => {
+      state.catePost = payload as any;
+    });
     builder.addCase(deletePosts.fulfilled, (state, { payload }) => {
       state.posts.Post = state.posts.Post.filter(
         (item) => item._id !== payload

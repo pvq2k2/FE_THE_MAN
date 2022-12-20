@@ -130,6 +130,8 @@ const Comment = (props: Props) => {
     e.target.value = "";
     e.target.value = temp_value;
   };
+  console.log(user?.users);
+
   return (
     <div>
       <div className="containerx">

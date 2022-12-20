@@ -3,12 +3,15 @@ import { HiOutlineX, HiOutlineCheck } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { addProduct, getProduct, updateProduct } from "../../../../redux/slices/productSlice";
+import {
+  addProduct,
+  getProduct,
+  updateProduct,
+} from "../../../../redux/slices/productSlice";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getCatePro } from "./../../../../redux/slices/cateProductSlice";
 import EditType from "./EditType";
-
 
 export interface IType {
   color: string;
@@ -33,12 +36,11 @@ export type Inputs = {
   weight: Number;
   listed_price: Number;
   subimg: [];
+  status: String;
 };
 
 const ProductEdit = () => {
-  const categories = useSelector(
-    (state: any) => state.catePro.cateproducts
-  );
+  const categories = useSelector((state: any) => state.catePro.cateproducts);
   const [preview, setPreview] = useState<string>();
   const [previews, setPreviews] = useState<Iimgs[]>([]);
   const { id } = useParams();
@@ -47,7 +49,7 @@ const ProductEdit = () => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(getCatePro())
+      await dispatch(getCatePro());
       const cateproduct = await dispatch(getProduct(id));
       reset(cateproduct.payload);
     })();
@@ -63,7 +65,7 @@ const ProductEdit = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = methods;
 
   const onDeleteImg = (data: any) => {
@@ -126,7 +128,7 @@ const ProductEdit = () => {
         progress: undefined,
       });
       navigate("/admin/products");
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -300,6 +302,7 @@ const ProductEdit = () => {
                       </label>
                       <div className="mt-1">
                         <input
+                          disabled
                           type="number"
                           {...register("listed_price", {
                             required: "Vui lòng nhập giá niêm yết",
@@ -340,6 +343,29 @@ const ProductEdit = () => {
                         {errors?.categoryId?.message}
                       </div>
                     </div>
+                    <div className="col-span-6 sm:col-span-3">
+                      <label
+                        htmlFor="category"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Trạng thái
+                      </label>
+                      <select
+                        {...register("status")}
+                        autoComplete="category-name"
+                        className="mt-1 block w-full py-2 px-3 appearance-none border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-[#4D535E] focus:border-[#4D535E] sm:text-sm"
+                      >
+                        <option key="" value={"ACTIVE"}>
+                          Hoạt động
+                        </option>
+                        <option key="" value={"DEACTIVE"}>
+                          Ngừng hoạt động
+                        </option>
+                      </select>
+                      <div className="text-sm mt-0.5 text-red-500">
+                        {errors?.categoryId?.message}
+                      </div>
+                    </div>
                     <div>
                       <label
                         htmlFor="description"
@@ -374,7 +400,7 @@ const ProductEdit = () => {
                           }
                           alt="Preview Image"
                           className="h-40 w-40 rounded-sm object-cover"
-                        // layout="fill"
+                          // layout="fill"
                         />
                       </div>
                     </div>
@@ -455,7 +481,7 @@ const ProductEdit = () => {
                                         }
                                         alt="Preview Image"
                                         className="h-40 w-40 rounded-sm object-cover"
-                                      // layout="fill"
+                                        // layout="fill"
                                       />
                                       <HiOutlineX
                                         className="text-[54px] mr-2 cursor-pointer"
@@ -472,7 +498,7 @@ const ProductEdit = () => {
                                   }
                                   alt="Preview Image"
                                   className="h-40 w-40 rounded-sm object-cover"
-                                // layout="fill"
+                                  // layout="fill"
                                 />
                               )}
                             </div>
@@ -515,4 +541,3 @@ const ProductEdit = () => {
   );
 };
 export default ProductEdit;
-

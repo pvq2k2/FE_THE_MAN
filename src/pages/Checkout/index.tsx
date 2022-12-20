@@ -42,7 +42,7 @@ const CheckoutPage = (props: Props) => {
   });
   const [provicei, setProvicei] = useState({
     to_district_id: 0,
-    to_ward_code: "",
+    to_ward_code: 0,
   });
 
   // useEffect(() => {
@@ -247,7 +247,7 @@ const CheckoutPage = (props: Props) => {
       update: false,
     };
     const res = await dispatch(checkVoucher(data));
- 
+    console.log("res",res?.payload);
     
     if(res?.payload?.code == 200) {
       if(res?.payload?.amount > 0 ) { 
@@ -285,7 +285,7 @@ const CheckoutPage = (props: Props) => {
     }));
   };
   const onWard = async (e: any) => {
-    setProvicei((old) => ({ ...old, to_ward_code: e.target.value }));
+    setProvicei((old) => ({ ...old, to_ward_code: parseInt(e.target.value) }));
     setReceiver((old) => ({
       ...old,
       to_ward_name: e.target.options[e.target.selectedIndex].text,

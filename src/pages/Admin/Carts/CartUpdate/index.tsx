@@ -14,7 +14,10 @@ import {
   readOrder,
   updateOrder,
 } from "../../../../redux/slices/orderSlice";
-import { checkVoucher, GETVoucherX } from "../../../../redux/slices/voucherSlice";
+import {
+  checkVoucher,
+  GETVoucherX,
+} from "../../../../redux/slices/voucherSlice";
 import { formatCurrency, formatDateGHN } from "../../../../ultis";
 
 const CartUpdate = () => {
@@ -30,7 +33,7 @@ const CartUpdate = () => {
   } = useForm();
   const order = useSelector((state: any) => state.orders);
   const voucher = useSelector((state: any) => state.voucher);
-  let sum = 0
+  let sum = 0;
   const onUpdate = async (data: any) => {
     data.payment_status = parseInt(data.payment_status);
     data.status = parseInt(data.status);
@@ -39,19 +42,22 @@ const CartUpdate = () => {
     if (order.order.status == 1 && data.status == 1) {
       return toast.error("Đơn hàng đã được xác nhận");
     }
-    if(data.status == 1 && order.order.status == 2) {
+    if (data.status == 1 && order.order.status == 2) {
       return toast.error("Đơn hàng đã huỷ...");
     }
     if (data.status == 2 && order.order.status == 2) {
       return toast.error("Đơn hàng này đã huỷ");
-    }else if(data.status == 2 && order?.orderinfo?.data?.status != "ready_to_pick") {
+    } else if (
+      data.status == 2 &&
+      order?.orderinfo?.data?.status != "ready_to_pick"
+    ) {
       return toast.error("Đơn hàng này đã giao hoặc đang được giao");
     }
-    let payment_type_id = 2
-    if(data?.payment_status == 1 ) {
-      payment_type_id = 1
-    }else {
-      payment_type_id = 2
+    let payment_type_id = 2;
+    if (data?.payment_status == 1) {
+      payment_type_id = 1;
+    } else {
+      payment_type_id = 2;
     }
     product = data.product;
     const infocart = {
@@ -107,10 +113,8 @@ const CartUpdate = () => {
         return toast.info("Huỷ đơn hàng thành công !");
       }
     }
-    if (data.status == 1 && data.order_code ) {
-      return toast.info(
-        "Đơn hàng này đã được xác nhận."
-      );
+    if (data.status == 1 && data.order_code) {
+      return toast.info("Đơn hàng này đã được xác nhận.");
     }
     if (data.status === 1) {
       try {
@@ -181,11 +185,11 @@ const CartUpdate = () => {
       const carts = await dispatch(readOrder(id!));
       const raw = {
         view: true,
-        update:false,
+        update: false,
         _id: carts?.payload?.voucher,
-        iduser: carts?.payload?.userID
-    }
-    const vouc = await dispatch(GETVoucherX(raw))
+        iduser: carts?.payload?.userID,
+      };
+      const vouc = await dispatch(GETVoucherX(raw));
       reset(carts?.payload);
       let orderId: any = {
         order_code: carts?.payload?.order_code,
@@ -315,12 +319,12 @@ const CartUpdate = () => {
                             return (
                               <div key={index++}>
                                 <p className="text-[#d53b3bcc]">
-                                    {/* {formatDateGHN(item?.updated_date).dateg +
+                                  {/* {formatDateGHN(item?.updated_date).dateg +
                                       "-" +
                                       formatDateGHN(item?.updated_date).hours} */}
-                                     {moment(item?.updated_date).format(
-                        "DD [tháng] MM, YYYY[\r\n]HH Giờ mm [Phút]"
-                      )}
+                                  {moment(item?.updated_date).format(
+                                    "DD [tháng] MM, YYYY[\r\n]HH Giờ mm [Phút]"
+                                  )}
                                 </p>
                                 <p className="text-[#26aa99] border-solid">
                                   {status}
@@ -364,8 +368,20 @@ const CartUpdate = () => {
                       />
                     }
                     VNĐ
-                    {voucher?.voucher?.code ?  <p className="font-bold text-[10px]">Giảm giá voucher:</p> : ""}
-                    {voucher?.voucher?.code ?  <p className="font-bold text-[10px]">{voucher?.voucher?.percent > 0 ? `- ` + voucher?.voucher?.percent + `%` : "-" + formatCurrency(voucher?.voucher?.amount)}</p> : ""}
+                    {voucher?.voucher?.code ? (
+                      <p className="font-bold text-[10px]">Giảm giá voucher:</p>
+                    ) : (
+                      ""
+                    )}
+                    {voucher?.voucher?.code ? (
+                      <p className="font-bold text-[10px]">
+                        {voucher?.voucher?.percent > 0
+                          ? `- ` + voucher?.voucher?.percent + `%`
+                          : "-" + formatCurrency(voucher?.voucher?.amount)}
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </td>
                   <td className=" py-10  gap-8">
                     {" "}
@@ -378,8 +394,6 @@ const CartUpdate = () => {
                       />
                     }
                     VNĐ
-
-                    
                   </td>
                   <td className=" py-10  gap-8">
                     {order?.order?.payment_status == 0

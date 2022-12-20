@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import {
   deleteCatePro,
+  getCateadmin,
   getCatePro,
 } from "../../../../redux/slices/cateProductSlice";
 import { RootState, useAppDispatch } from "../../../../redux/store";
@@ -15,11 +16,16 @@ type Props = {};
 
 const CategoryProductManager = (props: Props) => {
   const catePro = useSelector((state: RootState) => state.catePro);
-  // console.log(catePro);
+  const statusObj = {
+    ACTIVE:
+      "text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded-full",
+    DEACTIVE:
+      "text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full",
+  };
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(getCatePro());
+    dispatch(getCateadmin());
   }, [dispatch]);
   const handremove = (id: any) => {
     Swal.fire({
@@ -61,6 +67,7 @@ const CategoryProductManager = (props: Props) => {
               <td>STT</td>
               <td>Tên danh mục</td>
               <td>Hình ảnh</td>
+              <td className="text-center">Trạng thái</td>
               <td>Hoạt động</td>
             </tr>
           </thead>
@@ -78,14 +85,21 @@ const CategoryProductManager = (props: Props) => {
                       width="100px"
                     />
                   </td>
+                  <td className="text-center">
+                    <div className={`${statusObj[item?.status]} text-center`}>
+                      {item?.status == "ACTIVE"
+                        ? "Đang hoạt động"
+                        : "Ngừng hoạt động"}
+                    </div>
+                  </td>
                   <td className={styles.action}>
                     <Link to={`/admin/category_product/${item._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />
                     </Link>
-                    <AiOutlineDelete
+                    {/* <AiOutlineDelete
                       onClick={() => handremove(item._id)}
                       className={styles.delete}
-                    />
+                    /> */}
                   </td>
                 </tr>
               );

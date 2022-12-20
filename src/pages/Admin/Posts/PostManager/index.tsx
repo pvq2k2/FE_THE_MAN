@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deletePosts,
   filter_post,
+  getAllCatePosts,
   getPosts,
   setPage,
 } from "../../../../redux/slices/postSlice";
@@ -38,6 +39,10 @@ const PostManager = (props: Props) => {
       })
     );
   }, [dispatch, pages]);
+  useEffect(() => {
+    dispatch(getAllCatePosts());
+  }, [dispatch, pages]);
+
   const {
     register,
     handleSubmit,
@@ -139,11 +144,11 @@ const PostManager = (props: Props) => {
                       width="100px"
                     />
                   </td>
-                  <td>{e.descShort}</td>
-                  <td>{e.desc}</td>
-                  <td>{e.desc}</td>
+                  <td className="w-60">{e.descShort.slice(0, 90)}</td>
+                  <td>{e.desc.slice(0, 90)}</td>
+                  <td className="w-28">{e?.categoryId?.name}</td>
                   {/* <td>{e.categoryId.name}</td> */}
-                  <td>{e.content}</td>
+                  <td className="w-60">{e.content.slice(0, 90)}</td>
                   <td className={styles.action}>
                     <Link to={`/admin/post/${e._id}/edit`}>
                       <AiOutlineEdit className={styles.edit} />

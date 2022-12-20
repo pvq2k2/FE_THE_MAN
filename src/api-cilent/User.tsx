@@ -28,3 +28,13 @@ export const addComment = (Comment: any): Promise<any> => {
 export const filter = (user: any): Promise<any> => {
   return instance.post("/user/filter", user);
 };
+export const getAllcomment = (page: any, limit: any): Promise<any> => {
+  return instance.post(`/comments`, { page, limit });
+};
+export const filterCommnets = (
+  content: any,
+  page: any,
+  limit: any
+): Promise<any> => {
+  return instance.post("/commnet/filter", { content, page, limit });
+};

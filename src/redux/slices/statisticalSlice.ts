@@ -1,17 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  orderCount,
   thongKeByDate,
   thongKeByMonth,
   thongKeByYear,
+  thongkeSoluong,
   thongke_tong,
 } from "../../api-cilent/Statistical";
 
 type Statistical = {
   data: {};
+  quantity: {};
+  confirmed: Number;
+  canceled: Number;
+  unconfimred: Number;
 };
 
 const initialState: Statistical = {
   data: {},
+  quantity: {},
+  confirmed: 0,
+  canceled: 0,
+  unconfimred: 0,
 };
 
 export const statistical_total = createAsyncThunk(
@@ -21,28 +31,34 @@ export const statistical_total = createAsyncThunk(
     return response.data;
   }
 );
-export const statistical_day = createAsyncThunk(
-  "statistical/day",
-  async (date: any) => {
-    const response = await thongKeByDate(date);
+export const statisticarQuantity = createAsyncThunk(
+  "statistical/quantity",
+  async () => {
+    const response = await thongkeSoluong();
     return response.data;
   }
 );
-export const statistical_month = createAsyncThunk(
-  "statistical/month",
-  async (date: any) => {
-    const response = await thongKeByMonth(date);
+export const confirmedCount = createAsyncThunk(
+  "statistical/confirmed",
+  async () => {
+    const response = await orderCount("1");
     return response.data;
   }
 );
-export const statistical_year = createAsyncThunk(
-  "statistical/year",
-  async (date: any) => {
-    const response = await thongKeByYear(date);
+export const canceledCount = createAsyncThunk(
+  "statistical/canceled",
+  async () => {
+    const response = await orderCount("2");
     return response.data;
   }
 );
-
+export const unconfimredCount = createAsyncThunk(
+  "statistical/unconfimred",
+  async () => {
+    const response = await orderCount("0");
+    return response.data;
+  }
+);
 const statisticalReducer = createSlice({
   name: "statistical",
   initialState,
@@ -53,20 +69,17 @@ const statisticalReducer = createSlice({
 
       state.data = payload as any;
     });
-    builder.addCase(statistical_day.fulfilled, (state, { payload }) => {
-      console.log(payload);
-
+    builder.addCase(statisticarQuantity.fulfilled, (state, { payload }) => {
       state.data = payload as any;
     });
-    builder.addCase(statistical_month.fulfilled, (state, { payload }) => {
-      console.log(payload);
-
-      state.data = payload as any;
+    builder.addCase(confirmedCount.fulfilled, (state, { payload }) => {
+      state.confirmed = payload as any;
     });
-    builder.addCase(statistical_year.fulfilled, (state, { payload }) => {
-      console.log(payload);
-
-      state.data = payload as any;
+    builder.addCase(canceledCount.fulfilled, (state, { payload }) => {
+      state.canceled = payload as any;
+    });
+    builder.addCase(unconfimredCount.fulfilled, (state, { payload }) => {
+      state.unconfimred = payload as any;
     });
   },
 });

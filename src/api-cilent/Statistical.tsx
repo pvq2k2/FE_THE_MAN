@@ -11,3 +11,9 @@ export const thongKeByMonth = (date: any) => {
 export const thongKeByYear = (date: any) => {
   return instance.post("/products/thongkebyyear", date);
 };
+export const thongkeSoluong = () => {
+  return instance.post("/product/quantity");
+};
+export const orderCount = (id: any) => {
+  return instance.get(`/countorder/${id}`);
+};

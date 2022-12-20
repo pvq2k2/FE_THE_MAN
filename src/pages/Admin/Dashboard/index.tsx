@@ -14,11 +14,25 @@ import { setPage, thongkes } from "../../../redux/slices/productSlice";
 import { formatCurrency, formatCurrencys } from "../../../ultis";
 import { SubmitHandler, useForm } from "react-hook-form";
 import "./dashboard.css";
-import { statistical_total } from "../../../redux/slices/statisticalSlice";
+import {
+  canceledCount,
+  confirmedCount,
+  statistical_total,
+  statisticarQuantity,
+  unconfimredCount,
+} from "../../../redux/slices/statisticalSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaEllipsisV } from "react-icons/fa";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import { BiUser } from "react-icons/bi";
+import {
+  BsCart3,
+  BsFilePostFill,
+  BsFillFileEarmarkPostFill,
+} from "react-icons/bs";
+import { RiProductHuntLine } from "react-icons/ri";
+import { AiOutlineAreaChart } from "react-icons/ai";
 
 type Inputs = {
   date: String;
@@ -26,6 +40,9 @@ type Inputs = {
 
 const Dashboard = () => {
   const { product } = useSelector((state: RootState) => state?.product);
+  const staisticar = useSelector((state: RootState) => state?.statistical);
+  console.log(staisticar);
+
   const pages = useSelector((state: RootState) => state?.product.page);
   const { loading } = useSelector((state: RootState) => state?.product);
   const [startDate, setStartDate] = useState();
@@ -39,7 +56,18 @@ const Dashboard = () => {
       })
     );
   }, [dispatch, pages]);
-
+  useEffect(() => {
+    dispatch(statisticarQuantity());
+  }, []);
+  useEffect(() => {
+    dispatch(confirmedCount());
+  }, []);
+  useEffect(() => {
+    dispatch(canceledCount());
+  }, []);
+  useEffect(() => {
+    dispatch(unconfimredCount());
+  }, []);
   const {
     register,
     handleSubmit,
@@ -83,7 +111,7 @@ const Dashboard = () => {
             className="inline-flex"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <span>Ngày bắt đầu : </span>
+            <span className="mt-1 mr-2">Ngày bắt đầu : </span>
             <DatePicker
               selected={startDate}
               onChange={(date: any) => setStartDate(date)}
@@ -91,7 +119,7 @@ const Dashboard = () => {
               startDate={startDate}
               endDate={endDate}
             />
-            <span>Ngày kết thúc : </span>
+            <span className="mt-1 mr-2">Ngày kết thúc : </span>
 
             <DatePicker
               selected={endDate}
@@ -118,7 +146,7 @@ const Dashboard = () => {
                 <table>
                   <div className=" overflow-hidden">
                     <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
-                      <div className="flex bg-white">
+                      <div className="flex overview">
                         <div className="bg-red-500 flex items-center px-3 text-white rounded-l-md">
                           TT
                         </div>
@@ -136,7 +164,7 @@ const Dashboard = () => {
                      </div> */}
                         </div>
                       </div>
-                      <div className="flex bg-white">
+                      <div className="flex overview">
                         <div className="bg-red-500 flex items-center px-3 text-white rounded-l-md">
                           TT
                         </div>
@@ -154,7 +182,7 @@ const Dashboard = () => {
                      </div> */}
                         </div>
                       </div>
-                      <div className="flex bg-white">
+                      <div className="flex overview">
                         <div className="bg-yellow-500 flex items-center px-3 text-white rounded-l-md">
                           SL
                         </div>
@@ -175,7 +203,7 @@ const Dashboard = () => {
                      </div> */}
                         </div>
                       </div>
-                      <div className="flex bg-white">
+                      <div className="flex overview">
                         <div className="bg-green-500 flex items-center px-3 text-white rounded-l-md">
                           DT
                         </div>
@@ -199,12 +227,12 @@ const Dashboard = () => {
                 </table>
               </main>
             </div>
-            <div className="pt-10 font-semibold text-lg">Sản phẩm bán chạy</div>
-            <main className="flex flex-col justify-between ">
+            {/* <div className="pt-10 font-semibold text-lg">Sản phẩm bán chạy</div> */}
+            <main className="flex flex-col justify-between statis">
               {product?.list?.length != 0 ? (
-                <table className="mb-10">
+                <table className="mb-2">
                   <thead>
-                    <tr>
+                    <tr className="thead">
                       <td>STT</td>
                       <td>Tên</td>
                       <td>Giá nhập</td>
@@ -269,6 +297,82 @@ const Dashboard = () => {
                 </div>
               )}
             </main>
+            {/* <div className="pt-10 font-semibold text-lg">Sản phẩm bán chạy</div> */}
+            <main className=" statis">
+              <div className="py-5 font-semibold text-sm text-center">
+                Số lượng mục và trạng thái đơn hàng
+              </div>
+              <div className="statiscar_quantity">
+                <span className="flex ">
+                  {" "}
+                  <span className="BiUser_item">
+                    <BiUser className="BiUser" />
+                  </span>
+                  <span className="pl-2">
+                    <p className="text-center font-bold text-lg mt-2">
+                      {staisticar?.data?.users}
+                    </p>
+                    <span>Khách hàng</span>
+                  </span>
+                </span>
+                <span className="flex ">
+                  {" "}
+                  <span className="BiUser_post">
+                    <BsFillFileEarmarkPostFill className="Post" />
+                  </span>
+                  <span className="pl-2">
+                    <p className="text-center font-bold text-lg mt-2">
+                      {staisticar?.data?.posts}
+                    </p>
+                    <span>Bài viết</span>
+                  </span>
+                </span>
+                <span className="flex ">
+                  {" "}
+                  <span className="BiUser_product">
+                    <AiOutlineAreaChart className="product" />
+                  </span>
+                  <span className="pl-2">
+                    <p className="text-center font-bold text-lg mt-2">
+                      {staisticar?.data?.products}
+                    </p>
+                    <span>Sản Phẩm</span>
+                  </span>
+                </span>
+                <span className="flex ">
+                  {" "}
+                  <span className="BiUser_order">
+                    <BsCart3 className="order" />
+                  </span>
+                  <span className="pl-2">
+                    <p className="text-center font-bold text-lg mt-2">
+                      {staisticar?.data?.orders}
+                    </p>
+                    <span>Hóa đơn</span>
+                  </span>
+                </span>
+              </div>
+              <hr className="mt-7" />
+              <table className="mb-2">
+                <thead>
+                  <tr>
+                    <td className="text-center">Đã xác nhận</td>
+                    <td>Đã hủy</td>
+                    <td>Chưa xác nhận</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="text-center">{staisticar?.confirmed}</td>
+                    <td>{staisticar?.canceled}</td>
+                    <td>{staisticar?.unconfimred}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </main>
+            {/* <main className="statiscar_quantity statis">
+              
+            </main> */}
           </div>
         )}
       </div>
