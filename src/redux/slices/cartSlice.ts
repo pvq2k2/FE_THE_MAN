@@ -70,15 +70,15 @@ export const changeQuantity = createAsyncThunk(
 
     cartnew.quantitychange = product.quantitychange;
     if (product.quantitychange > 0) {
-      if (product.quantitychange < quantityold.quantity) {
+      if (product.quantitychange <= quantityold.quantity) {
         cartnew.quantity = product.quantitychange;
       } else {
         cartnew.quantity = quantityold.quantity
         toast.info("Sản phẩm này chỉ còn " + quantityold.quantity);
       }
     } else {
-      cartnew.quantity = 1
       toast.info("Số lượng sản phẩm phải lớn hơn 0");
+      cartnew.quantity = 1
     }
     return data;
   }

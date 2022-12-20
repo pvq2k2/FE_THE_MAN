@@ -80,8 +80,9 @@ export const getFee = createAsyncThunk("province, getfee", async (data: any) => 
         try {
           const res = await axios.post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", data , {
           headers: {
+            'Content-Type': 'application/json, text/plain, */*',
             'token': '755b4fbb-5918-11ed-bd1f-1a28f04fff2f',
-            'shop_id': 120366
+            'shop_id': 120366,
         }
         }) 
         return res.data.data
@@ -98,12 +99,16 @@ const provinceSlice = createSlice({
   reducers: { },
   extraReducers: (builder) => {
     builder.addCase(getProvince.fulfilled, (state, { payload }) => {
+      state.ward = []
+      state.district = []
       state.province = payload as any;
     });
     builder.addCase(getDistrict.fulfilled, (state, { payload }) => {
+        state.district = []
         state.district = payload as any;
       });
       builder.addCase(getWards.fulfilled, (state, { payload }) => {
+        state.ward = []
         state.ward = payload as any;
       });
       builder.addCase(getSevicePackage.fulfilled, (state, { payload }) => {

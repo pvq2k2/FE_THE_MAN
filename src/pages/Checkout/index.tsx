@@ -105,8 +105,8 @@ const CheckoutPage = (props: Props) => {
     (async () => {
       const data = {
         ...provicei,
-        service_id:53319,
-        service_type_id: null,
+        service_id:null,
+        service_type_id: 2,
         insurance_value: total,
         coupon: null,
         from_district_id: 3440,
@@ -124,11 +124,7 @@ const CheckoutPage = (props: Props) => {
             setFee(0)
           }
         }
-        console.log("provicei",provicei);
-        
-      
     })();
-    console.log("provicei",provicei);
     
   }, [provicei]);
 
