@@ -95,7 +95,7 @@ const CartUpdate = () => {
       deliver_station_id: null,
       insurance_value: data?.productmonney,
       service_type_id: 2,
-      service_id: null,
+      service_id:null,
       coupon: null,
       pick_shift: null,
       pickup_time: null,
