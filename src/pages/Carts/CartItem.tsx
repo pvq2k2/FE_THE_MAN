@@ -23,10 +23,10 @@ export default function CartItem(props: CartItemProps) {
   const [isDisabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    if (item.quantity != inputValue) {
+    if (item?.quantity != inputValue) {
       setInputValue(item.quantity);
     }
-  }, [item.quantity]);
+  }, [item]);
   const IncrementC = async (data: any) => {
     setDisabled(() => true);
     const product = {
@@ -92,7 +92,7 @@ export default function CartItem(props: CartItemProps) {
           {" "}
           <div
             style={{ backgroundColor: `${item.color}` }}
-            className="h-[20px] w-[20px] rounded-[50%]"
+            className="h-[20px] w-[20px] rounded-[50%] border-[1px] border-black"
           ></div>{" "}
           / {item.size}
         </div>
