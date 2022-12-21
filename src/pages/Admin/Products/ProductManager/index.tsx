@@ -15,6 +15,7 @@ import {
   setPage,
   filter_product,
   getProductadmins,
+  filter_product_admin,
 } from "../../../../redux/slices/productSlice";
 import { useAppDispatch } from "../../../../redux/store";
 import { RootState } from "../../../../redux/store";
@@ -60,7 +61,9 @@ const ProductManager = (props: Props) => {
 
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     dispatch(
-      filter_product({
+      filter_product_admin({
+        page: pages,
+        limit: 10,
         name: values?.name || "",
         prices: {
           gt: values?.start_price || 0,
@@ -71,7 +74,7 @@ const ProductManager = (props: Props) => {
     );
   };
 
-  console.log(product);
+  console.log(product?.products);
 
   return (
     <div className={styles.content}>

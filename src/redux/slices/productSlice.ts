@@ -91,6 +91,13 @@ export const filter_product = createAsyncThunk(
     return res;
   }
 );
+export const filter_product_admin = createAsyncThunk(
+  "products/filter_product_admin",
+  async (product: any) => {
+    const res = await filter(product);
+    return res;
+  }
+);
 
 export const getProduct = createAsyncThunk(
   "products/getProduct",
@@ -142,7 +149,13 @@ const productsSlice = createSlice({
       state.products.Product = payload as any;
     });
     builder.addCase(filter_product.fulfilled, (state, { payload }) => {
-      console.log(payload);
+      console.log(payload.data);
+
+      state.products.Product = payload.data.products as any;
+      state.products.count = payload.data.count as any;
+    });
+    builder.addCase(filter_product_admin.fulfilled, (state, { payload }) => {
+      console.log(payload.data);
 
       state.products = payload.data as any;
     });
