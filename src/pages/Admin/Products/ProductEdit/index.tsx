@@ -72,6 +72,8 @@ const ProductEdit = () => {
     const old = previews.filter((item: any) => item.url !== data);
     setPreviews(old);
   };
+  const product = useSelector((state:any)=>state?.product?.product)
+  console.log("spam",product)
 
   const onSetPrivews = (e: any) => {
     for (let index = 0; index < e.target.files.length; index++) {
@@ -394,9 +396,7 @@ const ProductEdit = () => {
                       </label>
                       <div className="mt-1 w-40 h-40 relative">
                         <img
-                          src={
-                            preview ||
-                            "https://res.cloudinary.com/assignmentjs/image/upload/c_thumb,w_200,g_face/v1648723660/img/noimage_mzjwxl.png"
+                          src={preview ? preview :product.image
                           }
                           alt="Preview Image"
                           className="h-40 w-40 rounded-sm object-cover"
