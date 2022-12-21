@@ -5,14 +5,21 @@ import { AiOutlinePlus } from "react-icons/ai";
 import styles from "./Products.module.css";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { filter_product, getProducts } from "../../redux/slices/productSlice";
+import {
+  filter_product,
+  getProducts,
+  setPage,
+} from "../../redux/slices/productSlice";
 import { getCatePro } from "../../redux/slices/cateProductSlice";
 import NumberFormat from "react-number-format";
+import { Pagination } from "antd";
 type Props = {};
 
 const Products = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
   const pages = useSelector((state: RootState) => state?.product.page);
+  console.log(pages);
+
   const catePro = useSelector((state: RootState) => state.catePro);
   const dispatch = useAppDispatch();
   const [isShowFilter, setIsShowFilter] = useState(false);
@@ -24,10 +31,10 @@ const Products = (props: Props) => {
     dispatch(
       getProducts({
         page: pages,
-        limit: 8,
+        limit: 10,
       })
     );
-  }, [dispatch, 1]);
+  }, [dispatch, pages]);
   // category
   useEffect(() => {
     dispatch(getCatePro());
@@ -35,6 +42,8 @@ const Products = (props: Props) => {
   useEffect(() => {
     dispatch(
       filter_product({
+        page: pages,
+        limit: 10,
         name: "",
         prices: {
           gt: values?.split("-")[0] || 0,
@@ -59,6 +68,8 @@ const Products = (props: Props) => {
     { label: "M", value: "M" },
     { label: "XL", value: "XL" },
   ];
+  console.log(product?.products);
+
   return (
     <div className={styles.container}>
       {/* <div className={styles.breadcrumb}>
@@ -196,17 +207,14 @@ const Products = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className={styles.pagination}>
-        <div className={styles.arrows}>
-          <SlArrowLeft />
-        </div>
-        <span className={styles.active}>1</span>
-        <span>2</span>
-        <span>3</span>
-        <div className={styles.arrows}>
-          <SlArrowRight />
-        </div>
-      </div>
+      <Pagination
+        defaultCurrent={1}
+        total={product?.products?.count}
+        pageSize={10}
+        onChange={(pages) => {
+          dispatch(setPage(pages));
+        }}
+      />
     </div>
   );
 };
