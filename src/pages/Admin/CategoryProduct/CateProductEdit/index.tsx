@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { HiOutlineCheck, HiOutlineX, HiRefresh } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -27,7 +28,7 @@ const CateProductEdit = () => {
     formState: { errors },
     reset,
   } = useForm<Inputs>();
-
+const categoryproduct= useSelector((state:any)=>state.catePro?.cateproduct?.data?.Cateproduct)
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
       const apiUrl = "https://api.cloudinary.com/v1_1/dmlv9tzte/image/upload";
@@ -68,7 +69,7 @@ const CateProductEdit = () => {
             <h1 className="text-3xl font-bold text-gray-900">
               Cập nhật danh mục sản phẩm
             </h1>
-            <Link to="/admin/category_post" className="sm:ml-3">
+            <Link to="/admin/category_product" className="sm:ml-3">
               <button
                 type="button"
                 className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -108,6 +109,13 @@ const CateProductEdit = () => {
                     <div className="text-sm mt-0.5 text-red-500">
                       {errors.name?.message}
                     </div>
+                  </div>
+                  <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                      Hình ảnh hiện tại
+                    </label>
+                  <img className='w-32' src={preview ? preview : categoryproduct?.image} alt="" />
+ 
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
