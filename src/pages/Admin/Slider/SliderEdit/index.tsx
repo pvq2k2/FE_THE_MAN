@@ -12,6 +12,7 @@ import {
   getSlider,
   updateSlider,
 } from "../../../../redux/slices/Slider";
+import { useSelector } from "react-redux";
 
 type Inputs = {
   title: string;
@@ -23,7 +24,8 @@ type Inputs = {
 const SliderEdit = () => {
   const [preview, setPreview] = useState<string>();
   const dispatch = useAppDispatch();
-  // const categoryPost = useSelector((state:RootState) =>state.)
+  const slide = useSelector((state: RootState) => state?.slider?.Slider);
+  console.log("slider", slide);
   const navigate = useNavigate();
   const { id } = useParams();
   const {
@@ -133,99 +135,16 @@ const SliderEdit = () => {
                     </div>
                   </div>
 
-                  {/* <div>
-                    <label
-                      htmlFor="DescShort"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Mô tả ngắn
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        {...register("descShort", {
-                          required: "Vui lòng nhập mô tả ngắn",
-                        })}
-                        id="DescShort"
-                        className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
-                        placeholder="DescShort..."
-                      />
-                      <div className="text-sm mt-0.5 text-red-500">
-                        {errors.descShort?.message}
-                      </div>
-                    </div>
-                  </div> */}
-
-                  {/* <div className="col-span-6 sm:col-span-3">
-                    <label
-                      htmlFor="category"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Category
-                    </label>
-                    <select
-                      {...register("categoryId", {
-                        required: "Vui lòng nhập chi tiết",
-                      })}
-                      id="category"
-                      name="category"
-                      autoComplete="category-name"
-                      className="mt-1 block w-full py-2 px-3 appearance-none border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    >
-                      <option value="0">Select Category</option>
-                      {cateProducts &&
-                        cateProducts.map((category: any) => (
-                          <option key={category._id} value={category._id}>
-                            {category.name}
-                          </option>
-                        ))}
-                      <option>Quần</option>
-                    </select>
-                    <div className="text-sm mt-0.5 text-red-500">
-                      {errors.categoryId?.message}
-                    </div>
-                  </div> */}
-                  {/* 
                   <div>
-                    <label
-                      htmlFor="content"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Nội dung
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        {...register("content", {
-                          required: "Vui lòng nhập nội dung bài viết",
-                        })}
-                        id="content-add-product"
-                        className="shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"
-                        placeholder="content..."
-                      />
-                      <div className="text-sm mt-0.5 text-red-500">
-                        {errors.content?.message}
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* 
-                  <div className="col-span-3">
                     <label className="block text-sm font-medium text-gray-700">
-                      Image preview
+                      Hình ảnh hiện tại
                     </label>
-                    <div className="mt-1 w-40 h-40 relative">
-                      <img
-                        src={
-                          preview ||
-                          "https://res.cloudinary.com/assignmentjs/image/upload/c_thumb,w_200,g_face/v1648723660/img/noimage_mzjwxl.png"
-                        }
-                        alt="Preview Image"
-                        className="h-40 w-40 rounded-sm object-cover"
-                        // layout="fill"
-                      />
-                    </div>
-                  </div> */}
-
+                    <img
+                      className="w-32"
+                      src={preview ? preview : slide?.image}
+                      alt=""
+                    />
+                  </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Hình ảnh
