@@ -62,16 +62,19 @@ const DetailPost = (props: Props) => {
             <Link
               to={`/detail/${post._id}/post`}
               key={post._id}
-              className="grid gap-3 grid-cols-2 border-b-2 h-36 mt-4 "
+              className="grid gap-3 grid-cols-2 border-b-2 h-32 mt-4 "
             >
               <div className="h-4/6">
-                <img className="w-full h-full" src={post.image} alt="" />
+                <img className="max-w-full w-full h-28 object-cover " src={post.image} alt="" />
               </div>
 
-              <div className="flex items-center h-4/6">
-                <h3 className="font-medium sm:truncate lg:whitespace-normal">
+              <div className="items-center h-4/6">
+                <h3 className="font-semibold  sm:truncate lg:whitespace-normal h-4 overflow-hidden">
                   {post.title}
                 </h3>
+                <p className="font-medium sm:truncate lg:whitespace-normal h-20 overflow-hidden mt-2 ">
+                     {post.descShort}
+                    </p>
               </div>
             </Link>
           ))}

@@ -48,12 +48,12 @@ const PostPage = (props: Props) => {
           <div className="pl-9">
             <h2 className="text-2xl font-bold pb-6">Danh Mục Bài Viết</h2>
             <a href={`/post`}>
-                  <h3 className="text-base pb-2">Tất cả bài viết</h3>
+                  <h3 className="font-semibold  pb-2">Tất cả bài viết</h3>
                 </a>
             {cateposts?.cateposts?.map((item: any, index: any) => {
               return (
                 <a href={`/post/${item._id}`}>
-                  <h3 className="text-base pb-2">{item.name}</h3>
+                  <h3 className="font-semibold  pb-2">{item.name}</h3>
                 </a>
               );
             })}
@@ -93,7 +93,7 @@ const PostPage = (props: Props) => {
                     <p className="text-sm text-gray-500"> {moment(e.createdAt).format("DD [tháng] MM, YYYY")}</p>
                     <h3>
                       <Link to={`/detail/${e._id}/post`}>
-                        <span className="limit-line-2 block my-1 font-semibold text-justify leading-tight transition duration-300 text-gray-600 hover:text-black">
+                        <span className="limit-line-2 block my-1 font-semibold text-justify leading-tight transition duration-300 text-gray-600 hover:text-black h-4 overflow-hidden">
                           {e.title}
                         </span>
                       </Link>
@@ -101,7 +101,7 @@ const PostPage = (props: Props) => {
                     <div className="limit-line-3 text-gray-500 text-sm text-justify whitespace-nowrap w-[210px] text-ellipsis overflow-hidden">
                      {e.descShort}
                     </div>
-                    <button className="bg-gray-500 w-24 h-7 text-base mt-4 rounded-full text-stone-50 hover:bg-slate-300 hover:text-slate-700 "> <Link to={`/detail/${e._id}/post`}> Xem thêm</Link> </button>
+                    <button className="bg-gray-500 w-24 h-7 text-base mt-3 rounded-full text-stone-50 hover:bg-slate-300 hover:text-slate-700 "> <Link to={`/detail/${e._id}/post`}> Xem thêm</Link> </button>
                   </div>
                 </div>
               );
