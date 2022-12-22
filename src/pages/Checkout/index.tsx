@@ -18,7 +18,6 @@ import moment from "moment";
 import { createUrlPayment } from "../../redux/slices/paymentSlice";
 type Props = {};
 
-
 const CheckoutPage = (props: Props) => {
   const dispatch = useDispatch<any>();
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ const CheckoutPage = (props: Props) => {
   const [total, setTotal] = useState(0);
   const [fee, setFee] = useState<number>(0);
   const [Payment, setPayment] = useState<Number>(0);
- 
+  const [Checked, setChecked] = useState(false);
   let sum = 0;
   let sumwidth = 0;
   let sumheight = 0;
@@ -53,7 +52,7 @@ const CheckoutPage = (props: Props) => {
   //       iduser: carts?.carts?.userID,
   //     };
   //     if (carts?.carts?.voucher) {
-  //       await dispatch(checkVoucher(data)); 
+  //       await dispatch(checkVoucher(data));
   //       console.log("s", voucher);
   //     }
   //   })();
@@ -62,24 +61,22 @@ const CheckoutPage = (props: Props) => {
   useEffect(() => {
     if (voucher) {
       if (voucher?.amount > 0) {
-        sum = sum - voucher.amount
-        if(sum < 0) {
+        sum = sum - voucher.amount;
+        if (sum < 0) {
           setTotal(0);
-        }else {
+        } else {
           setTotal(sum);
         }
-        
       } else {
-        sum = sum - (sum * voucher.percent / 100)
-        if(sum < 0) {
+        sum = sum - (sum * voucher.percent) / 100;
+        if (sum < 0) {
           setTotal(0);
-        }else {
+        } else {
           setTotal(sum);
         }
       }
-    }else{
-
-      setTotal(sum)
+    } else {
+      setTotal(sum);
     }
   }, [voucher]);
 
@@ -98,14 +95,14 @@ const CheckoutPage = (props: Props) => {
   }, []);
 
   useEffect(() => {
-          setTotal(sum)
+    setTotal(sum);
   }, [carts?.carts?.products]);
 
   useEffect(() => {
     (async () => {
       const data = {
         ...provicei,
-        service_id:null,
+        service_id: null,
         service_type_id: 2,
         insurance_value: total,
         coupon: null,
@@ -115,17 +112,16 @@ const CheckoutPage = (props: Props) => {
         weight: sumweight,
         width: sumwidth,
       };
-      
-        if(provicei?.to_ward_code) {
-          const res = await dispatch(getFee(data));
-          if(res?.payload?.total) {
-            setFee(res?.payload?.total)
-          }else{
-            setFee(0)
-          }
+
+      if (provicei?.to_ward_code) {
+        const res = await dispatch(getFee(data));
+        if (res?.payload?.total) {
+          setFee(res?.payload?.total);
+        } else {
+          setFee(0);
         }
+      }
     })();
-    
   }, [provicei]);
 
   const {
@@ -133,7 +129,8 @@ const CheckoutPage = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onAdd: SubmitHandler<any> = async (data: any) => { 
+  
+  const onAdd: SubmitHandler<any> = async (data: any) => {
     if (provicei.to_district_id == 0 && provicei?.to_ward_code == 0) {
       return toast.info("Vui lòng chọn địa chỉ giao hàng");
     }
@@ -146,75 +143,71 @@ const CheckoutPage = (props: Props) => {
     if (!carts?.carts?.products) {
       return toast.info("Không có sản phẩm");
     }
-    
+
     let _id = "";
-    let idv = ""  //id voucher
-    if(voucher?._id) {
-      idv = voucher?._id
+    let idv = ""; //id voucher
+    if (voucher?._id) {
+      idv = voucher?._id;
     }
     _id = carts.carts._id;
 
-
     const payment = {
-      "amount": total + fee,
-      "orderDescription": "Thanh toán đơn hàng " + carts?.carts?.tm_codeorder,
-      "orderType": 200000,
-      "bankCode": "",
-      "language":"vn",
-      "orderid": carts?.carts?.tm_codeorder
-    }
-    let linkpay = ""
-    if(Payment == 1) {
-        const res = await dispatch(createUrlPayment(payment))
-        if(res?.payload?.code == 200) {  
-          linkpay = res?.payload?.vnpUrl
-          window.open(res?.payload?.vnpUrl,"_blank")
-        }else {
-          return toast.error("Lỗi, Vui lòng thử lại");
-        }
+      amount: total + fee,
+      orderDescription: "Thanh toán đơn hàng " + carts?.carts?.tm_codeorder,
+      orderType: 200000,
+      bankCode: "",
+      language: "vn",
+      orderid: carts?.carts?.tm_codeorder,
+    };
+    let linkpay = "";
+    if (Payment == 1) {
+      const res = await dispatch(createUrlPayment(payment));
+      if (res?.payload?.code == 200) {
+        linkpay = res?.payload?.vnpUrl;
+        window.open(res?.payload?.vnpUrl, "_blank");
+      } else {
+        return toast.error("Lỗi, Vui lòng thử lại");
+      }
     }
 
     let products = {};
-    if(Payment == 1) {
+    if (Payment == 1) {
       products = {
         _id,
-      product,
-      infomation: info,
-      fee: fee,
-      productmonney: total,
-      userID: carts?.carts?.userID,
-      tm_codeorder: carts?.carts?.tm_codeorder,
-      linkpay,
-      totalprice: total + fee,
-      width: sumwidth,
-      length: sumlength,
-      height: sumheight,
-      weight: sumweight,
-      payment_methods: Payment,
-      voucher: idv,
-      
-      }
-    }else {
+        product,
+        infomation: info,
+        fee: fee,
+        productmonney: total,
+        userID: carts?.carts?.userID,
+        tm_codeorder: carts?.carts?.tm_codeorder,
+        linkpay,
+        totalprice: total + fee,
+        width: sumwidth,
+        length: sumlength,
+        height: sumheight,
+        weight: sumweight,
+        payment_methods: Payment,
+        voucher: idv,
+      };
+    } else {
       products = {
         _id,
-      product,
-      infomation: info,
-      fee: fee,
-      productmonney: total,
-      userID: carts?.carts?.userID,
-      tm_codeorder: carts?.carts?.tm_codeorder,
-      linkpay: carts?.carts?.linkpay,
-      totalprice: total + fee,
-      width: sumwidth,
-      length: sumlength,
-      height: sumheight,
-      weight: sumweight,
-      payment_methods: Payment,
-      voucher: idv
-      }
+        product,
+        infomation: info,
+        fee: fee,
+        productmonney: total,
+        userID: carts?.carts?.userID,
+        tm_codeorder: carts?.carts?.tm_codeorder,
+        linkpay: carts?.carts?.linkpay,
+        totalprice: total + fee,
+        width: sumwidth,
+        length: sumlength,
+        height: sumheight,
+        weight: sumweight,
+        payment_methods: Payment,
+        voucher: idv,
+      };
     }
-   
-
 
     const res = await dispatch(addOrder(products));
     if (res?.payload?.code == 200) {
@@ -228,18 +221,19 @@ const CheckoutPage = (props: Props) => {
       );
       navigate("/thankkiu");
     } else {
-    navigate("/cart");
+      navigate("/cart");
     }
   };
 
   const onVoucher = async () => {
-    if(voucher?.amount > 0 || voucher?.percent > 0) {
-            const confirm = window.confirm("Chỉ được phép sử dụng 1 mã giảm giá, bạn có muốn sử dụng mã mới không?")
-            if(confirm) {
-
-            }else {
-              return
-            }
+    if (voucher?.amount > 0 || voucher?.percent > 0) {
+      const confirm = window.confirm(
+        "Chỉ được phép sử dụng 1 mã giảm giá, bạn có muốn sử dụng mã mới không?"
+      );
+      if (confirm) {
+      } else {
+        return;
+      }
     }
     const data = {
       code,
@@ -247,43 +241,49 @@ const CheckoutPage = (props: Props) => {
       update: false,
     };
     const res = await dispatch(checkVoucher(data));
-    console.log("res",res?.payload);
-    
-    if(res?.payload?.code == 200) {
-      if(res?.payload?.amount > 0 ) { 
-        toast.success("Chúc mừng bạn đã được giảm giá " + formatCurrency(res?.payload?.amount))
-      }else {
-        toast.success("Chúc mừng bạn đã được giảm giá " + res?.payload?.percent + "%")
+    if (res?.payload?.code == 200) {
+      if (res?.payload?.amount > 0) {
+        toast.success(
+          "Chúc mừng bạn đã được giảm giá " +
+            formatCurrency(res?.payload?.amount)
+        );
+      } else {
+        toast.success(
+          "Chúc mừng bạn đã được giảm giá " + res?.payload?.percent + "%"
+        );
       }
     }
-    
-    
   };
 
   const onRemoveVoucher = async () => {
-          await dispatch(removeVoucher())
-         
-          
-  }
+    await dispatch(removeVoucher());
+  };
 
   const onProvince = async (e: any) => {
+    setProvicei({
+      to_district_id: 0,
+      to_ward_code: 0,
+    });
     await dispatch(getDistrict(parseInt(e.target.value)));
     setReceiver((old) => ({
       ...old,
       to_province_name: e.target.options[e.target.selectedIndex].text,
     }));
   };
+
   const onDistrict = async (e: any) => {
-    await dispatch(getWards(parseInt(e.target.value)));
+    const districtId = parseInt(e.target.value)
     setProvicei((old) => ({
       ...old,
-      to_district_id: parseInt(e.target.value),
+      to_district_id: districtId,
     }));
     setReceiver((old) => ({
       ...old,
       to_district_name: e.target.options[e.target.selectedIndex].text,
     }));
+    await dispatch(getWards(districtId));
   };
+
   const onWard = async (e: any) => {
     setProvicei((old) => ({ ...old, to_ward_code: parseInt(e.target.value) }));
     setReceiver((old) => ({
@@ -291,6 +291,7 @@ const CheckoutPage = (props: Props) => {
       to_ward_name: e.target.options[e.target.selectedIndex].text,
     }));
   };
+
   return (
     <div>
       <form onSubmit={handleSubmit(onAdd)}>
@@ -332,7 +333,7 @@ const CheckoutPage = (props: Props) => {
                 id=""
               >
                 <option value="">Tỉnh</option>
-                {province.province?.map((item: any, index: number) => {
+                {province?.province?.map((item: any, index: number) => {
                   return (
                     <option key={index++} value={item.ProvinceID}>
                       {item.ProvinceName}
@@ -345,6 +346,7 @@ const CheckoutPage = (props: Props) => {
                 className="py-[12px] mx-[10px] border-[1px]"
                 name=""
                 id=""
+                value={provicei.to_district_id}
               >
                 <option value="">Huyện </option>
                 {province?.district?.map((item: any, index: number) => {
@@ -360,6 +362,7 @@ const CheckoutPage = (props: Props) => {
                 className="py-[12px]  border-[1px]"
                 name=""
                 id=""
+                value={provicei.to_ward_code}
               >
                 <option value="">Xã</option>
                 {province?.ward?.map((item: any, index: number) => {
@@ -446,12 +449,12 @@ const CheckoutPage = (props: Props) => {
                   <span className="grow font-bold">Sản Phẩm</span>
                   <span className="text-right font-semibold">Giá</span>
                 </div>
-                {carts?.carts?.products?.map((item: any, index: number) => {    
+                {carts?.carts?.products?.map((item: any, index: number) => {
                   if (item.length > sumlength) {
                     sumlength = item.length;
                   }
                   sumheight += item.height;
-                  sum += item.quantity * item.price
+                  sum += item.quantity * item.price;
                   sumweight += item.weight;
                   if (item.width > sumwidth) {
                     sumwidth = item.width;
@@ -474,19 +477,46 @@ const CheckoutPage = (props: Props) => {
                   );
                 })}
 
-                 
-
-    <div className="flex justify-between border-dashed border-t-2 border-t-black pt-[20px]">
-                {voucher.amount > 0 ? <span className="font-bold">Mã giảm giá: {formatCurrency(voucher?.amount)} </span> :  "" }  
-             {voucher.percent > 0 ? <span className="font-bold">Mã giảm giá: {voucher.percent} % </span> :  "" }  
-                {voucher.amount > 0 || voucher.percent > 0 ?  <button onClick={() => onRemoveVoucher()} type="button" className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">Xoá</button>  : ""}
-                </div>  
+                <div className="flex justify-between border-dashed border-t-2 border-t-black pt-[20px]">
+                  {voucher.amount > 0 ? (
+                    <span className="font-bold">
+                      Mã giảm giá: {formatCurrency(voucher?.amount)}{" "}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  {voucher.percent > 0 ? (
+                    <span className="font-bold">
+                      Mã giảm giá: {voucher.percent} %{" "}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  {voucher.amount > 0 || voucher.percent > 0 ? (
+                    <button
+                      onClick={() => onRemoveVoucher()}
+                      type="button"
+                      className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+                    >
+                      Xoá
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                </div>
                 <div className=" pt-5 flex ">
                   <span className="grow font-semibold">Tạm Tính </span>
                   <span className="text-right ">{formatCurrency(total)}</span>
                 </div>
                 <div className=" pt-5 flex justify-between">
-                  <div className="flex"><img className="w-[50px] mr-[5px]" src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png" alt="" /> <span>Phí giao hàng:</span></div>
+                  <div className="flex">
+                    <img
+                      className="w-[50px] mr-[5px]"
+                      src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-GHN-Slogan-En.png"
+                      alt=""
+                    />{" "}
+                    <span>Phí giao hàng:</span>
+                  </div>
                   <span className="text-right">
                     {fee ? formatCurrency(fee) : 0}
                   </span>
@@ -500,7 +530,8 @@ const CheckoutPage = (props: Props) => {
 
                 <div className="flex flex-col  my-[10px]">
                   <div className="flex items-center mr-4">
-                    <input defaultChecked
+                    <input
+                      defaultChecked
                       id="inline-radio"
                       type="radio"
                       onClick={() => setPayment(0)}
@@ -526,10 +557,14 @@ const CheckoutPage = (props: Props) => {
                       htmlFor="inline-2-radio"
                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      Thanh toán tự động qua VNPAY <img src="https://i0.wp.com/discvietnam.com/wp-content/uploads/2020/07/C%E1%BB%95ng-thanh-to%C3%A1n-VNPAY-Logo-Th%E1%BA%BB-ATM-T%C3%A0i-kho%E1%BA%A3n-ng%C3%A2n-h%C3%A0ng-Online-Banking-M%C3%A3-QR-QR-Pay-Qu%C3%A9t-QR-Transparent.png?fit=360%2C140&ssl=1" className="w-[80px]" alt="" />
+                      Thanh toán tự động qua VNPAY{" "}
+                      <img
+                        src="https://i0.wp.com/discvietnam.com/wp-content/uploads/2020/07/C%E1%BB%95ng-thanh-to%C3%A1n-VNPAY-Logo-Th%E1%BA%BB-ATM-T%C3%A0i-kho%E1%BA%A3n-ng%C3%A2n-h%C3%A0ng-Online-Banking-M%C3%A3-QR-QR-Pay-Qu%C3%A9t-QR-Transparent.png?fit=360%2C140&ssl=1"
+                        className="w-[80px]"
+                        alt=""
+                      />
                     </label>
                   </div>
-                  
                 </div>
 
                 <button className="bg-black text-white font-semibold p-3 mt-10 w-full">
