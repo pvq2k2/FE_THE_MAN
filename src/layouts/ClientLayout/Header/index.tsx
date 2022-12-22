@@ -16,6 +16,7 @@ import {
 } from "react-icons/all";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { search } from "../../../redux/slices/productSlice";
+import Voucher from "../../../components/Voucher";
 type Props = {};
 type Inputs = {
   name: String;
@@ -63,7 +64,9 @@ const ClientHeader = (props: Props) => {
   };
 
   return (
-    <header className={styles.header}>
+    <header >
+    
+      <div className={styles.header}>
       <div className={styles.icon_bar} onClick={() => setShowNav(!showNav)}>
         <AiOutlineBars />
       </div>
@@ -218,6 +221,10 @@ const ClientHeader = (props: Props) => {
         ) : (
           ""
         )}
+      </div>
+      </div>
+      <div>
+        <Voucher/>
       </div>
     </header>
   );
