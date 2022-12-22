@@ -134,7 +134,7 @@ const CheckoutPage = (props: Props) => {
     formState: { errors },
   } = useForm();
   const onAdd: SubmitHandler<any> = async (data: any) => { 
-    if (provicei.to_district_id == 0) {
+    if (provicei.to_district_id == 0 && provicei?.to_ward_code == 0) {
       return toast.info("Vui lòng chọn địa chỉ giao hàng");
     }
     const info = {
