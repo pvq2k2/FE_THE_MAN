@@ -4,6 +4,7 @@ import Categories from '../../components/Categories'
 import FeaturedNews from '../../components/FeaturedNews'
 import NewProduct from '../../components/NewProduct'
 import SubBanner from '../../components/SubBanner'
+import Voucher from '../../components/Voucher'
 
 type Props = {}
 
