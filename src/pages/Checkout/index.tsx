@@ -310,7 +310,7 @@ const CheckoutPage = (props: Props) => {
                 {...register("fullname", { required: true })}
               />
 
-              {errors?.fullname && <span>Không được để trống </span>}
+              {errors?.fullname && <span className="ml-[5px] font-bold text-red-500">Không được để trống </span>}
             </table>
             <table className="table-auto w-full ">
               <label htmlFor="" className="font-semibold">
@@ -323,7 +323,7 @@ const CheckoutPage = (props: Props) => {
                 placeholder="Địa chỉ cụ thể"
                 {...register("address", { required: true })}
               />
-              {errors?.address && <span>Không được để trống </span>}
+              {errors?.address && <span className="ml-[5px] font-bold text-red-500">Không được để trống </span>}
             </table>
             <table className="table-auto w-full flex pb-[20px]">
               <select
@@ -384,9 +384,9 @@ const CheckoutPage = (props: Props) => {
                 className="border w-8/12 py-3 px-2  mt-5 mb-5"
                 type="text"
                 placeholder="Số Điện Thoại"
-                {...register("phonenumber", { required: true })}
+                {...register("phonenumber", {required: true,  pattern: /((09|03|07|08|05|\+84)+([0-9]{8,9})\b)/g})}
               />
-              {errors?.phonenumber && <span>Không được để trống </span>}
+              {errors?.phonenumber && <span className="ml-[5px] font-bold text-red-500">Vui lòng nhập đúng định dạng sđt </span>}
             </table>
             <table className="table-auto w-full ">
               <label htmlFor="" className="font-semibold">
@@ -397,9 +397,9 @@ const CheckoutPage = (props: Props) => {
                 className="border w-8/12 py-3 px-2 mt-5 mb-5"
                 type="text"
                 placeholder="Email"
-                {...register("email", { required: true })}
+                {...register("email", {required:true, pattern: /^[a-zA-Z0-9?:\.?:\_]+@[a-zA-Z0-9-]+\.+([a-zA-Z]{2,5})$/})}
               />
-              {errors?.email && <span>Không được để trống </span>}
+              {errors?.email && <span className="ml-[5px] font-bold text-red-500">Vui lòng viết đúng định dạng email</span>}
             </table>
             <table className="table-auto w-full ">
               <label htmlFor="" className="font-semibold">
