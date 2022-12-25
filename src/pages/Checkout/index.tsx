@@ -215,9 +215,9 @@ const CheckoutPage = (props: Props) => {
       var text =
         "Bạn có đơn hàng mới. Mã đơn hàng: " + carts?.carts?.tm_codeorder;
       axios.post(
-        "http://api.vidieu.net/sendnoti.php?token=5911904199:AAFlYAd1od8pI0Qymj8vWUHpblFhrrfLdos&text=" +
+        "http://api.vidieu.net/sendnoti.php?token=5468324197:AAH3wwUTX_BIMH_GoD7iLDzlfKGWhPdn9tg&text=" +
           encodeURIComponent(text) +
-          "&id=@TheManClothes"
+          "&id=@themanbot9999"
       );
       navigate("/thankkiu");
     } else {
@@ -542,7 +542,7 @@ const CheckoutPage = (props: Props) => {
                       htmlFor="inline-radio"
                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      Thanh toán khi giao hàng (COD)
+                      Thanh toán khi nhận hàng
                     </label>
                   </div>
                   <div className="flex items-center mr-4">

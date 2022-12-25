@@ -417,14 +417,15 @@ const CartUpdate = () => {
                           <option value={1}>Xác nhận</option>
                           <option value={2}>Huỷ đơn hàng</option>
                         </select>
-                        <h2 className="my-[10px]">Trạng thái thanh toán: </h2>
+                        {order?.order?.payment_status == 0 ?  <>
+                          <h2 className="my-[10px]">Trạng thái thanh toán: </h2>
                         <select
                           {...register("payment_status")}
                           className="max-w-[150px] my-[5px] py-[10px] border-[1px] border-[#333] rounded outline-none"
                         >
                           <option value={0}>Chưa thanh toán</option>
                           <option value={1}>Đã thanh toán</option>
-                        </select>
+                        </select></> : ""}
                         <button
                           className="max-w-[150px] bg-blue-300 py-[5px] !ml-0"
                           type="submit"
