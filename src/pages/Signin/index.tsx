@@ -38,16 +38,17 @@ const Signin = (props: Props) => {
       dispatch(signinAction(user));
 
       const role = user.data.users.role;
+       const link = JSON.parse(localStorage.getItem("link") as string);
+        if (link) {
+          navigate(link);
+         return localStorage.removeItem("link");
+        }
       if (role == 1) {
         setTimeout(() => {
           navigate("/admin/dashboard");
         }, 1000);
       } else {
-        // const link = JSON.parse(localStorage.getItem("link") as string);
-        // if (link) {
-        //   navigate(link);
-        //   localStorage.removeItem("link");
-        // } else {
+       
         setTimeout(() => {
           navigate("/");
         }, 1000);

@@ -33,7 +33,6 @@ const Cancel = () => {
             <th className="font-semibold pb-5">Tổng tiền</th>
             <th className="font-semibold pb-5">Chi tiết đơn hàng </th>
             <th className="font-semibold pb-5">Trạng thái đơn hàng</th>
-            <th className="font-semibold pb-5">Hành động</th>
           </tr>
         </thead>
         
@@ -61,12 +60,7 @@ const Cancel = () => {
                       ? "Chưa thanh toán"
                       : "Đã thanh toán"}
                   </td> 
-               <td className="py-10  gap-8">
-                
-                   <button className='max-w-[150px] bg-[#ee4d2d] text-[#fff] rounded p-[5px]' type='submit' >Huỷ đơn hàng</button>
-          
-                 
-                 </td>
+             
              </tr>
             })}
         
