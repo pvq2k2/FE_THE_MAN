@@ -99,7 +99,7 @@ const Dashboard = () => {
     //   })
     // );
   };
-  console.log(product?.list?.length != 0);
+  console.log(staisticar?.confirmed);
 
   return (
     <div>
