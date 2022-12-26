@@ -158,7 +158,7 @@ const ProductManager = (props: Props) => {
               </tr>
             </thead>
             <tbody>
-              {product?.products?.products?.map((item: Product, index: any) => {
+              {product?.products?.products?.map((item:Product, index: any) => {
                 return (
                   <tr key={item._id}>
                     <td>{(pages - 1) * 10 + ++index}</td>
@@ -175,7 +175,7 @@ const ProductManager = (props: Props) => {
                     <td>{item.price}đ</td>
                     <td>
                       <div className="h-[150px] w-[250px] overflow-x-auto scoll">
-                        {item.desc.length > 90
+                        {item?.desc?.length > 90
                           ? `${item?.desc?.slice(0, 90)}...`
                           : item?.desc}
                       </div>

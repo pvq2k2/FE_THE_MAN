@@ -22,7 +22,7 @@ const Signin = (props: Props) => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
+  const onSubmit: SubmitHandler<Inputs> = async (values: any) => {
     try {
       const user = await signin(values);
 
@@ -52,10 +52,8 @@ const Signin = (props: Props) => {
           navigate("/");
         }, 1000);
       }
-    } catch (error) {
-      console.log(error);
-
-      const isVerify = error?.response.data.verified;
+    } catch (error: any) {
+      const isVerify = error?.response?.data?.verified;
       if (isVerify === false && isVerify !== undefined) {
         Swal.fire({
           icon: "error",
@@ -63,7 +61,7 @@ const Signin = (props: Props) => {
           text: "Vui lòng kiểm tra email để xác thực tài khoản!",
         });
       }
-      const message = error?.response.data.message;
+      const message = error?.response?.data?.message;
       toast.error(message, {
         position: "top-right",
         autoClose: 5000,
