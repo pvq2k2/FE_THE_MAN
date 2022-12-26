@@ -362,9 +362,9 @@ const Dashboard = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="text-center">{staisticar?.confirmed?.length}</td>
-                    <td>{staisticar?.canceled?.length}</td>
-                    <td>{staisticar?.unconfimred?.length}</td>
+                    <td className="text-center">{staisticar?.confirmed}</td>
+                    <td>{staisticar?.canceled}</td>
+                    <td>{staisticar?.unconfimred}</td>
                   </tr>
                 </tbody>
               </table>
