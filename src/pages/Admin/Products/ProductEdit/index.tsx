@@ -40,7 +40,7 @@ export type Inputs = {
 };
 
 const ProductEdit = () => {
-  const categories = useSelector((state: any) => state.catePro.cateproducts);
+  const categories = useSelector((state: any) => state?.catePro?.cateproducts);
   const [preview, setPreview] = useState<string>();
   const [previews, setPreviews] = useState<Iimgs[]>([]);
   const { id } = useParams();
@@ -90,36 +90,69 @@ const ProductEdit = () => {
     try {
       const apiUrl = "https://api.cloudinary.com/v1_1/dmlv9tzte/image/upload";
       const images = values.image[0];
-      const formdata = new FormData();
-      formdata.append("file", images);
-      formdata.append("upload_preset", "duanTn");
-      const { data } = await axios.post(apiUrl, formdata, {
-        headers: {
-          "Content-type": "application/form-data",
-        },
-      });
-      let imgs = [];
-      for (let index = 0; index < previews.length; index++) {
-        const formDataImageSlide = new FormData();
-        formDataImageSlide.append("file", previews[index].targetfile);
-        formDataImageSlide.append("upload_preset", "duanTn");
-        const { data } = await axios.post(apiUrl, formDataImageSlide, {
+      let data: any
+      
+      if(values?.image != product?.image) {
+        console.log("c");
+        
+        const formdata = new FormData();
+        formdata.append("file", images);
+        formdata.append("upload_preset", "duanTn");
+        const { data: dataimg } = await axios.post(apiUrl, formdata, {
           headers: {
             "Content-type": "application/form-data",
           },
         });
-
-        imgs.push(data.url);
+        data = dataimg
       }
-      const product = {
-        ...values,
-        image: data.url,
-        subimg: imgs,
-      };
-      // product.type = types;
-      console.log(product);
+      let imgs = [];
+      if(previews.length > 0) {
+        for (let index = 0; index < previews.length; index++) {
+          const formDataImageSlide = new FormData();
+          formDataImageSlide.append("file", previews[index].targetfile);
+          formDataImageSlide.append("upload_preset", "duanTn");
+          const { data } = await axios.post(apiUrl, formDataImageSlide, {
+            headers: {
+              "Content-type": "application/form-data",
+            },
+          });
+  
+          imgs.push(data.url);
+        }
+      }
 
-      await dispatch(updateProduct(product)).unwrap();
+
+      let producta = {};
+      if(!data && imgs.length < 1) {
+         producta = {
+          ...values,
+          image: product?.image,
+          subimg: product?.subimg,
+        };
+          
+      }else if(!data && imgs.length>0){
+        producta = {
+          ...values,
+          image: product?.image,
+          subimg: imgs,
+        };
+      }else if(imgs.length < 1 && data.url) {
+        producta = {
+          ...values,
+          image: data?.url,
+          subimg: product?.subimg,
+        };
+      }else {
+        producta = {
+          ...values,
+          image: data.url,
+          subimg: imgs,
+        };
+        
+      }
+      console.log("ce", producta);
+      
+      await dispatch(updateProduct(producta)).unwrap();
       toast.success("Sửa sản phẩm thành công !", {
         position: "top-right",
         autoClose: 5000,
@@ -130,7 +163,10 @@ const ProductEdit = () => {
         progress: undefined,
       });
       navigate("/admin/products");
-    } catch (error) {}
+    } catch (error) {
+      console.log("lỗi");
+      
+    }
   };
 
   return (
@@ -427,9 +463,7 @@ const ProductEdit = () => {
                           </svg>
                           <div className="flex text-sm text-gray-600">
                             <input
-                              {...register("image", {
-                                required: "Vui lòng chọn ảnh",
-                              })}
+                              {...register("image")}
                               onChange={(e: any) => {
                                 setPreview(
                                   URL.createObjectURL(e.target.files[0])
@@ -446,6 +480,17 @@ const ProductEdit = () => {
                       </div>
                     </div>
                     <div>
+                    <div className="mt-1 w-40 h-40 flex gap-2">
+                        {product?.subimg?.map((item:any) => {
+                          return <img
+                          src={item}
+                          alt="Preview Image"
+                          className="h-40 w-40 rounded-sm object-cover"
+                          // layout="fill"
+                        />
+                        })}
+                       
+                      </div>
                       <label className="block text-sm font-medium text-gray-700">
                         Ảnh sản phẩm
                       </label>
@@ -506,9 +551,7 @@ const ProductEdit = () => {
                           <div className="flex text-sm text-gray-600">
                             <input
                               multiple
-                              {...register("subimg", {
-                                required: "Vui lòng chọn ảnh",
-                              })}
+                              {...register("subimg")}
                               onChange={(e) => onSetPrivews(e)}
                               id=""
                               type="file"

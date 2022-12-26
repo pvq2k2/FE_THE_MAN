@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import { TiPlus } from "react-icons/ti";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deletePosts,
-  filter_post,
-  getAllCatePosts,
-  getPosts,
-  setPage,
+  getPosts
 } from "../../../../redux/slices/postSlice";
 import { useAppDispatch } from "../../../../redux/store";
 import { RootState } from "../../../../redux/store";
-import ReactPaginate from "react-paginate";
 import "../../../../styleAntd/panigation.css";
 import Swal from "sweetalert2";
 import styles from "../../Products/ProductManager/ProductManager.module.css";
-import { getAll } from "../../../../api-cilent/Post";
 import { Pagination } from "antd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -36,8 +28,6 @@ const CommetManager = (props: Props) => {
   const [pages, setPage] = useState(1);
   const [search, setSearch] = useState();
   const dispatch = useAppDispatch();
-  console.log(data);
-
   useEffect(() => {
     (async () => {
       if (!search) {
@@ -50,6 +40,7 @@ const CommetManager = (props: Props) => {
   const getData = async () => {
     const { data } = await getAllcomment(pages, 10);
     setData(data);
+    
   };
   const {
     register,
@@ -69,7 +60,7 @@ const CommetManager = (props: Props) => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const { data } = await removeComemnt(id);
+        await removeComemnt(id);
         await getData();
         Swal.fire("Thành công!", "Xóa thành công.", "success");
         dispatch(
@@ -101,7 +92,7 @@ const CommetManager = (props: Props) => {
               type="text"
               value={search}
               onChange={(e: any) => {
-                setSearch(e.target?.value);
+                setSearch(e?.target?.value);
               }}
               id=""
             />
@@ -130,7 +121,6 @@ const CommetManager = (props: Props) => {
           </thead>
           <tbody>
             {data?.Comments?.map((e: any, index: any) => {
-              console.log(e);
               const date = moment(e.createdAt).format("DD-MM-YYYY hh:mm:ss");
               return (
                 <tr key={index}>
