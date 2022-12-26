@@ -228,75 +228,77 @@ const Dashboard = () => {
               </main>
             </div>
             {/* <div className="pt-10 font-semibold text-lg">Sản phẩm bán chạy</div> */}
-            <main className="flex flex-col justify-between statis">
-              {product?.list?.length != 0 ? (
-                <table className="mb-2">
-                  <thead>
-                    <tr className="thead">
-                      <td>STT</td>
-                      <td>Tên</td>
-                      <td>Giá nhập</td>
-                      <td>Giá bán</td>
-                      <td>SL nhập vào</td>
-                      <td>SL bán ra</td>
-                      <td>SL tồn</td>
-                      <td>TT nhập vào</td>
-                      <td>Doanh thu</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {product?.list?.map((e: any, index: any) => {
-                      console.log(e);
+            <div>
+              <main className="flex flex-col justify-between statis main">
+                {product?.list?.length != 0 ? (
+                  <table className="mb-2">
+                    <thead>
+                      <tr className="thead">
+                        <td>STT</td>
+                        <td>Tên</td>
+                        <td>Giá nhập</td>
+                        <td>Giá bán</td>
+                        <td>SL nhập vào</td>
+                        <td>SL bán ra</td>
+                        <td>SL tồn</td>
+                        <td>TT nhập vào</td>
+                        <td>Doanh thu</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {product?.list?.map((e: any, index: any) => {
+                        console.log(e);
 
-                      return (
-                        <tr key="index">
-                          <td>{(pages - 1) * 10 + ++index}</td>
-                          <td className="">{e?.product?.name}</td>
-                          <td className="">
-                            {formatCurrencys(
-                              e?.product?.listed_price
-                                ? e?.product?.listed_price
-                                : 0
-                            )}{" "}
-                            <sup className="">đ</sup>
-                          </td>
+                        return (
+                          <tr key="index">
+                            <td>{(pages - 1) * 10 + ++index}</td>
+                            <td className="">{e?.product?.name}</td>
+                            <td className="">
+                              {formatCurrencys(
+                                e?.product?.listed_price
+                                  ? e?.product?.listed_price
+                                  : 0
+                              )}{" "}
+                              <sup className="">đ</sup>
+                            </td>
 
-                          <td className="">
-                            {formatCurrencys(
-                              e?.product?.price ? e?.product?.price : 0
-                            )}{" "}
-                            <sup className="">đ</sup>
-                          </td>
-                          <td className="">
-                            {e?.product?.quantity ? e?.product?.quantity : 0}
-                          </td>
-                          <td className="">{e?.sold ? e?.sold : 0}</td>
-                          <td className="">
-                            {e?.product?.stock ? e?.product?.stock : 0}
-                          </td>
-                          <td className="">
-                            {formatCurrencys(
-                              e?.product?.total_import_price
-                                ? e?.product?.total_import_price
-                                : 0
-                            )}{" "}
-                            <sup className="">đ</sup>
-                          </td>
-                          <td className="">
-                            {formatCurrencys(e?.tiendaban ? e?.tiendaban : 0)}{" "}
-                            <sup className="">đ</sup>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              ) : (
-                <div className="text-center font-semibold">
-                  Không có sản phẩm nào
-                </div>
-              )}
-            </main>
+                            <td className="">
+                              {formatCurrencys(
+                                e?.product?.price ? e?.product?.price : 0
+                              )}{" "}
+                              <sup className="">đ</sup>
+                            </td>
+                            <td className="">
+                              {e?.product?.quantity ? e?.product?.quantity : 0}
+                            </td>
+                            <td className="">{e?.sold ? e?.sold : 0}</td>
+                            <td className="">
+                              {e?.product?.stock ? e?.product?.stock : 0}
+                            </td>
+                            <td className="">
+                              {formatCurrencys(
+                                e?.product?.total_import_price
+                                  ? e?.product?.total_import_price
+                                  : 0
+                              )}{" "}
+                              <sup className="">đ</sup>
+                            </td>
+                            <td className="">
+                              {formatCurrencys(e?.tiendaban ? e?.tiendaban : 0)}{" "}
+                              <sup className="">đ</sup>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="text-center font-semibold">
+                    Không có sản phẩm nào
+                  </div>
+                )}
+              </main>
+            </div>
             {/* <div className="pt-10 font-semibold text-lg">Sản phẩm bán chạy</div> */}
             <main className=" statis">
               <div className="py-5 font-semibold text-sm text-center">

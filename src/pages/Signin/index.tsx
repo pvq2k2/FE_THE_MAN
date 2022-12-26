@@ -43,6 +43,11 @@ const Signin = (props: Props) => {
           navigate("/admin/dashboard");
         }, 1000);
       } else {
+        // const link = JSON.parse(localStorage.getItem("link") as string);
+        // if (link) {
+        //   navigate(link);
+        //   localStorage.removeItem("link");
+        // } else {
         setTimeout(() => {
           navigate("/");
         }, 1000);
