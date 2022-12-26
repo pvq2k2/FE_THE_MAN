@@ -29,6 +29,7 @@ const CheckoutPage = (props: Props) => {
   const [fee, setFee] = useState<number>(0);
   const [Payment, setPayment] = useState<Number>(0);
 
+  const [Checked, setChecked] = useState(false);
   let sum = 0;
   let sumwidth = 0;
   let sumheight = 0;
@@ -129,8 +130,9 @@ const CheckoutPage = (props: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const onAdd: SubmitHandler<any> = async (data: any) => {
-    if (provicei.to_district_id == 0) {
+    if (provicei.to_district_id == 0 && provicei?.to_ward_code == 0) {
       return toast.info("Vui lòng chọn địa chỉ giao hàng");
     }
     const info = {
@@ -214,9 +216,9 @@ const CheckoutPage = (props: Props) => {
       var text =
         "Bạn có đơn hàng mới. Mã đơn hàng: " + carts?.carts?.tm_codeorder;
       axios.post(
-        "http://api.vidieu.net/sendnoti.php?token=5911904199:AAFlYAd1od8pI0Qymj8vWUHpblFhrrfLdos&text=" +
+        "http://api.vidieu.net/sendnoti.php?token=5468324197:AAH3wwUTX_BIMH_GoD7iLDzlfKGWhPdn9tg&text=" +
           encodeURIComponent(text) +
-          "&id=@TheManClothes"
+          "&id=@themanbot9999"
       );
       navigate("/thankkiu");
     } else {
@@ -261,23 +263,30 @@ const CheckoutPage = (props: Props) => {
   };
 
   const onProvince = async (e: any) => {
+    setProvicei({
+      to_district_id: 0,
+      to_ward_code: 0,
+    });
     await dispatch(getDistrict(parseInt(e.target.value)));
     setReceiver((old) => ({
       ...old,
       to_province_name: e.target.options[e.target.selectedIndex].text,
     }));
   };
+
   const onDistrict = async (e: any) => {
-    await dispatch(getWards(parseInt(e.target.value)));
+    const districtId = parseInt(e.target.value);
     setProvicei((old) => ({
       ...old,
-      to_district_id: parseInt(e.target.value),
+      to_district_id: districtId,
     }));
     setReceiver((old) => ({
       ...old,
       to_district_name: e.target.options[e.target.selectedIndex].text,
     }));
+    await dispatch(getWards(districtId));
   };
+
   const onWard = async (e: any) => {
     setProvicei((old) => ({ ...old, to_ward_code: parseInt(e.target.value) }));
     setReceiver((old) => ({
@@ -285,6 +294,7 @@ const CheckoutPage = (props: Props) => {
       to_ward_name: e.target.options[e.target.selectedIndex].text,
     }));
   };
+
   return (
     <div>
       <form onSubmit={handleSubmit(onAdd)}>
@@ -303,7 +313,11 @@ const CheckoutPage = (props: Props) => {
                 {...register("fullname", { required: true })}
               />
 
-              {errors?.fullname && <span>Không được để trống </span>}
+              {errors?.fullname && (
+                <span className="ml-[5px] font-bold text-red-500">
+                  Không được để trống{" "}
+                </span>
+              )}
             </table>
             <table className="table-auto w-full ">
               <label htmlFor="" className="font-semibold">
@@ -316,7 +330,11 @@ const CheckoutPage = (props: Props) => {
                 placeholder="Địa chỉ cụ thể"
                 {...register("address", { required: true })}
               />
-              {errors?.address && <span>Không được để trống </span>}
+              {errors?.address && (
+                <span className="ml-[5px] font-bold text-red-500">
+                  Không được để trống{" "}
+                </span>
+              )}
             </table>
             <table className="table-auto w-full flex pb-[20px]">
               <select
@@ -326,7 +344,7 @@ const CheckoutPage = (props: Props) => {
                 id=""
               >
                 <option value="">Tỉnh</option>
-                {province.province?.map((item: any, index: number) => {
+                {province?.province?.map((item: any, index: number) => {
                   return (
                     <option key={index++} value={item.ProvinceID}>
                       {item.ProvinceName}
@@ -339,6 +357,7 @@ const CheckoutPage = (props: Props) => {
                 className="py-[12px] mx-[10px] border-[1px]"
                 name=""
                 id=""
+                value={provicei.to_district_id}
               >
                 <option value="">Huyện </option>
                 {province?.district?.map((item: any, index: number) => {
@@ -354,6 +373,7 @@ const CheckoutPage = (props: Props) => {
                 className="py-[12px]  border-[1px]"
                 name=""
                 id=""
+                value={provicei.to_ward_code}
               >
                 <option value="">Xã</option>
                 {province?.ward?.map((item: any, index: number) => {
@@ -375,9 +395,16 @@ const CheckoutPage = (props: Props) => {
                 className="border w-8/12 py-3 px-2  mt-5 mb-5"
                 type="text"
                 placeholder="Số Điện Thoại"
-                {...register("phonenumber", { required: true })}
+                {...register("phonenumber", {
+                  required: true,
+                  pattern: /((09|03|07|08|05|\+84)+([0-9]{8,9})\b)/g,
+                })}
               />
-              {errors?.phonenumber && <span>Không được để trống </span>}
+              {errors?.phonenumber && (
+                <span className="ml-[5px] font-bold text-red-500">
+                  Vui lòng nhập đúng định dạng sđt{" "}
+                </span>
+              )}
             </table>
             <table className="table-auto w-full ">
               <label htmlFor="" className="font-semibold">
@@ -388,9 +415,17 @@ const CheckoutPage = (props: Props) => {
                 className="border w-8/12 py-3 px-2 mt-5 mb-5"
                 type="text"
                 placeholder="Email"
-                {...register("email", { required: true })}
+                {...register("email", {
+                  required: true,
+                  pattern:
+                    /^[a-zA-Z0-9?:\.?:\_]+@[a-zA-Z0-9-]+\.+([a-zA-Z]{2,5})$/,
+                })}
               />
-              {errors?.email && <span>Không được để trống </span>}
+              {errors?.email && (
+                <span className="ml-[5px] font-bold text-red-500">
+                  Vui lòng viết đúng định dạng email
+                </span>
+              )}
             </table>
             <table className="table-auto w-full ">
               <label htmlFor="" className="font-semibold">
@@ -533,7 +568,7 @@ const CheckoutPage = (props: Props) => {
                       htmlFor="inline-radio"
                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      Thanh toán khi giao hàng (COD)
+                      Thanh toán khi nhận hàng
                     </label>
                   </div>
                   <div className="flex items-center mr-4">

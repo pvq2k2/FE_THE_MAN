@@ -16,7 +16,7 @@ type Props = {};
 
 const VoucherManager = () => {
   const vouchers = useSelector((state: any) => state.voucher);
-  console.log("vc", vouchers);
+  // console.log("vc", vouchers);
 
   const dispatch = useDispatch<any>();
 

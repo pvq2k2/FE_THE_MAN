@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -53,15 +54,15 @@ const FeaturedNews = () => {
               </div>
             </Link>
             <div className="bg-white rounded-b-xl shadow px-3 py-2">
-              <p className="text-sm text-gray-500">11 Tháng 8, 2022</p>
+              <p className="text-sm text-gray-500">{moment(item.createdAt).format("DD [tháng] MM, YYYY")}</p>
               <h3>
                 <Link to={`/detail/${item._id}/post`}>
-                  <span className="limit-line-2 block my-1 font-semibold text-justify leading-tight transition duration-300 text-gray-600 hover:text-black">
+                  <span className="limit-line-2 h-4 overflow-hidden block my-1 font-semibold text-justify leading-tight transition duration-300 text-gray-600 hover:text-black">
                     {item.title}
                   </span>
                 </Link>
               </h3>
-              <div className="limit-line-3 text-gray-500 text-sm text-justify">
+              <div className="limit-line-3 text-gray-500 text-sm text-justify h-10 overflow-hidden">
                {item.descShort}
               </div>
               <button className="bg-gray-500 w-24 h-7 mb-5 text-base mt-4 rounded-full text-stone-50 hover:bg-slate-300 hover:text-slate-700 "> <Link to={`/detail/${item._id}/post`}> Xem thêm</Link> </button>

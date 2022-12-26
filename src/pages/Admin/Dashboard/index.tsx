@@ -142,7 +142,7 @@ const Dashboard = () => {
           <div>
             {" "}
             <div>
-              <main className="flex flex-col justify-between ">
+              <main className="flex flex-col justify-between main">
                 <table>
                   <div className=" overflow-hidden">
                     <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
