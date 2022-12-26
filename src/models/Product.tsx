@@ -9,4 +9,5 @@ export type Product = {
   type: [];
   categoryId: any;
   data?: any;
+  status: "ACTIVE" | "DEACTIVE";
 };

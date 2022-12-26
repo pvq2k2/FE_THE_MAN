@@ -41,30 +41,26 @@ export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (data: any) => {
     const response = await getAll(data.page, data.limit);
-    return response.data;
+    return response?.data;
   }
 );
 export const getProductadmins = createAsyncThunk(
   "products/getProductadmins",
   async (data: any) => {
     const response = await getAllproduct(data.page, data.limit);
-    return response.data;
+    return response?.data;
   }
 );
 export const thongkes = createAsyncThunk(
   "products/thongke",
   async (data: any) => {
     const response = await thongke(data);
-    console.log(response);
-
-    return response.data;
+    return response?.data;
   }
 );
 export const search = createAsyncThunk("products/filter", async (data: any) => {
   const response = await searchs(data);
-  console.log(response);
-
-  return response.data;
+  return response?.data;
 });
 
 export const deleteProduct = createAsyncThunk(
