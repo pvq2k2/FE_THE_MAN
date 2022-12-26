@@ -25,7 +25,6 @@ const Signin = (props: Props) => {
   const onSubmit: SubmitHandler<Inputs> = async (values: Inputs) => {
     try {
       const user = await signin(values);
-      console.log(values);
 
       toast.success("Đăng nhập thành công !", {
         position: "top-right",
@@ -37,18 +36,23 @@ const Signin = (props: Props) => {
         progress: undefined,
       });
       dispatch(signinAction(user));
-      const link = JSON.parse(localStorage.getItem("link") as string);
-      if(link) {
-        navigate(link)
-        localStorage.removeItem("link")
-      }else{
+
+      const role = user.data.users.role;
+      if (role == 1) {
+        setTimeout(() => {
+          navigate("/admin/dashboard");
+        }, 1000);
+      } else {
+        // const link = JSON.parse(localStorage.getItem("link") as string);
+        // if (link) {
+        //   navigate(link);
+        //   localStorage.removeItem("link");
+        // } else {
         setTimeout(() => {
           navigate("/");
         }, 1000);
       }
-      
-     
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
 
       const isVerify = error?.response.data.verified;
@@ -106,8 +110,7 @@ const Signin = (props: Props) => {
                         {...register("email", {
                           required: "Vui lòng nhập email",
                           pattern: {
-                            value:
-                              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                             message: "Vui lòng nhập đúng định dạng email",
                           },
                         })}
