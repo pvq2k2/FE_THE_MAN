@@ -37,9 +37,17 @@ const Signin = (props: Props) => {
         progress: undefined,
       });
       dispatch(signinAction(user));
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      const link = JSON.parse(localStorage.getItem("link") as string);
+      if(link) {
+        navigate(link)
+        localStorage.removeItem("link")
+      }else{
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
+      
+     
     } catch (error: any) {
       console.log(error);
 
