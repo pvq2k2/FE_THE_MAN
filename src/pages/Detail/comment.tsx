@@ -135,7 +135,7 @@ const Comment = (props: Props) => {
   console.log(user?.users);
 
   return (
-    <div>
+    <div className="m-20">
       <div className="containerx">
         <h2 className="heading-title">Bình luận về : {product.name}</h2>
         {user?.users
