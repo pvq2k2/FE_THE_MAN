@@ -158,7 +158,7 @@ const ProductManager = (props: Props) => {
               </tr>
             </thead>
             <tbody>
-              {product?.products?.Product?.map((item: Product, index: any) => {
+              {product?.products?.products?.map((item: Product, index: any) => {
                 return (
                   <tr key={item._id}>
                     <td>{(pages - 1) * 10 + ++index}</td>
