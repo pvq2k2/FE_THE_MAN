@@ -1,6 +1,7 @@
 .center {
   margin: auto;
   margin-right: 200px;
+  height: 20%;
 }
 .main {
   min-height: 0px !important;

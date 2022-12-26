@@ -146,7 +146,7 @@ const Comment = (props: Props) => {
                 <textarea
                   id=""
                   {...register("content", {
-                    required: "Vui lòng nhập tên bài viết",
+                    required: "Vui lòng nhập nội dung",
                   })}
                   cols={30}
                   placeholder="Mời bạn để lại bình luận..."
