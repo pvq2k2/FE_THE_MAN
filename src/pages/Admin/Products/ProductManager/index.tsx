@@ -27,6 +27,7 @@ import { Pagination } from "antd";
 import "../../Dashboard/dashboard.css";
 import "../../../OrderStatus/Cancel/index.css";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Product } from "../../../../models/Product";
 type Props = {};
 type Inputs = {
   name: String;
@@ -37,7 +38,7 @@ type Inputs = {
 const ProductManager = (props: Props) => {
   const product = useSelector((state: RootState) => state?.product);
   console.log("product", product);
-  
+
   const pages = useSelector((state: RootState) => state?.product.page);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -157,7 +158,7 @@ const ProductManager = (props: Props) => {
               </tr>
             </thead>
             <tbody>
-              {product?.products?.products?.map((item: any, index: any) => {
+              {product?.products?.Product?.map((item: Product, index: any) => {
                 return (
                   <tr key={item._id}>
                     <td>{(pages - 1) * 10 + ++index}</td>
@@ -180,8 +181,8 @@ const ProductManager = (props: Props) => {
                       </div>
                     </td>
                     <td className="text-center">
-                      <div className={`${statusObj[item?.status]} text-center`}>
-                        {item?.status == "ACTIVE"
+                      <div className={`${statusObj[item.status]} text-center`}>
+                        {item.status == "ACTIVE"
                           ? "Đang hoạt động"
                           : "Ngừng hoạt động"}
                       </div>

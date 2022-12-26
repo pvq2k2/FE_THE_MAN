@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie, Bar } from "react-chartjs-2";
 import Swal from "sweetalert2";
 import styles from "../Products/ProductManager/ProductManager.module.css";
@@ -39,12 +38,11 @@ type Inputs = {
 };
 
 const Dashboard = () => {
-  const { product } = useSelector((state: RootState) => state?.product);
-  const staisticar = useSelector((state: RootState) => state?.statistical);
-  console.log(staisticar);
+  const { product } = useSelector((state: any) => state?.product);
+  const staisticar = useSelector((state: any) => state?.statistical);
 
-  const pages = useSelector((state: RootState) => state?.product.page);
-  const { loading } = useSelector((state: RootState) => state?.product);
+  const pages = useSelector((state: any) => state?.product.page);
+  const { loading } = useSelector((state: any) => state?.product);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const dispatch = useAppDispatch();
@@ -247,10 +245,8 @@ const Dashboard = () => {
                     </thead>
                     <tbody>
                       {product?.list?.map((e: any, index: any) => {
-                        console.log(e);
-
                         return (
-                          <tr key="index">
+                          <tr key={index++}>
                             <td>{(pages - 1) * 10 + ++index}</td>
                             <td className="">{e?.product?.name}</td>
                             <td className="">
@@ -300,6 +296,7 @@ const Dashboard = () => {
               </main>
             </div>
             {/* <div className="pt-10 font-semibold text-lg">Sản phẩm bán chạy</div> */}
+
             <main className=" statis">
               <div className="py-5 font-semibold text-sm text-center">
                 Số lượng mục và trạng thái đơn hàng
@@ -365,9 +362,9 @@ const Dashboard = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="text-center">{staisticar?.confirmed}</td>
-                    <td>{staisticar?.canceled}</td>
-                    <td>{staisticar?.unconfimred}</td>
+                    <td className="text-center">{staisticar?.confirmed?.length}</td>
+                    <td>{staisticar?.canceled?.length}</td>
+                    <td>{staisticar?.unconfimred?.length}</td>
                   </tr>
                 </tbody>
               </table>
