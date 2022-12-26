@@ -16,7 +16,7 @@ import {
   getAllcomment,
   removeComemnt,
 } from "../../../../api-cilent/User";
-import * as moment from "moment";
+import moment from "moment";
 
 type Props = {};
 type Inputs = {
